@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pipen-report"
+version = "0.0.0"
+description = "Report generation system for pipen."
+authors = ["pwwang <pwwang@pwwang.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/pwwang/pipen-report"
+repository = "https://github.com/pwwang/pipen-report"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pipen = "*"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=1.1"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.plugins.pipen]
+report = "pipen_report:PipenReportPlugin"
