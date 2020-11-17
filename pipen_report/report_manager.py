@@ -116,3 +116,5 @@ class PipenReportManager:
             logger.error('Command: %s', cmd.strcmd)
             for line in result.stderr.splitlines():
                 logger.error(line)
+        else:
+            logger.info('Reports generated at %r', str(self.path))

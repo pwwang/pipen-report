@@ -48,8 +48,6 @@ class PipenReportPlugin:
         if self.report_manager.reports:
             logger.info('Building reports ...')
             self.report_manager.build()
-            logger.info('Reports generated at %r',
-                        str(self.report_manager.path))
         else:
             logger.info('Skipping reports generation, '
                         'no processes has a report template specified.')
