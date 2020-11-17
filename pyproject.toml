@@ -12,6 +12,7 @@ repository = "https://github.com/pwwang/pipen-report"
 python = "^3.7"
 pipen = "*"
 python-slugify = "4.*"
+liquidpy = "*"
 
 [tool.poetry.dev-dependencies]
 

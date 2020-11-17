@@ -5,7 +5,11 @@ import json
 
 from slugify import slugify
 from liquid import LiquidPython
+from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
 import cmdy
+
+# disable {#  #} for liquid
+NodeScanner.NODES = (NodeOutput, NodeTag)
 
 SCAFFOLDING = Path(__file__).parent / 'scaffolding'
 
@@ -36,9 +40,10 @@ class PipenReportManager:
         Check if pipen-report-svx is installed
         """
         try:
-            self.pipen_report_svx_version = cmdy.Cmdy('pipen-report-svx')(
+            self.pipen_report_svx_version = cmdy.pipen_report_svx(
                 '--version',
-                _raise=False
+                _raise=False,
+                _exe='pipen-report-svx'
             ).stdout.strip()
 
         except cmdy.CmdyExecNotFoundError:
@@ -94,13 +99,20 @@ class PipenReportManager:
         template = LiquidPython(proc.plugin_opts.report)
         report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
         with report_file.open('w') as frpt:
-            frpt.write(template.render(rendering_data))
+            frpt.write(template.render(**rendering_data))
 
         self.reports.append(str(report_file))
 
     def build(self):
-        cmdy.Cmdy('pipen-report-svx')(
+        from . import logger
+        cmd = cmdy.pipen_report_svx(
             reports=self.reports,
             outdir=self.path,
             metadata=self.pipeline_datafile,
-        )
+            _exe='pipen-report-svx'
+        ).hold()
+        result = cmd.run()
+        if result.rc != 0 or result.stderr:
+            logger.error('Command: %s', cmd.strcmd)
+            for line in result.stderr.splitlines():
+                logger.error(line)

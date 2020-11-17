@@ -5,7 +5,7 @@ from .report_manager import PipenReportManager
 
 __version__ = '0.0.0'
 
-logger = get_logger('report', 'info')
+logger = get_logger('report', 'debug')
 
 class PipenReportPlugin:
     version = __version__
@@ -27,7 +27,7 @@ class PipenReportPlugin:
         plugin_opts.report_dir = None
 
     @plugin.impl
-    def on_init(self, pipen):
+    async def on_init(self, pipen):
         """Check if we have the prerequisites for report generation"""
         self.report_manager = PipenReportManager(pipen)
         self.report_manager.check_prerequisites()
@@ -45,6 +45,11 @@ class PipenReportPlugin:
     @plugin.impl
     async def on_complete(self, pipen):
         """Render and compile the whole report"""
-        logger.debug('Assembling report for the pipeline ...')
-        pipen.report_manager.build()
-        logger.info('Report generated at %r', str(pipen.report_manager.path))
+        if self.report_manager.reports:
+            logger.info('Building reports ...')
+            self.report_manager.build()
+            logger.info('Reports generated at %r',
+                        str(self.report_manager.path))
+        else:
+            logger.info('Skipping reports generation, '
+                        'no processes has a report template specified.')

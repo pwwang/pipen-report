@@ -1,0 +1,7 @@
+# Generated Figures
+
+{#each jobs as job}
+
+![Figure{{job.index}}]({{job.out.outfile}})
+
+{/each}
