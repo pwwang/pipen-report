@@ -7,7 +7,6 @@ from slugify import slugify
 from liquid import LiquidPython
 from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
 import cmdy
-import frontmatter
 
 # disable {#  #} for liquid
 NodeScanner.NODES = (NodeOutput, NodeTag)
@@ -84,26 +83,21 @@ class PipenReportManager:
         def jobdata(job):
             data = job.rendering_data['job']
             data.update({'in': job.rendering_data['in'],
-                         'out': job.rendering_data['out'].as_dict()})
+                         'out': job.rendering_data['out']})
             return data
 
         rendering_data = {
             'proc': {key: val for key, val in proc.__dict__.items()
                      if key in ('lang', 'forks', 'name', 'desc', 'size')},
-            'args': proc.args.as_dict(),
+            'args': proc.args,
             'jobs': [jobdata(job) for job in proc.jobs]
         }
         # first job
         rendering_data['job'] = rendering_data['jobs'][0]
         rendering_data['job0'] = rendering_data['jobs'][0]
 
-        with open(proc.plugin_opts.report) as frpt:
-            post = frontmatter.load(frpt)
-        for key, val in rendering_data.items():
-            post[key] = val
-
         # render report with process/job data
-        template = LiquidPython(frontmatter.dumps(post))
+        template = LiquidPython(proc.plugin_opts.report)
         report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
         with report_file.open('w') as frpt:
             frpt.write(template.render(**rendering_data))

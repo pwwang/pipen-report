@@ -9,7 +9,7 @@ class Figure(Proc):
     input = [1,2,3]
     output = 'outfile:file:{{in.a}}.jpg'
     script = '''\
-    curl https://picsum.photos/200/300 -o {{out.outfile}}
+    wget https://picsum.photos/200/300 -O {{out.outfile}}
     '''
     plugin_opts = {'report': HERE / 'Figure.svx'}
 
