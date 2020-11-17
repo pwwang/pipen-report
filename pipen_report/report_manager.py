@@ -7,6 +7,7 @@ from slugify import slugify
 from liquid import LiquidPython
 from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
 import cmdy
+import frontmatter
 
 # disable {#  #} for liquid
 NodeScanner.NODES = (NodeOutput, NodeTag)
@@ -83,20 +84,26 @@ class PipenReportManager:
         def jobdata(job):
             data = job.rendering_data['job']
             data.update({'in': job.rendering_data['in'],
-                         'out': job.rendering_data['out']})
+                         'out': job.rendering_data['out'].as_dict()})
             return data
 
         rendering_data = {
-            'proc': proc,
-            'args': proc.args,
+            'proc': {key: val for key, val in proc.__dict__.items()
+                     if key in ('lang', 'forks', 'name', 'desc', 'size')},
+            'args': proc.args.as_dict(),
             'jobs': [jobdata(job) for job in proc.jobs]
         }
         # first job
         rendering_data['job'] = rendering_data['jobs'][0]
         rendering_data['job0'] = rendering_data['jobs'][0]
 
+        with open(proc.plugin_opts.report) as frpt:
+            post = frontmatter.load(frpt)
+        for key, val in rendering_data.items():
+            post[key] = val
+
         # render report with process/job data
-        template = LiquidPython(proc.plugin_opts.report)
+        template = LiquidPython(frontmatter.dumps(post))
         report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
         with report_file.open('w') as frpt:
             frpt.write(template.render(**rendering_data))
@@ -112,8 +119,8 @@ class PipenReportManager:
             _exe='pipen-report-svx'
         ).hold()
         result = cmd.run()
+        logger.debug('Command: %s', cmd.strcmd)
         if result.rc != 0 or result.stderr:
-            logger.error('Command: %s', cmd.strcmd)
             for line in result.stderr.splitlines():
                 logger.error(line)
         else:
