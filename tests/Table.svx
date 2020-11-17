@@ -1,0 +1,9 @@
+<script>
+import { DataTable } from "pipen-smelte";
+
+</script>
+
+<DataTable
+    data="{{ job.out.outfile | @report.datatable: delimiter='\t' }}"
+    datafile="{{ job.out.outfile }}"
+    />

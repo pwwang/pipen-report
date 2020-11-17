@@ -8,6 +8,8 @@ from liquid import LiquidPython
 from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
 import cmdy
 
+from .filters import datatable
+
 # disable {#  #} for liquid
 NodeScanner.NODES = (NodeOutput, NodeTag)
 
@@ -95,6 +97,9 @@ class PipenReportManager:
         # first job
         rendering_data['job'] = rendering_data['jobs'][0]
         rendering_data['job0'] = rendering_data['jobs'][0]
+        rendering_data['report'] = {
+            'datatable': datatable
+        }
 
         # render report with process/job data
         template = LiquidPython(proc.plugin_opts.report)

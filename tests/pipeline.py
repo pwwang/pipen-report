@@ -45,6 +45,7 @@ class Table(Figure):
     20	Quill	Skoggins	qskogginsj@t.co	Male	157.11.232.242
     """)
     '''
+    plugin_opts = {'report': HERE / 'Table.svx'}
 
 Pipen([Figure, Table],
       'Test pipeline',
