@@ -2,6 +2,18 @@
 
 {% for job in jobs %}
 
+## This is a very long heading for figure {{job.index}}
+
 ![Figure{{job.index}}]({{job.out.outfile}})
 
 {% endfor %}
+
+# Another very very veryvery veryvery very long heading at level 1
+
+## Short one
+
+### Third level
+
+## Very very very very very very very long one
+
+## Another short one
