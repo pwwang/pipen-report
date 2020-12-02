@@ -5,10 +5,13 @@ from .report_manager import PipenReportManager
 
 __version__ = '0.0.0'
 
-logger = get_logger('report', 'info')
+logger = get_logger('report', 'debug')
 
 class PipenReportPlugin:
     version = __version__
+
+    def __init__(self):
+        self.report_manager = None
 
     @plugin.impl
     def on_setup(self, plugin_opts):
@@ -22,21 +25,13 @@ class PipenReportPlugin:
         # otherwise the path will be used with suffix `-YYMMDD-HHmm`
         # THis cannot be overriden in processes.
         plugin_opts.report_dir = None
-        # An option to
-        plugin_opts.report_serve = False
 
     @plugin.impl
     async def on_start(self, pipen):
         """Check if we have the prerequisites for report generation"""
-        pipen.report_manager = PipenReportManager(pipen)
-        pipen.report_manager.check_prerequisites()
-
-    @plugin.impl
-    async def on_proc_init(self, proc):
-        if proc.plugin_opts.report:
-            proc.report = PipenReport(proc)
-        else:
-            proc.report = None
+        self.report_manager = PipenReportManager(pipen)
+        self.report_manager.check_prerequisites()
+        self.report_manager.generate_pipeline_data()
 
     @plugin.impl
     async def on_proc_done(self, proc):
@@ -44,12 +39,15 @@ class PipenReportPlugin:
 
         This is calling before gc, so I still have access to jobs.
         """
-        if proc.report:
-            proc.report.prepare()
+        if proc.plugin_opts.report:
+            self.report_manager.process_report(proc)
 
     @plugin.impl
     async def on_complete(self, pipen):
         """Render and compile the whole report"""
-        logger.debug('Assembling report for the pipeline.')
-        pipen.report_manager.assemble()
-        logger.info('Report generated at %r', str(pipen.report_manager.path))
+        if self.report_manager.reports:
+            logger.info('Building reports ...')
+            self.report_manager.build()
+        else:
+            logger.info('Skipping reports generation, '
+                        'no processes has a report template specified.')

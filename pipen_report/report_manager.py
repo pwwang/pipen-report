@@ -1,12 +1,23 @@
 from os import PathLike
 from pathlib import Path
 from datetime import datetime
+import json
 
+from slugify import slugify
+from liquid import LiquidPython
+from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
 import cmdy
+
+from .filters import datatable
+
+# disable {#  #} for liquid
+NodeScanner.NODES = (NodeOutput, NodeTag)
 
 SCAFFOLDING = Path(__file__).parent / 'scaffolding'
 
 class PipenReportManager:
+    __slots__ = ('pipen', 'path', 'pipeline_datafile',
+                 'pipen_report_svx_version', 'reports')
 
     def __init__(self, pipen):
         self.pipen = pipen
@@ -21,25 +32,95 @@ class PipenReportManager:
             path = Path(config_report_dir)
             self.path = path.parent / f'{path.name}{suffix}'
 
+        self.pipen_report_svx_version = None
+        self.pipeline_datafile = None
+        self.reports = []
+
     def check_prerequisites(self):
         """Check the prerequisites for pipen report manager
 
-        We need to check:
-        1. if the path exists for the output directory
-        2. if npm or yarn is installed
+        Check if pipen-report-svx is installed
         """
-        if self.path.is_dir():
-            raise ValueError('Report directory already exists.')
-
         try:
-            npm_installed = cmdy.npm('-v', _raise=False).rc == 0
-        except cmdy.CmdyExecNotFoundError:
-            npm_installed = False
+            self.pipen_report_svx_version = cmdy.pipen_report_svx(
+                '--version',
+                _raise=False,
+                _exe='pipen-report-svx'
+            ).stdout.strip()
 
-        if not npm_installed :
-            raise ValueError('npm is required to '
+        except cmdy.CmdyExecNotFoundError:
+            pass
+
+        if not self.pipen_report_svx_version:
+            raise ValueError('pipen-report-svx is required to '
                              'generate reports for pipen.')
 
+    def generate_pipeline_data(self):
+        from pipen import __version__ as pipen_version
+        from . import __version__ as  pipen_report_version
+        data = {
+            'name': self.pipen.name,
+            'desc': self.pipen.desc,
+            'versions': {
+                'pipen': pipen_version,
+                'pipen-report': pipen_report_version,
+                'pipen-report-svx': self.pipen_report_svx_version
+            },
+            'processes': [
+                {'name': proc.name,
+                 'slug': slugify(proc.name),
+                 'desc': proc.desc}
+                for proc in self.pipen.procs
+                if proc.plugin_opts.report
+            ]
+        }
 
-    def assemble(self):
-        ...
+        # save it as json
+        self.pipeline_datafile = Path(self.pipen.config.workdir) / 'pipeline.json';
+        with self.pipeline_datafile.open('w') as fdata:
+            json.dump(data, fdata)
+
+    def process_report(self, proc):
+
+        def jobdata(job):
+            data = job.rendering_data['job']
+            data.update({'in': job.rendering_data['in'],
+                         'out': job.rendering_data['out']})
+            return data
+
+        rendering_data = {
+            'proc': {key: val for key, val in proc.__dict__.items()
+                     if key in ('lang', 'forks', 'name', 'desc', 'size')},
+            'args': proc.args,
+            'jobs': [jobdata(job) for job in proc.jobs]
+        }
+        # first job
+        rendering_data['job'] = rendering_data['jobs'][0]
+        rendering_data['job0'] = rendering_data['jobs'][0]
+        rendering_data['report'] = {
+            'datatable': datatable
+        }
+
+        # render report with process/job data
+        template = LiquidPython(proc.plugin_opts.report)
+        report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
+        with report_file.open('w') as frpt:
+            frpt.write(template.render(**rendering_data))
+
+        self.reports.append(str(report_file))
+
+    def build(self):
+        from . import logger
+        cmd = cmdy.pipen_report_svx(
+            reports=self.reports,
+            outdir=self.path,
+            metadata=self.pipeline_datafile,
+            _exe='pipen-report-svx'
+        ).hold()
+        result = cmd.run()
+        logger.debug('Command: %s', cmd.strcmd)
+        if result.rc != 0 or result.stderr:
+            for line in result.stderr.splitlines():
+                logger.error(line)
+        else:
+            logger.info('Reports generated at %r', str(self.path))

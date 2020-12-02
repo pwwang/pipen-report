@@ -11,12 +11,14 @@ repository = "https://github.com/pwwang/pipen-report"
 [tool.poetry.dependencies]
 python = "^3.7"
 pipen = "*"
+python-slugify = "4.*"
+liquidpy = "*"
 
 [tool.poetry.dev-dependencies]
 
+[tool.poetry.plugins.pipen]
+report = "pipen_report:PipenReportPlugin"
 [build-system]
 requires = ["poetry>=1.1"]
 build-backend = "poetry.masonry.api"
 
-[tool.poetry.plugins.pipen]
-report = "pipen_report:PipenReportPlugin"

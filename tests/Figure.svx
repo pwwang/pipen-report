@@ -1,0 +1,7 @@
+# Generated Figures
+
+{% for job in jobs %}
+
+![Figure{{job.index}}]({{job.out.outfile}})
+
+{% endfor %}
