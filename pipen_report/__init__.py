@@ -26,7 +26,7 @@ class PipenReportPlugin:
         plugin_opts.report_serve = False
 
     @plugin.impl
-    def on_init(self, pipen):
+    async def on_start(self, pipen):
         """Check if we have the prerequisites for report generation"""
         pipen.report_manager = PipenReportManager(pipen)
         pipen.report_manager.check_prerequisites()
