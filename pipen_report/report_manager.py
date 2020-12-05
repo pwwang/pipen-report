@@ -1,17 +1,21 @@
+import logging
 from os import PathLike
 from pathlib import Path
 from datetime import datetime
 import json
 
 from slugify import slugify
-from liquid import LiquidPython
-from liquid.python.parser import NodeScanner, NodeTag, NodeOutput
+from pipen.exceptions import TemplateRenderingError
 import cmdy
 
 from .filters import datatable
 
-# disable {#  #} for liquid
-NodeScanner.NODES = (NodeOutput, NodeTag)
+PRESERVED_TAGS = {
+    '{#if': '<svelte:if>',
+    '{#each': '<svelte:each>',
+    '{#key': '<svelte:key>',
+    '{#await': '<svelte:await>',
+}
 
 SCAFFOLDING = Path(__file__).parent / 'scaffolding'
 
@@ -80,7 +84,26 @@ class PipenReportManager:
         with self.pipeline_datafile.open('w') as fdata:
             json.dump(data, fdata)
 
-    def process_report(self, proc):
+    def process_report(self, proc, status):
+
+        from . import logger
+        report = str(proc.plugin_opts.report)
+        if report.startswith('file://'):
+            report = report[7:]
+        report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
+        if (status == 'cached' and
+                len(report) < 512 and
+                report_file.exists() and
+                report_file.stat().st_mtime >= Path(report).stat().st_mtime):
+            proc.log('debug',
+                     'Process cached, skip generating report.',
+                     logger=logger)
+            self.reports.append(str(report_file))
+            return
+
+        # avoid future run to use it in case report file failed to compile
+        if report_file.exists():
+            report_file.unlink()
 
         def jobdata(job):
             data = job.rendering_data['job']
@@ -102,10 +125,24 @@ class PipenReportManager:
         }
 
         # render report with process/job data
-        template = LiquidPython(proc.plugin_opts.report)
-        report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
-        with report_file.open('w') as frpt:
-            frpt.write(template.render(**rendering_data))
+        if len(report) < 512 and Path(report).is_file():
+            report = Path(report).read_text()
+
+        for key, val in PRESERVED_TAGS.items():
+            report = report.replace(key, val)
+
+        template = proc.template(report, **proc.envs)
+
+        try:
+            rendered = template.render(rendering_data)
+        except Exception as exc:
+            raise TemplateRenderingError(
+                f'[{proc.name}] Failed to render report file.'
+            ) from exc
+
+        for key, val in PRESERVED_TAGS.items():
+            rendered = rendered.replace(val, key)
+        report_file.write_text(rendered)
 
         self.reports.append(str(report_file))
 
