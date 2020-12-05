@@ -93,12 +93,17 @@ class PipenReportManager:
         report_file = Path(proc.workdir) / f'{slugify(proc.name)}.svx'
         if (status == 'cached' and
                 len(report) < 512 and
+                report_file.exists() and
                 report_file.stat().st_mtime >= Path(report).stat().st_mtime):
             proc.log('debug',
                      'Process cached, skip generating report.',
                      logger=logger)
             self.reports.append(str(report_file))
             return
+
+        # avoid future run to use it in case report file failed to compile
+        if report_file.exists():
+            report_file.unlink()
 
         def jobdata(job):
             data = job.rendering_data['job']
