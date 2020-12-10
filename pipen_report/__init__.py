@@ -2,7 +2,6 @@ import logging
 
 from pipen.plugin import plugin
 from pipen.utils import get_logger
-from .report import PipenReport
 from .report_manager import PipenReportManager
 
 __version__ = '0.0.0'
@@ -42,7 +41,6 @@ class PipenReportPlugin:
         """Check if we have the prerequisites for report generation"""
         self.report_manager = PipenReportManager(pipen)
         self.report_manager.check_prerequisites()
-        self.report_manager.generate_pipeline_data()
 
     @plugin.impl
     async def on_proc_done(self, proc, succeeded):
@@ -58,6 +56,8 @@ class PipenReportPlugin:
         """Render and compile the whole report"""
         if not succeeded:
             return
+        self.report_manager.generate_pipeline_data()
+
         if self.report_manager.reports:
             logger.info('Building reports (first-time takes longer due to '
                         'dependency installation) ...')

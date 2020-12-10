@@ -80,7 +80,8 @@ class PipenReportManager:
         }
 
         # save it as json
-        self.pipeline_datafile = Path(self.pipen.config.workdir) / 'pipeline.json';
+        self.pipeline_datafile = (Path(self.pipen.config.workdir).resolve() /
+                                  'pipeline.json');
         with self.pipeline_datafile.open('w') as fdata:
             json.dump(data, fdata)
 

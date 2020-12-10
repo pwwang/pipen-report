@@ -47,6 +47,5 @@ class Table(Figure):
     '''
     plugin_opts = {'report': HERE / 'Table.svx'}
 
-Pipen([Figure, Table],
-      'Test pipeline',
-      'Just for pipen-report testing').run()
+Pipen('Test pipeline',
+      'Just for pipen-report testing').starts([Figure, Table]).run()
