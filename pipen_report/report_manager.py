@@ -156,9 +156,13 @@ class PipenReportManager:
             _exe='pipen-report-svx'
         ).hold()
         result = cmd.run()
-        logger.debug('Command: %s', cmd.strcmd)
         if result.rc != 0 or result.stderr:
+            logger.error('Command: %s', cmd.strcmd)
             for line in result.stderr.splitlines():
                 logger.error(line)
+            logfile = self.path / 'pipen-report.log'
+            logger.error('Also see logs in: %s', logfile)
+            logfile.write_text(result.stdout)
         else:
+            logger.debug('Command: %s', cmd.strcmd)
             logger.info('Reports generated at %r', str(self.path))
