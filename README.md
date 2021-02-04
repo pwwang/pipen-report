@@ -111,4 +111,4 @@ import { DataTable } from "pipen-smelte";
 See [here][2] for the reports.
 
 [1]: https://github.com/pwwang/pipen
-[2]: https://pwwang.github.io/pipen
+[2]: https://pwwang.github.io/pipen-report
