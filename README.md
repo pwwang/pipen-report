@@ -1,67 +1,114 @@
-# pipen-verbose
+# pipen-report
 
-Add verbosal information in logs for [pipen][1].
+Report generation system for [`pipen`][1]
+
+## Installation
+
+```python
+pip install -U pipen-report
+```
 
 ## Usage
+
 ```python
 from pipen import Proc, Pipen
 
-class Process(Proc):
-    input_keys = 'a'
-    input = range(10)
-    output = 'b:file:a.txt'
-    script = 'echo {{in.a}} > {{out.b}}'
+class Figure(Proc):
+    """Generate figures"""
+    input_keys = ['a:var']
+    input = [1,2,3]
+    output = 'outfile:file:{{in.a}}.jpg'
+    script = '''\
+    wget https://picsum.photos/200/300 -O {{out.outfile}}
+    '''
+    plugin_opts = 'Figure.svx'
 
-Pipen(starts=Process).run()
+class Table(Figure):
+    """Generate tables"""
+    output = 'outfile:file:{{in.a}}.txt'
+    script = '''\
+    #!/usr/bin/env python
+
+    outfile = "{{out.outfile}}"
+    with open(outfile, 'w') as fout:
+        fout.write("""\\
+    id	first_name	last_name	email	gender	ip_address
+    1	Lynda	Scirman	lscirman0@businessweek.com	Female	22.123.155.57
+    2	Moll	Niset	mniset1@marketwatch.com	Female	6.154.75.63
+    3	Jory	Mewitt	jmewitt2@delicious.com	Male	233.225.101.101
+    4	Dukie	Onslow	donslow3@washington.edu	Male	238.209.40.250
+    5	Carlee	Grasha	cgrasha4@cocolog-nifty.com	Female	22.65.237.2
+    6	Leanora	Doughtery	ldoughtery5@ucoz.com	Female	54.41.211.142
+    7	Winona	Levison	wlevison6@cornell.edu	Female	15.186.215.132
+    8	Orrin	Baldick	obaldick7@miitbeian.gov.cn	Male	221.49.10.188
+    9	Ingmar	Papez	ipapez8@dmoz.org	Male	225.88.240.74
+    10	Arlena	Compford	acompford9@earthlink.net	Female	49.30.204.242
+    11	Domenico	Lorinez	dlorineza@hatena.ne.jp	Male	106.63.35.124
+    12	Yul	Bonifas	ybonifasb@nba.com	Male	198.152.245.214
+    13	Tony	Antonignetti	tantonignettic@skype.com	Male	61.64.103.108
+    14	Bayard	Gilhooley	bgilhooleyd@addtoany.com	Male	124.48.176.234
+    15	Hillary	Ashbee	hashbeee@bbc.co.uk	Female	111.91.131.252
+    16	Cherye	Spuffard	cspuffardf@amazon.com	Female	206.113.100.79
+    17	Dorey	Lorraway	dlorrawayg@t.co	Female	179.210.96.234
+    18	Iolande	McKilroe	imckilroeh@ustream.tv	Female	92.62.191.79
+    19	Ermina	Woodroofe	ewoodroofei@independent.co.uk	Female	193.75.48.192
+    20	Quill	Skoggins	qskogginsj@t.co	Male	157.11.232.242
+    """)
+    '''
+    plugin_opts = 'Table.svx'
+
+Pipen('Test pipeline',
+      'Just for pipen-report testing').starts([Figure, Table]).run()
 ```
 
-```
-> python example.py
-11-04 12:00:19 I /main                _____________________________________   __
-               I /main                ___  __ \___  _/__  __ \__  ____/__  | / /
-               I /main                __  /_/ /__  / __  /_/ /_  __/  __   |/ /
-               I /main                _  ____/__/ /  _  ____/_  /___  _  /|  /
-               I /main                 /_/     /___/  /_/     /_____/  /_/ |_/
-               I /main
-               I /main                             version: 0.0.1
-               I /main
-               I /main    ┏━━━━━━━━━━━━━━━━━━━━━━━━━ pipeline-0 ━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-               I /main    ┃ Undescribed.                                                  ┃
-               I /main    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-               I /main    Enabled plugins: ['verbose', 'main-0.0.1']
-               I /main    Loaded processes: 1
-               I /main    Running pipeline using profile: 'default'
-               I /main    Output will be saved to: './pipeline-0-output'
-               I /main
-               I /main    ╭─────────────────── default configurations ────────────────────╮
-               I /main    │ cache            = True                                       │
-               I /main    │ dirsig           = 1                                          │
-               I /main    │ envs             = Config({})                                 │
-               I /main    │ error_strategy   = 'ignore'                                   │
-               I /main    │ forks            = 1                                          │
-               I /main    │ lang             = 'bash'                                     │
-               I /main    │ loglevel         = 'debug'                                    │
-               I /main    │ num_retries      = 3                                          │
-               I /main    │ plugin_opts      = Config({})                                 │
-               I /main    │ plugins          = None                                       │
-               I /main    │ scheduler        = 'local'                                    │
-               I /main    │ scheduler_opts   = Config({})                                 │
-               I /main    │ submission_batch = 8                                          │
-               I /main    │ template         = 'liquid'                                   │
-               I /main    │ workdir          = './.pipen'                                 │
-               I /main    ╰───────────────────────────────────────────────────────────────╯
-               I /main
-               I /main    ╭═══════════════════════════ Process ═══════════════════════════╮
-               I /main    ║ Undescribed.                                                  ║
-               I /main    ╰═══════════════════════════════════════════════════════════════╯
-               I /main    Process: Workdir: '.pipen/process'
-               I /verbose Process: size: 10
-               I /verbose Process: [0/9] in.a: 0
-               I /verbose Process: [0/9] out.b: pipeline-0-output/Process/0/a.txt
-               I /main    Process: Cached jobs: 0-1
-               I /verbose Process: Time elapsed: 00:00:00.034s
+`Figure.svx`
 
-pipeline-0: 100%|████████████████████████████████████████| 1/1 [00:00<00:00, 10.50 procs/s]
+```html
+# Generated Figures
+
+{% for job in jobs %}
+
+## This is a very long heading for figure {{job.index}}
+
+![Figure{{job.index}}]({{job.out.outfile}})
+
+{% endfor %}
+
+# Another very very veryvery veryvery very long heading at level 1
+
+## Short one
+
+### Third level
+
+## Very very very very very very very long one
+
+## Another short one
 ```
+
+`Table.svx`
+
+```html
+<script>
+import { DataTable } from "pipen-smelte";
+
+</script>
+
+# Heading 1
+
+## SubHeading 2
+<DataTable
+    data="{{ job.out.outfile | @report.datatable: delimiter='\t' }}"
+    datafile="{{ job.out.outfile }}"
+    />
+
+## SubHeading 3
+<DataTable
+    data="{{ jobs[1].out.outfile | @report.datatable: delimiter='\t', cols=['id', 'first_name', 'last_name'], rows=10 }}"
+    datafile="{{ jobs[1].out.outfile }}"
+    />
+```
+
+See [here][2] for the reports.
 
 [1]: https://github.com/pwwang/pipen
+[2]: https://pwwang.github.io/pipen

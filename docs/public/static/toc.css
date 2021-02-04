@@ -1,0 +1,52 @@
+.toc {
+    position: fixed;
+    left: 2rem;
+    top: 8rem;
+    padding: 2rem 1rem;
+    width: 15rem;
+    line-height: 2rem;
+    height: 100%;
+    border-right-width: 2px;
+    background-color: white;
+  }
+
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc ol ol { padding-left: 1rem; }
+
+  .toc li a {
+    display: inline-block;
+    color: #aaa;
+    line-height: 1.1rem;
+    text-decoration: none;
+    -webkit-transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .toc li.visible > a {
+    color: #111;
+    -webkit-transform: translate(5px);
+    transform: translate(5px);
+  }
+
+  .toc a.toc-link.toc-link-h1 {
+    padding-bottom: .5rem;
+  }
+
+  .toc-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .toc-marker path {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
