@@ -28,6 +28,10 @@ class PipenReportPlugin:
         plugin_opts.report_dir = None
         # report_debug = 'pipen'  # attache to pipen's config loglevel
         plugin_opts.report_debug = False
+        # Generate product mode report? In such a case, each report
+        # output directory will be named with timestamp
+        # Otherwise, old ones will be overriden
+        plugin_opts.report_product = False
 
     @plugin.impl
     def on_init(self, pipen):

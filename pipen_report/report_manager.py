@@ -1,3 +1,5 @@
+"""Report manager"""
+import shutil
 import logging
 from os import PathLike
 from pathlib import Path
@@ -26,7 +28,10 @@ class PipenReportManager:
     def __init__(self, pipen):
         self.pipen = pipen
         config_report_dir = pipen.config.plugin_opts.report_dir
-        suffix = datetime.today().strftime('-%y%m%d-%H%M')
+        if pipen.config.plugin_opts.report_product:
+            suffix = datetime.today().strftime('-%y%m%d-%H%M')
+        else:
+            suffix = ''
         if not config_report_dir:
             self.path = Path(pipen.outdir) / f'Report{suffix}'
         elif (isinstance(config_report_dir, str) and
@@ -35,6 +40,10 @@ class PipenReportManager:
         else:
             path = Path(config_report_dir)
             self.path = path.parent / f'{path.name}{suffix}'
+
+        if self.path.is_dir():
+            shutil.rmtree(self.path)
+            self.path.mkdir()
 
         self.pipen_report_svx_version = None
         self.pipeline_datafile = None
