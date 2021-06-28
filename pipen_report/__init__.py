@@ -4,7 +4,7 @@ from pipen.plugin import plugin
 from pipen.utils import get_logger
 from .report_manager import PipenReportManager
 
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 
 logger = get_logger('report', 'info')
 

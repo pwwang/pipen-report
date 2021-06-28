@@ -24,7 +24,7 @@ if os.path.exists(readme_path):
 setup(
     long_description=readme,
     name='pipen-report',
-    version='0.0.0',
+    version='0.0.1',
     description='Report generation system for pipen.',
     python_requires='==3.*,>=3.7.0',
     project_urls={"homepage": "https://github.com/pwwang/pipen-report", "repository": "https://github.com/pwwang/pipen-report"},
