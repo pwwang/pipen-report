@@ -28,7 +28,9 @@ jobs:
           cd docs
           cp ../README.md index.md
           cd ..
-          mkdocs gh-deploy --clean --force
+          mkdocs build
+          cp -r example/ site/
+          mkdocs gh-deploy --force
         if: success()
 
   fix-index:
@@ -53,8 +55,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git fetch --all
-          git checkout master example/
           git commit -m "Add changes" -a
         if: success()
       - name: Push changes
