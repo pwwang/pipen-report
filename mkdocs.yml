@@ -1,0 +1,37 @@
+site_name: pipen-report
+repo_url: https://github.com/pwwang/pipen-report
+repo_name: pwwang/pipen-report
+theme:
+    favicon: favicon.png
+    logo: favicon.png
+    icon:
+        repo: fontawesome/brands/github
+    palette:
+        primary: black
+    name: 'material'
+    # font:
+    #   text: 'Ubuntu'
+    #   code: 'Ubuntu Mono'
+    features:
+        - navigation.top
+markdown_extensions:
+    - markdown.extensions.admonition
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+    - pymdownx.superfences:
+        preserve_tabs: true
+    - toc:
+        baselevel: 2
+plugins:
+    - search # necessary for search to work
+extra_css:
+    - style.css
+nav:
+    - Home: index.md
+    - Configurations: configurations.md
+    - 'Folder structure': folder-structure.md
+    - 'Template rendering': rendering.md
+    - 'Writing report templates': writing.md
+    - 'Change Log': CHANGELOG.md
+

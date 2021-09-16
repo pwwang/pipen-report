@@ -246,7 +246,7 @@
                                 on:click={() => {
                                     expanded = !expanded;
                                     expandedRowIds = expanded
-                                        ? pagedRows.map((row) => row.id)
+                                        ? rows.map((row) => row.id)
                                         : [];
 
                                     dispatch("click:header--expand", {

@@ -114,3 +114,4 @@ t-*.ipynb
 
 .history/
 example/output
+docs/index.md

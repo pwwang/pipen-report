@@ -45,7 +45,9 @@ def _render_file(
     # import {...} from "carbon-components-svelte"
     # Just do a simple replace
     source = source.replace('"@@ccs"', '"carbon-components-svelte"')
+    source = source.replace("'@@ccs'", "'carbon-components-svelte'")
     source = source.replace('from "@@"', 'from "../components"')
+    source = source.replace("from '@@'", "from '../components'")
 
     for key, val in PRESERVED_TAGS.items():
         source = source.replace(key, val)
@@ -157,7 +159,7 @@ class ReportManager:
 
         # see if frontend dependencies have been installed, if not, install them
         await self._install_frontend_dependencies(
-            Path(pipen.config.plugin_opts.report_nmdir), logger
+            Path(pipen.config.plugin_opts.report_nmdir).expanduser(), logger
         )
 
         # copy global css and favicon

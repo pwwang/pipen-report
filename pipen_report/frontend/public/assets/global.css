@@ -62,14 +62,14 @@ img.pipen-report-image-lg {
 	width: 100%;
 	overflow-x: auto;
 	padding: 1.5rem;
-	background-color: #f5ffebbd;
+	background-color: var(--cds-background-hover);
 }
 
 .pipen-report-datatable-frame {
 	width: 100%;
 	overflow-x: auto;
 	padding: 1.5rem;
-	background-color: #f5ffebbd;
+	background-color: var(--cds-background-hover);
 }
 
 .pipen-report-image-noborder {
