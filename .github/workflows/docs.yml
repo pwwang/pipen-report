@@ -53,6 +53,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git fetch
           git checkout master example/
           git commit -m "Add changes" -a
         if: success()
