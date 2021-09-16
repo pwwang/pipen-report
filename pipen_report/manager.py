@@ -15,6 +15,7 @@ from xqute.utils import a_mkdir, asyncify
 
 from .filters import FILTERS
 from .preproc import preprocess
+from .versions import version_str
 
 if TYPE_CHECKING:  # pragma: no cover
     from logging import LoggerAdapter
@@ -173,10 +174,7 @@ class ReportManager:
             FRONTEND_DIR.joinpath("src", "index.tpl.svelte").read_text(),
             {
                 "pipeline": json.dumps(
-                    {
-                        "name": pipen.name,
-                        "desc": pipen.desc,
-                    }
+                    {"name": pipen.name, "desc": pipen.desc}
                 ),
                 "procs": json.dumps(
                     [
@@ -188,6 +186,7 @@ class ReportManager:
                         for proc in pipen.procs
                     ]
                 ),
+                "versions": version_str,
             },
             self.workdir / "src" / "pages" / "index.svelte",
         )
@@ -498,6 +497,7 @@ class ReportManager:
                     for prc in proc.pipeline.procs
                 ]
             ),
+            "versions": version_str,
         }
         # first job
         rendering_data["job"] = rendering_data["jobs"][0]

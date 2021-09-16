@@ -6,11 +6,12 @@
     const proc_name = "{{proc.name}}";
     const proc_desc = "{{proc.desc}}";
     const pipeline_name = "{{proc.pipeline.name}}";
+    const versions = `{{versions}}`;
     const procs = {{procs}};
 
 </script>
 
-<ProcLayout logo={proc_name} logotext={proc_desc} {procs} {pipeline_name}>
+<ProcLayout logo={proc_name} logotext={proc_desc} {versions} {procs} {pipeline_name}>
     <ProcReportToc slot="toc" />
     <ProcReport />
 </ProcLayout>

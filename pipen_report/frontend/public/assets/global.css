@@ -41,6 +41,13 @@ div[themes].bx--form-item > .bx--select--inline label {
 	background-color: #161616 !important;
 }
 
+.bx--table-toolbar {
+	/**
+	 * show entire tooltip
+	 */
+	overflow: visible !important;
+}
+
 img.pipen-report-image {
 	cursor: pointer;
 	max-width: 55%;
@@ -69,9 +76,13 @@ img.pipen-report-image-lg {
 	border: 0 !important;
 }
 
-.bx--table-toolbar {
-	/**
-	 * show entire tooltip
-	 */
-	overflow: visible !important;
+
+.pipen-report-footer {
+	text-align: right;
+    padding-top: 2rem;
+	font-size: small;
+}
+
+.pipen-report-footer-versions {
+	font-style: italic;
 }

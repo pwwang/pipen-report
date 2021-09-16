@@ -6,6 +6,7 @@ from pipen.utils import get_logger
 
 
 from .manager import ReportManager
+from .versions import __version__
 
 if TYPE_CHECKING:
     from pipen import Pipen, Proc
@@ -15,7 +16,7 @@ logger = get_logger("report")
 class PipenReport:
     """Report plugin for pipen"""
 
-    __version__: str = None
+    __version__: str = __version__
     name = "report"
 
     def __init__(self) -> None:

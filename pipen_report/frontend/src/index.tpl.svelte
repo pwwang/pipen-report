@@ -9,10 +9,11 @@
 
     const procs = {{procs}};
     const pipeline = {{pipeline}};
+    const versions = `{{versions}}`;
 
 </script>
 
-<IndexLayout logo={pipeline.name} logotext={pipeline.desc}>
+<IndexLayout logo={pipeline.name} logotext={pipeline.desc} {versions}>
     <Grid>
     {#if procs.length < 10}
         {#each procs as proc}
