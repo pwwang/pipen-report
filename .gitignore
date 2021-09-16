@@ -9,7 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
+/build/
 develop-eggs/
 dist/
 downloads/
@@ -113,5 +113,4 @@ t-*.ipynb
 *-output/
 
 .history/
-example/output
 docs/index.md
