@@ -1,21 +1,20 @@
 """Render the template for each process and prepare for frontend compiling"""
 
-from codecs import ignore_errors
+import functools
 import inspect
 import json
-from os import PathLike
-import re
 import shutil
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Mapping, Tuple, Union
+from typing import TYPE_CHECKING, Any, List, Mapping, Union
 
 import cmdy
 from pipen.exceptions import TemplateRenderingError
-from pipen.utils import ignore_firstline_dedent
 from slugify import slugify
-from xqute.utils import a_mkdir, a_write_text, asyncify
+from xqute.utils import a_mkdir, asyncify
 
 from .filters import FILTERS
+from .preproc import preprocess
 
 if TYPE_CHECKING:  # pragma: no cover
     from logging import LoggerAdapter
@@ -31,18 +30,6 @@ PRESERVED_TAGS = {
     "{#key": "<svelte:key>",
     "{#await": "<svelte:await>",
 }
-RELPATH_TAGS = {
-    "a": "href",
-    "img": "src",
-    "Link": "href",
-    "ImageLoader": "src",
-    "DataTable": "src",
-    "Download": "href",
-}
-TAG_RE = re.compile(r"<(?P<tagname>/?[\w_]+)(?P<tagattrs>.*?)/?>")
-TAG_ATTR_RE = re.compile(
-    r"\s+(?P<attrname>[\w_-]+)=\"(?P<attrval>[^\"]*)\"(?=\s|$)"
-)
 
 
 def _render_file(
@@ -72,79 +59,6 @@ def _render_file(
 
     save_to.write_text(rendered)
     return None
-
-
-def _preprocess(text: str, outdir: Path) -> Tuple[str, Mapping[str, Any]]:
-    """Preprocess the rendered report and return the toc dict
-
-    This is faster than using a xml/html parsing library.
-
-    Args:
-        text: The rendered report
-
-    Returns:
-        The preprocessed text and the toc dict
-    """
-    out = []
-    out_append = out.append
-    last_pos = 0
-    toc = []
-    for match in TAG_RE.finditer(text):
-        tagname = match.group("tagname")
-        if tagname in ("h1", "h2"):
-            out_append(text[last_pos : match.end()])
-            last_pos = match.end()
-        # h1
-        elif tagname == "/h1":
-            h1_text = text[last_pos : match.start()].strip()
-            slug = f"pipen-report-toc-{slugify(h1_text)}"
-            out_append(f'<a id="{slug}"> </a>')
-            out_append(text[last_pos : match.end()])
-            toc.append({"slug": slug, "text": h1_text, "children": []})
-            last_pos = match.end()
-        # h2
-        elif tagname == "/h2":
-            h2_text = text[last_pos : match.start()].strip()
-            slug = f"pipen-report-toc-{slugify(h2_text)}"
-            out_append(f'<a id="{slug}"> </a>')
-            out_append(text[last_pos : match.end()])
-            if not toc:
-                toc.append(
-                    {
-                        "slug": "pipen-report",
-                        "text": "Report",
-                        "children": [],
-                    }
-                )
-            toc[-1]["children"].append(
-                {
-                    "slug": slug,
-                    "text": h2_text,
-                    # only support upto h2 for now
-                }
-            )
-            last_pos = match.end()
-        # make path relative
-        elif tagname in RELPATH_TAGS:
-            attrs = dict(TAG_ATTR_RE.findall(match.group("tagattrs")))
-
-            if RELPATH_TAGS[tagname] not in attrs:
-                out_append(text[last_pos : match.end()])
-            else:
-                pathval = attrs[RELPATH_TAGS[tagname]]
-                relpath = Path(pathval).relative_to(outdir.parent)
-                attrs[RELPATH_TAGS[tagname]] = Path("..") / relpath
-                attrvals = "".join(
-                    f' {attrname}="{attrval}"'
-                    for attrname, attrval in attrs.items()
-                )
-                end = " />" if match.group(0)[-2] == "/" else ">"
-                out_append(f"<{tagname}{attrvals}{end}")
-
-            last_pos = match.end()
-
-    out_append(text[last_pos:])
-    return ignore_firstline_dedent("".join(out)), toc
 
 
 class ReportManager:
@@ -189,29 +103,41 @@ class ReportManager:
             raise ValueError(
                 "`ndoejs` and `npm` are required to generate reports."
             )
-        yarn = await asyncify(shutil.which)("yarn")
-        self.npm = yarn or npm
+        self.npm = npm
 
         await asyncify(shutil.rmtree)(self.outdir, ignore_errors=True)
         await a_mkdir(self.outdir)
         # await asyncify(shutil.rmtree)(self.workdir, ignore_errors=True)
         # clean up workdir
-        logfile = self.workdir / "pipen-report.log"
-        if logfile.exists():
+        for logfile in self.workdir.glob("pipen-report*.log"):
             logfile.unlink()
 
         pubdir = self.workdir / "public"
         if pubdir.is_symlink():
             pubdir.unlink()
 
-        srcdir = self.workdir / "src"
-        await asyncify(shutil.rmtree)(srcdir, ignore_errors=True)
+        # srcdir = self.workdir / "src"
+        # Shouldn't remove all src, we need procs/*.svelte to see if
+        # template rendering is cached
 
-        await a_mkdir(self.workdir, exist_ok=True)
-        await asyncify(shutil.copytree)(FRONTEND_DIR / "src", srcdir)
+        # await asyncify(shutil.rmtree)(srcdir, ignore_errors=True)
 
-        # create dist/public data
+        # await a_mkdir(self.workdir, exist_ok=True)
+        # await asyncify(shutil.copytree)(FRONTEND_DIR / "src", srcdir)
+        for subd in ("components", "entries", "layouts", "pages"):
+            subdir = self.workdir / "src" / subd
+            await asyncify(shutil.rmtree)(subdir, ignore_errors=True)
+            await asyncify(shutil.copytree)(FRONTEND_DIR / "src" / subd, subdir)
+        await a_mkdir(self.workdir / "src" / "procs", exist_ok=True)
+
+        # create dist/public
         await asyncify(pubdir.symlink_to)(self.outdir)
+
+        # create up data in public
+        await a_mkdir(pubdir / "data", exist_ok=True)
+        # no directory in the data directory
+        for dfile in pubdir.joinpath("data").glob("*"):
+            dfile.unlink()
 
     async def prepare_frontend(
         self,
@@ -230,8 +156,7 @@ class ReportManager:
 
         # see if frontend dependencies have been installed, if not, install them
         await self._install_frontend_dependencies(
-            Path(pipen.config.plugin_opts.report_nmdir),
-            logger
+            Path(pipen.config.plugin_opts.report_nmdir), logger
         )
 
         # copy global css and favicon
@@ -239,11 +164,6 @@ class ReportManager:
             FRONTEND_DIR / "public" / "assets",
             self.workdir / "public" / "assets",
         )
-
-        # link rollup.config.js
-        rconfig = self.workdir / "rollup.config.js"
-        if not rconfig.exists():
-            rconfig.symlink_to(FRONTEND_DIR / "rollup.config.js")
 
         proc0 = pipen.procs[0]()
         # render index page
@@ -279,6 +199,15 @@ class ReportManager:
             FRONTEND_DIR.joinpath("public", "index.tpl.html").read_text(),
             {"pipeline": pipen},
             self.workdir / "public" / "index.html",
+        )
+
+        # render rollup.config.js for index
+        _render_file(
+            proc0.template,
+            proc0.template_opts,
+            FRONTEND_DIR.joinpath("rollup.config.js").read_text(),
+            {"proc_slug": "index"},
+            self.workdir / f"rollup.config.index.js",
         )
 
     async def render_proc_report(
@@ -330,7 +259,7 @@ class ReportManager:
             report = report_tpl.read_text()
         else:
             report_tpl = report_srcdir / f"{slug}.tpl"
-            if report_tpl.is_file() and report_tpl.read_text() != report:
+            if not report_tpl.is_file() or report_tpl.read_text() != report:
                 report_tpl.write_text(report)
 
         template_opts = self._template_opts(proc.template_opts)
@@ -340,7 +269,7 @@ class ReportManager:
             status == "cached"
             and rendered_report.exists()
             and rendered_report.stat().st_mtime + 1e-3
-            >= report_tpl.stat().st_mtime()
+            >= report_tpl.stat().st_mtime
         ):
             proc.log(
                 "debug",
@@ -349,7 +278,11 @@ class ReportManager:
             )
 
         else:
-
+            proc.log(
+                "debug",
+                "Rendering report ...",
+                logger=logger,
+            )
             # avoid future run to use it in case report file failed to compile
             if rendered_report.exists():
                 rendered_report.unlink()
@@ -367,7 +300,7 @@ class ReportManager:
                 ) from exc
 
             # preprocess the rendered report and get the toc
-            rendered, toc = _preprocess(rendered, self.outdir)
+            rendered, toc = await preprocess(rendered, self.outdir)
 
             _render_file(
                 proc.template,
@@ -408,7 +341,16 @@ class ReportManager:
             self.workdir / "public" / f"{slug}.html",
         )
 
-    async def build(self, logger: "LoggerAdapter") -> None:
+        # Render rollup.config.js
+        _render_file(
+            proc.template,
+            template_opts,
+            FRONTEND_DIR.joinpath("rollup.config.js").read_text(),
+            rendering_data,
+            self.workdir / f"rollup.config.{slug}.js",
+        )
+
+    async def build(self, pipen: "Pipen", logger: "LoggerAdapter") -> None:
         """Build all reports
 
         Args:
@@ -421,16 +363,40 @@ class ReportManager:
             )
             return
 
-        logger.info("Building reports ...")
+        forks = pipen.config.plugin_opts.report_forks
+        if forks is None:
+            forks = pipen.config.forks
 
-        rc = await self._run_npm(
-            "run",
-            "build",
-            log_prefix="BUILDING",
-            logger=logger,
-            _cwd=self.workdir,
-        )
-        if rc == 0:
+        logger.info("Building reports (using %s cores) ...", forks)
+
+        builds = [slugify(proc.name) for proc in pipen.procs]
+        builds.append("index")
+        with ProcessPoolExecutor(max_workers=forks) as executor:
+            rcs = executor.map(
+                functools.partial(
+                    self._run_npm,
+                    log_prefix="BUILDING",
+                    _cwd=self.workdir,
+                ),
+                (
+                    (
+                        build,
+                        "run",
+                        "build",
+                        f"rollup.config.{build}.js",
+                    )
+                    for build in builds
+                ),
+            )
+
+        for i, rc in enumerate(rcs):
+            if rc != 0:
+                logfile = self.workdir / f"pipen-report.{builds[i]}.log"
+                logger.error(
+                    "Failed to build report (rc=%s): %s", rc, builds[i]
+                )
+                logger.error("See full log at %s", logfile)
+        else:
             logger.info("Reports generated at: %s", self.outdir)
 
     async def _install_frontend_dependencies(
@@ -456,10 +422,9 @@ class ReportManager:
 
         logger.info("Installing frontend dependencies ...")
         try:
-            await self._run_npm(
+            self._run_npm(
                 "install",
                 log_prefix="INSTALLATION",
-                logger=logger,
                 _cwd=FRONTEND_DIR,
             )
         except (
@@ -476,10 +441,9 @@ class ReportManager:
             await asyncify(interdir.joinpath("package.json").symlink_to)(
                 interdir / "package.json"
             )
-            await self._run_npm(
+            self._run_npm(
                 "install",
                 log_prefix="INSTALLATION",
-                logger=logger,
                 _cwd=interdir,
             )
             await asyncify(distdir.symlink_to)(interdir / "node_modules")
@@ -524,12 +488,6 @@ class ReportManager:
             "proc_slug": slugify(proc.name),
             "args": proc.args,
             "jobs": [jobdata(job) for job in proc.jobs],
-            "pipeline": json.dumps(
-                {
-                    "name": proc.pipeline.name,
-                    "desc": proc.pipeline.desc,
-                }
-            ),
             "procs": json.dumps(
                 [
                     {
@@ -546,36 +504,42 @@ class ReportManager:
         rendering_data["job0"] = rendering_data["jobs"][0]
         return rendering_data
 
-    async def _run_npm(
+    def _run_npm(
         self,
         *args: Any,
         log_prefix: str,
-        logger: "LoggerAdapter",
         **kwargs: Any,
     ) -> int:
         """Run a command and log the messages"""
-        logfile = self.workdir / "pipen-report.log"
+        if len(args) == 1 and isinstance(args[0], tuple):
+            args = args[0]
+
+        if len(args) == 1:
+            name = args[0]
+        else:
+            name, *args = args
+
+        logfile = self.workdir / f"pipen-report.{name}.log"
         kwargs.setdefault("_exe", self.npm)
-        cmd = cmdy.run(*args, **kwargs)
+
+        cmd = cmdy.run(*args, **kwargs, _raise=False)
         strcmd = cmd.strcmd
+        with open(logfile, "at") as flog:
+            flog.write(f"WORKING DIRECTORY:\n")
+            flog.write("--------------------\n")
+            flog.write(f"{self.workdir}\n\n")
 
-        await a_write_text(logfile, f"{log_prefix} COMMAND\n{strcmd}\n\n")
+            flog.write(f"{log_prefix} COMMAND:\n")
+            flog.write("--------------------\n")
+            flog.write(f"{strcmd}\n\n")
 
-        await a_write_text(logfile, f"{log_prefix} STDOUT\n")
-        for line in cmd.stdout:
-            await a_write_text(logfile, line)
+            flog.write(f"{log_prefix} STDOUT:\n")
+            flog.write("--------------------\n")
+            flog.write(cmd.stdout)
 
-        if cmd.rc != 0:
-            logger.error("Command: %s", strcmd)
-
-        await a_write_text(logfile, "\n")
-        await a_write_text(logfile, f"{log_prefix} STDERR\n")
-        for line in cmd.stderr:
-            await a_write_text(logfile, line)
-            if cmd.rc != 0:
-                logger.error(line)
-
-        if cmd.rc != 0:
-            logger.error("See also logs at: %s", logfile)
+            flog.write("\n")
+            flog.write(f"{log_prefix} STDERR:\n")
+            flog.write("--------------------\n")
+            flog.write(cmd.stderr)
 
         return cmd.rc

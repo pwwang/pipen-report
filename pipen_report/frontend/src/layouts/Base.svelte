@@ -17,7 +17,10 @@
   export let procs;
   export let logo;
   export let logotext = null;
+  export let pipeline_name = undefined;
   export let isSideNavOpen = false;
+
+  pipeline_name = pipeline_name || logo;
 </script>
 
 <Header bind:isSideNavOpen>
@@ -43,7 +46,7 @@
       <HeaderPanelLinks>
         <HeaderPanelDivider>Go to home: </HeaderPanelDivider>
         <HeaderPanelLink href="./index.html">
-          {logo}
+          {pipeline_name}
         </HeaderPanelLink>
 
         <HeaderPanelDivider>Switch to process: </HeaderPanelDivider>

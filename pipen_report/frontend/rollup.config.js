@@ -1,54 +1,27 @@
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import { glob } from 'glob';
-import path from 'path';
 
-const production = !process.env.ROLLUP_WATCH;
+export default {
 
-function serve() {
-	let server;
-
-	function toExit() {
-		if (server) server.kill(0);
-	}
-
-	return {
-		writeBundle() {
-			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
-
-			process.on('SIGTERM', toExit);
-			process.on('exit', toExit);
-		}
-	};
-}
-
-export default glob.sync("src/entries/*.js").map(filename => ({
-
-	input: filename,
+	input: "src/entries/{{proc_slug}}.js",
 	output: {
-		sourcemap: !production,
+		sourcemap: false,
 		format: 'iife',
 		name: 'app',
-		file: `public/build/${path.basename(filename, ".js")}.js`
+		file: "public/build/{{proc_slug}}.js"
 	},
 	plugins: [
 		svelte({
 			compilerOptions: {
-				// enable run-time checks when not in production
-				dev: !production
+				dev: false
 			}
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: `${path.basename(filename, ".js")}.css` }),
+		css({ output: "{{proc_slug}}.css" }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -61,19 +34,9 @@ export default glob.sync("src/entries/*.js").map(filename => ({
 		}),
 		commonjs(),
 
-		// In dev mode, call `npm run start` once
-		// the bundle has been generated
-		!production && serve(),
-
-		// Watch the `public` directory and refresh the
-		// browser on changes when not in production
-		!production && livereload('public'),
-
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser()
+		terser()
 	],
 	watch: {
 		clearScreen: false
 	}
-}));
+};

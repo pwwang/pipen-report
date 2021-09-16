@@ -40,3 +40,38 @@ div[themes].bx--form-item > .bx--select--inline label {
 .header-tile{
 	background-color: #161616 !important;
 }
+
+img.pipen-report-image {
+	cursor: pointer;
+	max-width: 55%;
+	border: 2px solid #eee;
+}
+
+img.pipen-report-image-lg {
+	max-width: 100%;
+}
+
+.pipen-report-image-frame {
+	width: 100%;
+	overflow-x: auto;
+	padding: 1.5rem;
+	background-color: #f5ffebbd;
+}
+
+.pipen-report-datatable-frame {
+	width: 100%;
+	overflow-x: auto;
+	padding: 1.5rem;
+	background-color: #f5ffebbd;
+}
+
+.pipen-report-image-noborder {
+	border: 0 !important;
+}
+
+.bx--table-toolbar {
+	/**
+	 * show entire tooltip
+	 */
+	overflow: visible !important;
+}

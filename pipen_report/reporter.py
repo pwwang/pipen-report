@@ -1,18 +1,16 @@
 """Report generation system for pipen"""
 
 from typing import Any, Dict, TYPE_CHECKING, Union
-from pipen import plugin, __version__ as pipen_version
+from pipen import plugin
 from pipen.utils import get_logger
 
-from slugify import slugify
 
 from .manager import ReportManager
 
 if TYPE_CHECKING:
     from pipen import Pipen, Proc
 
-logger = get_logger("report", "info")
-
+logger = get_logger("report")
 
 class PipenReport:
     """Report plugin for pipen"""
@@ -37,10 +35,25 @@ class PipenReport:
         # where should we install it?
         # Make sure you have write privileges to it
         config.plugin_opts.report_nmdir = "~/.pipen-report"
+        # pipeline-level
+        # Don't build the final report, only preprare the environment
+        # Say if you want to do the building manually
+        config.plugin_opts.report_nobuild = False
+        # pipeline-level
+        # logging level
+        config.plugin_opts.report_logging = "info"
+        # pipeline-level
+        # How many cores to use to build the reports for processes
+        # If None, use config.forks
+        config.plugin_opts.report_forks = None
 
     @plugin.impl
     async def on_start(self, pipen: "Pipen") -> None:
         """Check if we have the prerequisites for report generation"""
+        loglevel = pipen.config.plugin_opts.report_logging
+        logger.setLevel(
+            loglevel if isinstance(loglevel, int) else loglevel.upper()
+        )
         self.manager = ReportManager(
             pipen.outdir,
             pipen.workdir,
@@ -62,6 +75,8 @@ class PipenReport:
             return
 
         await self.manager.prepare_frontend(pipen, logger)
-        await self.manager.build(logger)
+        if not pipen.config.plugin_opts.report_nobuild:
+            await self.manager.build(pipen, logger)
+
         del self.manager
         self.manager = None

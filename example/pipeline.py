@@ -45,10 +45,10 @@ class Plot(Proc):
     plugin_opts = {
         "report": """
             <script>
-                import { ImageLoader } from "@@ccs";
+                import { Image } from "@@";
             </script>
             <h1>displ vs model from mpg data</h1>
-            <ImageLoader src="{{job.out.plotfile}}"  />
+            <Image src="{{job.out.plotfile}}"  />
         """
     }
 
@@ -59,4 +59,5 @@ if __name__ == "__main__":
         desc="Awesome pipeline",
         outdir=HERE / "output",
         plugins=[PipenReport],
+        plugin_opts={"report_logging": "debug", "report_forks": 4}
     ).run(Subset)

@@ -14,9 +14,10 @@
   export let logo;
   export let logotext = null;
   export let procs;
+  export let pipeline_name;
 </script>
 
-<Base bind:isSideNavOpen {logo} {logotext} {procs}>
+<Base bind:isSideNavOpen {logo} {logotext} {procs} {pipeline_name}>
 
     <SideNav bind:isOpen={isSideNavOpen}>
       <slot name="toc" />
