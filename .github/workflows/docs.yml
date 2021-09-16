@@ -32,6 +32,7 @@ jobs:
           mkdocs build --clean
           cp -r example/ site/
       - name: ghp-import
+        run: |
           # mkdocs gh-deploy --force
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
