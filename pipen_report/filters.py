@@ -1,3 +1,4 @@
+"""Provides some filters"""
 from os import PathLike
 from typing import Any, Iterable, Union
 import pandas
@@ -14,6 +15,18 @@ def datatable(
     """Read data from a file, using pandas.read_csv() and make it to json so
     js can handle it and render it with <DataTable />
 
+    Args:
+        path: the path to the data file
+        *args: and
+        **kwargs: Arguments pass to pandas.read_csv()
+        ncols: and
+        nrows: Either number of cols/rows to select or an iterable of indices
+            or an iterable of column/index names
+        double_precision: The precision for double numbers
+            See also panadas.DataFrame.to_json()
+
+    Returns:
+        A json format of data
     """
     df = pandas.read_csv(path, *args, **kwargs)
 

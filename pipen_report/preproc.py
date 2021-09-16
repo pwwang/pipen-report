@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 import shutil
 from typing import Any, Mapping, Match, Tuple
-import uuid
+import hashlib
 
 from pipen.utils import ignore_firstline_dedent
 from slugify import slugify
@@ -68,7 +68,8 @@ async def _preprocess_relpath_tag(
             # If we can't get the relative path, that means those files
             # are not exported, we need to copy the file to a directory
             # where the html file can access
-            relpath = Path("./data") / f"{pathval.name}.{str(uuid.uuid4())[:8]}"
+            suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
+            relpath = Path("./data") / f"{pathval.name}.{suffix}"
 
             await asyncify(shutil.copyfile)(pathval, basedir / relpath)
         else:
