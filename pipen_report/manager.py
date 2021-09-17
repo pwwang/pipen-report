@@ -109,7 +109,7 @@ class ReportManager:
         self.npm = npm
 
         await asyncify(shutil.rmtree)(self.outdir, ignore_errors=True)
-        await a_mkdir(self.outdir)
+        await a_mkdir(self.outdir, parents=True)
         # await asyncify(shutil.rmtree)(self.workdir, ignore_errors=True)
         # clean up workdir
         for logfile in self.workdir.glob("pipen-report*.log"):
@@ -137,7 +137,7 @@ class ReportManager:
         await asyncify(pubdir.symlink_to)(self.outdir)
 
         # create up data in public
-        await a_mkdir(pubdir / "data", exist_ok=True)
+        await a_mkdir(pubdir / "data", parents=True, exist_ok=True)
         # no directory in the data directory
         for dfile in pubdir.joinpath("data").glob("*"):
             dfile.unlink()
@@ -181,9 +181,9 @@ class ReportManager:
                 "procs": json.dumps(
                     [
                         {
-                            "name": proc.name,
-                            "slug": slugify(proc.name),
-                            "desc": proc.desc or "Undescribed",
+                            "name": proc().name,
+                            "slug": slugify(proc().name),
+                            "desc": proc().desc or "Undescribed",
                         }
                         for proc in pipen.procs
                     ]

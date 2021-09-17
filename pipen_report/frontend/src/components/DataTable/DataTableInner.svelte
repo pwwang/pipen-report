@@ -4,6 +4,7 @@
     ToolbarContent,
     ToolbarSearch,
     Button,
+    Modal
   } from "carbon-components-svelte";
   import CloudDownload16 from "carbon-icons-svelte/lib/CloudDownload16";
   import DocumentDownload16 from "carbon-icons-svelte/lib/DocumentDownload16";
@@ -46,6 +47,7 @@
   export let pageSizes = [20, 50, 75, 100];
 
   let value = "";
+  let modal_open = false;
   $: filteredRows = rows;
   $: if (value.length > 0) {
     filteredRows = rows.filter(
@@ -59,10 +61,7 @@
 
   const clouldDownload = (event) => {
     event.preventDefault();
-    alert(
-      `You must use "Save as"/"Save link as" from the context menu (right-click) to download.`
-    );
-    return false;
+    modal_open = true;
   };
 
   const download = (href, filename) => {
@@ -126,3 +125,9 @@
     </ToolbarContent>
   </Toolbar>
 </PaginatedDataTable>
+
+<Modal passiveModal bind:open={modal_open} modalHeading="Downloading entire data" on:open on:close>
+  <p>
+    You must use "Save as" or "Save link as" from the context menu (by right-clicking the button) to download the entire data.
+  </p>
+</Modal>

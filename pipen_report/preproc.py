@@ -81,7 +81,7 @@ async def _preprocess_relpath_tag(
 
     out.append(tagattrs[pos:])
     # add ' />'
-    out.append(text[match.regs[2][1] :])
+    out.append(text[match.regs[2][1] : match.end()])
     return "".join(out)
 
 

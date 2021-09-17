@@ -114,3 +114,8 @@ t-*.ipynb
 
 .history/
 docs/index.md
+
+*.txt.gz
+*.tar
+*.tar.gz
+*.rds

@@ -48,6 +48,21 @@ div[themes].bx--form-item > .bx--select--inline label {
 	overflow: visible !important;
 }
 
+.bx--side-nav__link-text, .bx--side-nav__submenu-title {
+	/** make first toc layer larger **/
+	font-size: 1rem !important;
+}
+
+#main-content h3 {
+    margin: .3rem 0 .1rem 0;
+}
+#main-content h2 {
+    margin: .5rem 0 .2rem 0;
+}
+#main-content h1 {
+    margin: 1rem 0 .3rem 0;
+}
+
 img.pipen-report-image {
 	cursor: pointer;
 	max-width: 55%;

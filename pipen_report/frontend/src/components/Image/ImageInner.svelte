@@ -42,6 +42,7 @@
     export let fadeIn = false;
 
     export let border = true;
+    let modal_open = false;
 
     /**
      * Method invoked to load the image provided a `src` value
@@ -67,7 +68,6 @@
     const fast02 = 110;
 
     let image = null;
-    let modal_open = false;
 
     $: loading = !loaded && !error;
     $: if (src && typeof window !== "undefined") loadImage();
