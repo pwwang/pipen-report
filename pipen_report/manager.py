@@ -104,7 +104,7 @@ class ReportManager:
         npm = await asyncify(shutil.which)(self.npm)
         if npm is None:
             raise ValueError(
-                "`ndoejs` and `npm` are required to generate reports."
+                "`nodejs` and `npm` are required to generate reports."
             )
         self.npm = npm
 
@@ -186,6 +186,7 @@ class ReportManager:
                             "desc": proc().desc or "Undescribed",
                         }
                         for proc in pipen.procs
+                        if proc.plugin_opts and proc.plugin_opts.get("report")
                     ]
                 ),
                 "versions": version_str,
@@ -368,9 +369,10 @@ class ReportManager:
         if forks is None:
             forks = pipen.config.forks
 
-        logger.info("Building reports (using %s cores) ...", forks)
+        logger.info("Building reports using %s core(s) ...", forks)
 
-        builds = [slugify(proc.name) for proc in pipen.procs]
+        # builds = [slugify(proc.name) for proc in pipen.procs]
+        builds = [Path(report_file).stem for report_file in self.reports]
         builds.append("index")
         with ProcessPoolExecutor(max_workers=forks) as executor:
             rcs = executor.map(
@@ -487,7 +489,7 @@ class ReportManager:
         rendering_data = {
             "proc": proc,
             "proc_slug": slugify(proc.name),
-            "args": proc.args,
+            "envs": proc.envs,
             "jobs": [jobdata(job) for job in proc.jobs],
             "procs": json.dumps(
                 [
@@ -497,6 +499,7 @@ class ReportManager:
                         "desc": prc.desc or "Undescribed",
                     }
                     for prc in proc.pipeline.procs
+                    if prc.plugin_opts and prc.plugin_opts.get("report")
                 ]
             ),
             "versions": version_str,

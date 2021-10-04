@@ -8,7 +8,7 @@ The avaiable data to render the template:
 |Data|Meaning|
 |-|-|
 |`proc`|The process object. You can access its attributes by `proc.xxx`|
-|`args`|A shortcut to `proc.args`, the arguments of the process|
+|`envs`|A shortcut to `proc.envs`, the arguments of the process|
 |`jobs`|Jobs of the process. We can access `index`, `metadir`, `outdir`, `stdout_file`, `stderr_file`, `in`(alias `in_`) and `out` for each job|
 |`job`/`job0`|A shortcut to `jobs[0]`, useful for single-job processes|
 
