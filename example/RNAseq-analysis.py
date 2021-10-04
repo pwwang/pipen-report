@@ -1,8 +1,8 @@
 """A reimplementation of https://f1000research.com/articles/5-1408/v3"""
 # also requires:
 # pipen-filters
-from pipen import Proc, Pipen
 
+from pipen import Proc, Pipen
 
 class DataPreparation(Proc):
     """Download and prepare the data"""
@@ -48,4 +48,4 @@ if __name__ == "__main__":
         desc=__doc__,
         outdir="./output",
         plugin_opts={"report_forks": 4},
-    ).run(DataPreparation)
+    ).set_start(DataPreparation).run()

@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 logger = get_logger("report")
 
+
 class PipenReport:
     """Report plugin for pipen"""
 
@@ -47,6 +48,9 @@ class PipenReport:
         # How many cores to use to build the reports for processes
         # If None, use config.forks
         config.plugin_opts.report_forks = None
+        # pipeline-level
+        # Force the process to export output when report template is given
+        config.plugin_opts.report_force_export = True
 
     @plugin.impl
     async def on_start(self, pipen: "Pipen") -> None:
@@ -61,6 +65,19 @@ class PipenReport:
             pipen.config.plugin_opts.report_npm,
         )
         await self.manager.check_npm_and_setup_dirs()
+
+    @plugin.impl
+    def on_proc_init(self, proc: "Proc") -> None:
+        """For a non-export process to export if report template is given"""
+        if not proc.pipeline.config.plugin_opts.get(
+            "report_force_export", True
+        ):
+            return
+        if not proc.plugin_opts.get("report", False):
+            return
+        if proc.export is not None:
+            return
+        proc.export = True
 
     @plugin.impl
     async def on_proc_done(
