@@ -62,4 +62,10 @@ Number of cores used to build the reports. Since building reports for each proce
 
 `None` to use `pipline.config.forks`, the same as the number of cores used to run jobs in parallel.
 
+## `report_force_export`
 
+Pipeline-level
+
+Default: `True`
+
+Force the process to export output when report template is given
