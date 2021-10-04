@@ -29,6 +29,9 @@ class PipenReport:
         """Default configrations"""
         # process-level: The report template or file, None to disable
         config.plugin_opts.report = None
+        # process-level
+        # The order of the process to show in the index page and app menu
+        config.plugin_opts.report_order = 0
         # pipeline-level: path to npm
         config.plugin_opts.report_npm = "npm"
         # pipeline-level:

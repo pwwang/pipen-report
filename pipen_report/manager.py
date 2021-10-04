@@ -6,7 +6,7 @@ import json
 import shutil
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Mapping, Union
+from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Type, Union
 
 import cmdy
 from pipen.exceptions import TemplateRenderingError
@@ -62,6 +62,19 @@ def _render_file(
 
     save_to.write_text(rendered)
     return None
+
+
+def _get_reporting_procs(pipen: "Pipen") -> Iterable[Type["Proc"]]:
+    """Get the procs with reporting based on the report_order"""
+    return sorted(
+        (
+            proc for proc in pipen.procs
+            if (getattr(proc, "plugin_opts") or {}).get("report", False)
+        ),
+        key=lambda proc: (getattr(proc, "plugin_opts") or {}).get(
+            "report_order", 0
+        ),
+    )
 
 
 class ReportManager:
@@ -185,8 +198,7 @@ class ReportManager:
                             "slug": slugify(proc().name),
                             "desc": proc().desc or "Undescribed",
                         }
-                        for proc in pipen.procs
-                        if proc.plugin_opts and proc.plugin_opts.get("report")
+                        for proc in _get_reporting_procs(pipen)
                     ]
                 ),
                 "versions": version_str,
@@ -498,8 +510,7 @@ class ReportManager:
                         "slug": slugify(prc.name),
                         "desc": prc.desc or "Undescribed",
                     }
-                    for prc in proc.pipeline.procs
-                    if prc.plugin_opts and prc.plugin_opts.get("report")
+                    for prc in _get_reporting_procs(proc.pipeline)
                 ]
             ),
             "versions": version_str,

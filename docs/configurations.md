@@ -15,6 +15,14 @@ Default: `None`
 The report template. If `None`, no report will be generated for this process.
 If the template is a file, use a `file://` prefix: `file:///path/to/template`
 
+## `report_order`
+
+Process-level.
+
+Default: `0`
+
+The order of the process to show in the index page and app menu
+
 ## `report_npm`
 
 Pipeline-level.
