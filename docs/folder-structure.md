@@ -37,5 +37,3 @@ The subdirectoies and files are:
 - `src`
 
     The source files used to compile.
-
-

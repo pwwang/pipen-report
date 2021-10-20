@@ -107,7 +107,7 @@ class ReportManager:
         """Constructor"""
         self.outdir = outdir / "REPORTS"
         # This directory can be used to debug at frontend
-        self.workdir = workdir / f".report-workdir"
+        self.workdir = workdir / ".report-workdir"
 
         self.reports: List[Path] = []
         self.npm = npm
@@ -143,7 +143,9 @@ class ReportManager:
         for subd in ("components", "entries", "layouts", "pages"):
             subdir = self.workdir / "src" / subd
             await asyncify(shutil.rmtree)(subdir, ignore_errors=True)
-            await asyncify(shutil.copytree)(FRONTEND_DIR / "src" / subd, subdir)
+            await asyncify(shutil.copytree)(
+                FRONTEND_DIR / "src" / subd, subdir
+            )
         await a_mkdir(self.workdir / "src" / "procs", exist_ok=True)
 
         # create dist/public
@@ -170,7 +172,8 @@ class ReportManager:
         if not pjson.exists():
             pjson.symlink_to(FRONTEND_DIR / "package.json")
 
-        # see if frontend dependencies have been installed, if not, install them
+        # see if frontend dependencies have been installed,
+        # if not, install them
         await self._install_frontend_dependencies(
             Path(pipen.config.plugin_opts.report_nmdir).expanduser(), logger
         )
@@ -221,7 +224,7 @@ class ReportManager:
             proc0.template_opts,
             FRONTEND_DIR.joinpath("rollup.config.js").read_text(),
             {"proc_slug": "index"},
-            self.workdir / f"rollup.config.index.js",
+            self.workdir / "rollup.config.index.js",
         )
 
     async def render_proc_report(
@@ -541,7 +544,7 @@ class ReportManager:
         cmd = cmdy.run(*args, **kwargs, _raise=False)
         strcmd = cmd.strcmd
         with open(logfile, "at") as flog:
-            flog.write(f"WORKING DIRECTORY:\n")
+            flog.write("WORKING DIRECTORY:\n")
             flog.write("--------------------\n")
             flog.write(f"{self.workdir}\n\n")
 

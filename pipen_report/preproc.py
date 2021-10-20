@@ -85,7 +85,10 @@ async def _preprocess_relpath_tag(
     return "".join(out)
 
 
-async def preprocess(text: str, basedir: Path) -> Tuple[str, Mapping[str, Any]]:
+async def preprocess(
+    text: str,
+    basedir: Path,
+) -> Tuple[str, Mapping[str, Any]]:
     """Preprocess the rendered report and return the toc dict
 
     This is faster than using a xml/html parsing library.

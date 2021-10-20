@@ -135,5 +135,3 @@ data_clustering_plot()
 dev.off()
 
 saveRDS(x, exprfile)
-
-
