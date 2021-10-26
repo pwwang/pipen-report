@@ -1,3 +1,9 @@
+## 0.0.7
+
+- 🐛 Fix non-tags in pre-processing
+- ⬆️ Upgrade frontend deps
+- 🩹 Fix background of theme selector
+
 ## 0.0.6
 
 - 🩹 Don't initilize if pipeline init fails
