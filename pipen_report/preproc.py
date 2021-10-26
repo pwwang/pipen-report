@@ -104,17 +104,20 @@ async def preprocess(
     last_pos = 0
     toc = []
     for match in TAG_RE.finditer(text):
+        if match.start() > last_pos:
+            out_append(text[last_pos:match.start()])
+
         tagname = match.group("tagname")
         if tagname in ("h1", "h2"):
             out_append(text[last_pos : match.end()])
-            last_pos = match.end()
+
         # h1
         elif tagname == "/h1":
             out_elem, toc_elem = _preprocess_slash_h(text, last_pos, match)
             toc.append(toc_elem)
             out_append(out_elem)
-            out_append(text[last_pos : match.end()])
-            last_pos = match.end()
+            out_append(match.group(0))
+
         # h2
         elif tagname == "/h2":
             if not toc:
@@ -128,8 +131,8 @@ async def preprocess(
             out_elem, toc_elem = _preprocess_slash_h(text, last_pos, match)
             toc[-1]["children"].append(toc_elem)
             out_append(out_elem)
-            out_append(text[last_pos : match.end()])
-            last_pos = match.end()
+            out_append(match.group(0))
+
         # make path relative
         elif tagname in RELPATH_TAGS:
             out_elem = await _preprocess_relpath_tag(
@@ -139,7 +142,11 @@ async def preprocess(
                 basedir,
             )
             out_append(out_elem)
-            last_pos = match.end()
+
+        else:
+            out_append(match.group(0))
+
+        last_pos = match.end()
 
     out_append(text[last_pos:])
     return ignore_firstline_dedent("".join(out)), toc
