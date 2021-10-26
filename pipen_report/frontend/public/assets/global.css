@@ -21,9 +21,13 @@ div[themes].bx--form-item > .bx--select--inline {
 	justify-content: flex-end;
 }
 
-div[themes].bx--form-item > .bx--select--inline label {
-	color: #b9b9b9 !important;
+div[themes].bx--form-item > .bx--select--inline select {
+	background-color: var(--cds-field-01);
 }
+
+/* div[themes].bx--form-item > .bx--select--inline label {
+	color: #b9b9b9 !important;
+} */
 
 .bx--header__name {
 	padding-left: 3rem !important;
