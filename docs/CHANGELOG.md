@@ -1,3 +1,7 @@
+## 0.0.8
+
+- 🩹 Expand the TOC by default
+
 ## 0.0.7
 
 - 🐛 Fix non-tags in pre-processing
