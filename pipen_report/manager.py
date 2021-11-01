@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Type, Union
 
 import cmdy
+from pipen import Proc
 from pipen.exceptions import TemplateRenderingError
 from slugify import slugify
 from xqute.utils import a_mkdir, asyncify
@@ -19,7 +20,7 @@ from .versions import version_str
 
 if TYPE_CHECKING:  # pragma: no cover
     from logging import LoggerAdapter
-    from pipen import Proc, Pipen
+    from pipen import Pipen
     from pipen.job import Job
     from pipen.template import Template
 
@@ -270,8 +271,17 @@ class ReportManager:
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
             if not report_tpl.is_absolute():
+                klass = proc.__class__
+                if klass.__bases__:
+                    for kls in klass.__bases__:
+                        if not issubclass(kls, Proc):
+                            continue
+                        if report == str(kls.plugin_opts["report"]):
+                            klass = kls
+                            continue
+                        break
                 report_tpl = (
-                    Path(inspect.getfile(proc.__class__)).parent / report_tpl
+                    Path(inspect.getfile(klass)).parent / report_tpl
                 )
             report = report_tpl.read_text()
         else:
