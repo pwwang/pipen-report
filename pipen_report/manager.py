@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Type, Union
 import cmdy
 from pipen import Proc
 from pipen.exceptions import TemplateRenderingError
+from pipen.utils import get_base
 from slugify import slugify
 from xqute.utils import a_mkdir, asyncify
 
@@ -69,7 +70,8 @@ def _get_reporting_procs(pipen: "Pipen") -> Iterable[Type["Proc"]]:
     """Get the procs with reporting based on the report_order"""
     return sorted(
         (
-            proc for proc in pipen.procs
+            proc
+            for proc in pipen.procs
             if (getattr(proc, "plugin_opts") or {}).get("report", False)
         ),
         key=lambda proc: (getattr(proc, "plugin_opts") or {}).get(
@@ -271,18 +273,15 @@ class ReportManager:
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
             if not report_tpl.is_absolute():
-                klass = proc.__class__
-                if klass.__bases__:
-                    for kls in klass.__bases__:
-                        if not issubclass(kls, Proc):
-                            continue
-                        if report == str(kls.plugin_opts["report"]):
-                            klass = kls
-                            continue
-                        break
-                report_tpl = (
-                    Path(inspect.getfile(klass)).parent / report_tpl
+                base = get_base(
+                    proc.__class__,
+                    Proc,
+                    report,
+                    lambda klass: None
+                    if klass.plugin_opts is None
+                    else str(klass.plugin_opts.get("report", None)),
                 )
+                report_tpl = Path(inspect.getfile(base)).parent / report_tpl
             report = report_tpl.read_text()
         else:
             report_tpl = report_srcdir / f"{slug}.tpl"

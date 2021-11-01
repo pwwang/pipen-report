@@ -1,3 +1,7 @@
+## 0.0.9
+
+- 🐛 Allow relative script path to be inherited
+
 ## 0.0.8
 
 - 🩹 Expand the TOC by default
