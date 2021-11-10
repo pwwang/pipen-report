@@ -1,3 +1,8 @@
+## 0.0.10
+
+- 🐛 Fix larger nrows/ncols not working for datatable filter
+- 🐛 Fix multiple column alignment in index page
+
 ## 0.0.9
 
 - 🐛 Allow relative script path to be inherited
