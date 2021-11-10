@@ -24,7 +24,7 @@
         </Row>
         {/each}
     {:else}
-        {#each Array(procs.length).keys().filter(n => n % 2 == 0) as i}
+        {#each [...Array(procs.length).keys()].filter(n => n % 2 == 0) as i}
         <Row>
             <Column>
                 <ProcCard name={procs[i]["name"]} slug={procs[i]["slug"]} desc={procs[i]["desc"]} />
