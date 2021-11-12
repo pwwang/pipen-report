@@ -23,6 +23,14 @@ Default: `0`
 
 The order of the process to show in the index page and app menu
 
+## `report_toc`
+
+Process-level.
+
+Default: `True`
+
+Whether add TOC (left-side navigation) to the process report
+
 ## `report_npm`
 
 Pipeline-level.

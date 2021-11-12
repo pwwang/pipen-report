@@ -1,3 +1,8 @@
+## 0.0.11
+
+- ✨ Add process-level config `report_toc` to disable toc for a single process report
+
+
 ## 0.0.10
 
 - 🐛 Fix larger nrows/ncols not working for datatable filter
