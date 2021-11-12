@@ -4,8 +4,10 @@
 
 from pipen import Proc, Pipen
 
+
 class DataPreparation(Proc):
     """Download and prepare the data"""
+
     input = "link,groups,lanes"
     # output a data directory and a sample information file
     output = "datadir:dir:data, samplefile:file:samples.txt"
@@ -14,8 +16,10 @@ class DataPreparation(Proc):
     script = "file://scripts/DataPreparation.py"
     plugin_opts = {"report": "file://reports/DataPreparation.svelte"}
 
+
 class DataPreprocessing(Proc):
     """Data transformation, filtering and normalization"""
+
     requires = DataPreparation
     input = "datadir:dir, samplefile:file"
     # preprocessed expression file (RDS)
@@ -23,10 +27,15 @@ class DataPreprocessing(Proc):
     # Use R
     lang = "Rscript"
     script = "file://scripts/DataPreprocessing.R"
-    plugin_opts = {"report": "file://reports/DataPreprocessing.svelte"}
+    plugin_opts = {
+        "report": "file://reports/DataPreprocessing.svelte",
+        "report_toc": False,
+    }
+
 
 class DEAnalysis(Proc):
     """Differential expression analysis"""
+
     requires = DataPreparation, DataPreprocessing
     input = "samplefile:file, exprfile:file"
     output = "outdir:dir:results"
@@ -37,11 +46,13 @@ class DEAnalysis(Proc):
 
 if __name__ == "__main__":
 
-    DataPreparation.input_data = [(
-        "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63310&format=file",
-        "LP,ML,Basal,Basal,ML,LP,Basal,ML,LP",
-        "L004,L004,L004,L006,L006,L006,L006,L008,L008"
-    )]
+    DataPreparation.input_data = [
+        (
+            "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63310&format=file",
+            "LP,ML,Basal,Basal,ML,LP,Basal,ML,LP",
+            "L004,L004,L004,L006,L006,L006,L006,L008,L008",
+        )
+    ]
 
     Pipen(
         name="RNA-seq analysis",

@@ -269,6 +269,7 @@ class ReportManager:
 
         # in case it's a Path object
         report = str(proc.plugin_opts["report"])
+        report_toc = proc.plugin_opts.get("report_toc", True)
 
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
@@ -328,13 +329,14 @@ class ReportManager:
             # preprocess the rendered report and get the toc
             rendered, toc = await preprocess(rendered, self.outdir)
 
-            _render_file(
-                proc.template,
-                template_opts,
-                FRONTEND_DIR.joinpath("src", "toc.tpl.svelte").read_text(),
-                {"toc": json.dumps(toc)},
-                self.workdir / "src" / "procs" / f"{slug}.toc.svelte",
-            )
+            if report_toc:
+                _render_file(
+                    proc.template,
+                    template_opts,
+                    FRONTEND_DIR.joinpath("src", "toc.tpl.svelte").read_text(),
+                    {"toc": json.dumps(toc)},
+                    self.workdir / "src" / "procs" / f"{slug}.toc.svelte",
+                )
 
             rendered_report.write_text(rendered)
 
@@ -513,6 +515,7 @@ class ReportManager:
         rendering_data = {
             "proc": proc,
             "proc_slug": slugify(proc.name),
+            "report_toc": proc.plugin_opts.get("report_toc", True),
             "envs": proc.envs,
             "jobs": [jobdata(job) for job in proc.jobs],
             "procs": json.dumps(

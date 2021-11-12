@@ -32,6 +32,9 @@ class PipenReport:
         # process-level
         # The order of the process to show in the index page and app menu
         config.plugin_opts.report_order = 0
+        # process-level
+        # Whether include TOC for the process report or not
+        config.plugin_opts.report_toc = True
         # pipeline-level: path to npm
         config.plugin_opts.report_npm = "npm"
         # pipeline-level:
