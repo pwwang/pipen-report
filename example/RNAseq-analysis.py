@@ -46,17 +46,18 @@ class DEAnalysis(Proc):
 
 if __name__ == "__main__":
 
-    DataPreparation.input_data = [
-        (
-            "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63310&format=file",
-            "LP,ML,Basal,Basal,ML,LP,Basal,ML,LP",
-            "L004,L004,L004,L006,L006,L006,L006,L008,L008",
-        )
-    ]
-
     Pipen(
         name="RNA-seq analysis",
         desc=__doc__,
         outdir="./output",
         plugin_opts={"report_forks": 4},
-    ).set_start(DataPreparation).run()
+    ).set_start(DataPreparation).set_data(
+        [
+            (
+                "https://www.ncbi.nlm.nih.gov/geo/download/"
+                "?acc=GSE63310&format=file",
+                "LP,ML,Basal,Basal,ML,LP,Basal,ML,LP",
+                "L004,L004,L004,L006,L006,L006,L006,L008,L008",
+            )
+        ]
+    ).run()

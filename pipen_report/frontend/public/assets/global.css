@@ -105,3 +105,8 @@ img.pipen-report-image-lg {
 .pipen-report-footer-versions {
 	font-style: italic;
 }
+
+.pipen-report-toc-anchor {
+	top: -120px;
+	position: relative;
+}

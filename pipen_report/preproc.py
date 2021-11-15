@@ -29,11 +29,12 @@ def _preprocess_slash_h(
     text: str,
     last_pos: int,
     match: Match,
+    heading_index: int,
 ) -> Tuple[str, Mapping[str, Any]]:
     """Preprocess </h1> or </h2>"""
     h_text = text[last_pos : match.start()].strip()
-    slug = f"pipen-report-toc-{slugify(h_text)}"
-    return f'<a id="{slug}"> </a>', {
+    slug = f"pipen-report-toc-{slugify(h_text)}-{heading_index}"
+    return f'<a id="{slug}" class="pipen-report-toc-anchor"> </a>', {
         "slug": slug,
         "text": h_text,
         "children": [],
@@ -61,23 +62,25 @@ async def _preprocess_relpath_tag(
             pos = mat.end()
             continue
 
-        pathval = Path(mat.group("attrval"))
-        try:
-            relpath = pathval.relative_to(basedir.parent)
-        except ValueError:
-            # If we can't get the relative path, that means those files
-            # are not exported, we need to copy the file to a directory
-            # where the html file can access
-            suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
-            relpath = Path("./data") / f"{pathval.name}.{suffix}"
+        relpath = mat.group("attrval")
+        if not re.match(r"^[a-z]+://", relpath):
+            pathval = Path(relpath)
+            try:
+                relpath = pathval.relative_to(basedir.parent)
+            except ValueError:
+                # If we can't get the relative path, that means those files
+                # are not exported, we need to copy the file to a directory
+                # where the html file can access
+                suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
+                relpath = Path("./data") / f"{pathval.name}.{suffix}"
 
-            await asyncify(shutil.copyfile)(pathval, basedir / relpath)
-        else:
-            # results are at uplevel dir
-            relpath = Path("..") / relpath
+                await asyncify(shutil.copyfile)(pathval, basedir / relpath)
+            else:
+                # results are at uplevel dir
+                relpath = Path("..") / relpath
 
-        out.append(f' {attrname}="{relpath}"')
-        pos = mat.end()
+            out.append(f' {attrname}="{relpath}"')
+            pos = mat.end()
 
     out.append(tagattrs[pos:])
     # add ' />'
@@ -103,9 +106,10 @@ async def preprocess(
     out_append = out.append
     last_pos = 0
     toc = []
+    heading_index = 0
     for match in TAG_RE.finditer(text):
         if match.start() > last_pos:
-            out_append(text[last_pos:match.start()])
+            out_append(text[last_pos : match.start()])
 
         tagname = match.group("tagname")
         if tagname in ("h1", "h2"):
@@ -113,7 +117,10 @@ async def preprocess(
 
         # h1
         elif tagname == "/h1":
-            out_elem, toc_elem = _preprocess_slash_h(text, last_pos, match)
+            out_elem, toc_elem = _preprocess_slash_h(
+                text, last_pos, match, heading_index
+            )
+            heading_index += 1
             toc.append(toc_elem)
             out_append(out_elem)
             out_append(match.group(0))
@@ -128,7 +135,10 @@ async def preprocess(
                         "children": [],
                     }
                 )
-            out_elem, toc_elem = _preprocess_slash_h(text, last_pos, match)
+            out_elem, toc_elem = _preprocess_slash_h(
+                text, last_pos, match, heading_index
+            )
+            heading_index += 1
             toc[-1]["children"].append(toc_elem)
             out_append(out_elem)
             out_append(match.group(0))

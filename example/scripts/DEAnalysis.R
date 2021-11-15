@@ -3,6 +3,7 @@ library(edgeR)
 library(Mus.musculus)
 library(RColorBrewer)
 library(dplyr)
+library(gplots)
 
 
 samplefile = {{in.samplefile | quote}}
@@ -11,6 +12,8 @@ exprfile = {{in.exprfile | quote}}
 outdir = {{out.outdir | quote}}
 saplot = file.path(outdir, "saplot.png")
 vennplot = file.path(outdir, "venn.png")
+volplot = file.path(outdir, "vol.png")
+hmplot = file.path(outdir, "heatmap.png")
 retfile = file.path(outdir, "results.txt")
 
 x = readRDS(exprfile)
@@ -43,7 +46,7 @@ dev.off()
 summary(decideTests(efit))
 
 tfit <- treat(vfit, lfc=1)
-dt <- decideTests(tfit, p.value=0.25)
+dt <- decideTests(tfit, adjust.method = "none", p.value=0.25)
 summary(dt)
 
 de.common <- which(dt[,1]!=0 & dt[,2]!=0)
@@ -62,3 +65,24 @@ png(vennplot, res=70, height=500, width=500)
 vennDiagram(dt[,1:2], circle.col=c("turquoise", "salmon"))
 dev.off()
 write.fit(tfit, dt, file=retfile)
+
+png(volplot, res=70, height=500, width=500)
+volcanoplot(
+   tfit,
+   coef=1,
+   highlight=10
+)
+dev.off()
+
+lcpm <- cpm(x, log=TRUE)
+basal.vs.lp <- topTreat(tfit, coef=1, n=Inf)
+basal.vs.ml <- topTreat(tfit, coef=2, n=Inf)
+basal.vs.lp.topgenes <- basal.vs.lp$ENTREZID[1:100]
+i <- which(v$genes$ENTREZID %in% basal.vs.lp.topgenes)
+mycol <- colorpanel(1000,"blue","white","red")
+png(hmplot, res=70, height=1000, width=500)
+heatmap.2(lcpm[i,], scale="row",
+   labRow=v$genes$SYMBOL[i], labCol=group,
+   col=mycol, trace="none", density.info="none",
+   margin=c(8,6), lhei=c(2,10), dendrogram="column")
+dev.off()
