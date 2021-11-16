@@ -1,6 +1,6 @@
 <script>
     import { DataTable, Image } from '@@';
-    import { Tile } from 'carbon-components-svelte';
+    import { Tile, Tabs, Tab, TabContent } from 'carbon-components-svelte';
 </script>
 
 <h1>Mean-variance plot</h1>
@@ -23,20 +23,31 @@
 </Tile>
 
 <h1>Examining DE genes</h1>
-<h2>Venn diagram</h2>
-<p>
-    Venn diagram showing the number of genes DE in the comparison between basal versus LP only (left), basal versus ML only (right), and the number of genes that are DE in both comparisons (center). The number of genes that are not DE in either comparison are marked in the bottom-right.
-</p>
-<Image src={{job.out.outdir | joinpaths: "venn.png" | quote}} />
 
-<h2>Volcano plot</h2>
-<p>
-    A volcano plot displays log fold changes on the x-axis versus a measure of statistical significance on the y-axis. Here the significance measure can be -log(p-value), which give the posterior log-odds of differential expression.
-</p>
-<Image src={{job.out.outdir | joinpaths: "vol.png" | quote}} />
+<Tabs>
+    <Tab label="Venn diagram" />
+    <Tab label="Volcano plot" />
+    <Tab label="Heatmap" />
+    <div slot="content">
+        <TabContent>
+            <p>
+                Venn diagram showing the number of genes DE in the comparison between basal versus LP only (left), basal versus ML only (right), and the number of genes that are DE in both comparisons (center). The number of genes that are not DE in either comparison are marked in the bottom-right.
+            </p>
+            <Image src={{job.out.outdir | joinpaths: "venn.png" | quote}} />
+        </TabContent>
 
-<h2>Heatmap</h2>
-<p>
-    Heatmap of log-CPM values for top 100 genes DE in basal versus LP. Expression across each gene (or row) have been scaled so that mean expression is zero and standard deviation is one. Samples with relatively high expression of a given gene are marked in red and samples with relatively low expression are marked in blue. Lighter shades and white represent genes with intermediate expression levels. Samples and genes have been reordered by the method of hierarchical clustering. A dendrogram is shown for the sample clustering.
-</p>
-<Image src={{job.out.outdir | joinpaths: "heatmap.png" | quote}} />
+        <TabContent>
+            <p>
+                A volcano plot displays log fold changes on the x-axis versus a measure of statistical significance on the y-axis. Here the significance measure can be -log(p-value), which give the posterior log-odds of differential expression.
+            </p>
+            <Image src={{job.out.outdir | joinpaths: "vol.png" | quote}} />
+        </TabContent>
+
+        <TabContent>
+            <p>
+                Heatmap of log-CPM values for top 100 genes DE in basal versus LP. Expression across each gene (or row) have been scaled so that mean expression is zero and standard deviation is one. Samples with relatively high expression of a given gene are marked in red and samples with relatively low expression are marked in blue. Lighter shades and white represent genes with intermediate expression levels. Samples and genes have been reordered by the method of hierarchical clustering. A dendrogram is shown for the sample clustering.
+            </p>
+            <Image src={{job.out.outdir | joinpaths: "heatmap.png" | quote}} />
+        </TabContent>
+    </div>
+</Tabs>

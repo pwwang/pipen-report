@@ -57,6 +57,11 @@ div[themes].bx--form-item > .bx--select--inline select {
 	font-size: 1rem !important;
 }
 
+.bx--tab-content {
+	/** add frame to tab content **/
+	border: 1px solid var(--cds-ui-03);
+}
+
 #main-content h3 {
     margin: .3rem 0 .1rem 0;
 }

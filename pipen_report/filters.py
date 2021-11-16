@@ -49,9 +49,12 @@ def datatable(
         ncols = df.columns[ncols]
 
     df = df.loc[nrows, ncols]
+    # "." in column names causing problem at frontend
+    df = df.rename(lambda x: x.replace(".", "_"), axis='columns')
     # add id for sorting purposes
     if "id" not in df:
         df["id"] = range(df.shape[0])
+
     return df.to_json(orient="records", double_precision=double_precision)
 
 
