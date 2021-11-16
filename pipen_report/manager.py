@@ -294,6 +294,8 @@ class ReportManager:
         # see if we can used the cached rendered report
         if (
             status == "cached"
+            # un-export processes don't have data exported if we cache it
+            and proc.export
             and rendered_report.exists()
             and rendered_report.stat().st_mtime + 1e-3
             >= report_tpl.stat().st_mtime

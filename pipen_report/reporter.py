@@ -75,22 +75,25 @@ class PipenReport:
     @plugin.impl
     def on_proc_init(self, proc: "Proc") -> None:
         """For a non-export process to export if report template is given"""
+        # proc.plugin_opts not updated yet, check pipeline options
         try:
             pipeline_plugin_opts = proc.pipeline.config.get("plugin_opts", {})
         except AttributeError:
             # in case pipeline initialization fails
             return
 
-        if not pipeline_plugin_opts.get(
-            "report_force_export", True
+        proc_plugin_opts = proc.plugin_opts or {}
+        if not proc_plugin_opts.get(
+            "report_force_export",
+            pipeline_plugin_opts.get("report_force_export", False)
         ):
             return
 
-        proc_plugin_opts = proc.plugin_opts or {}
         if not proc_plugin_opts.get("report", False):
             return
         if proc.export is not None:
             return
+
         proc.export = True
 
     @plugin.impl

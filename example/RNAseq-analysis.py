@@ -30,6 +30,7 @@ class DataPreprocessing(Proc):
     plugin_opts = {
         "report": "file://reports/DataPreprocessing.svelte",
         "report_toc": False,
+        # "report_force_export": False,
     }
 
 
