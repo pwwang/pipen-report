@@ -1,3 +1,9 @@
+## 0.0.12
+
+- 🐛 Fix #3 (same name toc link not working) and fix offset of toc links
+- 🐛 Don't cache non-export processes (Fix #2);
+- 🐛 Fix `report_force_export` not forcing process to export (#1)
+
 ## 0.0.11
 
 - ✨ Add process-level config `report_toc` to disable toc for a single process report
