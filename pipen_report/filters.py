@@ -1,4 +1,5 @@
 """Provides some filters"""
+import re
 from os import PathLike
 from typing import Any, Iterable, Union
 import pandas
@@ -50,7 +51,7 @@ def datatable(
 
     df = df.loc[nrows, ncols]
     # "." in column names causing problem at frontend
-    df = df.rename(lambda x: x.replace(".", "_"), axis='columns')
+    df = df.rename(lambda x: re.sub(r"[^\w]+", "_", x), axis='columns')
     # add id for sorting purposes
     if "id" not in df:
         df["id"] = range(df.shape[0])
