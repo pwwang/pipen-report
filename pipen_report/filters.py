@@ -41,7 +41,7 @@ def datatable(
         nrows = min(nrows, df.shape[0])
         nrows = range(nrows)
     if isinstance(ncols, int):
-        ncols = min(ncols, df.shape[0])
+        ncols = min(ncols, df.shape[1])
         ncols = range(ncols)
 
     if all(isinstance(row, int) for row in nrows):
