@@ -11,6 +11,7 @@ from xqute.utils import asyncify
 
 RELPATH_TAGS = {
     "a": "href",
+    "embed": "src",
     "img": "src",
     "Link": "href",
     "Image": "src",
