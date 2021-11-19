@@ -1,3 +1,7 @@
+## 0.0.13
+
+- Preprocess `embed` tag
+
 ## 0.0.12
 
 - 🐛 Fix #3 (same name toc link not working) and fix offset of toc links
