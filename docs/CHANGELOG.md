@@ -1,3 +1,7 @@
+## 0.0.14
+
+- Replace all irregular characters in df column names in datatable filter
+
 ## 0.0.13
 
 - Preprocess `embed` tag
