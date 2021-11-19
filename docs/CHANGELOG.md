@@ -1,3 +1,7 @@
+## 0.0.15
+
+- 🐛 Fix min ncols wrongly using number of rows of df in datatable filter
+
 ## 0.0.14
 
 - Replace all irregular characters in df column names in datatable filter
