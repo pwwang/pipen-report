@@ -1,3 +1,8 @@
+## 0.1.0
+
+- ⬆️ Update frontend deps
+- 🐛 Make a patch to svelte compiler to fix "Max Stack Size Exceeded for huge HTML" (sveltejs/svelte#4694)
+
 ## 0.0.15
 
 - 🐛 Fix min ncols wrongly using number of rows of df in datatable filter
