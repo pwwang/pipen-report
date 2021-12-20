@@ -1,3 +1,7 @@
+## 0.1.1
+
+- 🐛 Add postinstall to patch svelte compiler
+
 ## 0.1.0
 
 - ⬆️ Update frontend deps
