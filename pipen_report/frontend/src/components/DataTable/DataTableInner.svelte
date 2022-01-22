@@ -1,5 +1,7 @@
 <script>
   import {
+    DataTable,
+    Pagination,
     Toolbar,
     ToolbarContent,
     ToolbarSearch,
@@ -10,7 +12,7 @@
   import DocumentDownload16 from "carbon-icons-svelte/lib/DocumentDownload16";
   // replace this in the future with
   // https://github.com/carbon-design-system/carbon-components-svelte/blob/paginated-datatable/src/PaginatedDataTable/PaginatedDataTable.svelte
-  import PaginatedDataTable from "./PaginatedDataTable.svelte";
+  // import PaginatedDataTable from "./PaginatedDataTable.svelte";
   /**
    * Set the size of the data table
    * @type {"compact" | "short" | "medium" | "tall" | "sm" | "small" | "lg" | "large" | "md"}
@@ -45,6 +47,8 @@
   export let rows = [];
   export let headers = [];
   export let pageSizes = [20, 50, 75, 100];
+  let page = 1;
+  let pageSize = pageSizes[0];
 
   let value = "";
   let modal_open = false;
@@ -52,8 +56,9 @@
   $: if (value.length > 0) {
     filteredRows = rows.filter(
       (row) =>
-        Object.values(row).filter((x) => x.toString().includes(value)).length >
-        0
+        Object.values(row).filter(
+          (x) => !!x && x.toString().includes(value)
+        ).length > 0
     );
   } else {
     filteredRows = rows;
@@ -95,11 +100,12 @@
   };
 </script>
 
-<PaginatedDataTable
+<DataTable
   {size}
   {zebra}
   {sortable}
-  {pageSizes}
+  {page}
+  {pageSize}
   rows={filteredRows}
   {headers}
   {...$$restProps}
@@ -108,7 +114,7 @@
     <ToolbarContent>
       <ToolbarSearch bind:value />
       <Button
-        iconDescription="Download data shown in the table (may only be part of the entire data)"
+        iconDescription={`Download current ${filteredRows.length} records (may be partial of the entire data)`}
         tooltipPosition="left"
         icon={DocumentDownload16}
         on:click={downloadTable}
@@ -124,7 +130,13 @@
       {/if}
     </ToolbarContent>
   </Toolbar>
-</PaginatedDataTable>
+</DataTable>
+<Pagination
+  bind:pageSize={pageSize}
+  bind:page={page}
+  pageSizes={pageSizes}
+  totalItems={filteredRows.length}
+/>
 
 <Modal passiveModal bind:open={modal_open} modalHeading="Downloading entire data" on:open on:close>
   <p>
