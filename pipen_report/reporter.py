@@ -53,7 +53,7 @@ class PipenReport:
         config.plugin_opts.report_nobuild = False
         # pipeline-level
         # logging level
-        config.plugin_opts.report_logging = "info"
+        config.plugin_opts.report_loglevel = "info"
         # pipeline-level
         # How many cores to use to build the reports for processes
         # If None, use config.forks
@@ -65,7 +65,7 @@ class PipenReport:
     @plugin.impl
     async def on_start(self, pipen: "Pipen") -> None:
         """Check if we have the prerequisites for report generation"""
-        loglevel = pipen.config.plugin_opts.report_logging
+        loglevel = pipen.config.plugin_opts.report_loglevel
         logger.setLevel(
             loglevel if isinstance(loglevel, int) else loglevel.upper()
         )
