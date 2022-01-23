@@ -35,6 +35,10 @@ class PipenReport:
         # process-level
         # Whether include TOC for the process report or not
         config.plugin_opts.report_toc = True
+        # process-level
+        # Split the report for a process by h1's
+        # None: don't split; 3: 3 h1's in a page
+        config.plugin_opts.report_paging = False
         # pipeline-level: path to npm
         config.plugin_opts.report_npm = "npm"
         # pipeline-level:

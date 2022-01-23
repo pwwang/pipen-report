@@ -8,9 +8,13 @@
 
 	<link rel='icon' type='image/png' href='./assets/favicon.png'>
 	<link rel='stylesheet' href='./assets/global.css'>
+	{% if page == 0 %}
 	<link rel='stylesheet' href='./build/{{proc_slug}}.css'>
-
 	<script defer src='./build/{{proc_slug}}.js'></script>
+	{% else %}
+	<link rel='stylesheet' href='./build/{{proc_slug}}-part{{page}}.css'>
+	<script defer src='./build/{{proc_slug}}-part{{page}}.js'></script>
+	{% endif %}
 </head>
 
 <body>

@@ -1,8 +1,18 @@
 <script>
     import ProcLayout from "../layouts/Proc.svelte"
+
+    {% if page == 0 %}
     import ProcReport from "../procs/{{proc_slug}}.svelte"
+    {% else %}
+    import ProcReport from "../procs/{{proc_slug}}-part{{page}}.svelte"
+    {% endif %}
+
     {% if report_toc %}
+    {% if page == 0 %}
     import ProcReportToc from "../procs/{{proc_slug}}.toc.svelte"
+    {% else %}
+    import ProcReportToc from "../procs/{{proc_slug}}-part{{page}}.toc.svelte"
+    {% endif %}
     {% endif %}
 
     const proc_name = "{{proc.name}}";

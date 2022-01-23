@@ -1,13 +1,12 @@
 """Provides preprocess"""
+import math
 import re
 from pathlib import Path
 import shutil
-from typing import Any, Mapping, Match, Tuple
+from typing import Any, List, Mapping, Tuple, Union
 import hashlib
 
-from pipen.utils import ignore_firstline_dedent
 from slugify import slugify
-from xqute.utils import asyncify
 
 RELPATH_TAGS = {
     "a": "href",
@@ -17,147 +16,190 @@ RELPATH_TAGS = {
     "Image": "src",
     "ImageLoader": "src",
     "DataTable": "src",
-    "PaginationDataTable": "src",
     "Download": "href",
 }
-TAG_RE = re.compile(r"<(?P<tagname>/?[\w_]+)(?P<tagattrs>.*?)/?>", re.DOTALL)
+H1_TAG = re.compile(r"(<h1.*?>.+?</h1>)", re.IGNORECASE | re.DOTALL)
+H1_TAG_TEXT = re.compile(r"<h1.*?>(.+?)</h1>", re.IGNORECASE | re.DOTALL)
+H2_TAG_TEXT = re.compile(r"<h2.*?>(.+?)</h2>", re.IGNORECASE | re.DOTALL)
+TAG_RE = re.compile(
+    fr"<(?P<tag>{'|'.join(RELPATH_TAGS)})(?P<attrs>.*?)(?P<q>/?>)", re.DOTALL
+)
 TAG_ATTR_RE = re.compile(
     r"\s+(?P<attrname>[\w_-]+)=\"(?P<attrval>[^\"]*)\"(?=\s|$)"
 )
 
 
 def _preprocess_slash_h(
-    text: str,
-    last_pos: int,
-    match: Match,
-    heading_index: int,
+    source: str,
+    index: int,
+    page: int,
+    kind: str,
+    text: str = None,
 ) -> Tuple[str, Mapping[str, Any]]:
-    """Preprocess </h1> or </h2>"""
-    h_text = text[last_pos : match.start()].strip()
-    slug = f"pipen-report-toc-{slugify(h_text)}-{heading_index}"
-    return f'<a id="{slug}" class="pipen-report-toc-anchor"> </a>', {
-        "slug": slug,
-        "text": h_text,
-        "children": [],
-    }
+    """Preprocess headings (h1 or h2 tag)
+
+    Add an anchor link after the tag and produce the toc dict
+
+    Args:
+        text: The string repr of the tag (e.g `<h1>Title 1</h1>`)
+        index: The index of this kind of heading in the document
+        page: Which page are we on?
+        kind: h1 or h2
+    """
+    if text is None:
+        matching = re.match(
+            H1_TAG_TEXT if kind == "h1" else H2_TAG_TEXT,
+            source,
+        )
+        text = matching.group(1)
+    # prt: pipen-report-toc
+    slug = f"prt-{kind}-{index}-{slugify(text)}"
+    return (
+        f'{source}<a id="{slug}" class="pipen-report-toc-anchor"> </a>',
+        {"slug": slug, "text": text, "children": [], "page": page},
+    )
 
 
-async def _preprocess_relpath_tag(
-    text: str,
-    match: Match,
-    tagname: str,
+def _preprocess_relpath_tag(
+    matching: re.Match,
     basedir: Path,
 ) -> str:
     """Preprocess tags with paths to be redirected"""
+    tag = matching.group("tag")
 
-    pos = 0
-    # add '<DataTable '
-    out = [text[match.start() : match.regs[2][0]]]
-    tagattrs = match.group("tagattrs")
-    # matches ' href="abc"'
-    for mat in TAG_ATTR_RE.finditer(tagattrs):
-        attrname = mat.group("attrname")
+    def repl_attrs(mattrs):
+        attrname = mattrs.group("attrname")
+        attrval = mattrs.group("attrval")
+        if (
+            tag not in RELPATH_TAGS
+            or attrname != RELPATH_TAGS[tag]
+            or re.match(r"^[a-z]+://", attrval)
+        ):
+            return None
 
-        if attrname != RELPATH_TAGS[tagname]:
-            out.append(tagattrs[pos : mat.end()])
-            pos = mat.end()
-            continue
+        pathval = Path(attrval)
+        try:
+            attrval = pathval.relative_to(basedir.parent)
+        except ValueError:
+            # If we can't get the relative path, that means those files
+            # are not exported, we need to copy the file to a directory
+            # where the html file can access
+            suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
+            attrval = Path("./data") / f"{pathval.name}.{suffix}"
 
-        relpath = mat.group("attrval")
-        if not re.match(r"^[a-z]+://", relpath):
-            pathval = Path(relpath)
-            try:
-                relpath = pathval.relative_to(basedir.parent)
-            except ValueError:
-                # If we can't get the relative path, that means those files
-                # are not exported, we need to copy the file to a directory
-                # where the html file can access
-                suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
-                relpath = Path("./data") / f"{pathval.name}.{suffix}"
+            shutil.copyfile(pathval, basedir / attrval)
+        else:
+            # results are at uplevel dir
+            attrval = Path("..") / attrval
 
-                await asyncify(shutil.copyfile)(pathval, basedir / relpath)
-            else:
-                # results are at uplevel dir
-                relpath = Path("..") / relpath
+        return f' {attrname}="{attrval}"'
 
-            out.append(f' {attrname}="{relpath}"')
-            pos = mat.end()
-
-    out.append(tagattrs[pos:])
-    # add ' />'
-    out.append(text[match.regs[2][1] : match.end()])
-    return "".join(out)
+    attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
+    return f"<{tag}{attrs}{matching.group('q')}>"
 
 
-async def preprocess(
+def _preprocess_section(
+    section: str,
+    h2_index: int,
+    page: int,
+    basedir: Path,
+) -> Tuple[str, List[Mapping[str, Any]]]:
+    """Preprocesss a section of the document (between h1 tags)
+
+    Args:
+        section: The source code of the section
+        h2_index: The start h2 index
+        page: which page are we on?
+        basedir: The base directory to save the relative path resources
+    """
+    # handle relpath tags
+    section = re.sub(
+        TAG_RE,
+        lambda m: _preprocess_relpath_tag(m, basedir),
+        section,
+    )
+
+    toc = []
+
+    def repl_h2(matching):
+        nonlocal h2_index
+        h2, toc_item = _preprocess_slash_h(
+            matching.group(0),
+            h2_index,
+            page=page,
+            kind="h2",
+            text=matching.group(1),
+        )
+        toc.append(toc_item)
+        h2_index += 1
+        return h2
+
+    return re.sub(H2_TAG_TEXT, repl_h2, section), toc
+
+
+def preprocess(
     text: str,
     basedir: Path,
-) -> Tuple[str, Mapping[str, Any]]:
+    toc_switch: bool,
+    paging: Union[bool, int],
+) -> Tuple[List[str], List[Mapping[str, Any]]]:
     """Preprocess the rendered report and return the toc dict
 
-    This is faster than using a xml/html parsing library.
+    This is not only faster than using a xml/html parsing library but also
+    more compatible with JSX, as most python xml/html parser cannot handle
+    JSX
+
+    We use h1 and h2 tags to form TOCs. h1 and h2 tags have to be at the
+    top level, which means you should not wrap them with any container in
+    your svelte report template.
+
+    h1 tag should be the first tag in the document after `</script>`. Otherwise
+    those non-h1 tags will appear in all pages and the relative paths won't
+    be parsed.
 
     Args:
         text: The rendered report
+        basedir: The base directory
+        toc_switch: Whether render a TOC?
+        paging: Number of h1's in a page
+            False to disable
 
     Returns:
         The preprocessed text and the toc dict
     """
-    out = []
-    out_append = out.append
-    last_pos = 0
+    # split the text h1 tags
+    splits = re.split(H1_TAG, text)
+    # splits[0] is header
+    len_sections = (len(splits) - 1) // 2
+    if not paging:
+        paging = len_sections
+    n_pages = math.ceil(len_sections / paging)
+    if n_pages == 0:
+        return [splits[0]], []
+
+    pages = [[splits[0]] for _ in range(n_pages)]
+    h2_index = 0
     toc = []
-    heading_index = 0
-    for match in TAG_RE.finditer(text):
-        if match.start() > last_pos:
-            out_append(text[last_pos : match.start()])
-
-        tagname = match.group("tagname")
-        if tagname in ("h1", "h2"):
-            out_append(text[last_pos : match.end()])
-
-        # h1
-        elif tagname == "/h1":
-            out_elem, toc_elem = _preprocess_slash_h(
-                text, last_pos, match, heading_index
+    for i, splt in enumerate(splits[1:]):
+        page = i // 2 // paging
+        if i % 2 == 0:  # h1
+            h1, toc_item = _preprocess_slash_h(
+                splt, index=i // 2, page=page, kind="h1"
             )
-            heading_index += 1
-            toc.append(toc_elem)
-            out_append(out_elem)
-            out_append(match.group(0))
-
-        # h2
-        elif tagname == "/h2":
-            if not toc:
-                toc.append(
-                    {
-                        "slug": "pipen-report",
-                        "text": "Report",
-                        "children": [],
-                    }
-                )
-            out_elem, toc_elem = _preprocess_slash_h(
-                text, last_pos, match, heading_index
-            )
-            heading_index += 1
-            toc[-1]["children"].append(toc_elem)
-            out_append(out_elem)
-            out_append(match.group(0))
-
-        # make path relative
-        elif tagname in RELPATH_TAGS:
-            out_elem = await _preprocess_relpath_tag(
-                text,
-                match,
-                tagname,
-                basedir,
-            )
-            out_append(out_elem)
+            pages[page].append(h1)
+            if toc_switch:
+                toc.append(toc_item)
 
         else:
-            out_append(match.group(0))
+            section, toc_items = _preprocess_section(
+                splt,
+                h2_index=h2_index,
+                page=page,
+                basedir=basedir,
+            )
+            h2_index += len(toc_items)
+            pages[page].append(section)
+            if toc_switch:
+                toc[-1]["children"].extend(toc_items)
 
-        last_pos = match.end()
-
-    out_append(text[last_pos:])
-    return ignore_firstline_dedent("".join(out)), toc
+    return ["".join(page) for page in pages], toc

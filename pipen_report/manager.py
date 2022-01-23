@@ -207,6 +207,7 @@ class ReportManager:
                         for proc in _get_reporting_procs(pipen)
                     ]
                 ),
+                "page": 0,
                 "versions": version_str,
             },
             self.workdir / "src" / "pages" / "index.svelte",
@@ -217,7 +218,7 @@ class ReportManager:
             proc0.template,
             proc0.template_opts,
             FRONTEND_DIR.joinpath("public", "index.tpl.html").read_text(),
-            {"pipeline": pipen},
+            {"pipeline": pipen, "page": 0},
             self.workdir / "public" / "index.html",
         )
 
@@ -226,7 +227,7 @@ class ReportManager:
             proc0.template,
             proc0.template_opts,
             FRONTEND_DIR.joinpath("rollup.config.js").read_text(),
-            {"proc_slug": "index"},
+            {"proc_slug": "index", "page": 0},
             self.workdir / "rollup.config.index.js",
         )
 
@@ -270,6 +271,7 @@ class ReportManager:
         # in case it's a Path object
         report = str(proc.plugin_opts["report"])
         report_toc = proc.plugin_opts.get("report_toc", True)
+        report_paging = proc.plugin_opts.get("report_paging", False)
 
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
@@ -294,6 +296,8 @@ class ReportManager:
         # see if we can used the cached rendered report
         if (
             status == "cached"
+            # unable to determine the # pages before rendering
+            and not report_paging
             # un-export processes don't have data exported if we cache it
             and proc.export
             and rendered_report.exists()
@@ -315,6 +319,12 @@ class ReportManager:
             # avoid future run to use it in case report file failed to compile
             if rendered_report.exists():
                 rendered_report.unlink()
+            if report_paging:
+                for rreport in rendered_report.parent.glob(
+                    f"{rendered_report.stem}-part*.svelte"
+                ):
+                    if rreport.exists():
+                        rreport.unlink()
 
             try:
                 rendered = _render_file(
@@ -329,56 +339,103 @@ class ReportManager:
                 ) from exc
 
             # preprocess the rendered report and get the toc
-            rendered, toc = await preprocess(rendered, self.outdir)
+            rendered_parts, toc = preprocess(
+                rendered,
+                self.outdir,
+                report_toc,
+                report_paging,
+            )
 
-            if report_toc:
-                _render_file(
-                    proc.template,
-                    template_opts,
-                    FRONTEND_DIR.joinpath("src", "toc.tpl.svelte").read_text(),
-                    {"toc": json.dumps(toc)},
-                    self.workdir / "src" / "procs" / f"{slug}.toc.svelte",
+            self.reports.extend(
+                self._render_page(
+                    rendered=rendered_part,
+                    engine=proc.template,
+                    template_opts=template_opts,
+                    rendering_data=rendering_data,
+                    page=i,
+                    toc=toc,
                 )
+                for i, rendered_part in enumerate(rendered_parts)
+            )
 
-            rendered_report.write_text(rendered)
+    def _render_page(
+        self,
+        rendered: str,
+        engine: type,
+        template_opts: Mapping[str, Any],
+        rendering_data: Mapping[str, Any],
+        page: int,
+        toc: List[Mapping[str, Any]],
+    ):
+        rendering_data = rendering_data.copy()
+        rendering_data["page"] = page
 
-        self.reports.append(str(rendered_report))
+        if page > 0:
+            rendered_report = (
+                self.workdir
+                / "src"
+                / "procs"
+                / f"{rendering_data['proc_slug']}-part{page}.svelte"
+            )
+        else:
+            rendered_report = (
+                self.workdir
+                / "src"
+                / "procs"
+                / f"{rendering_data['proc_slug']}.svelte"
+            )
+
+        rendered_report.write_text(rendered)
+
+        if toc:
+            _render_file(
+                engine,
+                template_opts,
+                FRONTEND_DIR.joinpath("src", "toc.tpl.svelte").read_text(),
+                {"toc": json.dumps(toc), "page": page},
+                self.workdir
+                / "src"
+                / "procs"
+                / f"{rendered_report.stem}.toc.svelte",
+            )
 
         # Generate page that connects the layout and the report
         _render_file(
-            proc.template,
+            engine,
             template_opts,
             FRONTEND_DIR.joinpath("src", "page.tpl.svelte").read_text(),
             rendering_data,
-            self.workdir / "src" / "pages" / f"{slug}.svelte",
+            self.workdir / "src" / "pages" / f"{rendered_report.stem}.svelte",
         )
 
         # Generate entry js file for rollup to work with
         _render_file(
-            proc.template,
+            engine,
             template_opts,
             FRONTEND_DIR.joinpath("src", "entry.tpl.js").read_text(),
             rendering_data,
-            self.workdir / "src" / "entries" / f"{slug}.js",
+            self.workdir / "src" / "entries" / f"{rendered_report.stem}.js",
         )
 
         # Generate html file
         _render_file(
-            proc.template,
+            engine,
             template_opts,
             FRONTEND_DIR.joinpath("public", "proc.tpl.html").read_text(),
             rendering_data,
-            self.workdir / "public" / f"{slug}.html",
+            self.workdir / "public" / f"{rendered_report.stem}.html",
         )
 
         # Render rollup.config.js
         _render_file(
-            proc.template,
+            engine,
             template_opts,
             FRONTEND_DIR.joinpath("rollup.config.js").read_text(),
             rendering_data,
-            self.workdir / f"rollup.config.{slug}.js",
+            self.workdir / f"rollup.config.{rendered_report.stem}.js",
         )
+
+        return rendered_report
 
     async def build(self, pipen: "Pipen", logger: "LoggerAdapter") -> None:
         """Build all reports
@@ -516,6 +573,7 @@ class ReportManager:
 
         rendering_data = {
             "proc": proc,
+            "page": 0,
             "proc_slug": slugify(proc.name),
             "report_toc": proc.plugin_opts.get("report_toc", True),
             "envs": proc.envs,

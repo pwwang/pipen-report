@@ -4,14 +4,20 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 
+{% if page == 0 %}
+const proc_slug = "{{ proc_slug }}"
+{% else %}
+const proc_slug = "{{ proc_slug }}-part{{page}}"
+{% endif %}
+
 export default {
 
-	input: "src/entries/{{proc_slug}}.js",
+	input: `src/entries/${proc_slug}.js`,
 	output: {
 		sourcemap: false,
 		format: 'iife',
 		name: 'app',
-		file: "public/build/{{proc_slug}}.js"
+		file: `public/build/${proc_slug}.js`
 	},
 	plugins: [
 		svelte({
@@ -21,7 +27,7 @@ export default {
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: "{{proc_slug}}.css" }),
+		css({ output: `${proc_slug}.css` }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
