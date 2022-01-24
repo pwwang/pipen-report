@@ -118,10 +118,12 @@ img.pipen-report-image-lg {
 	position: relative;
 }
 
-.toc-noncurrent-page .bx--side-nav__link-text {
+.toc-noncurrent-page .bx--side-nav__link-text,
+.toc-noncurrent-page .bx--side-nav__submenu-title {
 	/* de-highlight the toc items not on current page */
 	color: var(--cds-text-on-color-disabled) !important;
 }
+
 
 ul.bx--side-nav__items {
 	/* make sure all items in toc */
