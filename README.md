@@ -5,7 +5,14 @@ Report generation system for pipen
 ## Installation
 
 ```
-pip install -U pipen-report
+❯ pip install -U pipen-report
+```
+
+If you have a previous installation, you may also want to upgrade the frontend:
+```shell
+❯ cd $(pip show pipen-report | grep Location | cut -d" " -f2)/pipen_report/frontend
+❯ npm update
+❯ npm run postinstall
 ```
 
 ## Enabling/Disabling the plugin

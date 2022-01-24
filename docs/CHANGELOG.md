@@ -1,3 +1,12 @@
+## 0.2.1
+
+- 🔊 Warn when there are > sections in report but paging is disabled
+- 🚑 Fix when there is no H1's in the report
+- 🩹 De-highlight the H1's in TOC when there are H2's in there
+- 📝 Update example report
+- 📝 Add post install/update necessities in README.md
+
+
 ## 0.2.0
 
 - ♻️ Front: Use the builtin pagination table from ccs (carbon-design-system/carbon-components-svelte#702)
