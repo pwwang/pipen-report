@@ -1,6 +1,7 @@
 <script>
+    import { onMount } from 'svelte';
     import {
-        SideNavItems,
+        // SideNavItems,
         SideNavLink,
         SideNavMenu,
         SideNavMenuItem,
@@ -31,10 +32,22 @@
         return url.toString()
     };
 
-    const get_class = (toc_page) => toc_page != page ? "toc-noncurrent-page" : "";
+    const get_class = (toc_page) => toc_page != page ? "toc-noncurrent-page" : "toc-current-page";
+
+    onMount(() => {
+        let url = new URL(window.location.href);
+        let toc_heading;
+        if (url.hash.length > 0) {
+            toc_heading = document.querySelector(`[href="${url.hash}"]`);
+        } else {
+            toc_heading = document.querySelector(".toc-current-page");
+        }
+        toc_heading.scrollIntoView();
+    });
+
 </script>
 
-<SideNavItems>
+<ul class="bx--side-nav__items">
 
     {#each toc as h1_toc}
         {#if h1_toc.children.length == 0}
@@ -48,4 +61,4 @@
         {/if}
     {/each}
 
-</SideNavItems>
+</ul>

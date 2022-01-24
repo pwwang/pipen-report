@@ -22,7 +22,7 @@ H1_TAG = re.compile(r"(<h1.*?>.+?</h1>)", re.IGNORECASE | re.DOTALL)
 H1_TAG_TEXT = re.compile(r"<h1.*?>(.+?)</h1>", re.IGNORECASE | re.DOTALL)
 H2_TAG_TEXT = re.compile(r"<h2.*?>(.+?)</h2>", re.IGNORECASE | re.DOTALL)
 TAG_RE = re.compile(
-    fr"<(?P<tag>{'|'.join(RELPATH_TAGS)})(?P<attrs>.*?)(?P<q>/?>)", re.DOTALL
+    fr"<(?P<tag>{'|'.join(RELPATH_TAGS)})(?P<attrs>.*?)(?P<end>/?>)", re.DOTALL
 )
 TAG_ATTR_RE = re.compile(
     r"\s+(?P<attrname>[\w_-]+)=\"(?P<attrval>[^\"]*)\"(?=\s|$)"
@@ -95,7 +95,7 @@ def _preprocess_relpath_tag(
         return f' {attrname}="{attrval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
-    return f"<{tag}{attrs}{matching.group('q')}>"
+    return f"<{tag}{attrs}{matching.group('end')}"
 
 
 def _preprocess_section(

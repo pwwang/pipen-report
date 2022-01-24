@@ -27,5 +27,5 @@ class LargeReport(Proc):
 
 if __name__ == "__main__":
     Pipen(
-        "LargeReportPipe", plugin_opts={"report_logging": "debug", "report_forks": 4}
+        "LargeReportPipe", plugin_opts={"report_loglevel": "debug", "report_forks": 4}
     ).set_start(LargeReport).run()

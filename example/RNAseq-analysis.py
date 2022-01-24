@@ -51,7 +51,8 @@ if __name__ == "__main__":
         name="RNA-seq analysis",
         desc=__doc__,
         outdir="./output",
-        plugin_opts={"report_forks": 4},
+        loglevel="debug",
+        plugin_opts={"report_forks": 4, "report_loglevel": "debug"},
     ).set_start(DataPreparation).set_data(
         [
             (

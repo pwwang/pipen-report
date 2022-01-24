@@ -1,5 +1,6 @@
 <script>
     import ProcLayout from "../layouts/Proc.svelte"
+    import { PageNavButton } from "../components/PageNavButton"
 
     {% if page == 0 %}
     import ProcReport from "../procs/{{proc_slug}}.svelte"
@@ -21,12 +22,21 @@
     const versions = `{{versions}}`;
     const procs = {{procs}};
     const report_toc = {{str(report_toc).lower()}};
-
 </script>
 
 <ProcLayout logo={proc_name} logotext={proc_desc} {versions} {procs} {pipeline_name} {report_toc}>
     {% if report_toc %}
     <ProcReportToc slot="toc" />
     {% endif %}
+
+    {% if page > 0 %}
+    <PageNavButton dir="up" />
+    {% endif %}
+
     <ProcReport />
+
+    {% if page < total_pages - 1 %}
+    <PageNavButton dir="down" />
+    {% endif %}
+
 </ProcLayout>

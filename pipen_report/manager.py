@@ -208,6 +208,7 @@ class ReportManager:
                     ]
                 ),
                 "page": 0,
+                "total_pages": 1,
                 "versions": version_str,
             },
             self.workdir / "src" / "pages" / "index.svelte",
@@ -272,7 +273,6 @@ class ReportManager:
         report = str(proc.plugin_opts["report"])
         report_toc = proc.plugin_opts.get("report_toc", True)
         report_paging = proc.plugin_opts.get("report_paging", False)
-
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
             if not report_tpl.is_absolute():
@@ -293,70 +293,54 @@ class ReportManager:
 
         template_opts = self._template_opts(proc.template_opts)
 
-        # see if we can used the cached rendered report
-        if (
-            status == "cached"
-            # unable to determine the # pages before rendering
-            and not report_paging
-            # un-export processes don't have data exported if we cache it
-            and proc.export
-            and rendered_report.exists()
-            and rendered_report.stat().st_mtime + 1e-3
-            >= report_tpl.stat().st_mtime
-        ):
-            proc.log(
-                "debug",
-                "Process cached, skip generating report.",
-                logger=logger,
-            )
+        proc.log(
+            "debug",
+            "Rendering report ...",
+            logger=logger,
+        )
+        # avoid future run to use it in case report file failed to compile
+        if rendered_report.exists():
+            rendered_report.unlink()
+        if report_paging:
+            for rreport in rendered_report.parent.glob(
+                f"{rendered_report.stem}-part*.svelte"
+            ):
+                if rreport.exists():
+                    rreport.unlink()
 
-        else:
-            proc.log(
-                "debug",
-                "Rendering report ...",
-                logger=logger,
+        try:
+            rendered = _render_file(
+                proc.template,
+                template_opts,
+                report,
+                rendering_data,
             )
-            # avoid future run to use it in case report file failed to compile
-            if rendered_report.exists():
-                rendered_report.unlink()
-            if report_paging:
-                for rreport in rendered_report.parent.glob(
-                    f"{rendered_report.stem}-part*.svelte"
-                ):
-                    if rreport.exists():
-                        rreport.unlink()
+        except Exception as exc:
+            raise TemplateRenderingError(
+                f"[{proc.name}] Failed to render report file."
+            ) from exc
 
-            try:
-                rendered = _render_file(
-                    proc.template,
-                    template_opts,
-                    report,
-                    rendering_data,
-                )
-            except Exception as exc:
-                raise TemplateRenderingError(
-                    f"[{proc.name}] Failed to render report file."
-                ) from exc
+        # preprocess the rendered report and get the toc
+        rendered_parts, toc = preprocess(
+            rendered,
+            self.outdir,
+            report_toc,
+            report_paging,
+        )
 
-            # preprocess the rendered report and get the toc
-            rendered_parts, toc = preprocess(
-                rendered,
-                self.outdir,
-                report_toc,
-                report_paging,
+        total_pages = len(rendered_parts)
+        self.reports.extend(
+            self._render_page(
+                rendered=rendered_part,
+                engine=proc.template,
+                template_opts=template_opts,
+                rendering_data=rendering_data,
+                page=i,
+                total_pages=total_pages,
+                toc=toc,
             )
-
-            self.reports.extend(
-                self._render_page(
-                    rendered=rendered_part,
-                    engine=proc.template,
-                    template_opts=template_opts,
-                    rendering_data=rendering_data,
-                    page=i,
-                    toc=toc,
-                )
-                for i, rendered_part in enumerate(rendered_parts)
-            )
+            for i, rendered_part in enumerate(rendered_parts)
+        )
 
     def _render_page(
         self,
@@ -365,10 +349,12 @@ class ReportManager:
         template_opts: Mapping[str, Any],
         rendering_data: Mapping[str, Any],
         page: int,
+        total_pages: int,
         toc: List[Mapping[str, Any]],
     ):
         rendering_data = rendering_data.copy()
         rendering_data["page"] = page
+        rendering_data["total_pages"] = total_pages
 
         if page > 0:
             rendered_report = (
