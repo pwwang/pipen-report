@@ -8,7 +8,7 @@ class LargeReport(Proc):
     output = "a:var:{{in.a}}"
     script = "echo {{in.a}}"
     plugin_opts = {
-        "report_paging": 25,
+        # "report_paging": 25,
         "report": """
         {% for i in range(200) %}
         <h1>h{{i}}</h1>

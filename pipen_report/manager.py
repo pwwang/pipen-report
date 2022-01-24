@@ -328,6 +328,14 @@ class ReportManager:
             report_paging,
         )
 
+        if len(toc) > 10 and not report_paging:
+            proc.log(
+                "warning",
+                "There are > 10 sections in the report, "
+                "enable paging (`report_paging`) ?",
+                logger=logger,
+            )
+
         total_pages = len(rendered_parts)
         self.reports.extend(
             self._render_page(
