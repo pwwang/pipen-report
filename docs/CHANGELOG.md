@@ -1,3 +1,10 @@
+## 0.2.0
+
+- ♻️ Front: Use the builtin pagination table from ccs (carbon-design-system/carbon-components-svelte#702)
+- ✨ Implement backend report paging
+- 💥 Change config item `report_logging` to `report_loglevel`
+- ✨ Implement frontend for report paging
+
 ## 0.1.1
 
 - 🐛 Add postinstall to patch svelte compiler

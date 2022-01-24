@@ -60,7 +60,7 @@ Default: `False`
 
 Don't build the reports, but just setup the frontend environment. You can build the reports by yourself manually at `<pipeline-workdir>/<pipeline-name>/.report-workdir`
 
-## `report_logging`
+## `report_loglevel`
 
 Pipeline-level
 
@@ -85,3 +85,55 @@ Pipeline-level
 Default: `True`
 
 Force the process to export output when report template is given
+
+## `report_paging`
+
+Process-level
+
+Default: `False`
+
+Break the process report into pages. They are split by `h1` tags, which has to be
+top-level tags. For example:
+
+```svelte
+<script>
+    // ...
+</script>
+
+<h1>Section1</h1>
+content1
+
+<h1>Section2</h1>
+content2
+
+<h1>Section3</h1>
+content3
+```
+
+When `report_paging = 2`, then the report will be split into:
+
+
+```svelte
+<script>
+    // ...
+</script>
+
+<h1>Section1</h1>
+content1
+
+<h1>Section2</h1>
+content2
+```
+
+and
+
+```svelte
+<script>
+    // ...
+</script>
+
+<h1>Section3</h1>
+content3
+```
+
+Note that the TOC will still show all items and when clicking one of them, the right page will be shown.
