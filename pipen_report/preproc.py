@@ -171,12 +171,14 @@ def preprocess(
     splits = re.split(H1_TAG, text)
     # splits[0] is header
     len_sections = (len(splits) - 1) // 2
-    if not paging:
-        paging = len_sections
-    n_pages = math.ceil(len_sections / paging)
-    if n_pages == 0:
+    if len_sections == 0:
+        # no h1's
         return [splits[0]], []
 
+    if not paging:
+        paging = len_sections
+
+    n_pages = math.ceil(len_sections / paging)
     pages = [[splits[0]] for _ in range(n_pages)]
     h2_index = 0
     toc = []
