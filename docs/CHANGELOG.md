@@ -1,3 +1,9 @@
+## 0.2.2
+
+- 🐛 Fix no toc generated when no H1 in report but report_toc is True
+- 🐛 Fix report without H1 not getting preprocessed
+
+
 ## 0.2.1
 
 - 🔊 Warn when there are > sections in report but paging is disabled
