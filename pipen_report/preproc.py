@@ -173,7 +173,13 @@ def preprocess(
     len_sections = (len(splits) - 1) // 2
     if len_sections == 0:
         # no h1's
-        return [splits[0]], []
+        section, _ = _preprocess_section(
+            splits[0],
+            h2_index=0,
+            page=0,
+            basedir=basedir,
+        )
+        return [section], []
 
     if not paging:
         paging = len_sections
