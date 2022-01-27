@@ -345,6 +345,7 @@ class ReportManager:
                 rendering_data=rendering_data,
                 page=i,
                 total_pages=total_pages,
+                report_toc=report_toc,
                 toc=toc,
             )
             for i, rendered_part in enumerate(rendered_parts)
@@ -358,6 +359,7 @@ class ReportManager:
         rendering_data: Mapping[str, Any],
         page: int,
         total_pages: int,
+        report_toc: bool,
         toc: List[Mapping[str, Any]],
     ):
         rendering_data = rendering_data.copy()
@@ -381,7 +383,7 @@ class ReportManager:
 
         rendered_report.write_text(rendered)
 
-        if toc:
+        if report_toc:
             _render_file(
                 engine,
                 template_opts,
