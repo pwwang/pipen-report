@@ -1,3 +1,7 @@
+## 0.2.3
+
+- Allow datatable filter to exclude columns
+
 ## 0.2.2
 
 - 🐛 Fix no toc generated when no H1 in report but report_toc is True
