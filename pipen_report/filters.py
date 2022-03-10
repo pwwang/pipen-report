@@ -11,6 +11,7 @@ def datatable(
     ncols: Union[int, Iterable] = None,
     nrows: Union[int, Iterable] = None,
     double_precision: int = 4,
+    excluded: set = None,
     **kwargs: Any,
 ) -> str:
     """Read data from a file, using pandas.read_csv() and make it to json so
@@ -30,6 +31,9 @@ def datatable(
         A json format of data
     """
     df = pandas.read_csv(path, *args, **kwargs)
+    if excluded:
+        kept_cols = [col for col in df.columns if col not in excluded]
+        df = df.loc[:, kept_cols]
 
     # use ncols and nrows to filter
     if nrows is None:
