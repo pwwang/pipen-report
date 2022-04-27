@@ -74,6 +74,7 @@ def _preprocess_relpath_tag(
             tag not in RELPATH_TAGS
             or attrname != RELPATH_TAGS[tag]
             or re.match(r"^[a-z]+://", attrval)
+            or not attrval  # <img src="" />
         ):
             return None
 
