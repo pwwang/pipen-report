@@ -1,3 +1,8 @@
+## 0.3.0
+
+- 🐛 Fix preprocessing with tag attribute value is empty
+- ✨ Implement a cli plugin for pipen to inject external html page to the report
+
 ## 0.2.3
 
 - Allow datatable filter to exclude columns
