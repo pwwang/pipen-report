@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.2.3"
+version = "0.3.0"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ python = "^3.7.1"
 pipen = "^0.2"
 cmdy = "*"
 xqute = "*"
-python-slugify = "5.*"
+json5 = "^0.9.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
@@ -25,6 +25,9 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry.plugins.pipen]
 report = "pipen_report:PipenReport"
+
+[tool.poetry.plugins.pipen_cli]
+cli-report = "pipen_report:PipenCliReport"
 
 [tool.pytest.ini_options]
 addopts = "-vv -W error::UserWarning --cov-config=.coveragerc --cov=pipen_report --cov-report xml:.coverage.xml --cov-report term-missing"
