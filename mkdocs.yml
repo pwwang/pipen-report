@@ -30,6 +30,7 @@ extra_css:
 nav:
     - Home: index.md
     - Configurations: configurations.md
+    - 'CLI tools': cli.md
     - 'Folder structure': folder-structure.md
     - 'Template rendering': rendering.md
     - 'Writing report templates': writing.md
