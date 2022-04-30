@@ -2,6 +2,7 @@
 
 - 🐛 Fix preprocessing with tag attribute value is empty
 - ✨ Implement a cli plugin for pipen to inject external html page to the report
+- 📌 Pin doc dep verions
 
 ## 0.2.3
 
