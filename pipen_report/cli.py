@@ -26,7 +26,7 @@ def _parse_title(title: str, page: Path) -> str:
     if not matched:
         return page.stem
 
-    return matched.group(1)
+    return re.sub(r"<[^<]+?>", "", matched.group(1))
 
 
 class PipenCliReport(CLIPlugin):
@@ -60,6 +60,16 @@ class PipenCliReport(CLIPlugin):
             "r,reportdir",
             desc="The directory of the reports. Typically, `/path/to/REPORTS`",
             required=True,
+        )
+        inject_cmd.add_param(
+            "jupyter",
+            desc=(
+                "Whether the HTML file is exported from jupyter notebook. ",
+                "If so, allow the input/code block to collapse. ",
+                "You don't need this if the HTML is exported by nbconvert "
+                "with input controls.",
+            ),
+            default=False,
         )
         inject_cmd.add_param(
             POSITIONAL,
@@ -118,19 +128,9 @@ class PipenCliReport(CLIPlugin):
 
         js_source = (
             '<script type="text/javascript">\n'
-            '  window.onload = function() {\n'
-            '    var back = document.createElement("a");\n'
-            '    back.href = "./";\n'
-            '    back.textContent = "< Go-back";\n'
-            '    back.style.position = "fixed";\n'
-            '    back.style.bottom = "10px";\n'
-            '    back.style.left = "10px";\n'
-            '    back.style.zIndex = 9999;\n'
-            '    back.style.color = "black";\n'
-            '    back.style.backgroundColor = "white";\n'
-            '    back.title = "Go back to the index page ...";\n'
-            '    document.body.appendChild(back);\n'
-            '  }\n'
+            f'   const is_jupyter = {str(args["jupyter"]).lower()};\n'
+            '</script>\n'
+            '<script type="text/javascript" src="./assets/inject.js">'
             '</script>\n'
         )
         content = content.replace('</head>', js_source + '</head>')
