@@ -22,11 +22,11 @@ def _parse_title(title: str, page: Path) -> str:
     with page.open() as f:
         content = f.read()
 
-    matched = re.search(r"<h1.*?>(.+?)</h1>", content, re.IGNORECASE)
+    matched = re.search(r"<title>(.+?)</title>", content, re.IGNORECASE)
     if not matched:
         return page.stem
 
-    return re.sub(r"<[^<]+?>", "", matched.group(1))
+    return matched.group(1)
 
 
 class PipenCliReport(CLIPlugin):
@@ -49,7 +49,7 @@ class PipenCliReport(CLIPlugin):
         inject_cmd.add_param(
             "t,title",
             desc="The title of the page",
-            default="<1st H1 of the HTML page>",
+            default="<text of title tag>",
         )
         inject_cmd.add_param(
             "d,desc",
