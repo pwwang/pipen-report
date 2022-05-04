@@ -257,9 +257,9 @@ class ReportManager:
             logger.warning(
                 "Process {%s} has a slugified name 'index', "
                 "renaming to 'index_'",
-                proc,
+                proc.__class__,
             )
-            slug = "index_"
+            slug = rendering_data["proc_slug"] = "index_"
 
         # save all the rendered reports here
         # if report is given as a string (instead of a file)
