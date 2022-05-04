@@ -118,7 +118,7 @@ class ReportManager:
     async def check_npm_and_setup_dirs(self):
         """Check prerequisites and setup directories"""
         npm = await asyncify(shutil.which)(self.npm)
-        if npm is None:
+        if npm is None:  # pragma: no cover
             raise ValueError(
                 "`nodejs` and `npm` are required to generate reports."
             )

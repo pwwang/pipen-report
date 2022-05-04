@@ -31,7 +31,8 @@ report = "pipen_report:PipenReport"
 cli-report = "pipen_report:PipenCliReport"
 
 [tool.pytest.ini_options]
-addopts = "-vv -W error::UserWarning --cov-config=.coveragerc --cov=pipen_report --cov-report xml:.coverage.xml --cov-report term-missing"
+# addopts = "-vv -W error::UserWarning --cov-config=.coveragerc --cov=pipen_report --cov-report xml:.coverage.xml --cov-report term-missing"
+addopts = "-vv -n auto -W error::UserWarning --cov-config=.coveragerc --cov=pipen_report --cov-report xml:.coverage.xml --cov-report term-missing"
 console_output_style = "progress"
 junit_family = "xunit1"
 

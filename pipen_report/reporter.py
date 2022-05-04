@@ -1,12 +1,12 @@
 """Report generation system for pipen"""
 
-from typing import Any, Dict, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union
 from pipen import plugin
 from pipen.utils import get_logger
 
 
 from .manager import ReportManager
-from .versions import __version__
+from .versions import __version__  # noqa: F401
 
 if TYPE_CHECKING:
     from pipen import Pipen, Proc
@@ -17,7 +17,7 @@ logger = get_logger("report")
 class PipenReport:
     """Report plugin for pipen"""
 
-    __version__: str = __version__
+    __version__: str = __version__  # noqa: F811
     name = "report"
 
     def __init__(self) -> None:  # pragma: no cover

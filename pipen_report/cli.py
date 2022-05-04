@@ -106,7 +106,7 @@ class PipenCliReport(CLIPlugin):
         with indexjs.open() as f:
             content = f.read()
         matched = re.search(r"\[\{name:\".+?\"\}\]", content)
-        if not matched:
+        if not matched:  # pragma: no cover
             raise ValueError(
                 "Unable to find the process tile blocks in index.js. "
                 "This tool might be out of date. "
