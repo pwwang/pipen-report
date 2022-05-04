@@ -20,47 +20,47 @@ class PipenReport:
     __version__: str = __version__
     name = "report"
 
-    def __init__(self) -> None:
+    def __init__(self) -> None:  # pragma: no cover
         """Constructor"""
         self.manager: ReportManager = None
 
     @plugin.impl
-    def on_setup(self, config: Dict[str, Any]) -> None:
+    async def on_init(self, pipen: "Pipen") -> None:
         """Default configrations"""
         # process-level: The report template or file, None to disable
-        config.plugin_opts.report = None
+        pipen.config.plugin_opts.setdefault("report", None)
         # process-level
         # The order of the process to show in the index page and app menu
-        config.plugin_opts.report_order = 0
+        pipen.config.plugin_opts.setdefault("report_order", 0)
         # process-level
         # Whether include TOC for the process report or not
-        config.plugin_opts.report_toc = True
+        pipen.config.plugin_opts.setdefault("report_toc", True)
         # process-level
         # Split the report for a process by h1's
         # None: don't split; 3: 3 h1's in a page
-        config.plugin_opts.report_paging = False
+        pipen.config.plugin_opts.setdefault("report_paging", False)
         # pipeline-level: path to npm
-        config.plugin_opts.report_npm = "npm"
+        pipen.config.plugin_opts.setdefault("report_npm", "npm")
         # pipeline-level:
         # If we fail to install a global copy of frontend dependency
         # in the package directory (may be due to privilege issue),
         # where should we install it?
         # Make sure you have write privileges to it
-        config.plugin_opts.report_nmdir = "~/.pipen-report"
+        pipen.config.plugin_opts.setdefault("report_nmdir", "~/.pipen-report")
         # pipeline-level
         # Don't build the final report, only preprare the environment
         # Say if you want to do the building manually
-        config.plugin_opts.report_nobuild = False
+        pipen.config.plugin_opts.setdefault("report_nobuild", False)
         # pipeline-level
         # logging level
-        config.plugin_opts.report_loglevel = "info"
+        pipen.config.plugin_opts.setdefault("report_loglevel", "info")
         # pipeline-level
         # How many cores to use to build the reports for processes
         # If None, use config.forks
-        config.plugin_opts.report_forks = None
+        pipen.config.plugin_opts.setdefault("report_forks", None)
         # pipeline-level
         # Force the process to export output when report template is given
-        config.plugin_opts.report_force_export = True
+        pipen.config.plugin_opts.setdefault("report_force_export", True)
 
     @plugin.impl
     async def on_start(self, pipen: "Pipen") -> None:
@@ -82,7 +82,7 @@ class PipenReport:
         # proc.plugin_opts not updated yet, check pipeline options
         try:
             pipeline_plugin_opts = proc.pipeline.config.get("plugin_opts", {})
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             # in case pipeline initialization fails
             return
 
