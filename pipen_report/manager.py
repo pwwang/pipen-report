@@ -315,7 +315,7 @@ class ReportManager:
                 report,
                 rendering_data,
             )
-        except Exception as exc:
+        except Exception as exc:  # pragma: no cover
             raise TemplateRenderingError(
                 f"[{proc.name}] Failed to render report file."
             ) from exc
@@ -328,7 +328,7 @@ class ReportManager:
             report_paging,
         )
 
-        if len(toc) > 10 and not report_paging:
+        if len(toc) > 10 and not report_paging:  # pragma: no cover
             proc.log(
                 "warning",
                 "There are > 10 sections in the report, "
@@ -474,7 +474,7 @@ class ReportManager:
             )
 
         for i, rc in enumerate(rcs):
-            if rc != 0:
+            if rc != 0:  # pragma: no cover
                 logfile = self.workdir / f"pipen-report.{builds[i]}.log"
                 logger.error(
                     "Failed to build report (rc=%s): %s", rc, builds[i]
@@ -516,7 +516,7 @@ class ReportManager:
             cmdy.CmdyExecNotFoundError,
             RuntimeError,
             PermissionError,
-        ):
+        ):  # pragma: no cover
             logger.warning(
                 "Failed to install a global copy of front dependencies, "
                 "installing one in `plugin_opts.report_nmdir`: %s ...",
@@ -601,7 +601,7 @@ class ReportManager:
         if len(args) == 1 and isinstance(args[0], tuple):
             args = args[0]
 
-        if len(args) == 1:
+        if len(args) == 1:  # pragma: no cover
             name = args[0]
         else:
             name, *args = args

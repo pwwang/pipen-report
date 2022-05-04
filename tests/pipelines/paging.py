@@ -1,0 +1,24 @@
+
+from pipen import Proc, Pipen
+
+
+class Process(Proc):
+    """Example process"""
+    input = "a:var, b:var"
+    output = "c:var:{{ in.a + in.b }}"
+    plugin_opts = {
+        "report": "file://paging.tpl",
+        "report_paging": 1,
+    }
+
+
+def pipeline(**config):
+    """Example pipeline"""
+    class Process2(Process):
+        ...
+
+    return (
+        Pipen("Report_paging", **config)
+        .set_start(Process2)
+        .set_data([(1, 2)])
+    )

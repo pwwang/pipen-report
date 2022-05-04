@@ -13,6 +13,11 @@ def pipeline(**config):
     class Process2(Process):
         ...
 
+    class Process3(Process):
+        requires = Process2
+        export = False
+        plugin_opts = {"report": True}
+
     return (
         Pipen("Noreport", **config)
         .set_start(Process2)
