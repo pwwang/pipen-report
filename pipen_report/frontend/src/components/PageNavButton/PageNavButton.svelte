@@ -1,11 +1,11 @@
 <script>
     import { Button } from "carbon-components-svelte";
-    import ChevronUp20 from "carbon-icons-svelte/lib/ChevronUp20";
-    import ChevronDown20 from "carbon-icons-svelte/lib/ChevronDown20";
+    import ChevronUp from "carbon-icons-svelte/lib/ChevronUp.svelte";
+    import ChevronDown from "carbon-icons-svelte/lib/ChevronDown.svelte";
 
     export let dir = undefined;  // up or down
 
-    let icon = dir === "up" ? ChevronUp20 : ChevronDown20;
+    let icon = dir === "up" ? ChevronUp : ChevronDown;
     let text = dir === "up" ? "Go to previous page" : "Go to next page";
 
     const get_url = () => {

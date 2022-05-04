@@ -8,8 +8,8 @@
     Button,
     Modal
   } from "carbon-components-svelte";
-  import CloudDownload16 from "carbon-icons-svelte/lib/CloudDownload16";
-  import DocumentDownload16 from "carbon-icons-svelte/lib/DocumentDownload16";
+  import CloudDownload from "carbon-icons-svelte/lib/CloudDownload.svelte";
+  import DocumentDownload from "carbon-icons-svelte/lib/DocumentDownload16.svelte";
   // replace this in the future with
   // https://github.com/carbon-design-system/carbon-components-svelte/blob/paginated-datatable/src/PaginatedDataTable/PaginatedDataTable.svelte
   // import PaginatedDataTable from "./PaginatedDataTable.svelte";
@@ -116,14 +116,14 @@
       <Button
         iconDescription={`Download current ${filteredRows.length} records (may be partial of the entire data)`}
         tooltipPosition="left"
-        icon={DocumentDownload16}
+        icon={DocumentDownload}
         on:click={downloadTable}
       />
       {#if !!src}
         <Button
           iconDescription="Right click and save as to download the entire data"
           tooltipPosition="left"
-          icon={CloudDownload16}
+          icon={CloudDownload}
           href={src}
           on:click={clouldDownload}
         />
