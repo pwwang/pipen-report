@@ -1,3 +1,15 @@
+## 0.3.1
+
+- 📌 Pin dep and doc dep verions
+- ✨ Allow injected jupyter html to collapse code
+- 📝 Add docs for CLI tools
+- 💥 Default title to the title tag instead of h1 for cli inject
+- 🐛 Use on_init hook to init config
+- ⬆️ Upgrade frontend deps, so no longer need to patch svelte for large report
+- ✅ Add tests
+- 🐛 Fix renaming report from process with name index
+
+
 ## 0.3.0
 
 - 🐛 Fix preprocessing with tag attribute value is empty
