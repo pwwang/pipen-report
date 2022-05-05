@@ -90,7 +90,7 @@ varname = "*"
 name = "colorama"
 version = "0.4.4"
 description = "Cross-platform colored terminal text."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -346,28 +346,28 @@ varname = "*"
 
 [[package]]
 name = "pipen"
-version = "0.2.15"
+version = "0.2.16"
 description = "A pipeline framework for python"
 category = "main"
 optional = false
 python-versions = ">=3.7.1,<4.0.0"
 
 [package.dependencies]
-cached-property = ">=1.0.0,<2.0.0"
-diot = "*"
-enlighten = ">=1.0.0,<2.0.0"
+cached-property = ">=1,<2"
+diot = ">=0.1,<0.2"
+enlighten = ">=1,<2"
 liquidpy = ">=0.7,<0.8"
-more-itertools = ">=8.0.0,<9.0.0"
-pandas = ">=1.0.0,<2.0.0"
-pipda = "*"
-pyparam = "*"
-python-simpleconf = "*"
-python-slugify = ">=5.0.0,<6.0.0"
-rich = ">=10.0.0,<11.0.0"
-simplug = "*"
+more-itertools = ">=8,<9"
+pandas = ">=1,<2"
+pipda = ">=0.5,<0.6"
+pyparam = ">=0.4,<0.5"
+python-simpleconf = ">=0.4,<0.5"
+python-slugify = ">=6,<7"
+rich = ">=12,<13"
+simplug = ">=0.0,<0.1"
 toml = ">=0.10,<0.11"
-varname = "*"
-xqute = "*"
+varname = ">=0.8,<0.9"
+xqute = ">=0.0,<0.1"
 
 [[package]]
 name = "pluggy"
@@ -550,11 +550,11 @@ yaml = ["pyyaml"]
 
 [[package]]
 name = "python-slugify"
-version = "5.0.2"
-description = "A Python Slugify application that handles Unicode"
+version = "6.1.2"
+description = "A Python slugify application that also handles Unicode"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
 [package.dependencies]
 text-unidecode = ">=1.3"
@@ -572,17 +572,16 @@ python-versions = "*"
 
 [[package]]
 name = "rich"
-version = "10.16.2"
+version = "12.3.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
-python-versions = ">=3.6.2,<4.0.0"
+python-versions = ">=3.6.3,<4.0.0"
 
 [package.dependencies]
-colorama = ">=0.4.0,<0.5.0"
 commonmark = ">=0.9.0,<0.10.0"
 pygments = ">=2.6.0,<3.0.0"
-typing-extensions = {version = ">=3.7.4,<5.0", markers = "python_version < \"3.8\""}
+typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.9\""}
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
@@ -983,8 +982,8 @@ pipda = [
     {file = "pipda-0.5.9.tar.gz", hash = "sha256:0127bd2351bb2b565259106b0bbb90d32f64f9703c8356873c9c946531661572"},
 ]
 pipen = [
-    {file = "pipen-0.2.15-py3-none-any.whl", hash = "sha256:f5e87192daede2ae4ce5b4d26ad1d28ce3e78fc95c32003832477d0d8e744bf9"},
-    {file = "pipen-0.2.15.tar.gz", hash = "sha256:9df618b648c3cf495b0248cb804622533c4382ed9d4e53e7d8b5d44814f806db"},
+    {file = "pipen-0.2.16-py3-none-any.whl", hash = "sha256:c74101318422032b72896c6f5c28211076bf1fbef3db44bb84b8196169a92416"},
+    {file = "pipen-0.2.16.tar.gz", hash = "sha256:a687e815c81939bfd3bd09830d2a63b05e45f8a639765642a79d1a421a33dcda"},
 ]
 pluggy = [
     {file = "pluggy-1.0.0-py2.py3-none-any.whl", hash = "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"},
@@ -1073,16 +1072,16 @@ python-simpleconf = [
     {file = "python_simpleconf-0.4.1-py3-none-any.whl", hash = "sha256:d044b03538a6e4bef434611d3d025bb27b36f12b6453dd0c6a79d2dd417a2fc9"},
 ]
 python-slugify = [
-    {file = "python-slugify-5.0.2.tar.gz", hash = "sha256:f13383a0b9fcbe649a1892b9c8eb4f8eab1d6d84b84bb7a624317afa98159cab"},
-    {file = "python_slugify-5.0.2-py2.py3-none-any.whl", hash = "sha256:6d8c5df75cd4a7c3a2d21e257633de53f52ab0265cd2d1dc62a730e8194a7380"},
+    {file = "python-slugify-6.1.2.tar.gz", hash = "sha256:272d106cb31ab99b3496ba085e3fea0e9e76dcde967b5e9992500d1f785ce4e1"},
+    {file = "python_slugify-6.1.2-py2.py3-none-any.whl", hash = "sha256:7b2c274c308b62f4269a9ba701aa69a797e9bca41aeee5b3a9e79e36b6656927"},
 ]
 pytz = [
     {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
     {file = "pytz-2022.1.tar.gz", hash = "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7"},
 ]
 rich = [
-    {file = "rich-10.16.2-py3-none-any.whl", hash = "sha256:c59d73bd804c90f747c8d7b1d023b88f2a9ac2454224a4aeaf959b21eeb42d03"},
-    {file = "rich-10.16.2.tar.gz", hash = "sha256:720974689960e06c2efdb54327f8bf0cdbdf4eae4ad73b6c94213cad405c371b"},
+    {file = "rich-12.3.0-py3-none-any.whl", hash = "sha256:0eb63013630c6ee1237e0e395d51cb23513de6b5531235e33889e8842bdf3a6f"},
+    {file = "rich-12.3.0.tar.gz", hash = "sha256:7e8700cda776337036a712ff0495b04052fb5f957c7dfb8df997f88350044b64"},
 ]
 simplug = [
     {file = "simplug-0.0.6-py3-none-any.whl", hash = "sha256:e9953d2c71fc9091fb6f9b2d0024c764d9853fadb0cedd6dea4c3a1a29798c25"},
