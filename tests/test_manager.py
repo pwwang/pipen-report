@@ -28,3 +28,19 @@ def test_report_paging(tmp_path):
     assert report2.exists()
     # run the pipeline again to trigger cleaning of the previous files
     run_pipeline("paging", _dir=tmp_path)
+
+
+def test_force_export(tmp_path):
+    """Test process forced export"""
+    run_pipeline("force_export", _dir=tmp_path)
+    report = tmp_path / "outdir" / "Process21"
+    assert report.exists()
+    report = tmp_path / "outdir" / "Process22"
+    assert not report.exists()
+
+
+def test_large(tmp_path):
+    """Test process forced export"""
+    run_pipeline("large", _dir=tmp_path)
+    report = tmp_path / "outdir" / "REPORTS" / "build" / "process2.js"
+    assert report.exists()

@@ -157,7 +157,7 @@ class ReportManager:
         # create up data in public
         await a_mkdir(pubdir / "data", parents=True, exist_ok=True)
         # no directory in the data directory
-        for dfile in pubdir.joinpath("data").glob("*"):
+        for dfile in pubdir.joinpath("data").glob("*"):  # pragma: no cover
             dfile.unlink()
 
     async def prepare_frontend(
