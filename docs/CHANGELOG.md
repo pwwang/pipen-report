@@ -1,3 +1,8 @@
+## 0.4.0
+
+- ⬆️ Upgrade frontend deps
+- ⬆️ Upgrade pipen to v0.3.0
+
 ## 0.3.1
 
 - 📌 Pin dep and doc dep verions

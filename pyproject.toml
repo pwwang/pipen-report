@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.3.1"
+version = "0.4.0"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -10,9 +10,9 @@ repository = "https://github.com/pwwang/pipen-report"
 
 [tool.poetry.dependencies]
 python = "^3.7.1"
-pipen = "^0.2"
+pipen = "^0.3"
 json5 = "^0.9"
-cmdy = "^0.4"
+cmdy = "^0.5"
 xqute = "^0.0"
 
 [tool.poetry.dev-dependencies]
