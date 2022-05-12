@@ -17,6 +17,13 @@ repos:
         args: [pipen_report]
         types: [python]
         language: system
+    -   id: pytest
+        name: Run pytest
+        files: ^pipen_report/.+$
+        pass_filenames: false
+        entry: pytest
+        types: [python]
+        language: system
     -   id: versionchecker
         name: Check version agreement in pyproject and __version__
         entry: bash -c
