@@ -1,3 +1,7 @@
+## 0.4.1
+
+- ⬆️ Upgrade xqute to v0.1
+
 ## 0.4.0
 
 - ⬆️ Upgrade frontend deps
