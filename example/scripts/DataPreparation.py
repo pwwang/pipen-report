@@ -4,7 +4,6 @@ from pathlib import Path
 
 from plotnine import *
 from plotnine_prism import *
-from datar.all import _no_warn
 from datar.all import *
 
 

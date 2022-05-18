@@ -9,7 +9,7 @@
     Modal
   } from "carbon-components-svelte";
   import CloudDownload from "carbon-icons-svelte/lib/CloudDownload.svelte";
-  import DocumentDownload from "carbon-icons-svelte/lib/DocumentDownload16.svelte";
+  import DocumentDownload from "carbon-icons-svelte/lib/DocumentDownload.svelte";
   // replace this in the future with
   // https://github.com/carbon-design-system/carbon-components-svelte/blob/paginated-datatable/src/PaginatedDataTable/PaginatedDataTable.svelte
   // import PaginatedDataTable from "./PaginatedDataTable.svelte";
