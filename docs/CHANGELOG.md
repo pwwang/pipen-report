@@ -1,6 +1,12 @@
+## 0.4.2
+
+- ⬆️ Update frontend deps
+- 🐛 Fix the icon in DataTable and the example
+
 ## 0.4.1
 
 - ⬆️ Upgrade xqute to v0.1
+- ➖ Remove reduandent deps
 
 ## 0.4.0
 
@@ -17,7 +23,6 @@
 - ⬆️ Upgrade frontend deps, so no longer need to patch svelte for large report
 - ✅ Add tests
 - 🐛 Fix renaming report from process with name index
-
 
 ## 0.3.0
 
