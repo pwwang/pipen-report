@@ -8,13 +8,6 @@ Report generation system for pipen
 ❯ pip install -U pipen-report
 ```
 
-If you have a previous installation, you may also want to upgrade the frontend:
-```shell
-❯ cd $(pip show pipen-report | grep Location | cut -d" " -f2)/pipen_report/frontend
-❯ npm update
-❯ npm run postinstall
-```
-
 ## Enabling/Disabling the plugin
 
 The plugin is registered via entrypoints. It's by default enabled. To disable it: `plugins=[..., "no:report"]`, or uninstall this plugin.
