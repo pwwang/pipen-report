@@ -1,9 +1,11 @@
 """Provide a command line interface for the pipen_report plugin"""
 import re
-from pathlib import Path
+import stat
 import shutil
+from pathlib import Path
 from typing import Any, Mapping
 
+import cmdy
 import json5
 from pyparam import Params, POSITIONAL
 from pipen.cli import CLIPlugin
@@ -42,6 +44,7 @@ class PipenCliReport(CLIPlugin):
             desc=self.__class__.__doc__,
         )
         pms._prog = f"{pms._prog} {self.name}"
+
         inject_cmd = pms.add_command(
             "inject",
             desc="Inject an independent HTML page into a report",
@@ -77,12 +80,41 @@ class PipenCliReport(CLIPlugin):
             type='path',
             required=True,
         )
+
+        update_cmd = pms.add_command(
+            "up,update",
+            desc="Update the frontend dependencies",
+            help_on_void=False,
+        )
+        update_cmd.add_param(
+            "npm",
+            desc=[
+                "Path to npm. Should be the same one as",
+                "`config.plugin_opts.report_npm`",
+            ],
+            default="npm",
+        )
+        update_cmd.add_param(
+            "nmdir",
+            desc=[
+                "Where is the frontend dependencies installed?",
+                "If the package directory is writable, this option will "
+                "be ignored. The frontend dependencies should have been "
+                "installed in the package directory. If not, the frontend "
+                "dependencies were installed in "
+                "`config.plugin_opts.report_nmdir`. Then this option should "
+                "be the same as the configuration.",
+            ],
+            default="~/.pipen-report",
+        )
         return pms
 
     def exec_command(self, args: Mapping[str, Any]) -> None:
         """Execute the run command"""
         if args["__command__"] == "inject":
             self._inject(args.inject)
+        if args["__command__"] in ("up", "update"):
+            self._update(args.up)
 
     def _inject(self, args: Mapping[str, Any]) -> None:
         """Execute the inject command"""
@@ -138,3 +170,19 @@ class PipenCliReport(CLIPlugin):
             f.write(content)
 
         print("- Done!")
+
+    def _update(self, args: Mapping[str, Any]) -> None:
+        """Execute the update command"""
+        pkgdir = Path(__file__).parent / "frontend"
+        if not (pkgdir.stat().st_mode & stat.S_IWUSR):
+            nmdir = args["nmdir"]
+            shutil.copy2(pkgdir.joinpath("package.json"), nmdir)
+            shutil.copy2(pkgdir.joinpath("package-lock.json"), nmdir)
+        else:
+            nmdir = pkgdir
+
+        print("WORKING DIRECTORY:", nmdir)
+        print("")
+        print("Running: npm update ...")
+        for line in cmdy.run("update", _cwd=nmdir, _exe=args["npm"]).iter():
+            print(line, end="")
