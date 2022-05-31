@@ -76,7 +76,7 @@ def _preprocess_relpath_tag(
             or re.match(r"^[a-z]+://", attrval)
             or not attrval  # <img src="" />
         ):
-            return None
+            return mattrs.group(0)
 
         pathval = Path(attrval)
         try:
