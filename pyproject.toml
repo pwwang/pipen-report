@@ -15,6 +15,7 @@ json5 = "^0.9"
 cmdy = "^0.5"
 ## required by pipen
 # xqute = "^0.1"
+Markdown = "^3.3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"

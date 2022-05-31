@@ -99,6 +99,25 @@ def _preprocess_relpath_tag(
     return f"<{tag}{attrs}{matching.group('end')}"
 
 
+def _preprocess_markdown(source: str) -> str:
+    """Preprocess Markdown tag
+
+    A Markdown tag with markdown content within it, which will be then rendered
+    as html.
+    """
+    import markdown
+
+    def callback(matching):
+        return markdown.markdown(matching.group(1))
+
+    return re.sub(
+        r"<Markdown>(.+?)</Markdown>",
+        callback,
+        source,
+        flags=re.DOTALL,
+    )
+
+
 def _preprocess_section(
     section: str,
     h2_index: int,
@@ -113,6 +132,8 @@ def _preprocess_section(
         page: which page are we on?
         basedir: The base directory to save the relative path resources
     """
+    section = _preprocess_markdown(section)
+
     # handle relpath tags
     section = re.sub(
         TAG_RE,
