@@ -1,3 +1,7 @@
+## 0.4.3
+
+- 🐛 Fix tag attributes missing in preprocessing
+
 ## 0.4.2
 
 - ⬆️ Update frontend deps
