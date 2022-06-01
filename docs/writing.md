@@ -77,6 +77,12 @@ Additional features:
 - Added a modal when clicking on the image, the original dimension of the image is shown.
 - Added "open in new window" for the image in the modal.
 
+### Markdown
+
+A markdown tag is processed at server side by python, which is not implemented as a svelte component. So you don't need to import it in `script` tag.
+
+Everything inside the `<Markdown>` is passed to `markdown.markdown()` from python `Markdown` package to convert to html.
+
 
 ## Advanced usage
 

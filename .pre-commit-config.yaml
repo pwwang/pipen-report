@@ -21,6 +21,7 @@ repos:
     -   id: pytest
         name: Run pytest
         files: ^pipen_report/.+$
+        exclude: '^pipen_report/versions\.py$'
         pass_filenames: false
         entry: pytest
         types: [python]

@@ -1,3 +1,8 @@
+## 0.4.4
+
+- ✨ Support Markdown tag
+- ⬆️ Upgrade frontend deps
+
 ## 0.4.3
 
 - 🐛 Fix tag attributes missing in preprocessing
