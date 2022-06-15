@@ -173,6 +173,8 @@ class ReportManager:
         # link package.json
         pjson = self.workdir / "package.json"
         if not pjson.exists():
+            if pjson.is_symlink():
+                pjson.unlink()
             pjson.symlink_to(FRONTEND_DIR / "package.json")
 
         # see if frontend dependencies have been installed,
@@ -500,6 +502,10 @@ class ReportManager:
             # reuse it
             return
 
+        if not distdir.exists() and distdir.is_symlink():
+            # broken symlink, remove it
+            distdir.unlink()
+
         if srcdir.is_dir():
             await asyncify(distdir.symlink_to)(srcdir)
             return
@@ -532,7 +538,7 @@ class ReportManager:
             )
             await asyncify(distdir.symlink_to)(interdir / "node_modules")
         else:
-            await asyncify(distdir.symlink_to)(FRONTEND_DIR / "node_modules")
+            await asyncify(distdir.symlink_to)(srcdir)
 
     def _template_opts(self, template_opts) -> Mapping[str, Any]:
         """Template options for renderring
