@@ -502,6 +502,10 @@ class ReportManager:
             # reuse it
             return
 
+        if distdir.exists() and not distdir.is_dir():
+            # mislinked to file-alike
+            distdir.unlink()
+
         if not distdir.exists() and distdir.is_symlink():
             # broken symlink, remove it
             distdir.unlink()
