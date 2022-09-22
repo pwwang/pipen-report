@@ -1,3 +1,11 @@
+# Change Log
+
+## 0.4.5
+
+- 🩹 Fix some situations with dead links
+- 🐛 Fix error when node_modules mislinked to file-alike (#4)
+- ⬆️ Upgrade frontend deps
+
 ## 0.4.4
 
 - ✨ Support Markdown tag

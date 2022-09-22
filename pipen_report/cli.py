@@ -174,7 +174,7 @@ class PipenCliReport(CLIPlugin):
     def _update(self, args: Mapping[str, Any]) -> None:
         """Execute the update command"""
         pkgdir = Path(__file__).parent / "frontend"
-        if not (pkgdir.stat().st_mode & stat.S_IWUSR):
+        if not (pkgdir.stat().st_mode & stat.S_IWUSR):  # pragma: no cover
             nmdir = args["nmdir"]
             shutil.copy2(pkgdir.joinpath("package.json"), nmdir)
             shutil.copy2(pkgdir.joinpath("package-lock.json"), nmdir)

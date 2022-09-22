@@ -173,7 +173,7 @@ class ReportManager:
         # link package.json
         pjson = self.workdir / "package.json"
         if not pjson.exists():
-            if pjson.is_symlink():
+            if pjson.is_symlink():  # pragma: no cover
                 pjson.unlink()
             pjson.symlink_to(FRONTEND_DIR / "package.json")
 
@@ -502,11 +502,11 @@ class ReportManager:
             # reuse it
             return
 
-        if distdir.exists() and not distdir.is_dir():
+        if distdir.exists() and not distdir.is_dir():  # pragma: no cover
             # mislinked to file-alike
             distdir.unlink()
 
-        if not distdir.exists() and distdir.is_symlink():
+        if not distdir.exists() and distdir.is_symlink():  # pragma: no cover
             # broken symlink, remove it
             distdir.unlink()
 
@@ -514,6 +514,7 @@ class ReportManager:
             await asyncify(distdir.symlink_to)(srcdir)
             return
 
+        # pragma: no cover
         logger.info("Installing frontend dependencies ...")
         try:
             self._run_npm(
