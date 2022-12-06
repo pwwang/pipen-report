@@ -19,7 +19,7 @@ Markdown = "^3.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"
-pytest-cov = "^3"
+pytest-cov = "^4"
 pytest-xdist = "^2"
 
 [build-system]
