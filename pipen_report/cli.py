@@ -1,19 +1,24 @@
 """Provide a command line interface for the pipen_report plugin"""
+from __future__ import annotations
+
 import re
 import stat
-import shutil
+import http.server
+import socketserver
 from pathlib import Path
-from typing import Any, Mapping
+from typing import TYPE_CHECKING
 
 import cmdy
-import json5
-from pyparam import Params, POSITIONAL
+import rtoml
+from copier import run_auto
 from pipen.cli import CLIPlugin
 
-try:
-    from functools import cached_property
-except ImportError:  # pragma: no cover
-    from cached_property import cached_property
+from .defaults import NPM, NMDIR, LOCAL_CONFIG, GLOBAL_CONFIG
+from .utils import get_config
+
+
+if TYPE_CHECKING:
+    from argx import ArgumentParser, Namespace
 
 
 def _parse_title(title: str, page: Path) -> str:
@@ -37,152 +42,177 @@ class PipenCliReport(CLIPlugin):
 
     name = "report"
 
-    @cached_property
-    def params(self) -> Params:
-        """Add run command"""
-        pms = Params(
-            desc=self.__class__.__doc__,
+    def __init__(
+        self,
+        parser: ArgumentParser,
+        subparser: ArgumentParser,
+    ) -> None:
+        super().__init__(parser, subparser)
+        config_command = subparser.add_command(
+            "config",
+            description="Configure pipen-report",
+            exit_on_void=True,
         )
-        pms._prog = f"{pms._prog} {self.name}"
-
-        inject_cmd = pms.add_command(
-            "inject",
-            desc="Inject an independent HTML page into a report",
-        )
-        inject_cmd.add_param(
-            "t,title",
-            desc="The title of the page",
-            default="<text of title tag>",
-        )
-        inject_cmd.add_param(
-            "d,desc",
-            desc="The description/subtitle of the page",
-            default=""
-        )
-        inject_cmd.add_param(
-            "r,reportdir",
-            desc="The directory of the reports. Typically, `/path/to/REPORTS`",
-            required=True,
-        )
-        inject_cmd.add_param(
-            "jupyter",
-            desc=(
-                "Whether the HTML file is exported from jupyter notebook. ",
-                "If so, allow the input/code block to collapse. ",
-                "You don't need this if the HTML is exported by nbconvert "
-                "with input controls.",
+        config_command.add_argument(
+            "--local",
+            "-l",
+            help=(
+                "Save the configuration locally (./.pipen-report.toml)? "
+                "Otherwise, the configuration will be saved globally "
+                "in the user's home directory (~/.pipen-report.toml). "
+                "The local configuration has higher priority than the "
+                "global configuration."
             ),
+            action="store_true",
             default=False,
         )
-        inject_cmd.add_param(
-            POSITIONAL,
-            desc="The path to the HTML file to inject",
-            type='path',
+        config_command.add_argument(
+            "--list",
+            help="List the configuration",
+            action="store_true",
+            default=False,
+        )
+        config_command.add_argument(
+            "--npm",
+            help="The path to npm",
+            default=NPM,
+        )
+        config_command.add_argument(
+            "--nmdir",
+            help=(
+                "Where should the frontend dependencies installed?\n"
+                "By default, the frontend dependencies will be installed in "
+                "frontend/ of the python package directory. However, this "
+                "directory may not be writable. In this case, the frontend "
+                "dependencies will be installed in the directory specified."
+            ),
+            default=NMDIR,
+        )
+        subparser.add_command(
+            "update",
+            description="Install/Update the frontend dependencies",
+        )
+        serve_command = subparser.add_command(
+            "serve",
+            description="Serve the report",
+        )
+        serve_command.add_argument(
+            "--port",
+            "-p",
+            help="The port to serve the report",
+            default=8525,
+            type=int,
+        )
+        serve_command.add_argument(
+            "--host",
+            "-h",
+            help="The host to serve the report",
+            default="127.0.0.1"
+        )
+        serve_command.add_argument(
+            "--reportdir",
+            "-r",
+            help="The directory of the reports, where the REPORTS/ directory is",
             required=True,
+            type=Path,
         )
 
-        update_cmd = pms.add_command(
-            "up,update",
-            desc="Update the frontend dependencies",
-            help_on_void=False,
-        )
-        update_cmd.add_param(
-            "npm",
-            desc=[
-                "Path to npm. Should be the same one as",
-                "`config.plugin_opts.report_npm`",
-            ],
-            default="npm",
-        )
-        update_cmd.add_param(
-            "nmdir",
-            desc=[
-                "Where is the frontend dependencies installed?",
-                "If the package directory is writable, this option will "
-                "be ignored. The frontend dependencies should have been "
-                "installed in the package directory. If not, the frontend "
-                "dependencies were installed in "
-                "`config.plugin_opts.report_nmdir`. Then this option should "
-                "be the same as the configuration.",
-            ],
-            default="~/.pipen-report",
-        )
-        return pms
+    def exec_command(self, args: Namespace) -> None:
+        """Execute the command"""
+        if args.COMMAND == "config":
+            self._config(args)
+        elif args.COMMAND == "update":
+            self._update(args)
+        elif args.COMMAND == "serve":
+            self._serve(args)
+        else:  # pragma: no cover
+            super().exec_command(args)
 
-    def exec_command(self, args: Mapping[str, Any]) -> None:
-        """Execute the run command"""
-        if args["__command__"] == "inject":
-            self._inject(args.inject)
-        if args["__command__"] in ("up", "update"):
-            self._update(args.up)
+    def _config(self, args: Namespace) -> None:
+        """Execute the config command"""
+        if args.list:
+            print("The configuration:")
+            for key, value in get_config("config").items():
+                print(f"\033[4m{key}\033[0m = {value}")
+            return
 
-    def _inject(self, args: Mapping[str, Any]) -> None:
-        """Execute the inject command"""
-        page = args[POSITIONAL]
-        title = args["title"]
-        desc = args["desc"]
-        reportdir = Path(args["reportdir"])
+        config_file = LOCAL_CONFIG if args.local else GLOBAL_CONFIG
 
-        print("- Copying the html file over ...")
-        injected_page = reportdir / page.name
-        if injected_page.exists():
-            injected_page = reportdir / f"{page.stem}_1{page.suffix}"
-        shutil.copy2(page, injected_page)
+        config = {}
+        config["npm"] = args.npm
+        config["nmdir"] = args.nmdir
 
-        print("- Parsing title from the HTML page if not specified ...")
-        title = _parse_title(title, injected_page)
-        print(f"  Title: {title}")
+        rtoml.dump(config, config_file)
+        print(f"The configuration is saved to")
+        print(f" \033[4m{config_file}\033[0m")
 
-        print("- Injecting", injected_page.name, "into index.html/js ...")
-        indexjs = reportdir / "build" / "index.js"
-        with indexjs.open() as f:
-            content = f.read()
-        matched = re.search(r"\[\{name:\".+?\"\}\]", content)
-        if not matched:  # pragma: no cover
-            raise ValueError(
-                "Unable to find the process tile blocks in index.js. "
-                "This tool might be out of date. "
-                "Please contact the plugin author."
-            )
-        tileblock = json5.loads(matched.group(0))
-        print(f"  Read {len(tileblock)} process blocks")
-        tileblock.append(
-            {"name": title, "slug": injected_page.stem, "desc": desc}
-        )
-        print(f"  Write {len(tileblock)} process blocks")
-        with indexjs.open("w") as f:
-            f.write(content.replace(matched.group(0), json5.dumps(tileblock)))
-        print("  Injected successfully!")
-
-        print("- Adding a 'Go-back' button to the injected page ...")
-        with injected_page.open() as f:
-            content = f.read()
-
-        js_source = (
-            '<script type="text/javascript">\n'
-            f'   const is_jupyter = {str(args["jupyter"]).lower()};\n'
-            '</script>\n'
-            '<script type="text/javascript" src="./assets/inject.js">'
-            '</script>\n'
-        )
-        content = content.replace('</head>', js_source + '</head>')
-        with injected_page.open("w") as f:
-            f.write(content)
-
-        print("- Done!")
-
-    def _update(self, args: Mapping[str, Any]) -> None:
+    def _update(self, args: Namespace) -> None:
         """Execute the update command"""
-        pkgdir = Path(__file__).parent / "frontend"
-        if not (pkgdir.stat().st_mode & stat.S_IWUSR):  # pragma: no cover
-            nmdir = args["nmdir"]
-            shutil.copy2(pkgdir.joinpath("package.json"), nmdir)
-            shutil.copy2(pkgdir.joinpath("package-lock.json"), nmdir)
-        else:
-            nmdir = pkgdir
+        nmdir = Path(get_config("nmdir")).resolve()
+        if nmdir != Path(NMDIR).resolve():
+            run_auto(NMDIR, nmdir, overwrite=True, quiet=True)
 
-        print("WORKING DIRECTORY:", nmdir)
-        print("")
-        print("Running: npm update ...")
-        for line in cmdy.run("update", _cwd=nmdir, _exe=args["npm"]).iter():
-            print(line, end="")
+        if not (nmdir.stat().st_mode & stat.S_IWUSR):
+            print("The frontend directory is not writable:")
+            print(f"\033[4m{nmdir}\033[0m")
+            print("")
+            print("You should either:")
+            print(
+                "1. Run `sudo pipen report update` "
+                "to install/update the frontend dependencies"
+            )
+            print(
+                "2. Run `pipen report config --nmdir <dir>` "
+                "to specify a different directory to install "
+                "the frontend dependencies"
+            )
+
+        else:
+            print("The frontend directory:")
+            print(f"\033[4m{nmdir}\033[0m")
+            print("")
+            print("Running: npm update ...")
+            for line in cmdy.npm.run(
+                "update",
+                _cwd=nmdir,
+                _exe=get_config("npm")
+            ).iter():
+                print(line, end="")
+
+    def _serve(self, args: Namespace) -> None:
+        """Execute the serve command"""
+        reportdir = args.reportdir
+        port = args.port
+        host = args.host
+
+        if not (reportdir / "REPORTS").exists():
+            print("The REPORTS/ directory is not found in:")
+            print(f" \033[4m{reportdir}\033[0m")
+            print("The report is not generated yet?")
+            return
+
+        print(f"Serving the report and data at http://{host}:{port}")
+        print(f"Find the report page: http://{host}:{port}/REPORTS")
+        print("Press Ctrl+C to stop the server")
+
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            """The request handler"""
+            def __init__(self, *args, **kwargs) -> None:
+                super().__init__(*args, directory=reportdir, **kwargs)
+
+            def log_message(self, format, *args) -> None:
+                """Disable the logging"""
+                pass
+
+            def do_GET(self) -> None:
+                """Handle the GET request"""
+                if self.path == "/REPORTS":
+                    self.path = "/REPORTS/index.html"
+
+                super().do_GET()
+
+        with socketserver.TCPServer((host, port), Handler) as httpd:
+            try:
+                httpd.serve_forever()
+            except KeyboardInterrupt:
+                pass
