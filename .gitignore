@@ -125,6 +125,6 @@ t.py
 tests/**/*_results
 example-largereport/*_results
 TrackingNumCells.html
-output/
+# output/
 /*_results
 /frontend-copied
