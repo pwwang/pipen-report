@@ -904,14 +904,14 @@ executing = ">1.1.0,<2.0"
 
 [[package]]
 name = "pipen"
-version = "0.4.4"
+version = "0.4.5"
 description = "A pipeline framework for python"
 category = "main"
 optional = false
 python-versions = ">=3.7.1,<4.0.0"
 files = [
-    {file = "pipen-0.4.4-py3-none-any.whl", hash = "sha256:b6ebb376d4c44cbbd295e50150f911960ad77346b00e3c4072e0ba8950dafc22"},
-    {file = "pipen-0.4.4.tar.gz", hash = "sha256:050faa3fde37a81ab921e9a188b329015dbad5c78aeeb822fe1077b69efdad1a"},
+    {file = "pipen-0.4.5-py3-none-any.whl", hash = "sha256:94774363bd3084d6959b616b33b4daea2fdf668fa7d7e63bbd55eaa58f264549"},
+    {file = "pipen-0.4.5.tar.gz", hash = "sha256:960ad3fd609199296d19c2d462f4a6ac1300fdca938f164185a047eb9739dccc"},
 ]
 
 [package.dependencies]

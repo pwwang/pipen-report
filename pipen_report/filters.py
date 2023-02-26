@@ -43,10 +43,10 @@ def datatable(
 
     if isinstance(nrows, int):
         nrows = min(nrows, df.shape[0])
-        nrows = range(nrows)
+        nrows = range(nrows)  # type: ignore
     if isinstance(ncols, int):
         ncols = min(ncols, df.shape[1])
-        ncols = range(ncols)
+        ncols = range(ncols)  # type: ignore
 
     if all(isinstance(row, int) for row in nrows):
         nrows = df.index[nrows]

@@ -6,7 +6,7 @@ import shutil
 import sys
 from os import PathLike
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Mapping, Type
+from typing import TYPE_CHECKING, Any, Mapping, MutableMapping, Type
 
 import cmdy
 from cmdy.cmdy_exceptions import CmdyReturnCodeError
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 
 def _render_file(
     engine: Type[Template],
-    engine_opts: Mapping[str, Any],
+    engine_opts: MutableMapping[str, Any],
     source: str,
     render_data: Mapping[str, Any],
 ) -> str:
@@ -296,7 +296,7 @@ class ReportManager:
         try:
             rendered = _render_file(
                 proc.template,
-                template_opts,
+                template_opts,  # type: ignore[arg-type]
                 report,
                 rendering_data,
             )

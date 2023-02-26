@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.0
+
+- ♻️ Refactor based on pipen v0.4
+
 ## 0.4.5
 
 - 🩹 Fix some situations with dead links

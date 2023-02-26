@@ -207,7 +207,8 @@ class PipenCliReport(CLIPlugin):
         class Handler(http.server.SimpleHTTPRequestHandler):
             """The request handler"""
             def __init__(self, *args, **kwargs) -> None:
-                super().__init__(*args, directory=reportdir, **kwargs)
+                kwargs["directory"] = reportdir
+                super().__init__(*args, **kwargs)
 
             def do_GET(self) -> None:
                 """Handle the GET request"""

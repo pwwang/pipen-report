@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.4.5"
+version = "0.5.0"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ python = "^3.7.1"
 pipen = "^0.4"
 cmdy = "^0.5"
 Markdown = "^3"
-copier = "^7.0.1"
+copier = "^7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"
@@ -42,7 +42,7 @@ filterwarnings = [
 [tool.mypy]
 ignore_missing_imports = true
 allow_redefinition = true
-disable_error_code = ["attr-defined", "no-redef"]
+disable_error_code = ["attr-defined", "no-redef", "import"]
 show_error_codes = true
 strict_optional = false
 
