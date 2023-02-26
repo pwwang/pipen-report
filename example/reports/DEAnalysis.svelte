@@ -1,5 +1,5 @@
 <script>
-    import { DataTable, Image } from '@@';
+    import { DataTable, Image } from '$components';
     import { Tile, Tabs, Tab, TabContent } from 'carbon-components-svelte';
 </script>
 

@@ -1,9 +1,10 @@
-import App from '../pages/index.svelte';
+import App from "./index.svelte";
 
 const app = new App({
 	target: document.body,
 	props: {
-		name: 'world'
+		name: '{{name}}',
+		page: {{page or 0}}
 	}
 });
 

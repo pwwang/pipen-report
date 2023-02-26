@@ -4,12 +4,12 @@
         Row,
         Column
     } from "carbon-components-svelte";
-    import IndexLayout from "../layouts/Index.svelte";
-    import ProcCard from "../layouts/ProcCard.svelte";
+    import IndexLayout from "../../layouts/Index.svelte";
+    import ProcCard from "../../layouts/ProcCard.svelte";
 
-    const procs = {{procs}};
-    const pipeline = {{pipeline}};
-    const versions = `{{versions}}`;
+    export let procs;
+    export let pipeline;
+    export let versions;
 
 </script>
 

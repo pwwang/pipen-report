@@ -1,5 +1,5 @@
 <script>
-    import { DataTable, Image } from "@@";
+    import { DataTable, Image } from "$components";
 </script>
 
 <h1>Sample information</h1>

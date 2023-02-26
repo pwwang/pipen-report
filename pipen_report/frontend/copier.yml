@@ -1,0 +1,5 @@
+_exclude:
+  - src/pages/proc
+  - node_modules
+  - public/procs
+  - public/index

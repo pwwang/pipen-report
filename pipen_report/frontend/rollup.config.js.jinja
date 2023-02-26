@@ -1,0 +1,94 @@
+import svelte from 'rollup-plugin-svelte';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import alias from '@rollup/plugin-alias';
+import terser from '@rollup/plugin-terser';
+import css from 'rollup-plugin-css-only';
+import copy from 'rollup-plugin-copy';
+import json from '@rollup/plugin-json';
+import data from './src/data.json' assert { type: 'json' };
+
+const commonConfig = (proc_slug = null, page = 0, cssfile = 'index.css') => ({
+	plugins: [
+		svelte({ compilerOptions: { dev: false } }),
+		alias({
+			entries: [
+				{ find: '$components', replacement: '../../components' },
+				{ find: '$layouts', replacement: '../../layouts' },
+				{% if extlib %}
+				{ find: '$extlib', replacement: '{{extlib}}' },
+				{% endif %}
+			]
+		}),
+
+		// we'll extract any component CSS out into
+		// a separate file - better for performance
+		css({ output: cssfile }),
+
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs
+		resolve({ browser: true, dedupe: ['svelte'] }),
+		commonjs(),
+		terser(),
+		json(),
+		copy(
+			proc_slug === null ? {} : {
+				targets: [{
+					src: 'src/proc.html',
+					dest: `public/procs/${proc_slug}/`,
+					rename: page === 0 ? 'index.html' : `index-${page}.html`
+				}]
+			}
+		)
+	],
+	watch: { clearScreen: false }
+});
+
+// Common output configuration
+const commonOutput = {
+	sourcemap: false,
+	format: 'iife'
+}
+
+// Configuration for the index page
+const indexConfig = {
+	input: 'src/pages/_index/index.js',
+	output: {
+		file: 'public/index/index.js',
+		name: 'Index',
+		...commonOutput
+	},
+	...commonConfig()
+}
+
+// Configuration for the proc pages
+const procsConfigs = (procs) => {
+	let out = []
+	for (let proc of procs) {
+		out.push({
+			input: `src/pages/${proc.slug}/index.js`,
+			output: {
+				file: `public/procs/${proc.slug}/index.js`,
+				name: proc.name,
+				...commonOutput
+			},
+			...commonConfig(proc.slug)
+		});
+
+		if (proc.npages !== undefined && proc.npages !== null && proc.npages > 1) {
+			for (let i = 1; i < proc.npages; i++) {
+				out.push({
+					input: `src/pages/${proc.slug}-${i}/index.js`,
+					output: {
+						file: `public/procs/${proc.slug}/index-${i}.js`,
+						name: proc.name,
+						...commonOutput
+					},
+					...commonConfig(proc.slug, i, `index-${i}.css`)
+				});
+			}
+		}
+	}
+	return out;
+}
+
+export default [indexConfig, ...procsConfigs(data.procs)];

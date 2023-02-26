@@ -1,7 +1,6 @@
 """Provide a command line interface for the pipen_report plugin"""
 from __future__ import annotations
 
-import re
 import stat
 import http.server
 import socketserver
@@ -13,27 +12,12 @@ import rtoml
 from copier import run_auto
 from pipen.cli import CLIPlugin
 
-from .defaults import NPM, NMDIR, LOCAL_CONFIG, GLOBAL_CONFIG
+from .defaults import NPM, NMDIR, LOCAL_CONFIG, GLOBAL_CONFIG, CONFIG_KEYS
 from .utils import get_config
 
 
 if TYPE_CHECKING:
     from argx import ArgumentParser, Namespace
-
-
-def _parse_title(title: str, page: Path) -> str:
-    """Parse title from a page"""
-    if title and not title.startswith("<") and not title.endswith(">"):
-        return title
-
-    with page.open() as f:
-        content = f.read()
-
-    matched = re.search(r"<title>(.+?)</title>", content, re.IGNORECASE)
-    if not matched:
-        return page.stem
-
-    return matched.group(1)
 
 
 class PipenCliReport(CLIPlugin):
@@ -73,6 +57,10 @@ class PipenCliReport(CLIPlugin):
             default=False,
         )
         config_command.add_argument(
+            "--extlib",
+            help="External components to be used in the report",
+        )
+        config_command.add_argument(
             "--npm",
             help="The path to npm",
             default=NPM,
@@ -87,6 +75,16 @@ class PipenCliReport(CLIPlugin):
                 "dependencies will be installed in the directory specified."
             ),
             default=NMDIR,
+        )
+        config_command.add_argument(
+            "--nobuild",
+            help=(
+                "Don't build the final report. "
+                "If True only preprare the environment "
+                "Say if you want to do the building manually"
+            ),
+            action="store_true",
+            default=False,
         )
         subparser.add_command(
             "update",
@@ -105,25 +103,26 @@ class PipenCliReport(CLIPlugin):
         )
         serve_command.add_argument(
             "--host",
-            "-h",
             help="The host to serve the report",
             default="127.0.0.1"
         )
         serve_command.add_argument(
             "--reportdir",
             "-r",
-            help="The directory of the reports, where the REPORTS/ directory is",
+            help=(
+                "The directory of the reports, where the REPORTS/ directory is"
+            ),
             required=True,
             type=Path,
         )
 
     def exec_command(self, args: Namespace) -> None:
         """Execute the command"""
-        if args.COMMAND == "config":
+        if args.COMMAND2 == "config":
             self._config(args)
-        elif args.COMMAND == "update":
+        elif args.COMMAND2 == "update":
             self._update(args)
-        elif args.COMMAND == "serve":
+        elif args.COMMAND2 == "serve":
             self._serve(args)
         else:  # pragma: no cover
             super().exec_command(args)
@@ -131,9 +130,12 @@ class PipenCliReport(CLIPlugin):
     def _config(self, args: Namespace) -> None:
         """Execute the config command"""
         if args.list:
-            print("The configuration:")
-            for key, value in get_config("config").items():
-                print(f"\033[4m{key}\033[0m = {value}")
+            keylen = max(len(key) for key in CONFIG_KEYS)
+            for key in CONFIG_KEYS:
+                print(
+                    f"\033[4m\033[1m{key}\033[0m\033[0m".ljust(keylen + 17, ' ')
+                    + f"= {get_config(key)}"
+                )
             return
 
         config_file = LOCAL_CONFIG if args.local else GLOBAL_CONFIG
@@ -143,8 +145,8 @@ class PipenCliReport(CLIPlugin):
         config["nmdir"] = args.nmdir
 
         rtoml.dump(config, config_file)
-        print(f"The configuration is saved to")
-        print(f" \033[4m{config_file}\033[0m")
+        print("The configuration is saved to")
+        print(f"\033[4m{config_file}\033[0m")
 
     def _update(self, args: Namespace) -> None:
         """Execute the update command"""
@@ -172,8 +174,7 @@ class PipenCliReport(CLIPlugin):
             print(f"\033[4m{nmdir}\033[0m")
             print("")
             print("Running: npm update ...")
-            for line in cmdy.npm.run(
-                "update",
+            for line in cmdy.npm.update(
                 _cwd=nmdir,
                 _exe=get_config("npm")
             ).iter():

@@ -27,10 +27,10 @@ requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.plugins.pipen]
-report = "pipen_report:PipenReport"
+report = "pipen_report.report_plugin:PipenReport"
 
 [tool.poetry.plugins.pipen_cli]
-cli-report = "pipen_report:PipenCliReport"
+cli-report = "pipen_report.cli:PipenCliReport"
 
 [tool.pytest.ini_options]
 addopts = "-vv -n auto -p no:asyncio -W error::UserWarning --cov-config=.coveragerc --cov=pipen_report --cov-report xml:.coverage.xml --cov-report term-missing"

@@ -1,0 +1,17 @@
+{
+    "pipeline": {
+        "name": "pipeline",
+        "desc": "A pipeline"
+    },
+    "versions": "Versions of pipen and pipen-report",
+    "procs": [
+        {
+            "name": "Proc",
+            "slug": "proc",
+            "desc": "A process",
+            "report_toc": true,
+            "order": 0,
+            "npages": 1
+        }
+    ]
+}

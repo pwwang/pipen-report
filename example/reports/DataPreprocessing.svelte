@@ -1,5 +1,5 @@
 <script>
-    import { Image } from "@@";
+    import { Image } from "$components";
 </script>
 
 <Markdown>

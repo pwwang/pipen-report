@@ -6,7 +6,7 @@
     export let desc;
 </script>
 
-<ClickableTile href="{slug}.html">
+<ClickableTile href="procs/{slug}/">
     <h2>{name}</h2>
     {desc}
 </ClickableTile>
