@@ -18,7 +18,7 @@
   export let logo;
   export let logotext = null;
   export let pipeline_name = undefined;
-  export let isSideNavOpen = false;
+  export let isSideNavOpen;
 
   pipeline_name = pipeline_name || logo;
 </script>
@@ -60,5 +60,3 @@
     {/if}
   </HeaderUtilities>
 </Header>
-
-<slot />

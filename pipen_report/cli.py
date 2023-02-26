@@ -192,25 +192,25 @@ class PipenCliReport(CLIPlugin):
             print("The report is not generated yet?")
             return
 
-        print(f"Serving the report and data at http://{host}:{port}")
-        print(f"Find the report page: http://{host}:{port}/REPORTS")
+        print(f"Serving the report and data at http://{host}:{port}/")
+        print(f"Find the report page: http://{host}:{port}/REPORTS/")
         print("Press Ctrl+C to stop the server")
+        print("")
 
         class Handler(http.server.SimpleHTTPRequestHandler):
             """The request handler"""
             def __init__(self, *args, **kwargs) -> None:
                 super().__init__(*args, directory=reportdir, **kwargs)
 
-            def log_message(self, format, *args) -> None:
-                """Disable the logging"""
-                pass
-
             def do_GET(self) -> None:
                 """Handle the GET request"""
                 if self.path == "/REPORTS":
                     self.path = "/REPORTS/index.html"
 
-                super().do_GET()
+                try:
+                    super().do_GET()
+                except BrokenPipeError as e:
+                    self.log_error(str(e))
 
         with socketserver.TCPServer((host, port), Handler) as httpd:
             try:
