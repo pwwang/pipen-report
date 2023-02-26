@@ -3,6 +3,7 @@ import pytest  # noqa
 from . import run_pipeline
 
 
+@pytest.mark.forked
 def test_regular(tmp_path):
     run_pipeline("single", _dir=tmp_path)
 
@@ -16,26 +17,27 @@ def test_regular(tmp_path):
     run_pipeline("single", _dir=tmp_path)
 
 
+@pytest.mark.forked
 def test_noreport(tmp_path):
     run_pipeline("noreport", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "build" / "process2.js"
+    report = tmp_path / "outdir" / "REPORTS" / "procs" / "process2" / "index.js"
     assert not report.exists()
 
 
+@pytest.mark.forked
 def test_noreport2(tmp_path):
     run_pipeline("noreport2", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "build" / "process2.js"
+    report = tmp_path / "outdir" / "REPORTS" / "procs" / "process2" / "index.js"
     assert not report.exists()
-    report = tmp_path / "outdir" / "REPORTS" / "build" / "process3.js"
+    report = tmp_path / "outdir" / "REPORTS" / "procs" / "process3" / "index.js"
     assert report.exists()
 
 
+@pytest.mark.forked
 def test_errant(tmp_path):
     run_pipeline("errant", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "index.html"
+    report = tmp_path / "outdir" / "REPORTS" / "procs"
     assert not report.exists()
-
-

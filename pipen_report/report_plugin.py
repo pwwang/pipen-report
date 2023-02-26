@@ -50,7 +50,7 @@ class PipenReport:
         # pipeline-level
         pipen.config.plugin_opts.setdefault("report_nobuild", None)
         # pipeline-level
-        pipen.config.plugin_opts.setdefault("report_extlib", None)
+        pipen.config.plugin_opts.setdefault("report_extlibs", None)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)

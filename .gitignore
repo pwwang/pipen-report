@@ -126,3 +126,5 @@ tests/**/*_results
 example-largereport/*_results
 TrackingNumCells.html
 output/
+/*_results
+/frontend-copied

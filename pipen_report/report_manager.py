@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Mapping, Type
 
 import cmdy
+from cmdy.cmdy_exceptions import CmdyReturnCodeError
 from copier import run_auto
 from slugify import slugify
 from pipen import Proc
@@ -53,7 +54,7 @@ class ReportManager:
         self.workdir = Path(workdir) / ".report-workdir"
         self.npm = get_config("npm", plugin_opts.get("report_npm"))
         self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))
-        self.extlibs = get_config("extlibs", plugin_opts.get("report_extlib"))
+        self.extlibs = get_config("extlibs", plugin_opts.get("report_extlibs"))
         self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
         self.has_reports = False
 
@@ -98,7 +99,7 @@ class ReportManager:
             run_auto(
                 str(self.nmdir),
                 self.workdir,
-                data=None if self.extlibs else {"extlibs": self.extlibs},
+                data=None if not self.extlibs else {"extlibs": self.extlibs},
                 quiet=True,
                 overwrite=True,
             )
@@ -163,7 +164,8 @@ class ReportManager:
         logfile = self.workdir / "pipen-report.log"
         kwargs.setdefault("_exe", self.npm)
 
-        char_to_log = " → "
+        chars_to_log = " → "
+        chars_to_error = "(!)"
 
         with open(logfile, "wt") as flog:
             flog.write("WORKING DIRECTORY:\n")
@@ -175,17 +177,26 @@ class ReportManager:
                     cmdy.STDERR
                 ):
                     flog.write(line)
-                    if char_to_log in line:
+                    if chars_to_log in line:
                         line = line.replace("\033[1m", "[bold]")
                         line = line.replace("\033[22m", "[/bold]")
                         line = line.replace("\033[39m", "")
                         logger.info(f"- {line.rstrip()}")
-            except cmdy.CmdyReturnCodeError as e:
+                    elif chars_to_error in line:
+                        line = line.replace("\033[1m", "[bold]")
+                        line = line.replace("\033[22m", "[/bold]")
+                        line = line.replace("\033[33m", "[red]")
+                        line = line.replace("\033[39m", "[/red]")
+                        logger.error(f"- {line.rstrip()}")
+                        raise RuntimeError("Failed to build reports")
+            except CmdyReturnCodeError as e:
                 flog.write(str(e))
                 logger.error("Failed to build reports")
                 logger.error("See %s for details", logfile)
+            except RuntimeError as e:
+                logger.error(str(e))
+                logger.error("See %s for details", logfile)
             else:
-                logger.info("")
                 logger.info("View the reports at %s", self.outdir)
                 logger.info("Or run the following command to serve them:")
                 logger.info("> pipen report serve -r %s", self.outdir.parent)
