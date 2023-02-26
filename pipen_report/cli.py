@@ -34,7 +34,7 @@ class PipenCliReport(CLIPlugin):
         super().__init__(parser, subparser)
         config_command = subparser.add_command(
             "config",
-            description="Configure pipen-report",
+            help="Configure pipen-report",
             exit_on_void=True,
         )
         config_command.add_argument(
@@ -88,11 +88,11 @@ class PipenCliReport(CLIPlugin):
         )
         subparser.add_command(
             "update",
-            description="Install/Update the frontend dependencies",
+            help="Install/Update the frontend dependencies",
         )
         serve_command = subparser.add_command(
             "serve",
-            description="Serve the report",
+            help="Serve the report",
         )
         serve_command.add_argument(
             "--port",
@@ -122,7 +122,7 @@ class PipenCliReport(CLIPlugin):
             self._config(args)
         elif args.COMMAND2 == "update":
             self._update(args)
-        elif args.COMMAND2 == "serve":
+        elif args.COMMAND2 == "serve":  # pragma: no cover
             self._serve(args)
         else:  # pragma: no cover
             super().exec_command(args)
@@ -158,10 +158,10 @@ class PipenCliReport(CLIPlugin):
     def _update(self, args: Namespace) -> None:
         """Execute the update command"""
         nmdir = Path(get_config("nmdir")).resolve()
-        if nmdir != Path(NMDIR).resolve():
+        if nmdir != Path(NMDIR).resolve():  # pragma: no cover
             run_auto(NMDIR, nmdir, overwrite=True, quiet=True)
 
-        if not (nmdir.stat().st_mode & stat.S_IWUSR):
+        if not (nmdir.stat().st_mode & stat.S_IWUSR):  # pragma: no cover
             print("The frontend directory is not writable:")
             print(f"\033[4m{nmdir}\033[0m")
             print("")
@@ -187,7 +187,7 @@ class PipenCliReport(CLIPlugin):
             ).iter():
                 print(line, end="")
 
-    def _serve(self, args: Namespace) -> None:
+    def _serve(self, args: Namespace) -> None:  # pragma: no cover
         """Execute the serve command"""
         reportdir = args.reportdir
         port = args.port

@@ -18,7 +18,7 @@ The subdirectoies and files are:
 
     The packages defining the dependencies, linked to the one inside the package
 
-- `pipen-report*.log`
+- `pipen-report.log`
 
     The log files
 
@@ -30,9 +30,9 @@ The subdirectoies and files are:
 
     Usually, when the files are exported from the process, they will be saved at `<pipeline.outdir>`, otherwise `<pipeline-workdir>/<pipeline-name>/<proc-name>/<job-index>/output`. For those exported files, we can make relative path ".." to link them, however, for those not exported, there is no way for us to link them. So we make a copy of them in the `public/data` directory, and change the original link to the copied one.
 
-- `rollup.config.*.js`
+- `rollup.config.js`
 
-    The rollup configuration file to compile the reports for each process, include the index page.
+    The rollup configuration file to compile the reports, include the index page.
 
 - `src`
 

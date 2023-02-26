@@ -65,7 +65,7 @@ class ReportManager:
         logger.debug("Checking npm and frontend dependencies ...")
 
         npm = shutil.which(self.npm)
-        if npm is None:
+        if npm is None:  # pragma: no cover
             logger.error(
                 "Cannot find npm. Please install it or specify the path "
                 "to npm by:"
@@ -73,7 +73,7 @@ class ReportManager:
             logger.error("> pipen report config [--local] --npm <path/to/npm>")
             sys.exit(1)
 
-        if not self.nmdir.is_dir():
+        if not self.nmdir.is_dir():  # pragma: no cover
             logger.error("Invalid nmdir: %s", self.nmdir)
             logger.error(
                 "Run `pipen report config [--local] --nmdir ...` to set it"
@@ -81,7 +81,7 @@ class ReportManager:
             sys.exit(1)
 
         # check if frontend dependencies are installed
-        if not (self.nmdir / "node_modules").is_dir():
+        if not (self.nmdir / "node_modules").is_dir():  # pragma: no cover
             logger.error("Frontend dependencies are not installed")
             logger.error("Run `pipen report update` to install them")
             sys.exit(1)
@@ -103,7 +103,7 @@ class ReportManager:
                 quiet=True,
                 overwrite=True,
             )
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             logger.error("Failed to copy frontend dependencies to workdir")
             logger.error("nmdir: %s", self.nmdir)
             logger.error("workdir: %s", self.workdir)
@@ -189,7 +189,7 @@ class ReportManager:
                         line = line.replace("\033[39m", "[/red]")
                         logger.error(f"- {line.rstrip()}")
                         raise RuntimeError("Failed to build reports")
-            except CmdyReturnCodeError as e:
+            except CmdyReturnCodeError as e:  # pragma: no cover
                 flog.write(str(e))
                 logger.error("Failed to build reports")
                 logger.error("See %s for details", logfile)
@@ -300,7 +300,7 @@ class ReportManager:
                 report,
                 rendering_data,
             )
-        except Exception as exc:
+        except Exception as exc:  # pragma: no cover
             raise TemplateRenderingError(
                 f"[{proc.name}] Failed to render report file."
             ) from exc

@@ -3,58 +3,73 @@
 List available CLI tools:
 
 ```shell
-❯ pipen report
+❯ pipen report --help
+Usage: pipen report [-h] {config,update,serve} ...
 
-DESCRIPTION:
-  CLI utility for pipen-report
+CLI utility for pipen-report
 
-USAGE:
-  pipen report [OPTIONS] COMMAND [OPTIONS]
+Optional Arguments:
+  -h, --help            show help message and exit
 
-OPTIONAL OPTIONS:
-  -h, --help                      - Print help information for this command
-
-COMMANDS:
-  inject                          - Inject an independent HTML page into a
-                                    report
-  help                            - Print help of sub-commands
+Subcommands:
+    config              Configure pipen-report
+    update              Install/Update the frontend dependencies
+    serve               Serve the report
 ```
 
-### `inject`
+## config
 
-Inject an independent HTML page into a report.
-
-The page will be listed as a process tile in the index page.
-
-A `Go-back` button will be injected to the page to go back to the index page.
-
-If a page is exported from jupyter notebook, the input code blocks will be allowed to collapse by `--jupyter`. The default is `False`.
-Note that if the HTML file is exported by `nbconvert` and you have input controls, you don't need this function. This is useful when the nodebook is exported by, say, `vscode-jupyter`.
+Configure pipen-report. Note that these values can still be overwritten by the pipeline configurations at runtime.
 
 ```shell
-❯ pipen report inject
+❯ pipen report config --help
+Usage: pipen report config [-h] [--local] [--list] [--extlibs EXTLIBS] [--npm NPM]
+                                           [--nmdir NMDIR] [--nobuild]
 
-DESCRIPTION:
-  Inject an independent HTML page into a report
+Optional Arguments:
+  -h, --help         show help message and exit
+  --local, -l        Save the configuration locally (./.pipen-report.toml)? Otherwise, the
+                     configuration will be saved globally in the user's home directory (~/.pipen-
+                     report.toml). The local configuration has higher priority than the global
+                     configuration. [default: False]
+  --list             List the configuration [default: False]
+  --extlibs EXTLIBS  External components to be used in the report
+  --npm NPM          The path to npm [default: npm]
+  --nmdir NMDIR      Where should the frontend dependencies installed?
+                     By default, the frontend dependencies will be installed in frontend/ of the
+                     python package directory. However, this directory may not be writable. In this
+                     case, the frontend dependencies will be installed in the directory specified.
+                     [default: /home/pwwang/github/pipen-report/pipen_report/frontend]
+  --nobuild          Don't build the final report. If True only preprare the environment Say if you
+                     want to do the building manually [default: False]
+```
 
-USAGE:
-  pipen report inject --reportdir AUTO - PATH [OPTIONS]
+## update
 
-OPTIONAL OPTIONS:
-  -t, --title <STR>               - The title of the page
-                                    Default: <1st H1 of the HTML page>
-  -d, --desc <STR>                - The description/subtitle of the page
-                                    Default: ''
-  --jupyter [BOOL]                - Whether the HTML file is exported from
-                                    jupyter notebook. Default: False
-                                    If so, allow the input/code block to
-                                    collapse.
-                                    You don't need this if the HTML is exported
-                                    by nbconvert with input controls.
-  -h, --help                      - Print help information for this command
+Install/Update the frontend dependencies:
 
-REQUIRED OPTIONS:
-  -r, --reportdir <AUTO>          - The directory of the reports. Typically,
-                                    /path/to/REPORTS
-  POSITIONAL <PATH>               - The path to the HTML file to inject
+```shell
+❯ pipen report update --help
+Usage: pipen report update [-h]
+
+Optional Arguments:
+  -h, --help  show help message and exit
+```
+
+## serve
+
+Serve the report:
+
+```shell
+❯ pipen report serve --help
+Usage: pipen report serve [-h] [--port PORT] [--host HOST] --reportdir REPORTDIR
+
+Required Arguments:
+  --reportdir REPORTDIR, -r REPORTDIR
+                        The directory of the reports, where the REPORTS/ directory is
+
+Optional Arguments:
+  -h, --help            show help message and exit
+  --port PORT, -p PORT  The port to serve the report [default: 8525]
+  --host HOST           The host to serve the report [default: 127.0.0.1]
 ```

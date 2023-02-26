@@ -20,6 +20,9 @@ jobs:
           python -m pip install poetry
           poetry config virtualenvs.create false
           poetry install -v
+      - name: Install frontend dependencies
+        run: |
+          pipen report update
       - name: Build and test
         run: |
           pytest tests/ --junitxml=junit/test-results.xml

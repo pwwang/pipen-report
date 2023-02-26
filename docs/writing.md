@@ -8,15 +8,11 @@ To use a components from `carbon-components-svelte`:
 ```jsx
 <script>
     import { Button } from 'carbon-components-svelte`;
+    // or use a shortcut
+    import { Button } from '$ccs';
 </script>
 
 <Button />
-```
-
-Or you can also use a shortcut:
-
-```js
-import { Button } from '@@ccs';  // just a shotcut ot 'carbon-components-svelte'
 ```
 
 ## Using builtin components
@@ -26,7 +22,10 @@ There are also builting components to enhance some functions.
 To use a builtin component:
 
 ```jsx
-import { Image } from '../components'; // use shortcut '@@'
+import { Image } from '../../components';
+// or use a shortcut
+import { Image } from '$libs';
+import { Image } from '$components';
 ```
 
 ### DataTable
@@ -37,18 +36,18 @@ Additional features:
 
 - Paginations enabled by default, with properties:
 
-    - `page`: set current page
-    - `pageSize`: set current page size
-    - `pageSizes`: allowed page sizes to set
+  - `page`: set current page
+  - `pageSize`: set current page size
+  - `pageSizes`: allowed page sizes to set
 
 - Sorting enabled by default (with `sortable = true`)
 - `zebra` set to `true` by default (with `zebra = true`)
 - Added a frame around the table, so tables and images can be aligned (better looking)
-    - You can set `frameProps` to `null`/`undefined` to disable it.
+  - You can set `frameProps` to `null`/`undefined` to disable it.
 - Implemented download of data in the table or the entire data file if property `src` is set.
 - Implemented search
 - Allowing a single `data` property to pass data instead of `headers` and `rows`
-    - `data` is just `rows`, but `headers` will be inferred from it.
+  - `data` is just `rows`, but `headers` will be inferred from it.
 
 !!! tip
 
@@ -56,15 +55,13 @@ Additional features:
 
     ```jsx
     <script>
-        import { DataTable } from "@@";
+        import { DataTable } from "$libs";
     </script>
 
     <DataTable src="{{job.out.outfile}}" data={ {{ job.out.outfile | datafile: sep="\t" }} } />
     ```
 
     All other arguments will be passed to `pandas.read_csv()` except `doule_precision`, which will be passed to `pandas.DataFrame.to_json()` to control the precision of the numbers.
-
-
 
 ### Image
 
@@ -83,8 +80,23 @@ A markdown tag is processed at server side by python, which is not implemented a
 
 Everything inside the `<Markdown>` is passed to `markdown.markdown()` from python `Markdown` package to convert to html.
 
-
 ## Advanced usage
+
+## Using self-defined components
+
+Say you have a set of components that you want to use in all your reports. You can specify the path to the directory containing the components in `report_exlibs` by either `pipen report config --exlibs <path>` or `pipeline.config.plugin_opts.report_exlibs = <path>`.
+
+Then you can import the components from the path you specified.
+
+```jsx
+<script>
+    import { MyComponent } from '$exlibs/MyComponent.svelte';
+</script>
+```
+
+You can write your own components based on `carbon-components-svelte` components.
+
+Note that the shortcut `$ccs` is not available in the components you write. You have to use 'carbon-components-svelte'.
 
 ### Using other svelte components
 
@@ -118,24 +130,6 @@ Everything inside the `<Markdown>` is passed to `markdown.markdown()` from pytho
     ```
 
     Finally, run `npm build` to buld your reports
-
-
-### Writing your own components
-
-You can also write your own components, well, only based on `carbon-components-svelte` components. If you want to use other dependencies, see [Using other svelte components](#using-other-svelte-components).
-
-Just put your components in `<pipeline-workdir>/<pipeline-name>/.report-workdir/src/components`, just like those builtin components.
-
-To use it (say the component is called `Dialog`):
-
-```jsx
-<script>
-    import { Dialog } from "../components/Dialog";
-    // if you added it to `components/index.js`, you can do:
-    // import {Dialog} from "@@";
-</script>
-```
-
 
 [1]: https://github.com/carbon-design-system/carbon-components-svelte
 [2]: http://ibm.biz/carbon-svelte

@@ -28,5 +28,5 @@ def test_markdown(tmp_path):
 @pytest.mark.forked
 def test_extlibs(tmp_path):
     run_pipeline("extlibs", _dir=tmp_path)
-    report = tmp_path / "outdir" / "REPORTS" / "index" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "procs" / "index" / "index.js"
     assert "Hello world" in report.read_text()

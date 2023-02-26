@@ -68,16 +68,6 @@ Default: `"info"`
 
 The logging level of the `pipen-report` logger. It won't affect the pipen's main logger.
 
-## `report_forks`
-
-Pipeline-level
-
-Default: `None`
-
-Number of cores used to build the reports. Since building reports for each processes are independent after the pipeline is done (all outputs are already generated), so that they can be parallelized.
-
-`None` to use `pipline.config.forks`, the same as the number of cores used to run jobs in parallel.
-
 ## `report_force_export`
 
 Pipeline-level
