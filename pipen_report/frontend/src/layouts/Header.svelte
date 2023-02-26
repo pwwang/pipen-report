@@ -45,13 +45,13 @@
     <HeaderAction isOpen={isOpen} transition={transition}>
       <HeaderPanelLinks>
         <HeaderPanelDivider>Go to home: </HeaderPanelDivider>
-        <HeaderPanelLink href="../../">
+        <HeaderPanelLink href="../../index.html">
           {pipeline_name}
         </HeaderPanelLink>
 
         <HeaderPanelDivider>Switch to process: </HeaderPanelDivider>
         {#each procs as proc}
-          <HeaderPanelLink href={`../../procs/${proc.slug}/`}>
+          <HeaderPanelLink href={`../../procs/${proc.slug}/index.html`}>
               {proc.name}
           </HeaderPanelLink>
         {/each}
