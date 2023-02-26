@@ -20,8 +20,8 @@ NMDIR = str(Path(__file__).parent.joinpath("frontend").resolve())
 NOBUILD = False
 
 # External components to be used in the report
-EXTLIB = None
+EXTLIBS = None
 
 CONFIG = Config.load(GLOBAL_CONFIG, LOCAL_CONFIG, ignore_nonexist=True)
 
-CONFIG_KEYS = ('extlib', 'npm', 'nmdir', 'nobuild')
+CONFIG_KEYS = ('extlibs', 'npm', 'nmdir', 'nobuild')

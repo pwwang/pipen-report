@@ -37,6 +37,21 @@ class PipenReport:
     @plugin.impl
     async def on_init(self, pipen: Pipen) -> None:
         """Default configrations"""
+        # pipeline-level
+        # logging level
+        pipen.config.plugin_opts.setdefault("report_loglevel", "info")
+        # pipeline-level
+        # Force the process to export output when report template is given
+        pipen.config.plugin_opts.setdefault("report_force_export", True)
+        # pipeline-level
+        pipen.config.plugin_opts.setdefault("report_npm", None)
+        # pipeline-level
+        pipen.config.plugin_opts.setdefault("report_nmdir", None)
+        # pipeline-level
+        pipen.config.plugin_opts.setdefault("report_nobuild", None)
+        # pipeline-level
+        pipen.config.plugin_opts.setdefault("report_extlib", None)
+
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)
         # process-level
@@ -49,12 +64,6 @@ class PipenReport:
         # Split the report for a process by h1's
         # None: don't split; 3: 3 h1's in a page
         pipen.config.plugin_opts.setdefault("report_paging", False)
-        # pipeline-level
-        # logging level
-        pipen.config.plugin_opts.setdefault("report_loglevel", "info")
-        # pipeline-level
-        # Force the process to export output when report template is given
-        pipen.config.plugin_opts.setdefault("report_force_export", True)
 
     @plugin.impl
     async def on_start(self, pipen: "Pipen") -> None:
@@ -65,7 +74,11 @@ class PipenReport:
             if isinstance(loglevel, int)
             else loglevel.upper()
         )
-        self.manager = ReportManager(pipen.outdir, pipen.workdir)
+        self.manager = ReportManager(
+            pipen.config.plugin_opts or {},
+            pipen.outdir,
+            pipen.workdir,
+        )
         self.manager.check_npm_and_setup_dirs()
         self.manager.write_data(pipen)
 
@@ -106,7 +119,10 @@ class PipenReport:
         if not succeeded:
             return
 
-        if not get_config("nobuild"):
+        if not get_config(
+            "nobuild",
+            pipen.config.plugin_opts.get("report_nobuild"),
+        ):
             await self.manager.build(pipen)
 
         del self.manager

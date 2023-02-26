@@ -43,12 +43,18 @@ def _render_file(
 
 class ReportManager:
 
-    def __init__(self, outdir: str | PathLike, workdir: str | PathLike) -> None:
+    def __init__(
+        self,
+        plugin_opts: Mapping[str, Any],
+        outdir: str | PathLike,
+        workdir: str | PathLike,
+    ) -> None:
         self.outdir = Path(outdir) / "REPORTS"
         self.workdir = Path(workdir) / ".report-workdir"
-        self.npm = get_config("npm")
-        self.nmdir = Path(get_config("nmdir"))
-        self.nobuild = get_config("nobuild")
+        self.npm = get_config("npm", plugin_opts.get("report_npm"))
+        self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))
+        self.extlibs = get_config("extlibs", plugin_opts.get("report_extlib"))
+        self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
         self.has_reports = False
 
     def check_npm_and_setup_dirs(self) -> None:
@@ -79,8 +85,6 @@ class ReportManager:
             logger.error("Run `pipen report update` to install them")
             sys.exit(1)
 
-        extlib = get_config("extlib")
-
         pubdir = self.workdir / "public"
         if pubdir.is_symlink():
             pubdir.unlink()
@@ -94,7 +98,7 @@ class ReportManager:
             run_auto(
                 str(self.nmdir),
                 self.workdir,
-                data=None if extlib else {"extlib": extlib},
+                data=None if self.extlibs else {"extlibs": self.extlibs},
                 quiet=True,
                 overwrite=True,
             )
@@ -152,38 +156,39 @@ class ReportManager:
         rendering_data["job0"] = rendering_data["jobs"][0]
         return rendering_data
 
-    def _run_npm(
-        self,
-        *args: Any,
-        log_prefix: str,
-        **kwargs: Any,
-    ) -> int:
+    def _npm_run_build(self, *args: Any, **kwargs: Any) -> None:
         """Run a command and log the messages"""
+        from .report_plugin import logger
 
         logfile = self.workdir / "pipen-report.log"
         kwargs.setdefault("_exe", self.npm)
 
-        cmd = cmdy.run(*args, **kwargs, _raise=False)
-        strcmd = cmd.strcmd
+        char_to_log = " → "
+
         with open(logfile, "wt") as flog:
             flog.write("WORKING DIRECTORY:\n")
             flog.write("--------------------\n")
-            flog.write(f"{self.workdir}\n\n")
+            flog.write(f"{self.workdir.resolve()}\n\n")
 
-            flog.write(f"{log_prefix} COMMAND:\n")
-            flog.write("--------------------\n")
-            flog.write(f"{strcmd}\n\n")
-
-            flog.write(f"{log_prefix} STDOUT:\n")
-            flog.write("--------------------\n")
-            flog.write(cmd.stdout)
-
-            flog.write("\n")
-            flog.write(f"{log_prefix} STDERR:\n")
-            flog.write("--------------------\n")
-            flog.write(cmd.stderr)
-
-        return cmd.rc
+            try:
+                for line in cmdy.run("run", "build", *args, **kwargs).iter(
+                    cmdy.STDERR
+                ):
+                    flog.write(line)
+                    if char_to_log in line:
+                        line = line.replace("\033[1m", "[bold]")
+                        line = line.replace("\033[22m", "[/bold]")
+                        line = line.replace("\033[39m", "")
+                        logger.info(f"- {line.rstrip()}")
+            except cmdy.CmdyReturnCodeError as e:
+                flog.write(str(e))
+                logger.error("Failed to build reports")
+                logger.error("See %s for details", logfile)
+            else:
+                logger.info("")
+                logger.info("View the reports at %s", self.outdir)
+                logger.info("Or run the following command to serve them:")
+                logger.info("> pipen report serve -r %s", self.outdir.parent)
 
     def write_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
@@ -367,17 +372,4 @@ class ReportManager:
             return
 
         logger.info("Building reports ...")
-        rc = self._run_npm(
-            "run",
-            "build",
-            log_prefix="BUILDING",
-            _cwd=self.workdir,
-        )
-        if rc != 0:
-            logfile = self.workdir / "pipen-report.log"
-            logger.error("Failed to build report: rc=%s", rc)
-            logger.error("See full log at %s", logfile)
-        else:
-            logger.info("Succeeded. View the reports at %s", self.outdir)
-            logger.info("Or run the following command to serve them:")
-            logger.info("> pipen report serve -r %s", self.outdir.parent)
+        self._npm_run_build(_cwd=self.workdir)

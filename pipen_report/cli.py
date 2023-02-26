@@ -57,7 +57,7 @@ class PipenCliReport(CLIPlugin):
             default=False,
         )
         config_command.add_argument(
-            "--extlib",
+            "--extlibs",
             help="External components to be used in the report",
         )
         config_command.add_argument(
@@ -130,6 +130,13 @@ class PipenCliReport(CLIPlugin):
     def _config(self, args: Namespace) -> None:
         """Execute the config command"""
         if args.list:
+            print("Note that these values can still be overwritten by:")
+            print(
+                "\033[4m\033[1m"
+                "pipeline.plugin_opts.report_<key> = <value>"
+                "\033[0m\033[0m"
+            )
+            print("")
             keylen = max(len(key) for key in CONFIG_KEYS)
             for key in CONFIG_KEYS:
                 print(

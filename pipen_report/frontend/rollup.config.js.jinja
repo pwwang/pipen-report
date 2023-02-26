@@ -15,8 +15,10 @@ const commonConfig = (proc_slug = null, page = 0, cssfile = 'index.css') => ({
 			entries: [
 				{ find: '$components', replacement: '../../components' },
 				{ find: '$layouts', replacement: '../../layouts' },
-				{% if extlib %}
-				{ find: '$extlib', replacement: '{{extlib}}' },
+				{ find: '$libs', replacement: '../../components' },
+				{ find: '$ccs', replacement: 'carbon-components-svelte' },
+				{% if extlibs %}
+				{ find: '$extlibs', replacement: '{{extlibs}}' },
 				{% endif %}
 			]
 		}),
