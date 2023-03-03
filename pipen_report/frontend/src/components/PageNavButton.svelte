@@ -11,22 +11,22 @@
     const get_url = () => {
         let url = new URL(window.location.href);
         url.hash = "";
-        let matching = url.pathname.match(/-part(\d+)\.html/);
+        let matching = url.pathname.match(/-(\d+)\.html/);
         if (matching === null) {
             // curpage = 0
-            url.pathname = url.pathname.replace(".html", `-part1.html`);
+            url.pathname = url.pathname.replace(".html", `-1.html`);
         } else {
             let curpage = parseInt(matching[1]);
             let topage = dir === "up" ? curpage - 1 : curpage + 1;
             if (topage === 0) {
                 url.pathname = url.pathname.replace(
-                    `-part${curpage}.html`,
+                    `-${curpage}.html`,
                     `.html`
                 );
             } else {
                 url.pathname = url.pathname.replace(
-                    `-part${curpage}.html`,
-                    `-part${topage}.html`
+                    `-${curpage}.html`,
+                    `-${topage}.html`
                 );
             }
         }

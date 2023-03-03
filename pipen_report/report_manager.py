@@ -6,7 +6,7 @@ import shutil
 import sys
 from os import PathLike
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Mapping, MutableMapping, Type
+from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
 
 import cmdy
 from cmdy.cmdy_exceptions import CmdyReturnCodeError
@@ -331,13 +331,8 @@ class ReportManager:
                 name=proc.name,
                 slug=slug,
                 page=i,
+                toc=toc,
             )
-
-        if report_toc:
-            # save toc
-            tocfile = self.workdir.joinpath("src", "pages", slug, "toc.json")
-            with tocfile.open("w") as f:
-                json.dump(toc, f, indent=2)
 
     def _render_page(
         self,
@@ -345,6 +340,7 @@ class ReportManager:
         name: str,
         slug: str,
         page: int,
+        toc: List[Mapping[str, Any]] | None,
     ):
         """Render a page of the report"""
         tpl_dir = self.nmdir.joinpath("src", "pages", "proc")
@@ -364,8 +360,19 @@ class ReportManager:
 
         if rendered_report.exists():
             rendered_report.unlink()
-
         rendered_report.write_text(rendered)
+
+        if page == 0:
+            with dest_dir.joinpath("toc.json").open("w") as f:
+                json.dump(toc, f, indent=2)
+        else:
+            # symlink the toc file for other pages
+            tocfile = self.workdir.joinpath("src", "pages", slug, "toc.json")
+            desttocfile = dest_dir.joinpath("toc.json")
+            if desttocfile.exists() or desttocfile.is_symlink():
+                desttocfile.unlink()
+            desttocfile.symlink_to(tocfile.resolve())
+
         return rendered_report
 
     async def build(self, pipen: Pipen) -> None:
