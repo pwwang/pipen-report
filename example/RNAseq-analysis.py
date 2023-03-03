@@ -14,7 +14,10 @@ class DataPreparation(Proc):
     # Let's use python to do this
     lang = "python"
     script = "file://scripts/DataPreparation.py"
-    plugin_opts = {"report": "file://reports/DataPreparation.svelte"}
+    plugin_opts = {
+        "report": "file://reports/DataPreparation.svelte",
+        "report_paging": 1,
+    }
 
 
 class DataPreprocessing(Proc):
