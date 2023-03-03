@@ -86,14 +86,14 @@ trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
 name = "argx"
-version = "0.2.3"
+version = "0.2.4"
 description = "Super-charged argparse for python"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "argx-0.2.3-py3-none-any.whl", hash = "sha256:516199922dc4ebb78a1821d7db3b3bd981361f3daf27735a35f550b7b22cca98"},
-    {file = "argx-0.2.3.tar.gz", hash = "sha256:452983b1e9f22fd00fa02cf2a34532b3cc37e324f4f5c6e03beff2d8189c9084"},
+    {file = "argx-0.2.4-py3-none-any.whl", hash = "sha256:91b7fa8aad3b770c4fe159bf37d84ba85535b73f16a25067855477fbf9d3ef1d"},
+    {file = "argx-0.2.4.tar.gz", hash = "sha256:8e56650b67ff6f00c4564906e628a6efb865534351f85512b6dd5b0f9ebff8fb"},
 ]
 
 [package.dependencies]
@@ -725,18 +725,6 @@ files = [
 ]
 
 [[package]]
-name = "more-itertools"
-version = "8.14.0"
-description = "More routines for operating on iterables, beyond itertools"
-category = "main"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "more-itertools-8.14.0.tar.gz", hash = "sha256:c09443cd3d5438b8dafccd867a6bc1cb0894389e90cb53d227456b0b0bccb750"},
-    {file = "more_itertools-8.14.0-py3-none-any.whl", hash = "sha256:1bc4f91ee5b1b31ac7ceacc17c09befe6a40a503907baf9c839c229b5095cfd2"},
-]
-
-[[package]]
 name = "numpy"
 version = "1.21.6"
 description = "NumPy is the fundamental package for array computing with Python."
@@ -904,14 +892,14 @@ executing = ">1.1.0,<2.0"
 
 [[package]]
 name = "pipen"
-version = "0.4.5"
+version = "0.5.0"
 description = "A pipeline framework for python"
 category = "main"
 optional = false
 python-versions = ">=3.7.1,<4.0.0"
 files = [
-    {file = "pipen-0.4.5-py3-none-any.whl", hash = "sha256:94774363bd3084d6959b616b33b4daea2fdf668fa7d7e63bbd55eaa58f264549"},
-    {file = "pipen-0.4.5.tar.gz", hash = "sha256:960ad3fd609199296d19c2d462f4a6ac1300fdca938f164185a047eb9739dccc"},
+    {file = "pipen-0.5.0-py3-none-any.whl", hash = "sha256:8cfe25f6887f597a484286b21380dede46355fda9dd1755bca2d744d189ea9d6"},
+    {file = "pipen-0.5.0.tar.gz", hash = "sha256:f463a6f9928ebda69654a0b5783461f7f725d42ab755f5cc4da6b76f10101725"},
 ]
 
 [package.dependencies]
@@ -919,7 +907,6 @@ argx = ">=0.2,<0.3"
 cached-property = ">=1,<2"
 enlighten = ">=1,<2"
 liquidpy = ">=0.7,<0.8"
-more-itertools = ">=8,<9"
 pandas = ">=1.3,<2.0"
 pipda = ">=0.11,<0.12"
 python-simpleconf = {version = ">=0.5,<0.6", extras = ["toml"]}
@@ -983,14 +970,14 @@ files = [
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.37"
+version = "3.0.38"
 description = "Library for building powerful interactive command lines in Python"
 category = "main"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.37-py3-none-any.whl", hash = "sha256:6a2948ec427dfcc7c983027b1044b355db6aaa8be374f54ad2015471f7d81c5b"},
-    {file = "prompt_toolkit-3.0.37.tar.gz", hash = "sha256:d5d73d4b5eb1a92ba884a88962b157f49b71e06c4348b417dd622b25cdd3800b"},
+    {file = "prompt_toolkit-3.0.38-py3-none-any.whl", hash = "sha256:45ea77a2f7c60418850331366c81cf6b5b9cf4c7fd34616f733c5427e6abbb1f"},
+    {file = "prompt_toolkit-3.0.38.tar.gz", hash = "sha256:23ac5d50538a9a38c8bde05fecb47d0b403ecd0662857a86f886f798563d5b9b"},
 ]
 
 [package.dependencies]
@@ -1105,14 +1092,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pytest"
-version = "7.2.1"
+version = "7.2.2"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.2.1-py3-none-any.whl", hash = "sha256:c7c6ca206e93355074ae32f7403e8ea12163b1163c976fee7d4d84027c162be5"},
-    {file = "pytest-7.2.1.tar.gz", hash = "sha256:d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42"},
+    {file = "pytest-7.2.2-py3-none-any.whl", hash = "sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e"},
+    {file = "pytest-7.2.2.tar.gz", hash = "sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"},
 ]
 
 [package.dependencies]
@@ -1641,4 +1628,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7.1"
-content-hash = "91023648abe6c79c49661dc3078b07e89fd8149f7be4afc49a0c139a5e9d2d2f"
+content-hash = "f92e304fb95870003577ef23425e3d912ca1480d10dd8ebd660d68901fe0c88d"
