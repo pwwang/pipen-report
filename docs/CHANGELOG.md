@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.6.0
+
+- 👷 Use latest actions
+- 🐛 Add index.html so the reports work using file:// protocol
+- 🐛 Fix toc with paging
+- ⬆️ Bump pipen to 0.5
+- 📝 Update example
+
 ## 0.5.0
 
 - ♻️ Refactor based on pipen v0.4
