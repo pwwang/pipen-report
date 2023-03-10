@@ -8,9 +8,12 @@ readme = "README.md"
 homepage = "https://github.com/pwwang/pipen-report"
 repository = "https://github.com/pwwang/pipen-report"
 
+[tool.poetry.build]
+generate-setup-file = true
+
 [tool.poetry.dependencies]
 python = "^3.7.1"
-pipen = "^0.5"
+pipen = "^0.6"
 cmdy = "^0.5"
 Markdown = "^3"
 copier = "^7"
