@@ -22,3 +22,7 @@ def pipeline(**config):
         .set_start(Process2)
         .set_data([(1, 2)])
     )
+
+
+if __name__ == "__main__":
+    pipeline().run()
