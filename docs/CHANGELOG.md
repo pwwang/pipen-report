@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.7.1
+
+- 💄 Add single form of path alias
+- 🔧 Change default port to 18520 for serve command
+- ⬆️ Update frontend deps
+
+## 0.7.0
+
+- ⬆️ Update frontend deps
+- ⬆️ Bump pipen to 0.6
+
 ## 0.6.0
 
 - 👷 Use latest actions
