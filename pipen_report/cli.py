@@ -98,7 +98,7 @@ class PipenCliReport(CLIPlugin):
             "--port",
             "-p",
             help="The port to serve the report",
-            default=8525,
+            default=18520,
             type=int,
         )
         serve_command.add_argument(
