@@ -9,7 +9,7 @@ class ProcessNoTOC(Proc):
     input = "inimg:file"
     # Use variable to skip checking
     output = "outimg:file:{{in.inimg | basename}}"
-    script = "ln -s {{in.inimg}} {{out.outimg}}"
+    script = "cp {{in.inimg}} {{out.outimg}}"
     plugin_opts = {
         "report": """
         <script>
@@ -29,7 +29,7 @@ class ProcessWithPaging(Proc):
     # Use variable to skip checking
     output = "outimg:file:{{in.inimg | basename}}"
     script = """
-        ln -s {{in.inimg}} {{out.outimg}}
+        cp {{in.inimg}} {{out.outimg}}
         tablefile={{job.outdir}}/table.txt
         echo -e 'A\tB\tC\n' > $tablefile
         echo -e '1\t2\t3\n' >> $tablefile
