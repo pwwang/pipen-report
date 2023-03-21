@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.7.2
+
+- 🐛 Fix toc missing for paging
+- 🐛 Load ccs css first in html instead of compiled into js in defer mode
+- 📝 Use a simpler example
+
 ## 0.7.1
 
 - 💄 Add single form of path alias
