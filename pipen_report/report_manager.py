@@ -362,17 +362,18 @@ class ReportManager:
             rendered_report.unlink()
         rendered_report.write_text(rendered)
 
-        if page == 0:
-            with dest_dir.joinpath("toc.json").open("w") as f:
-                json.dump(toc, f, indent=2)
-        else:
-            # symlink the toc file for other pages
-            tocfile = self.workdir.joinpath("src", "pages", slug, "toc.json")
-            desttocfile = dest_dir.joinpath("toc.json")
-            if desttocfile.exists() or desttocfile.is_symlink():
-                desttocfile.unlink()
-            desttocfile.symlink_to(tocfile.resolve())
-
+        with dest_dir.joinpath("toc.json").open("w") as f:
+            json.dump(toc, f, indent=2)
+        # if page == 0:
+        #     with dest_dir.joinpath("toc.json").open("w") as f:
+        #         json.dump(toc, f, indent=2)
+        # else:
+        #     # symlink the toc file for other pages
+        #     tocfile = self.workdir.joinpath("src", "pages", slug, "toc.json")
+        #     desttocfile = dest_dir.joinpath("toc.json")
+        #     if desttocfile.exists() or desttocfile.is_symlink():
+        #         desttocfile.unlink()
+        #     desttocfile.symlink_to(tocfile.resolve())
         return rendered_report
 
     async def build(self, pipen: Pipen) -> None:
