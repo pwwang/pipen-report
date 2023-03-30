@@ -63,6 +63,10 @@ div[themes].bx--form-item > .bx--select--inline select {
 	border: 1px solid var(--cds-ui-03);
 }
 
+.bx--tile--clickable {
+	height: 100%;
+}
+
 #main-content h3 {
     margin: .3rem 0 .1rem 0;
 }

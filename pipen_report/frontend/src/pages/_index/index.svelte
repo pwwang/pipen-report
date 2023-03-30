@@ -1,9 +1,4 @@
 <script>
-    import {
-        Grid,
-        Row,
-        Column
-    } from "carbon-components-svelte";
     import IndexLayout from "../../layouts/Index.svelte";
     import ProcCard from "../../layouts/ProcCard.svelte";
 
@@ -14,28 +9,27 @@
 </script>
 
 <IndexLayout logo={pipeline.name} logotext={pipeline.desc} {versions}>
-    <Grid>
-    {#if procs.length < 10}
+    <div class="bx--grid proc-list {procs.length < 10 ? "col-1" : "col-2"}">
         {#each procs as proc}
-        <Row>
-            <Column>
-                <ProcCard name={proc["name"]} slug={proc["slug"]} desc={proc["desc"]} />
-            </Column>
-        </Row>
+        <div>
+            <ProcCard name={proc["name"]} slug={proc["slug"]} desc={proc["desc"]} />
+        </div>
         {/each}
-    {:else}
-        {#each [...Array(procs.length).keys()].filter(n => n % 2 == 0) as i}
-        <Row>
-            <Column>
-                <ProcCard name={procs[i]["name"]} slug={procs[i]["slug"]} desc={procs[i]["desc"]} />
-            </Column>
-            <Column>
-                {#if i + 1 < procs.length}
-                <ProcCard name={procs[i+1]["name"]} slug={procs[i+1]["slug"]} desc={procs[i+1]["desc"]} />
-                {/if}
-            </Column>
-        </Row>
-        {/each}
-    {/if}
-    </Grid>
+    </div>
 </IndexLayout>
+
+<style>
+    .proc-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 0.1rem 1.6rem;
+    }
+
+    .proc-list.col-1 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .proc-list > div {
+        min-height: 6.2rem;
+    }
+</style>
