@@ -1,14 +1,16 @@
-import importlib
+import sys
 from pathlib import Path
+from subprocess import run
 
 
-def run_pipeline(
-    pipeline, _dir=None, **kwargs
-):
-
-    mod = importlib.import_module(f".pipelines.{pipeline}", package="tests")
+def run_pipeline(pipeline, _dir=None):
+    """Run a pipeline in a subprocess."""
+    pipeline_file = Path(__file__).parent / "pipelines" / f"{pipeline}.py"
+    pipeline_file = pipeline_file.resolve()
+    cmd = [sys.executable, str(pipeline_file)]
     if _dir:
-        kwargs["workdir"] = Path(_dir) / "workdir"
-        kwargs["outdir"] = Path(_dir) / "outdir"
+        workdir = Path(_dir) / "workdir"
+        outdir = Path(_dir) / "outdir"
+        cmd += [str(workdir), str(outdir)]
 
-    mod.pipeline(**kwargs).run()
+    run(cmd)

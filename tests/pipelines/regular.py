@@ -1,4 +1,4 @@
-
+import sys
 from pathlib import Path
 from pipen import Proc, Pipen
 
@@ -46,3 +46,14 @@ def pipeline(**config):
         .set_start(Process2, ReportNoH1_1)
         .set_data([Path(__file__).parent.parent / "data" / "x.png"], [1])
     )
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        pipeline(
+            plugins=["no:args"],
+            workdir=sys.argv[1],
+            outdir=sys.argv[2],
+        ).run()
+    else:
+        pipeline().run()

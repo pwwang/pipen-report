@@ -182,7 +182,7 @@ class ReportManager:
                         line = line.replace("\033[22m", "[/bold]")
                         line = line.replace("\033[39m", "")
                         logger.info(f"- {line.rstrip()}")
-                    elif chars_to_error in line:
+                    elif chars_to_error in line:  # pragma: no cover
                         line = line.replace("\033[1m", "[bold]")
                         line = line.replace("\033[22m", "[/bold]")
                         line = line.replace("\033[33m", "[red]")
@@ -193,7 +193,7 @@ class ReportManager:
                 flog.write(str(e))
                 logger.error("Failed to build reports")
                 logger.error("See %s for details", logfile)
-            except RuntimeError as e:
+            except RuntimeError as e:  # pragma: no cover
                 logger.error(str(e))
                 logger.error("See %s for details", logfile)
             else:

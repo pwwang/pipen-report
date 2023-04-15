@@ -1,5 +1,4 @@
 import pytest  # noqa
-
 from . import run_pipeline
 
 

@@ -12,10 +12,10 @@ def test_regular(tmp_path):
 
 @pytest.mark.forked
 def test_markdown(tmp_path):
-    run_pipeline("markdown", _dir=tmp_path)
+    run_pipeline("markdown_", _dir=tmp_path)
     report = tmp_path.joinpath(
         "workdir",
-        "markdown-process",
+        "Markdown-process",
         ".report-workdir",
         "src",
         "pages",

@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 from pipen import Proc, Pipen
 
 HERE = Path(__file__).parent
@@ -35,4 +36,12 @@ def pipeline(**config):
 
 
 if __name__ == "__main__":
-    pipeline().run()
+    if len(sys.argv) > 1:
+        pipeline(
+            plugins=["no:args"],
+            workdir=sys.argv[1],
+            outdir=sys.argv[2],
+        ).run()
+    else:
+        pipeline().run()
+

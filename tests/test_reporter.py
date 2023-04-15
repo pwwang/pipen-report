@@ -7,7 +7,7 @@ from . import run_pipeline
 def test_regular(tmp_path):
     run_pipeline("single", _dir=tmp_path)
 
-    report_workdir = tmp_path / "workdir" / "single-process" / ".report-workdir"
+    report_workdir = tmp_path / "workdir" / "Single-process" / ".report-workdir"
     assert report_workdir.exists()
     assert report_workdir.joinpath("public").is_symlink()
 
