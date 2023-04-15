@@ -783,7 +783,7 @@ xqute = ">=0.2.1,<0.3.0"
 name = "pipen-filters"
 version = "0.7.0"
 description = "Add a set of useful filters for pipen templates"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
@@ -1453,4 +1453,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "66a6270ac9a5159b09050877aaa136714c0925dcbfed7c7860104a075f9fbb6c"
+content-hash = "f4648d062b9bc8f8aa01821128169870f904b3ff228bd178fd9c0954adfaa8c7"

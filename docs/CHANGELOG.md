@@ -1,5 +1,19 @@
 # Change Log
 
+## 0.9.0
+
+- ⬆️ Bump pipen to 0.9
+- ⬆️ Drop support for python 3.7
+- ⬆️ Upgrade frontend dependents
+- ⬆️ Add pipen-filters as dev deps
+- 🐛 Fix a11y warning for frontend
+
+## 0.8.0
+
+⬆️ Upgrade pipen to 0.7
+⬆️ Update frontend deps
+🎨 Use css grid for proc list
+
 ## 0.7.2
 
 - 🐛 Fix toc missing for paging
