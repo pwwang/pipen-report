@@ -780,6 +780,21 @@ varname = ">=0.11,<0.12"
 xqute = ">=0.2.1,<0.3.0"
 
 [[package]]
+name = "pipen-filters"
+version = "0.7.0"
+description = "Add a set of useful filters for pipen templates"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pipen_filters-0.7.0-py3-none-any.whl", hash = "sha256:225d706c6ad5c600b5e51345c0fb5c59a9b676703dbaa63381028f54805d8090"},
+    {file = "pipen_filters-0.7.0.tar.gz", hash = "sha256:43df52d167965ae9308f5c706363eeade442cc9689814cdf36c80a7eecf86fdc"},
+]
+
+[package.dependencies]
+pipen = ">=0.9,<0.10"
+
+[[package]]
 name = "pluggy"
 version = "1.0.0"
 description = "plugin and hook calling mechanisms for python"
@@ -1041,6 +1056,24 @@ toml = ["rtoml (>=0.8,<0.9)"]
 yaml = ["pyyaml (>=6,<7)"]
 
 [[package]]
+name = "python-slugify"
+version = "8.0.1"
+description = "A Python slugify application that also handles Unicode"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "python-slugify-8.0.1.tar.gz", hash = "sha256:ce0d46ddb668b3be82f4ed5e503dbc33dd815d83e2eb6824211310d3fb172a27"},
+    {file = "python_slugify-8.0.1-py2.py3-none-any.whl", hash = "sha256:70ca6ea68fe63ecc8fa4fcf00ae651fc8a5d02d93dcd12ae6d4fc7ca46c4d395"},
+]
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
+
+[[package]]
 name = "pytz"
 version = "2023.3"
 description = "World timezone definitions, modern and historical"
@@ -1269,6 +1302,18 @@ files = [
 ]
 
 [[package]]
+name = "text-unidecode"
+version = "1.3"
+description = "The most basic Text::Unidecode port"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
+    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -1408,4 +1453,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "7303099ba995803ca3d3888e8a3925fddb7c6fa37a119f4c767957d0c7d430cb"
+content-hash = "66a6270ac9a5159b09050877aaa136714c0925dcbfed7c7860104a075f9fbb6c"
