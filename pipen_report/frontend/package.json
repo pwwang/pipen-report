@@ -8,8 +8,8 @@
         "build": "rollup -c"
     },
     "devDependencies": {
-        "@rollup/plugin-alias": "^4.0",
-        "@rollup/plugin-commonjs": "^24.0",
+        "@rollup/plugin-alias": "^5.0",
+        "@rollup/plugin-commonjs": "^24.1",
         "@rollup/plugin-json": "^6.0",
         "@rollup/plugin-node-resolve": "^15.0",
         "@rollup/plugin-terser": "^0.4",
@@ -21,6 +21,6 @@
         "rollup-plugin-css-only": "^4.3",
         "rollup-plugin-livereload": "^2.0",
         "rollup-plugin-svelte": "^7.1",
-        "svelte": "^3.56.0"
+        "svelte": "^3.58.0"
     }
 }

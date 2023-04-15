@@ -10,7 +10,15 @@ import data from './src/data.json' assert { type: 'json' };
 
 const commonConfig = (proc_slug = null, page = 0, cssfile = 'index.css') => ({
 	plugins: [
-		svelte({ compilerOptions: { dev: false } }),
+		svelte({
+			compilerOptions: { dev: false },
+			onwarn: (warning, handler) => {
+				// carbon-components-svelte 0.37.5
+				// svelte 3.58.0
+				if (warning.code === 'a11y-autofocus' || warning.code === 'a11y-interactive-supports-focus') return;
+				handler(warning);
+			}
+		}),
 		alias({
 			entries: [
 				{ find: '$components', replacement: '../../components' },
