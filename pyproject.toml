@@ -12,8 +12,8 @@ repository = "https://github.com/pwwang/pipen-report"
 generate-setup-file = true
 
 [tool.poetry.dependencies]
-python = "^3.7.1"
-pipen = "^0.7"
+python = "^3.8"
+pipen = "^0.9"
 cmdy = "^0.5"
 Markdown = "^3"
 copier = "^7"
@@ -51,5 +51,5 @@ strict_optional = false
 
 [tool.black]
 line-length = 79
-target-version = ['py37', 'py38', 'py39']
+target-version = ['py38', 'py39', 'py310']
 include = '\.pyi?$'
