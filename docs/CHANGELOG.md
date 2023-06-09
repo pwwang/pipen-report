@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.10.0
+
+- ⬆️ Bump pipen to 0.10.0
+- 🐛 Adopt pipen 0.10.0 (change on_proc_init to on_proc_create)
+- ⬆️ Update frontend dependencies
+- ✏️ Change `>` to `$` as command hint in logs⏎
+
 ## 0.9.0
 
 - ⬆️ Bump pipen to 0.9
