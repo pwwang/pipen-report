@@ -4,12 +4,11 @@ import json
 
 import shutil
 import sys
+import subprocess as sp
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
 
-import cmdy
-from cmdy.cmdy_exceptions import CmdyReturnCodeError
 from copier import run_auto
 from slugify import slugify
 from pipen import Proc
@@ -157,12 +156,11 @@ class ReportManager:
         rendering_data["job0"] = rendering_data["jobs"][0]
         return rendering_data
 
-    def _npm_run_build(self, *args: Any, **kwargs: Any) -> None:
+    def _npm_run_build(self, cwd: Path) -> None:
         """Run a command and log the messages"""
         from .report_plugin import logger
 
         logfile = self.workdir / "pipen-report.log"
-        kwargs.setdefault("_exe", self.npm)
 
         chars_to_log = " → "
         chars_to_error = "(!)"
@@ -173,9 +171,13 @@ class ReportManager:
             flog.write(f"{self.workdir.resolve()}\n\n")
 
             try:
-                for line in cmdy.run("run", "build", *args, **kwargs).iter(
-                    cmdy.STDERR
-                ):
+                p = sp.Popen(
+                    [self.npm, "run", "build"],
+                    stderr=sp.PIPE,
+                    cwd=str(cwd),
+                )
+                for line in p.stderr:
+                    line = line.decode()
                     flog.write(line)
                     if chars_to_log in line:
                         line = line.replace("\033[1m", "[bold]")
@@ -189,12 +191,10 @@ class ReportManager:
                         line = line.replace("\033[39m", "[/red]")
                         logger.error(f"- {line.rstrip()}")
                         raise RuntimeError("Failed to build reports")
-            except CmdyReturnCodeError as e:  # pragma: no cover
+                p.wait()
+            except Exception as e:  # pragma: no cover
                 flog.write(str(e))
                 logger.error("Failed to build reports")
-                logger.error("See %s for details", logfile)
-            except RuntimeError as e:  # pragma: no cover
-                logger.error(str(e))
                 logger.error("See %s for details", logfile)
             else:
                 logger.info("View the reports at %s", self.outdir)
@@ -391,4 +391,4 @@ class ReportManager:
             return
 
         logger.info("Building reports ...")
-        self._npm_run_build(_cwd=self.workdir)
+        self._npm_run_build(cwd=self.workdir)

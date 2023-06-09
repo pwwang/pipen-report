@@ -4,10 +4,10 @@ from __future__ import annotations
 import stat
 import http.server
 import socketserver
+import subprocess as sp
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-import cmdy
 import rtoml
 from copier import run_auto
 from pipen.cli import CLIPlugin
@@ -181,11 +181,15 @@ class PipenCliReport(CLIPlugin):
             print(f"\033[4m{nmdir}\033[0m")
             print("")
             print("Running: npm update ...")
-            for line in cmdy.npm.update(
-                _cwd=nmdir,
-                _exe=get_config("npm")
-            ).iter():
-                print(line, end="")
+            p = sp.Popen(
+                [get_config("npm"), "update"],
+                cwd=str(nmdir),
+                stdout=sp.PIPE,
+                stderr=sp.STDOUT,
+            )
+            for line in p.stdout:
+                print(line.decode(), end="")
+            p.wait()
 
     def _serve(self, args: Namespace) -> None:  # pragma: no cover
         """Execute the serve command"""

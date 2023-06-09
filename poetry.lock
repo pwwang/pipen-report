@@ -152,23 +152,6 @@ files = [
 develop = ["aiomisc-pytest", "pytest", "pytest-cov"]
 
 [[package]]
-name = "cmdy"
-version = "0.5.4"
-description = "Shell language to run command in python"
-category = "main"
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "cmdy-0.5.4-py3-none-any.whl", hash = "sha256:b9dd68c62de9086f42ce1a3cc2b8a2598f71f249df6a945550e81637bee9709a"},
-    {file = "cmdy-0.5.4.tar.gz", hash = "sha256:f3baf5bb7d1aec4db988610994d0b6238051d683002daf813103f4266ec20c75"},
-]
-
-[package.dependencies]
-curio = ">=1.6,<2.0"
-python-simpleconf = {version = ">=0.5,<0.6", extras = ["toml"]}
-varname = {version = ">=0.11,<0.12", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-
-[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -282,20 +265,6 @@ tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.1
 
 [package.extras]
 toml = ["tomli"]
-
-[[package]]
-name = "curio"
-version = "1.6"
-description = "Curio"
-category = "main"
-optional = false
-python-versions = ">= 3.7"
-files = [
-    {file = "curio-1.6.tar.gz", hash = "sha256:562a586db20216ba7d2be8263deb9eb079e56048f9b8906d11d5f45aa81c5247"},
-]
-
-[package.extras]
-test = ["Sphinx", "pytest"]
 
 [[package]]
 name = "diot"
@@ -769,14 +738,14 @@ executing = ">1.1.0,<2.0"
 
 [[package]]
 name = "pipen"
-version = "0.10.0"
+version = "0.10.1"
 description = "A pipeline framework for python"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pipen-0.10.0-py3-none-any.whl", hash = "sha256:7e0a8340976b2ad38e8dab3037a549e44046fb29170d61f616cf71ce185df8c9"},
-    {file = "pipen-0.10.0.tar.gz", hash = "sha256:0ee9b8f6709d847537e426061be7b295fbcd222243910fc78f11b86e8d09fe99"},
+    {file = "pipen-0.10.1-py3-none-any.whl", hash = "sha256:9ed091f654cb2096dfd1cc40da9ec374226f198808e86d791a19a156f0be8da6"},
+    {file = "pipen-0.10.1.tar.gz", hash = "sha256:8292c8a76a987c21c4b2e265c252eaab4772f6ac463e3593ddb14887dcea9669"},
 ]
 
 [package.dependencies]
@@ -1463,4 +1432,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "7e3ab841f9d451e18a4993d7e64cb6bd74dfb23769733b65e518b9379fed0ebf"
+content-hash = "25c6f5c858be7a5d28ee9b2f13515b2ddd05fb9e18a84d0fc93a7ac700a438d7"

@@ -14,7 +14,6 @@ generate-setup-file = true
 [tool.poetry.dependencies]
 python = "^3.8"
 pipen = "^0.10"
-cmdy = "^0.5"
 Markdown = "^3"
 copier = "^7"
 python-slugify = "^8.0.1"
