@@ -70,7 +70,7 @@ class ReportManager:
                 "Cannot find npm. Please install it or specify the path "
                 "to npm by:"
             )
-            logger.error("> pipen report config [--local] --npm <path/to/npm>")
+            logger.error("$ pipen report config [--local] --npm <path/to/npm>")
             sys.exit(1)
 
         if not self.nmdir.is_dir():  # pragma: no cover
@@ -199,7 +199,7 @@ class ReportManager:
             else:
                 logger.info("View the reports at %s", self.outdir)
                 logger.info("Or run the following command to serve them:")
-                logger.info("> pipen report serve -r %s", self.outdir.parent)
+                logger.info("$ pipen report serve -r %s", self.outdir.parent)
 
     def write_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
