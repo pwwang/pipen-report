@@ -122,9 +122,9 @@ docs/index.md
 Rplots.pdf
 t.py
 
-tests/**/*_results
-example-largereport/*_results
+tests/**/*-output
+example-largereport/*-output
 TrackingNumCells.html
 # output/
-/*_results
+/*-output
 /frontend-copied

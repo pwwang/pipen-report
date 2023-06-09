@@ -13,7 +13,7 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pipen = "^0.9"
+pipen = "^0.10"
 cmdy = "^0.5"
 Markdown = "^3"
 copier = "^7"
@@ -24,7 +24,7 @@ pytest = "^7"
 pytest-cov = "^4"
 pytest-xdist = "^2"
 pytest-forked = "^1"
-pipen-filters = "^0.7.0"
+pipen-filters = "^0.8"
 
 [build-system]
 requires = ["poetry>=0.12"]
