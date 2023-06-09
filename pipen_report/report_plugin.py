@@ -83,7 +83,7 @@ class PipenReport:
         self.manager.write_data(pipen)
 
     @plugin.impl
-    def on_proc_init(self, proc: Proc) -> None:
+    def on_proc_create(self, proc: Proc) -> None:
         """For a non-export process to export if report template is given"""
         # proc.plugin_opts not updated yet, check pipeline options
         try:
