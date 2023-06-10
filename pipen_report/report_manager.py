@@ -174,6 +174,7 @@ class ReportManager:
                 p = sp.Popen(
                     [self.npm, "run", "build"],
                     stderr=sp.PIPE,
+                    stdout=sp.PIPE,
                     cwd=str(cwd),
                 )
                 for line in p.stderr:
