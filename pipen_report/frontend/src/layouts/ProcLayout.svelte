@@ -14,6 +14,7 @@
   export let toc;
   export let page;
   export let isSideNavOpen;
+  export let runinfo;
 </script>
 
 <Header {logo} {logotext} {procs} {pipeline_name} bind:isSideNavOpen />
@@ -31,5 +32,5 @@
       </Column>
     </Row>
   </Grid>
-  <Footer {versions} />
+  <Footer {versions} {runinfo} />
 </Content>

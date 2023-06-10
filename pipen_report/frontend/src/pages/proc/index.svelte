@@ -21,6 +21,7 @@
     procs={data.procs}
     pipeline_name={data.pipeline.name}
     report_toc={proc.report_toc}
+    runinfo={proc.runinfo}
     {toc}
     {page}
     >

@@ -5,6 +5,7 @@ import json
 import shutil
 import sys
 import subprocess as sp
+import textwrap
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
@@ -241,11 +242,39 @@ class ReportManager:
         with datafile.open() as f:
             data = json.load(f)
 
+        runinfo_sess_file = proc.workdir / "0" / "job.runinfo.session"
+        runinfo_time_file = proc.workdir / "0" / "job.runinfo.time"
+        runinfo_dev_file = proc.workdir / "0" / "job.runinfo.device"
+
+        runinfo_sess = (
+            runinfo_sess_file.read_text()
+            if runinfo_sess_file.exists()
+            else (
+                "pipen-runinfo plugin not enabled or language not supported "
+                "for saving session information."
+            )
+        )
+        runinfo_time = (
+            textwrap.dedent(runinfo_time_file.read_text())
+            if runinfo_time_file.exists()
+            else "pipen-runinfo plugin not enabled."
+        )
+        runinfo_dev = (
+            runinfo_dev_file.read_text()
+            if runinfo_dev_file.exists()
+            else "pipen-runinfo plugin not enabled."
+        )
+
         for p in data["procs"]:
             if p["name"] == proc.name:
                 p["npages"] = npages
                 p["desc"] = proc.desc
                 p["report_toc"] = proc.plugin_opts.get("report_toc", True)
+                p["runinfo"] = {
+                    "session": runinfo_sess,
+                    "time": runinfo_time,
+                    "device": runinfo_dev,
+                }
                 break
 
         with datafile.open("w") as f:
