@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.12.0
+
+- ✨ Allow collapse proc groups
+- 🎨 Improve logging in building process
+- ✅ Fix tests
+
+## 0.11.0
+
+- ➖ Remove cmdy
+- 🐛 Fix unnecessary npm output showing in logs
+- ✨ Add running information
+
 ## 0.10.0
 
 - ⬆️ Bump pipen to 0.10.0
