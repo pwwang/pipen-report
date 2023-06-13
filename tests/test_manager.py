@@ -17,21 +17,21 @@ def test_report_paging(tmp_path):
         "outdir",
         "REPORTS",
         "procs",
-        "process2",
+        "Process2",
         "index.js",
     )
     report1 = tmp_path.joinpath(
         "outdir",
         "REPORTS",
         "procs",
-        "process2",
+        "Process2",
         "index-1.js",
     )
     report2 = tmp_path.joinpath(
         "outdir",
         "REPORTS",
         "procs",
-        "process2",
+        "Process2",
         "index-2.js",
     )
     assert report0.exists()
