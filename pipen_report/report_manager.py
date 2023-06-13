@@ -11,11 +11,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
 
 from copier import run_auto
-from slugify import slugify
-from pipen import Proc
+from pipen import Proc, ProcGroup
 from pipen.exceptions import TemplateRenderingError
 from pipen.template import TemplateLiquid, TemplateJinja2
-from pipen.utils import get_base
+from pipen.utils import get_base, desc_from_docstring
 
 from .filters import FILTERS
 from .preprocess import preprocess
@@ -56,7 +55,11 @@ class ReportManager:
         self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))
         self.extlibs = get_config("extlibs", plugin_opts.get("report_extlibs"))
         self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
+        self.no_collapse_pgs = plugin_opts.get("report_no_collapse_pgs") or []
         self.has_reports = False
+
+        if isinstance(self.no_collapse_pgs, str):
+            self.no_collapse_pgs = [self.no_collapse_pgs]
 
     def check_npm_and_setup_dirs(self) -> None:
         """Check if npm is available"""
@@ -212,26 +215,47 @@ class ReportManager:
                 "desc": pipen.desc,
             },
             "versions": version_str,
-            "procs": [],
+            "entries": [
+                # Either a proc or a procgroup
+            ],
         }
 
-        for proc in pipen.procs:
+        procgroups = {}
+        for i, proc in enumerate(pipen.procs):
             if not (getattr(proc, "plugin_opts") or {}).get("report", False):
                 continue
 
-            data["procs"].append(
-                {
-                    "name": proc.name,
-                    "desc": proc.desc,
-                    "slug": slugify(proc.name),
-                    "npages": 1,
-                    "report_toc": True,
-                    "order": (
-                        (proc.plugin_opts or {}).get("report_order", 0) * 1000
-                        + (proc.order or 0)
-                    ),
+            entry = {
+                "name": proc.name,
+                "desc": proc.desc,
+                "npages": 1,
+                "report_toc": True,
+                "order": (
+                    (proc.plugin_opts or {}).get("report_order", 0) * 1000
+                    + (proc.order or i)
+                ),
+            }
+
+            pg = proc.__meta__["procgroup"]
+            if self.no_collapse_pgs is True or pg.name in self.no_collapse_pgs:
+                pg = None
+            if pg and pg.name not in procgroups:
+                procgroups[pg.name] = {
+                    "name": pg.name,
+                    "desc": desc_from_docstring(pg.__class__, ProcGroup),
+                    "order": entry["order"],
+                    "procs": [entry],
                 }
-            )
+                data["entries"].append(procgroups[pg.name])
+            elif pg:
+                procgroups[pg.name]["order"] = min(
+                    procgroups[pg.name]["order"], entry["order"]
+                )
+                procgroups[pg.name]["procs"].append(entry)
+            else:
+                data["entries"].append(entry)
+
+        data["entries"].sort(key=lambda x: x["order"])
 
         with datafile.open("w") as f:
             json.dump(data, f, indent=2)
@@ -264,17 +288,29 @@ class ReportManager:
             if runinfo_dev_file.exists()
             else "pipen-runinfo plugin not enabled."
         )
+        to_update = {
+            "npages": npages,
+            "desc": proc.desc,
+            "report_toc": proc.plugin_opts.get("report_toc", True),
+            "runinfo": {
+                "session": runinfo_sess,
+                "time": runinfo_time,
+                "device": runinfo_dev,
+            }
+        }
 
-        for p in data["procs"]:
-            if p["name"] == proc.name:
-                p["npages"] = npages
-                p["desc"] = proc.desc
-                p["report_toc"] = proc.plugin_opts.get("report_toc", True)
-                p["runinfo"] = {
-                    "session": runinfo_sess,
-                    "time": runinfo_time,
-                    "device": runinfo_dev,
-                }
+        pg = proc.__meta__["procgroup"]
+        if self.no_collapse_pgs is True or pg.name in self.no_collapse_pgs:
+            pg = None
+        for entry in data["entries"]:
+            if pg and entry["name"] == pg.name:
+                for p in entry["procs"]:
+                    if p["name"] == proc.name:
+                        p.update(to_update)
+                        break
+                break
+            elif entry["name"] == proc.name:
+                entry.update(to_update)
                 break
 
         with datafile.open("w") as f:
@@ -299,7 +335,6 @@ class ReportManager:
         self.has_reports = True
 
         proc.log("debug", "Rendering report ...", logger=logger)
-        slug = slugify(proc.name)
         rendering_data = self._rendering_data(proc)
 
         # Render the report
@@ -359,7 +394,6 @@ class ReportManager:
             self._render_page(
                 rendered=rendered_part,
                 name=proc.name,
-                slug=slug,
                 page=i,
                 toc=toc,
             )
@@ -368,16 +402,15 @@ class ReportManager:
         self,
         rendered: str,
         name: str,
-        slug: str,
         page: int,
         toc: List[Mapping[str, Any]] | None,
     ):
         """Render a page of the report"""
         tpl_dir = self.nmdir.joinpath("src", "pages", "proc")
         if page == 0:
-            dest_dir = self.workdir.joinpath("src", "pages", slug)
+            dest_dir = self.workdir.joinpath("src", "pages", name)
         else:
-            dest_dir = self.workdir.joinpath("src", "pages", f"{slug}-{page}")
+            dest_dir = self.workdir.joinpath("src", "pages", f"{name}-{page}")
 
         run_auto(
             str(tpl_dir),
@@ -394,16 +427,7 @@ class ReportManager:
 
         with dest_dir.joinpath("toc.json").open("w") as f:
             json.dump(toc, f, indent=2)
-        # if page == 0:
-        #     with dest_dir.joinpath("toc.json").open("w") as f:
-        #         json.dump(toc, f, indent=2)
-        # else:
-        #     # symlink the toc file for other pages
-        #     tocfile = self.workdir.joinpath("src", "pages", slug, "toc.json")
-        #     desttocfile = dest_dir.joinpath("toc.json")
-        #     if desttocfile.exists() or desttocfile.is_symlink():
-        #         desttocfile.unlink()
-        #     desttocfile.symlink_to(tocfile.resolve())
+
         return rendered_report
 
     async def build(self, pipen: Pipen) -> None:

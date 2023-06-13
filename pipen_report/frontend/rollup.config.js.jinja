@@ -8,7 +8,7 @@ import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import data from './src/data.json' assert { type: 'json' };
 
-const commonConfig = (proc_slug = null, page = 0, cssfile = 'index.css') => ({
+const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 	plugins: [
 		svelte({
 			compilerOptions: { dev: false },
@@ -44,10 +44,10 @@ const commonConfig = (proc_slug = null, page = 0, cssfile = 'index.css') => ({
 		terser(),
 		json(),
 		copy(
-			proc_slug === null ? {} : {
+			proc_name === null ? {} : {
 				targets: [{
 					src: 'src/proc.html',
-					dest: `public/procs/${proc_slug}/`,
+					dest: `public/procs/${proc_name}/`,
 					rename: page === 0 ? 'index.html' : `index-${page}.html`
 				}]
 			}
@@ -73,35 +73,46 @@ const indexConfig = {
 	...commonConfig()
 }
 
-// Configuration for the proc pages
-const procsConfigs = (procs) => {
-	let out = []
-	for (let proc of procs) {
-		out.push({
-			input: `src/pages/${proc.slug}/index.js`,
-			output: {
-				file: `public/procs/${proc.slug}/index.js`,
-				name: proc.name,
-				...commonOutput
-			},
-			...commonConfig(proc.slug)
-		});
-
-		if (proc.npages !== undefined && proc.npages !== null && proc.npages > 1) {
-			for (let i = 1; i < proc.npages; i++) {
-				out.push({
-					input: `src/pages/${proc.slug}-${i}/index.js`,
-					output: {
-						file: `public/procs/${proc.slug}/index-${i}.js`,
-						name: proc.name,
-						...commonOutput
-					},
-					...commonConfig(proc.slug, i, `index-${i}.css`)
-				});
-			}
+// Generate config for a single proc
+const procConfig = (proc) => {
+	const out = [{
+		input: `src/pages/${proc.name}/index.js`,
+		output: {
+			file: `public/procs/${proc.name}/index.js`,
+			name: proc.name,
+			...commonOutput
+		},
+		...commonConfig(proc.name)
+	}];
+	if (proc.npages !== undefined && proc.npages !== null && proc.npages > 1) {
+		for (let i = 1; i < proc.npages; i++) {
+			out.push({
+				input: `src/pages/${proc.name}-${i}/index.js`,
+				output: {
+					file: `public/procs/${proc.name}/index-${i}.js`,
+					name: proc.name,
+					...commonOutput
+				},
+				...commonConfig(proc.name, i, `index-${i}.css`)
+			});
 		}
 	}
 	return out;
 }
 
-export default [indexConfig, ...procsConfigs(data.procs)];
+// Configuration for the proc pages
+const entryConfigs = (entries) => {
+	let out = []
+	for (let entry of entries) {
+		if (entry.procs) {
+			for (let proc of entry.procs) {
+				out = out.concat(procConfig(proc));
+			}
+		} else {
+			out = out.concat(procConfig(entry));
+		}
+	}
+	return out;
+}
+
+export default [indexConfig, ...entryConfigs(data.entries)];

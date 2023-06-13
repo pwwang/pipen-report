@@ -11,7 +11,7 @@
   export let versions;
 </script>
 
-<Header {logo} {logotext} procs={[]} />
+<Header {logo} {logotext} entries={[]} />
 
 <Content>
     <slot />

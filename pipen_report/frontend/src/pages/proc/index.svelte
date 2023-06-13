@@ -10,7 +10,22 @@
 
     let isSideNavOpen = false;
 
-    const proc = data.procs.filter(p => p.name == name)[0];
+    let proc;
+    for (const entry of data.entries) {
+        if (entry.procs) {
+            for (const p of entry.procs) {
+                if (p.name == name) {
+                    proc = p;
+                    break;
+                }
+            }
+        } else {
+            if (entry.name == name) {
+                proc = entry;
+                break;
+            }
+        }
+    }
 </script>
 
 <ProcLayout
@@ -18,7 +33,7 @@
     logo={name}
     logotext={proc.desc}
     versions={data.versions}
-    procs={data.procs}
+    entries={data.entries}
     pipeline_name={data.pipeline.name}
     report_toc={proc.report_toc}
     runinfo={proc.runinfo}

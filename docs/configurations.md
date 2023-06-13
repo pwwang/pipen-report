@@ -76,6 +76,14 @@ Default: `True`
 
 Force the process to export output when report template is given
 
+## `report_no_collapse_pgs`
+
+Pipeline-level
+
+Default: `False` (collapse all procgroups)
+
+Don't collapse procgroups in the report. This is useful when you want to see the processes of the procgroup in the index page. Could be either a procgroup name, a list of procgroup names or `True` (don't collapse any procgroups)
+
 ## `report_paging`
 
 Process-level

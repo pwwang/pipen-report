@@ -54,5 +54,5 @@ def test_force_export(tmp_path):
 def test_large(tmp_path):
     """Test process forced export"""
     run_pipeline("large", _dir=tmp_path)
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "process2" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Process2" / "index.js"
     assert report.exists()

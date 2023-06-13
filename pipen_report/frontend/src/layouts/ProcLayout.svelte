@@ -8,7 +8,7 @@
   export let logo;
   export let logotext = null;
   export let versions;
-  export let procs;
+  export let entries;
   export let pipeline_name;
   export let report_toc;
   export let toc;
@@ -17,7 +17,7 @@
   export let runinfo;
 </script>
 
-<Header {logo} {logotext} {procs} {pipeline_name} bind:isSideNavOpen />
+<Header {logo} {logotext} {entries} {pipeline_name} bind:isSideNavOpen />
 {#if report_toc}
 <SideNav bind:isOpen={isSideNavOpen}>
   <ProcToc {toc} {page}  />

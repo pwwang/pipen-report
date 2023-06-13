@@ -28,7 +28,17 @@ class PipenReport:
         report_loglevel: logging level
         report_force_export: Force the process to export output when
             report template is given
-
+        report_npm: Path to npm
+        report_nmdir: Where should the frontend dependencies installed?
+            By default, the frontend dependencies will be installed in
+            frontend/ of the python package directory. However, this
+            directory may not be writable. In this case, the frontend
+            dependencies will be installed in the directory specified.
+        report_nobuild: Don't build the final report.
+            If True only preprare the environment
+            Say if you want to do the building manually
+        report_extlibs: External components to be used in the report
+        report_no_collapse_pgs: Don't collapse the procgroups in the index page
     """
 
     version = __version__
@@ -51,6 +61,8 @@ class PipenReport:
         pipen.config.plugin_opts.setdefault("report_nobuild", None)
         # pipeline-level
         pipen.config.plugin_opts.setdefault("report_extlibs", None)
+        # pipeline-level
+        pipen.config.plugin_opts.setdefault("report_no_collapse_pgs", False)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)

@@ -5,7 +5,7 @@ const app = new App({
 	target: document.body,
 	props: {
         pipeline: data.pipeline,
-        procs: data.procs,
+        entries: data.entries,
         versions: data.versions
     }
 });

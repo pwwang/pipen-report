@@ -13,7 +13,7 @@
   let isOpen = false;
   let transition = { duration: 200 };
 
-  export let procs;
+  export let entries;
   export let logo;
   export let logotext = null;
   export let pipeline_name = undefined;
@@ -40,7 +40,7 @@
           inline: true
       }}
     />
-    {#if procs.length > 0}
+    {#if entries.length > 0}
     <HeaderAction isOpen={isOpen} transition={transition}>
       <HeaderPanelLinks>
         <HeaderPanelDivider>Go to home: </HeaderPanelDivider>
@@ -49,10 +49,19 @@
         </HeaderPanelLink>
 
         <HeaderPanelDivider>Switch to process: </HeaderPanelDivider>
-        {#each procs as proc}
-          <HeaderPanelLink href={`../../procs/${proc.slug}/index.html`}>
-              {proc.name}
+        {#each entries as entry}
+          {#if entry.procs}
+            <HeaderPanelLink class="procgroup">{entry.name}</HeaderPanelLink>
+            {#each entry.procs as proc}
+            <HeaderPanelLink class="procgroup-proc" href={`../../procs/${proc.name}/index.html`}>
+                - {proc.name}
+            </HeaderPanelLink>
+            {/each}
+          {:else}
+          <HeaderPanelLink href={`../../procs/${entry.name}/index.html`}>
+              {entry.name}
           </HeaderPanelLink>
+          {/if}
         {/each}
       </HeaderPanelLinks>
     </HeaderAction>

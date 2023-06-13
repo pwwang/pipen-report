@@ -4,7 +4,7 @@
         "desc": "A pipeline"
     },
     "versions": "Versions of pipen and pipen-report",
-    "procs": [
+    "entries": [
         {
             "name": "Proc",
             "slug": "proc",
