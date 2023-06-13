@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 import inspect
 import json
-
+import re
 import shutil
 import sys
 import subprocess as sp
@@ -57,6 +58,8 @@ class ReportManager:
         self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
         self.no_collapse_pgs = plugin_opts.get("report_no_collapse_pgs") or []
         self.has_reports = False
+        # Used to pass to the UI for rendering
+        self.pipeline_data = None
 
         if isinstance(self.no_collapse_pgs, str):
             self.no_collapse_pgs = [self.no_collapse_pgs]
@@ -166,6 +169,14 @@ class ReportManager:
 
         logfile = self.workdir / "pipen-report.log"
 
+        total_pages = 1  # _index
+        for entry in self.pipeline_data["entries"]:
+            if "procs" in entry:
+                total_pages += sum(proc["npages"] for proc in entry["procs"])
+            else:
+                total_pages += entry["npages"]
+
+        building_idx = 0
         chars_to_log = " → "
         chars_to_error = "(!)"
 
@@ -183,17 +194,25 @@ class ReportManager:
                 )
                 for line in p.stderr:
                     line = line.decode()
+                    line = re.sub("\033\\[\\d+m", "", line)
+                    # src/pages/_index/index.js → public/index/index.js
                     flog.write(line)
-                    if chars_to_log in line:
-                        line = line.replace("\033[1m", "[bold]")
-                        line = line.replace("\033[22m", "[/bold]")
-                        line = line.replace("\033[39m", "")
-                        logger.info(f"- {line.rstrip()}")
+
+                    m = re.match(
+                        rf"src/pages/([^/]+)/index\.js{chars_to_log}public/.+",
+                        line,
+                    )
+                    if m:
+                        building_idx += 1
+                        # Make building_idx the same length as total_pages
+                        building_idx_str = str(building_idx).zfill(
+                            len(str(total_pages))
+                        )
+                        logger.info(
+                            f"- [{building_idx_str}/{total_pages}] "
+                            f"Building {m.group(1)} ..."
+                        )
                     elif chars_to_error in line:  # pragma: no cover
-                        line = line.replace("\033[1m", "[bold]")
-                        line = line.replace("\033[22m", "[/bold]")
-                        line = line.replace("\033[33m", "[red]")
-                        line = line.replace("\033[39m", "[/red]")
                         logger.error(f"- {line.rstrip()}")
                         raise RuntimeError("Failed to build reports")
                 p.wait()
@@ -206,10 +225,9 @@ class ReportManager:
                 logger.info("Or run the following command to serve them:")
                 logger.info("$ pipen report serve -r %s", self.outdir.parent)
 
-    def write_data(self, pipen: Pipen) -> None:
+    def init_pipeline_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
-        datafile = self.workdir / "src" / "data.json"
-        data = {
+        self.pipeline_data = {
             "pipeline": {
                 "name": pipen.name,
                 "desc": pipen.desc,
@@ -237,8 +255,12 @@ class ReportManager:
             }
 
             pg = proc.__meta__["procgroup"]
-            if self.no_collapse_pgs is True or pg.name in self.no_collapse_pgs:
+            if (
+                self.no_collapse_pgs is True
+                or (pg and pg.name in self.no_collapse_pgs)
+            ):
                 pg = None
+
             if pg and pg.name not in procgroups:
                 procgroups[pg.name] = {
                     "name": pg.name,
@@ -246,25 +268,19 @@ class ReportManager:
                     "order": entry["order"],
                     "procs": [entry],
                 }
-                data["entries"].append(procgroups[pg.name])
+                self.pipeline_data["entries"].append(procgroups[pg.name])
             elif pg:
                 procgroups[pg.name]["order"] = min(
                     procgroups[pg.name]["order"], entry["order"]
                 )
                 procgroups[pg.name]["procs"].append(entry)
             else:
-                data["entries"].append(entry)
+                self.pipeline_data["entries"].append(entry)
 
-        data["entries"].sort(key=lambda x: x["order"])
-
-        with datafile.open("w") as f:
-            json.dump(data, f, indent=2)
+        self.pipeline_data["entries"].sort(key=lambda x: x["order"])
 
     def _update_proc_meta(self, proc: Proc, npages: int) -> None:
         """Update the number of pages for a process"""
-        datafile = self.workdir / "src" / "data.json"
-        with datafile.open() as f:
-            data = json.load(f)
 
         runinfo_sess_file = proc.workdir / "0" / "job.runinfo.session"
         runinfo_time_file = proc.workdir / "0" / "job.runinfo.time"
@@ -300,9 +316,13 @@ class ReportManager:
         }
 
         pg = proc.__meta__["procgroup"]
-        if self.no_collapse_pgs is True or pg.name in self.no_collapse_pgs:
+        if (
+            self.no_collapse_pgs is True
+            or (pg and pg.name in self.no_collapse_pgs)
+        ):
             pg = None
-        for entry in data["entries"]:
+
+        for entry in self.pipeline_data["entries"]:
             if pg and entry["name"] == pg.name:
                 for p in entry["procs"]:
                     if p["name"] == proc.name:
@@ -312,9 +332,6 @@ class ReportManager:
             elif entry["name"] == proc.name:
                 entry.update(to_update)
                 break
-
-        with datafile.open("w") as f:
-            json.dump(data, f, indent=2)
 
     def render_proc_report(self, proc: Proc, status: str | bool) -> None:
         """Render the report template for a process
@@ -443,6 +460,11 @@ class ReportManager:
                 "Skipping report generation, no process generates a report."
             )
             return
+
+        logger.debug("Saving pipeline data ...")
+        datafile = self.workdir / "src" / "data.json"
+        with datafile.open("w") as f:
+            json.dump(self.pipeline_data, f, indent=2)
 
         logger.info("Building reports ...")
         self._npm_run_build(cwd=self.workdir)

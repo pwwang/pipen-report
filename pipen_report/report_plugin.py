@@ -92,7 +92,7 @@ class PipenReport:
             pipen.workdir,
         )
         self.manager.check_npm_and_setup_dirs()
-        self.manager.write_data(pipen)
+        self.manager.init_pipeline_data(pipen)
 
     @plugin.impl
     def on_proc_create(self, proc: Proc) -> None:
