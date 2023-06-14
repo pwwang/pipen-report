@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+
+	<link rel='icon' type='image/png' href='../../assets/favicon.png'>
+	<link rel='stylesheet' href='../../assets/ccs.css'>
+	<link rel='stylesheet' href='../../assets/global.css'>
+</head>
+<body>
+	<script type="text/javascript">
+	(function(){
+		// Add script/link
+		const get_name = function(ext){
+			const basename = window.location.pathname.split('/').pop();
+			if (basename === '') {
+				// If the path ends with a slash, use index.html
+				return `./index.${ext}`
+			}
+			let parts = `./${basename}`.split('.');
+			parts[parts.length - 1] = ext;
+			return parts.join('.');
+		};
+
+		const add_link = function(href) {
+			let link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = href;
+			document.head.appendChild(link);
+		};
+
+		const add_script = function(src) {
+			let script = document.createElement('script');
+			script.defer = true;
+			script.src = src
+			document.body.appendChild(script);
+		};
+
+		add_link(get_name('css'));
+		add_script(get_name('js'));
+	})();
+	</script>
+</body>
+</html>
