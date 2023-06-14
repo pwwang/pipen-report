@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.12.1
+
+- ⬆️ Bump pipen-runinfo to 0.2
+- 📝 Update example with proc group
+
 ## 0.12.0
 
 - ✨ Allow collapse proc groups
