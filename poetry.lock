@@ -775,14 +775,14 @@ pipen = ">=0.10,<0.11"
 
 [[package]]
 name = "pipen-runinfo"
-version = "0.1.1"
+version = "0.2.0"
 description = "Generate running information for jobs in pipen pipelines"
 category = "main"
 optional = true
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pipen_runinfo-0.1.1-py3-none-any.whl", hash = "sha256:0d44b140e7563e9addaa11089d028e1d9e9d49266cf49c54d028a205e238c3cc"},
-    {file = "pipen_runinfo-0.1.1.tar.gz", hash = "sha256:27d7ff9e5e0991c2c1aea47eca55250a04040278b6d8f6f6e09b2b1c198beee5"},
+    {file = "pipen_runinfo-0.2.0-py3-none-any.whl", hash = "sha256:91f6936814510fca49467af821599e535b4295997746433834cf8037670cf387"},
+    {file = "pipen_runinfo-0.2.0.tar.gz", hash = "sha256:305cb3187c9dbceb2c1ec087f1f5822f62f5612c3de6ab018179636ea89a2904"},
 ]
 
 [package.dependencies]
@@ -1447,4 +1447,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "38d5905de9f1debe48f023d0121d0769f88be2207206dabf14312a7546861279"
+content-hash = "17e7e1f446c56a4488b8473e461359fb945b18e197d96797ab5d24f691e05719"

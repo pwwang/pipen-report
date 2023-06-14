@@ -17,7 +17,7 @@ pipen = "^0.10"
 Markdown = "^3"
 copier = "^7"
 python-slugify = "^8.0.1"
-pipen-runinfo = {optional = true, version = "^0.1"}
+pipen-runinfo = {optional = true, version = "^0.2"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"
