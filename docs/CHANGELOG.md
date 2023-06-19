@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.12.2
+
+- 💄 Fix procs in procgroups in index page being contained
+
 ## 0.12.1
 
 - ⬆️ Bump pipen-runinfo to 0.2
