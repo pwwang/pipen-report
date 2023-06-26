@@ -53,12 +53,12 @@
           {#if entry.procs}
             <HeaderPanelLink class="procgroup">{entry.name}</HeaderPanelLink>
             {#each entry.procs as proc}
-            <HeaderPanelLink class="procgroup-proc" href={`../../procs/${proc.name}/index.html`}>
+            <HeaderPanelLink title={proc.name} class="procgroup-proc" href={`../../procs/${proc.name}/index.html`}>
                 - {proc.name}
             </HeaderPanelLink>
             {/each}
           {:else}
-          <HeaderPanelLink href={`../../procs/${entry.name}/index.html`}>
+          <HeaderPanelLink title={entry.name} href={`../../procs/${entry.name}/index.html`}>
               {entry.name}
           </HeaderPanelLink>
           {/if}

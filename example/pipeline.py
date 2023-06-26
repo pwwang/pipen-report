@@ -59,7 +59,7 @@ class ProcessNoTOC(Proc):
     }
 
 
-class ProcessWithPaging(Proc):
+class ProcessWithPagingWithAVeryLongProcessName(Proc):
     """Report with paging"""
     requires = ProcessNoTOC
     input = "inimg:file"

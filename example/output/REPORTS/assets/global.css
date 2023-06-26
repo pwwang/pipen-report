@@ -11,6 +11,7 @@
 
 .bx--header-panel--expanded {
 	top: 7rem !important;
+	overflow-y: auto;
 }
 
 div[themes].bx--form-item {
@@ -35,7 +36,7 @@ div[themes].bx--form-item > .bx--select--inline select {
 
 .bx--header~.bx--content {
 	margin-top: 7rem !important;
-	overflow-y: auto;
+	overflow-y: visible;
 }
 
 .bx--header~.bx--side-nav {
@@ -70,6 +71,11 @@ div[themes].bx--form-item > .bx--select--inline select {
 .bx--switcher__item:has(.procgroup-proc),
 .bx--switcher__item:has(.procgroup) {
 	height: auto;
+}
+.bx--switcher__item-link {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .bx--switcher__item-link.procgroup:hover {
 	background: unset;

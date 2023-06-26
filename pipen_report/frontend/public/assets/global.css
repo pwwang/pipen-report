@@ -72,6 +72,11 @@ div[themes].bx--form-item > .bx--select--inline select {
 .bx--switcher__item:has(.procgroup) {
 	height: auto;
 }
+.bx--switcher__item-link {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
 .bx--switcher__item-link.procgroup:hover {
 	background: unset;
     cursor: default;
