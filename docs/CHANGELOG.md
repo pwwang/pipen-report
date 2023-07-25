@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.12.5
+
+- ⬆️ Bump copier to 8.1 (requires pydantic < 2)
+
+## 0.12.4
+
+- 💄 Truncate proc names with ellipses in navigator
+
+## 0.12.3
+
+- 💄 Use new favicon
+
 ## 0.12.2
 
 - 💄 Fix procs in procgroups in index page being contained
