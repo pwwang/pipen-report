@@ -11,7 +11,7 @@ from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
 
-from copier import run_auto
+from copier import run_copy
 from pipen import Proc, ProcGroup
 from pipen.exceptions import TemplateRenderingError
 from pipen.template import TemplateLiquid, TemplateJinja2
@@ -102,7 +102,7 @@ class ReportManager:
 
         # Copy nmdir to workdir
         try:
-            run_auto(
+            run_copy(
                 str(self.nmdir),
                 self.workdir,
                 data=None if not self.extlibs else {"extlibs": self.extlibs},
@@ -117,7 +117,7 @@ class ReportManager:
             sys.exit(1)
 
         pubdir = self.workdir / "public"
-        run_auto(str(pubdir), self.outdir, overwrite=True, quiet=True)
+        run_copy(str(pubdir), self.outdir, overwrite=True, quiet=True)
         shutil.rmtree(pubdir)
         pubdir.symlink_to(self.outdir)
 
@@ -429,7 +429,7 @@ class ReportManager:
         else:
             dest_dir = self.workdir.joinpath("src", "pages", f"{name}-{page}")
 
-        run_auto(
+        run_copy(
             str(tpl_dir),
             dest_dir,
             overwrite=True,

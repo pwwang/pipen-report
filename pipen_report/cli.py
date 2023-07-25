@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import rtoml
-from copier import run_auto
+from copier import run_copy
 from pipen.cli import CLIPlugin
 
 from .defaults import NPM, NMDIR, LOCAL_CONFIG, GLOBAL_CONFIG, CONFIG_KEYS
@@ -159,7 +159,7 @@ class PipenCliReport(CLIPlugin):
         """Execute the update command"""
         nmdir = Path(get_config("nmdir")).resolve()
         if nmdir != Path(NMDIR).resolve():  # pragma: no cover
-            run_auto(NMDIR, nmdir, overwrite=True, quiet=True)
+            run_copy(NMDIR, nmdir, overwrite=True, quiet=True)
 
         if not (nmdir.stat().st_mode & stat.S_IWUSR):  # pragma: no cover
             print("The frontend directory is not writable:")
