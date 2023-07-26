@@ -112,7 +112,7 @@
 >
   <Toolbar size={toolbarSize}>
     <ToolbarContent>
-      <ToolbarSearch bind:value />
+      <ToolbarSearch persistent bind:value />
       <Button
         iconDescription={`Download current ${filteredRows.length} records (may be partial of the entire data)`}
         tooltipPosition="left"
