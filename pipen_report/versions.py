@@ -3,7 +3,7 @@
 from pipen import __version__ as pipen_version
 
 # pipen-report version
-__version__ = "0.12.5"
+__version__ = "0.12.6"
 
 version_str = f"""
     <a href="https://github.com/pwwang/pipen" target="_blank">

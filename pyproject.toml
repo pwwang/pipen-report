@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.12.5"
+version = "0.12.6"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -16,6 +16,11 @@ python = "^3.8"
 pipen = "^0.10"
 Markdown = "^3"
 copier = "^8.1"
+# copier 8.1 only requires pydantic 1.10.2
+# but 1.10.7- doesn't work in python3.9
+# see: https://github.com/copier-org/copier/issues/1273
+# here we simply just require a higher version of pydantic
+pydantic = "^1.10.8"
 python-slugify = "^8.0.1"
 pipen-runinfo = {optional = true, version = "^0.2"}
 

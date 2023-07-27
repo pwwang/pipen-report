@@ -1,4 +1,9 @@
 <script>
+  // We can't use the original OverflowMenu because it doesn't support persistentClickItems
+  // The menu closes when we click on an item, which is not what we want
+  // So we have to copy the code from the original OverflowMenu and add persistentClickItems
+  // See: https://github.com/carbon-design-system/carbon-components-svelte/pull/1788
+  // We can use the original one until the PR is merged, or similar functionality is added
   /**
    * @event {null | { index: number; text: string; }} close
    */

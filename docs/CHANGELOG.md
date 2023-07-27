@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.12.6
+
+- 💄 Make searchbox of DataTable persistent
+- 🐛 Fix npm build logging to file
+- ✨ Add column selector to DataTable
+- 📝 Update example
+
 ## 0.12.5
 
 - ⬆️ Bump copier to 8.1 (requires pydantic < 2)
