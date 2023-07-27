@@ -179,6 +179,7 @@ class ReportManager:
         building_idx = 0
         chars_to_log = " → "
         chars_to_error = "(!)"
+        errored = False
 
         with open(logfile, "wt") as flog:
             flog.write("WORKING DIRECTORY:\n")
@@ -188,11 +189,11 @@ class ReportManager:
             try:
                 p = sp.Popen(
                     [self.npm, "run", "build"],
-                    stderr=sp.PIPE,
                     stdout=sp.PIPE,
+                    stderr=sp.STDOUT,
                     cwd=str(cwd),
                 )
-                for line in p.stderr:
+                for line in p.stdout:
                     line = line.decode()
                     line = re.sub("\033\\[\\d+m", "", line)
                     # src/pages/_index/index.js → public/index/index.js
@@ -203,27 +204,40 @@ class ReportManager:
                         line,
                     )
                     if m:
+                        if errored:
+                            # Early stop
+                            p.terminate()
+                            p.kill()
+                            raise RuntimeError
+
                         building_idx += 1
                         # Make building_idx the same length as total_pages
                         building_idx_str = str(building_idx).zfill(
                             len(str(total_pages))
                         )
+                        page_name = m.group(1)
+                        if page_name == "_index":
+                            page_name = "HomePage"
                         logger.info(
                             f"- [{building_idx_str}/{total_pages}] "
-                            f"Building {m.group(1)} ..."
+                            f"Building {page_name} ..."
                         )
                     elif chars_to_error in line:  # pragma: no cover
-                        logger.error(f"- {line.rstrip()}")
-                        raise RuntimeError("Failed to build reports")
-                p.wait()
+                        logger.error(f"  {line.rstrip()}")
+                        errored = True
+
+                if p.wait() != 0:
+                    raise RuntimeError
+
             except Exception as e:  # pragma: no cover
-                flog.write(str(e))
+                if not isinstance(e, RuntimeError):
+                    flog.write(str(e))
                 logger.error("Failed to build reports")
                 logger.error("See %s for details", logfile)
             else:
                 logger.info("View the reports at %s", self.outdir)
                 logger.info("Or run the following command to serve them:")
-                logger.info("$ pipen report serve -r %s", self.outdir.parent)
+                logger.info("$> pipen report serve -r %s", self.outdir.parent)
 
     def init_pipeline_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
