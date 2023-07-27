@@ -140,7 +140,6 @@ img.pipen-report-image-lg {
 
 .pipen-report-datatable-frame {
 	width: 100%;
-	overflow-x: auto;
 	padding: 1.5rem;
 	background-color: var(--cds-background-hover);
 }

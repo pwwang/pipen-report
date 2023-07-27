@@ -68,14 +68,10 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
     script = """
         cp {{in.inimg}} {{out.outimg}}
         tablefile={{job.outdir}}/table.txt
-        echo -e 'A\tB\tC\n' > $tablefile
-        echo -e '1\t2\t3\n' >> $tablefile
-        echo -e '4\t5\t6\n' >> $tablefile
-        echo -e '7\t8\t9\n' >> $tablefile
-        echo -e '10\t11\t12\n' >> $tablefile
-        echo -e '13\t14\t15\n' >> $tablefile
-        echo -e '16\t17\t18\n' >> $tablefile
-        echo -e '19\t20\t21\n' >> $tablefile
+        echo -e 'A\tB\tC\tD\tE\tF\tG\tH\n' > $tablefile
+        for i in {1..100}; do
+            echo -e "$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i" >> $tablefile
+        done
     """
     plugin_opts = {
         "report": """
