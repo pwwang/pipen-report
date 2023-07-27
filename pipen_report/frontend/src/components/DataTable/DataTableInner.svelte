@@ -8,6 +8,7 @@
     Button,
     Modal
   } from "carbon-components-svelte";
+  import ColumnSelector from "./ColumnSelector.svelte";
   import CloudDownload from "carbon-icons-svelte/lib/CloudDownload.svelte";
   import DocumentDownload from "carbon-icons-svelte/lib/DocumentDownload.svelte";
   // replace this in the future with
@@ -47,12 +48,16 @@
   export let rows = [];
   export let headers = [];
   export let pageSizes = [20, 50, 75, 100];
+
+  let allColumns = headers.map(h => ({...h, selected: true}));
+  $: headers = allColumns.filter(col => col.selected);
+
   let page = 1;
   let pageSize = pageSizes[0];
 
   let value = "";
   let modal_open = false;
-  $: filteredRows = rows;
+  let filteredRows = rows;
   $: if (value.length > 0) {
     filteredRows = rows.filter(
       (row) =>
@@ -113,16 +118,17 @@
   <Toolbar size={toolbarSize}>
     <ToolbarContent>
       <ToolbarSearch persistent bind:value />
+      <ColumnSelector bind:allColumns />
       <Button
         iconDescription={`Download current ${filteredRows.length} records (may be partial of the entire data)`}
-        tooltipPosition="left"
+        tooltipPosition="top"
         icon={DocumentDownload}
         on:click={downloadTable}
       />
       {#if !!src}
         <Button
           iconDescription="Right click and save as to download the entire data"
-          tooltipPosition="left"
+          tooltipPosition="top"
           icon={CloudDownload}
           href={src}
           on:click={clouldDownload}
@@ -143,3 +149,9 @@
     You must use "Save as" or "Save link as" from the context menu (by right-clicking the button) to download the entire data.
   </p>
 </Modal>
+
+<style>
+  :global(.pipen-report-datatable-frame .bx--table-toolbar .bx--btn--icon-only--top .bx--assistive-text) {
+    left: -100%;
+  }
+</style>
