@@ -263,8 +263,7 @@ class ReportManager:
                 "npages": 1,
                 "report_toc": True,
                 "order": (
-                    (proc.plugin_opts or {}).get("report_order", 0) * 1000
-                    + (proc.order or i)
+                    (proc.plugin_opts or {}).get("report_order", 0) * 1000 + i
                 ),
             }
 
