@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.12.7
+
+- 👷 Add codesandbox scripts
+- 🐛 Fix order of procgroups in report
+
 ## 0.12.6
 
 - 💄 Make searchbox of DataTable persistent
