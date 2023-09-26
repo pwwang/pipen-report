@@ -1,5 +1,7 @@
 WORKSPACE="/workspace"
 
+poetry config virtualenvs.create false
+
 # Install python dependencies
 poetry update && poetry install
 

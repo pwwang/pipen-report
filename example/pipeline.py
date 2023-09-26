@@ -41,7 +41,7 @@ pg = MyProcGroup()
 
 
 class ProcessNoTOC(Proc):
-    """Report without TOC"""
+    """Report report_toc = False"""
     input = "inimg:file"
     requires = pg.starts
     # Use variable to skip checking
@@ -136,6 +136,24 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
             />
         """,
         "report_paging": 4,
+    }
+
+
+class ProcessWithoutHeadings(Proc):
+    """A process without headings"""
+    requires = ProcessWithPagingWithAVeryLongProcessName
+    input = "inimg:file"
+    output = "outimg:file:{{in.inimg | basename}}"
+    script = """
+        cp {{in.inimg}} {{out.outimg}}
+    """
+    plugin_opts = {
+        "report": """
+            <script>
+                import { Image } from '$lib';
+            </script>
+            <Image src="{{ job.out.outimg }}" />
+        """
     }
 
 

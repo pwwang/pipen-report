@@ -18,7 +18,7 @@
 </script>
 
 <Header {logo} {logotext} {entries} {pipeline_name} bind:isSideNavOpen />
-{#if report_toc}
+{#if report_toc && toc.length > 0}
 <SideNav bind:isOpen={isSideNavOpen}>
   <ProcToc {toc} {page}  />
 </SideNav>
