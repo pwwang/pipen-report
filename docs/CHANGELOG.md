@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.12.8
+
+- ⬆️ Update dependencies
+- 🐛 Fix report without headings
+
 ## 0.12.7
 
 - 👷 Add codesandbox scripts
