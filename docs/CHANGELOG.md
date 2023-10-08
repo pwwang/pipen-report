@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.13.0
+
+- ⬆️ Bump pipen to 0.11
+- ⬆️ Bump up frontend deps
+
 ## 0.12.8
 
 - ⬆️ Update dependencies
