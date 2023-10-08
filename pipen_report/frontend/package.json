@@ -1,26 +1,26 @@
 {
-    "name": "pipen-report",
-    "version": "1.0.0",
-    "private": true,
-    "license": "MIT",
-    "type": "module",
-    "scripts": {
-        "build": "rollup -c"
-    },
-    "devDependencies": {
-        "@rollup/plugin-alias": "^5.0",
-        "@rollup/plugin-commonjs": "^25.0.0",
-        "@rollup/plugin-json": "^6.0",
-        "@rollup/plugin-node-resolve": "^15.1.0",
-        "@rollup/plugin-terser": "^0.4.3",
-        "acorn": "^8.8",
-        "carbon-components-svelte": "^0.75.1",
-        "carbon-icons-svelte": "^11.3",
-        "rollup": "^3.24.0",
-        "rollup-plugin-copy": "^3.4",
-        "rollup-plugin-css-only": "^4.3",
-        "rollup-plugin-livereload": "^2.0",
-        "rollup-plugin-svelte": "^7.1.5",
-        "svelte": "^3.59.1"
-    }
+  "name": "pipen-report",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^5.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "acorn": "^8.8",
+    "carbon-components-svelte": "^0.80.0",
+    "carbon-icons-svelte": "^12.3.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-copy": "^3.4",
+    "rollup-plugin-css-only": "^4.3",
+    "rollup-plugin-livereload": "^2.0",
+    "rollup-plugin-svelte": "^7.1.5",
+    "svelte": "^4.2.1"
+  }
 }
