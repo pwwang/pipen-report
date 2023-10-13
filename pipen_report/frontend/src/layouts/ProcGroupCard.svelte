@@ -18,6 +18,7 @@
     hideLabel
     {items}
     selectedId={pgId}
+    class="procgroup"
     style='--desc: "{desc}";'
     on:select={e => {
         if (e.detail.selectedItem.id !== pgId) {

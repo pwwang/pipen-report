@@ -188,3 +188,8 @@ ul.bx--side-nav__items {
 .pagenav.down {
 	margin-top: 2rem;
 }
+
+/* distinguish procgroup card in index page */
+div.procgroup.bx--dropdown__wrapper div.bx--dropdown {
+	background-color: var(--cds-layer-accent);
+}
