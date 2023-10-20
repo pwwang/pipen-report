@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.14.0
+
+- ⬆️ Bump pipen to 0.12
+
 ## 0.13.1
 
 - Improve the indicator of groups in report index page
