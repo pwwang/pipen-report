@@ -193,3 +193,21 @@ ul.bx--side-nav__items {
 div.procgroup.bx--dropdown__wrapper div.bx--dropdown {
 	background-color: var(--cds-layer-accent);
 }
+
+/* Lazy load images */
+div.pipen-report-image-loading {
+	background-color: var(--cds-background);
+    height: calc(var(--preset-height) * 1px);
+    width: calc(var(--preset-width) * 1px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--cds-active-01);
+    margin-bottom: 1rem;
+}
+div.pipen-report-image-loading.error {
+	background-color: var(--cds-notification-background-error);
+    color: var(--cds-danger-02);
+}
