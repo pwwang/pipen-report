@@ -8,7 +8,7 @@
     const pgId = `__${name}`;
 
     const items = [
-        {id: pgId, text: name, desc},
+        {id: pgId, text: `${name} ...`, desc},
         ...procs.map(proc => ({id: proc.name, text: proc.name, desc: proc.desc}))
     ];
 </script>
