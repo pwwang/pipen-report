@@ -50,9 +50,10 @@ class ProcessNoTOC(Proc):
     plugin_opts = {
         "report": """
         <script>
-            import { Image } from '$lib';
+            import { Image, Descr } from '$lib';
         </script>
         <h1>Image</h1>
+        <Descr>This is a description about the section.</Descr>
         <Image src="{{ job.in.inimg }}" />
         """,
         "report_toc": False,
@@ -76,9 +77,13 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
     plugin_opts = {
         "report": """
         <script>
-            import { Image, DataTable } from '$lib';
+            import { Image, DataTable, Descr } from '$lib';
         </script>
         <h1>Image</h1>
+        <Descr>
+            <p>This is a description about the section.</p>
+            <p>This is a description in another paragraph.</p>
+        </Descr>
         <Image src="{{ job.out.outimg }}" />
         <h1>Table</h1>
         <DataTable
