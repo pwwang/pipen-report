@@ -2,17 +2,26 @@
     import ImageInner from "./ImageInner.svelte";
 
     export let frameProps = { class: "pipen-report-image-frame" };
-    export let width = 200;
-    export let height = 100;
+    export let width = 300;
+    export let height = 200;
+    export let src;
+
+    let div_style = `width: ${width}px; height: ${height}px; aspect-ratio: ${width} / ${height}`;
+    let div_props = { ...$$restProps };
+    if (div_props.style) {
+        div_style = `${div_style}; ${div_props.style}`;
+        delete div_props.style;
+    }
 </script>
 
 {#if !!frameProps}
     <div {...frameProps}>
-        <ImageInner {...$$restProps}>
+        <ImageInner {src} {...$$restProps}>
             <svelte:fragment slot="loading">
                 <div
                     class="pipen-report-image-loading"
-                    style="--preset-width: {width}; --preset-height: {height};"
+                    style={div_style}
+                    {...div_props}
                 >
                     Image loading ...
                 </div>
@@ -20,7 +29,8 @@
             <svelte:fragment slot="error">
                 <div
                     class="pipen-report-image-loading error"
-                    style="--preset-width: {width}; --preset-height: {height};"
+                    style={div_style}
+                    {...div_props}
                 >
                     Image loading error!
                 </div>
@@ -28,11 +38,12 @@
         </ImageInner>
     </div>
 {:else}
-    <ImageInner {...$$restProps}>
+    <ImageInner {src} {...$$restProps}>
         <svelte:fragment slot="loading">
             <div
                 class="pipen-report-image-loading"
-                style="--preset-width: {width}; --preset-height: {height};"
+                style={div_style}
+                {...div_props}
             >
                 Image loading ...
             </div>
@@ -40,7 +51,8 @@
         <svelte:fragment slot="error">
             <div
                 class="pipen-report-image-loading error"
-                style="--preset-width: {width}; --preset-height: {height};"
+                style={div_style}
+                {...div_props}
             >
                 Image loading error!
             </div>

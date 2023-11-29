@@ -85,7 +85,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
                 <p>This is a description about the section.</p>
                 <p>This is a description in another paragraph.</p>
             </Descr>
-            <Image src="{{ job.out.outimg }}" />
+            <Image src="{{ job.out.outimg }}" style="max-width: 40%; height: auto;" width={526} height={360} />
             <h2>Table</h2>
             <DataTable
                 src={{ job.outdir | joinpaths: "table.txt" | quote }}
@@ -140,7 +140,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
             src={{ job.outdir | joinpaths: "table.txt" | quote }}
             data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
             />
-        """,
+        """,  # noqa: E501
         "report_paging": 4,
     }
 
