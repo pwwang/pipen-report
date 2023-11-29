@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.15.0
+
+- Add ellipsis to procgroup card on index page
+- Add lazy loading for Image
+- Add `Descr` component to `$libs` to add styled description text
+- Add active nav item indicator
+- Bump frontend packages to latest versions
+
 ## 0.14.0
 
 - ⬆️ Bump pipen to 0.12
