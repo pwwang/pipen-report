@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.15.2
+
+- Set width and height to the lazy loading placeholder
+
 ## 0.15.1
 
 - Add `title` prop to `Descr` component
