@@ -7,6 +7,7 @@ from typing import Any, List, Mapping, Tuple, Union
 import hashlib
 
 from slugify import slugify
+from PIL import Image as PILImage
 
 RELPATH_TAGS = {
     "a": "href",
@@ -65,9 +66,11 @@ def _preprocess_relpath_tag(
     basedir: Path,
 ) -> str:
     """Preprocess tags with paths to be redirected"""
+    pathval = None
     tag = matching.group("tag")
 
     def repl_attrs(mattrs):
+        nonlocal pathval
         attrname = mattrs.group("attrname")
         attrval = mattrs.group("attrval")
         if (
@@ -97,6 +100,17 @@ def _preprocess_relpath_tag(
         return f' {attrname}="{attrval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
+    if tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
+        # Add width and height to Image tag
+        try:
+            img = PILImage.open(pathval)
+            if "width=" not in attrs:
+                attrs += f' width={{{img.width}}}'
+            if "height=" not in attrs:
+                attrs += f' height={{{img.height}}}'
+        except Exception:
+            pass
+
     return f"<{tag}{attrs}{matching.group('end')}"
 
 
