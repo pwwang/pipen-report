@@ -225,8 +225,6 @@ div.procgroup.bx--dropdown__wrapper div.bx--dropdown {
 /* Lazy load images */
 div.pipen-report-image-loading {
 	background-color: var(--cds-background);
-    height: calc(var(--preset-height) * 1px);
-    width: calc(var(--preset-width) * 1px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -234,8 +232,10 @@ div.pipen-report-image-loading {
     font-weight: bold;
     color: var(--cds-active-01);
     margin-bottom: 1rem;
+	height: auto !important;
 }
 div.pipen-report-image-loading.error {
 	background-color: var(--cds-notification-background-error);
     color: var(--cds-danger-02);
+	height: auto !important;
 }
