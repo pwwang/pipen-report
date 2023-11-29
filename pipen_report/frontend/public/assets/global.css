@@ -143,11 +143,13 @@ div[themes].bx--form-item > .bx--select--inline select {
 img.pipen-report-image {
 	cursor: pointer;
 	max-width: 55%;
+	height: auto;  /* keep aspect ratio */
 	border: 2px solid #eee;
 }
 
 img.pipen-report-image-lg {
 	max-width: 100%;
+	height: auto;  /* keep aspect ratio */
 }
 
 .pipen-report-image-frame {
