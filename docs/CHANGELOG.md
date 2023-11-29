@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.15.1
+
+- Add `title` prop to `Descr` component
+
 ## 0.15.0
 
 - Add ellipsis to procgroup card on index page
