@@ -31,7 +31,7 @@ div[themes].bx--form-item > .bx--select--inline select {
 } */
 
 .bx--header__name {
-	padding-left: 3rem !important;
+	padding-left: 1.6rem !important;
 }
 
 .bx--header~.bx--content {
@@ -47,6 +47,13 @@ div[themes].bx--form-item > .bx--select--inline select {
 	background-color: #161616 !important;
 }
 
+.bx--header__action {
+	margin-right: 1rem;
+}
+.bx--header__action.bx--header__menu-trigger {
+	margin: 1rem 0 1rem 1rem;
+}
+
 .bx--table-toolbar {
 	/**
 	 * show entire tooltip
@@ -55,9 +62,21 @@ div[themes].bx--form-item > .bx--select--inline select {
 	min-height: var(--cds-spacing-07) !important;
 }
 
+.bx--side-nav__submenu {
+	padding: 0 0.75rem !important;
+}
+
 .bx--side-nav__link-text, .bx--side-nav__submenu-title {
 	/** make first toc layer larger **/
-	font-size: 1rem !important;
+	font-size: 111% !important;
+}
+
+.bx--side-nav__menu a.bx--side-nav__link {
+	padding-left: 1.6em !important;
+}
+
+.pipen-report-sidenav li.toc-active {
+	box-shadow: inset 4px 0 0 0 #161616;
 }
 
 .bx--tab-content {
@@ -173,6 +192,13 @@ img.pipen-report-image-lg {
 .toc-noncurrent-page .bx--side-nav__submenu-title {
 	/* de-highlight the toc items not on current page */
 	color: var(--cds-text-on-color-disabled) !important;
+	font-style: italic;
+    font-weight: normal;
+}
+
+.bx--side-nav__item > button.bx--side-nav__submenu,
+.bx--side-nav__item > a.bx--side-nav__link {
+	padding: 0 0.75rem !important;
 }
 
 

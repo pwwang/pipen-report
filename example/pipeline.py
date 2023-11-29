@@ -73,24 +73,25 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         for i in {1..100}; do
             echo -e "$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i" >> $tablefile
         done
-    """
+    """  # noqa: E501
     plugin_opts = {
         "report": """
         <script>
             import { Image, DataTable, Descr } from '$lib';
         </script>
-        <h1>Image</h1>
-        <Descr>
-            <p>This is a description about the section.</p>
-            <p>This is a description in another paragraph.</p>
-        </Descr>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
+        <h1>Section 1</h1>
+            <h2>Image</h2>
+            <Descr>
+                <p>This is a description about the section.</p>
+                <p>This is a description in another paragraph.</p>
+            </Descr>
+            <Image src="{{ job.out.outimg }}" />
+            <h2>Table</h2>
+            <DataTable
+                src={{ job.outdir | joinpaths: "table.txt" | quote }}
+                data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
+                />
+        <h1>This is a very long section name</h1>
         <Image src="{{ job.out.outimg }}" />
         <h1>Table</h1>
         <DataTable

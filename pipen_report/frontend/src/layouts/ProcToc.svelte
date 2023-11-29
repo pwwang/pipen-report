@@ -47,7 +47,7 @@
 
 </script>
 
-<ul class="bx--side-nav__items">
+<ul class="bx--side-nav__items pipen-report-sidenav">
 
     {#each toc as h1_toc}
         {#if h1_toc.children.length == 0}
@@ -62,3 +62,10 @@
     {/each}
 
 </ul>
+
+<style>
+    .pipen-report-sidenav {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        padding: 2rem 1rem;
+    }
+</style>
