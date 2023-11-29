@@ -1,5 +1,13 @@
+<script>
+    export let title;
+</script>
 
-<div class="pipen-report-descr">
+<div class="pipen-report-descr" {...$$restProps}>
+    {#if title}
+        <div class="pipen-report-descr-title">
+            {title}
+        </div>
+    {/if}
     <slot />
 </div>
 
@@ -14,5 +22,16 @@
         background-color: var(--cds-ui-01);
         padding: 8px 12px;
         color: var(--cds-text-secondary);
+    }
+    :global(.pipen-report-descr p) {
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+    }
+    .pipen-report-descr-title {
+        font-size: 110%;
+        font-weight: bold;
+        margin-bottom: 0.2rem;
     }
 </style>

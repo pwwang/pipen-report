@@ -81,7 +81,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         </script>
         <h1>Section 1</h1>
             <h2>Image</h2>
-            <Descr>
+            <Descr title="Description title" style="background-color: #e4e8ff">
                 <p>This is a description about the section.</p>
                 <p>This is a description in another paragraph.</p>
             </Descr>
