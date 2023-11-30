@@ -1,4 +1,4 @@
-# pipen-report
+![logo](docs/logo.png)
 
 Report generation system for [pipen][1]
 
