@@ -30,6 +30,7 @@ def datatable(
     Returns:
         A json format of data
     """
+    kwargs.setdefault("sep", "\t")
     df = pandas.read_csv(path, *args, **kwargs)
     if excluded:
         kept_cols = [col for col in df.columns if col not in excluded]
