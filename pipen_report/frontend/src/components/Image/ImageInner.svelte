@@ -79,6 +79,15 @@
     });
 
     const openModal = () => { modal_open = true; };
+
+    const props = {
+        ...$$restProps,
+        class: [
+            $$restProps.class,
+            "pipen-report-image",
+            border ? "" : "pipen-report-image-noborder"
+        ].filter(Boolean).join(" ")
+    };
 </script>
 
 {#if ratio === undefined}
@@ -86,9 +95,9 @@
         <slot name="loading" />
     {/if}
     {#if loaded}
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
         <img
-            {...$$restProps}
-            class="pipen-report-image{border ? '' : ' pipen-report-image-noborder'}"
+            {...props}
             {src}
             {alt}
             title="Click to zoom in ..."
@@ -105,9 +114,9 @@
             <slot name="loading" />
         {/if}
         {#if loaded}
+            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
             <img
-                {...$$restProps}
-                class="pipen-report-image{border ? '' : ' pipen-report-image-noborder'}"
+                {...props}
                 {src}
                 {alt}
                 title="Click to zoom in ..."
