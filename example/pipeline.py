@@ -68,78 +68,324 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
     output = "outimg:file:{{in.inimg | basename}}"
     script = """
         cp {{in.inimg}} {{out.outimg}}
-        tablefile={{job.outdir}}/table.txt
-        echo -e 'A\tB\tC\tD\tE\tF\tG\tH\n' > $tablefile
-        for i in {1..100}; do
-            echo -e "$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i" >> $tablefile
+        report_file={{job.outdir}}/report.json
+        table_file={{job.outdir}}/table.txt
+        echo -e 'A\tB\tC\tD' > $table_file
+        for i in {1..10}; do
+            echo -e "$i$i$i\t$i$i$i\t$i$i$i\t$i$i$i" >> $table_file
         done
+        image={{out.outimg}}
+        {% raw %}
+        echo "{" > $report_file
+        echo '  "Section 1": {' >> $report_file
+        echo '    "Image" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "descr",' >> $report_file
+        echo '            "title": "Description title",' >> $report_file
+        echo '            "style": "background-color: #e4e8ff",' >> $report_file
+        echo '            "content": "<p>This is a description about the section.</p><p>This is a description in another paragraph.</p>"' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    },' >> $report_file
+        echo '    "Table": {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "table",' >> $report_file
+        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "The following are the tables of images": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "tabs": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 1",' >> $report_file
+        echo '            "ui": "table_of_images",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 1",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 2",' >> $report_file
+        echo '            "ui": "table_of_images",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 2",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 3",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 3",' >> $report_file
+        echo '            "ui": "table_of_images:3",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 4",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 5",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 6",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Accordion": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "accordion": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 1",' >> $report_file
+        echo '            "ui": "table_of_images",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 1",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 2",' >> $report_file
+        echo '            "ui": "table_of_images",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 2",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 3",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "title": "Table of Images 3",' >> $report_file
+        echo '            "ui": "table_of_images:3",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 4",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 5",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              },' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "title": "Image 6",' >> $report_file
+        echo '                "descr": "This is a description about the image.",' >> $report_file
+        echo "                \\"src\\": \\"$image\\"" >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Error": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "error",' >> $report_file
+        echo '            "content": "This is an error message."' >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Lists": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "tabs": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "ui": "flat",' >> $report_file
+        echo '            "title": "Unordered List",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "kind": "list",' >> $report_file
+        echo '                "ordered": false,' >> $report_file
+        echo '                "items": [' >> $report_file
+        echo '                  "Item 1",' >> $report_file
+        echo '                  "Item 2",' >> $report_file
+        echo '                  "Item 3"' >> $report_file
+        echo '                ]' >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "ui": "flat",' >> $report_file
+        echo '            "title": "Ordered List",' >> $report_file
+        echo '            "contents": [' >> $report_file
+        echo '              {' >> $report_file
+        echo '                "kind": "list",' >> $report_file
+        echo '                "ordered": true,' >> $report_file
+        echo '                "items": [' >> $report_file
+        echo '                  "Item 1",' >> $report_file
+        echo '                  "Item 2",' >> $report_file
+        echo '                  "Item 3"' >> $report_file
+        echo '                ]' >> $report_file
+        echo '              }' >> $report_file
+        echo '            ]' >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Image#1": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Table#2": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "table",' >> $report_file
+        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Image#2": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Table#3": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "table",' >> $report_file
+        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Image#3": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Table#4": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "table",' >> $report_file
+        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Image#4": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Table#5": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "table",' >> $report_file
+        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  },' >> $report_file
+        echo '  "Image#5": {' >> $report_file
+        echo '    "#" : {' >> $report_file
+        echo '      "#" : {' >> $report_file
+        echo '        "flat": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          }' >> $report_file
+        echo '        ]' >> $report_file
+        echo '      }' >> $report_file
+        echo '    }' >> $report_file
+        echo '  }' >> $report_file
+        echo '}' >> $report_file
+        {% endraw %}
     """  # noqa: E501
     plugin_opts = {
         "report": """
         <script>
             import { Image, DataTable, Descr } from '$lib';
+            import { Tabs, TabContent, Tab, Accordion, AccordionItem, InlineNotification, UnorderedList, OrderedList, ListItem } from '$ccs';
         </script>
-        <h1>Section 1</h1>
-            <h2>Image</h2>
-            <Descr title="Description title" style="background-color: #e4e8ff">
-                <p>This is a description about the section.</p>
-                <p>This is a description in another paragraph.</p>
-            </Descr>
-            <Image src="{{ job.out.outimg }}" style="max-width: 40%; height: auto;" />
-            <h2>Table</h2>
-            <DataTable
-                src={{ job.outdir | joinpaths: "table.txt" | quote }}
-                data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-                />
-        <h1>This is a very long section name</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
-        <h1>Image</h1>
-        <Image src="{{ job.out.outimg }}" />
-        <h1>Table</h1>
-        <DataTable
-            src={{ job.outdir | joinpaths: "table.txt" | quote }}
-            data={ {{job.outdir | joinpaths: "table.txt" | datatable: sep="\t"}} }
-            />
+
+        {{ job | render_job }}
         """,  # noqa: E501
         "report_paging": 4,
     }
