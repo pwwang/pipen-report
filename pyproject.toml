@@ -15,7 +15,7 @@ generate-setup-file = true
 python = "^3.8"
 pipen = "^0.12"
 Markdown = "^3"
-copier = "^9.1"
+copier = "^9"
 python-slugify = "^8.0.1"
 pipen-runinfo = {optional = true, version = "^0.4"}
 pillow = "^10.1.0"
