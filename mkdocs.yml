@@ -17,9 +17,6 @@ theme:
     name: rtd
 markdown_extensions:
     - markdown.extensions.admonition
-    - pymdownx.emoji:
-        emoji_index: !!python/name:materialx.emoji.twemoji
-        emoji_generator: !!python/name:materialx.emoji.to_svg
     - pymdownx.superfences:
         preserve_tabs: true
     - toc:
