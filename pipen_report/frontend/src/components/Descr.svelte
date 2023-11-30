@@ -1,8 +1,20 @@
 <script>
     export let title;
+    let { klass, ...props } = $$restProps;
+
+    if (klass) {
+        klass = `pipen-report-descr ${klass}`;
+    } else {
+        klass = 'pipen-report-descr';
+    }
+
+    if (!!!props) {
+        props = {};
+    }
+    props['class'] = klass;
 </script>
 
-<div class="pipen-report-descr" {...$$restProps}>
+<div {...props}>
     {#if title}
         <div class="pipen-report-descr-title">
             {title}
