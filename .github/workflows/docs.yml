@@ -27,7 +27,7 @@ jobs:
           python -m pip install -r docs/requirements.txt
           cd docs
           cp ../README.md index.md
-          sed -i 's#docs/logo.png/#logo.png#g' index.md
+          sed -i 's#docs/logo.png#logo.png#g' index.md
           cd ..
           mkdocs build --clean
           cp -r example/ site/
@@ -37,35 +37,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           ghp-import -m "GitHub Action deploy (${GITHUB_SHA:0:7})" -f -p site/
-        if: success()
-
-  fix-index:
-    needs: docs
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.9]
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-      - name: Fix index.html
-        run: |
-          echo ':: head of index.html - before ::'
-          head index.html
-          sed -i '1,5{/^$/d}' index.html
-          echo ':: head of index.html - after ::'
-          head index.html
-        if: success()
-      - name: Commit changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Add changes" -a
-        if: success()
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
         if: success()
