@@ -1,0 +1,18 @@
+{
+  "Image": {
+    "#" : {
+      "#" : {
+        "flat": [
+          {
+            "kind": "descr",
+            "content": "This is a description about the section."
+          },
+          {
+            "kind": "image",
+            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessNoTOC/placeholder.png"
+          }
+        ]
+      }
+    }
+  }
+}

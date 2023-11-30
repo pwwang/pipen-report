@@ -1,3 +1,5 @@
+# Configurations
+
 Configurations should be set under `plugin_opts`.
 
 Just like configurations for `pipen`, there are two levels of configuration items: process-level and pipeline-level.

@@ -1,4 +1,4 @@
-## CLI tools
+# CLI tools
 
 List available CLI tools:
 

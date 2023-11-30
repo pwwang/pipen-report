@@ -28,6 +28,7 @@ jobs:
           python -m pip install -r docs/requirements.txt
           cd docs
           cp ../README.md index.md
+          sed -i 's#docs/logo.png/#logo.png#g' index.md
           cd ..
           mkdocs build --clean
           cp -r example/ site/

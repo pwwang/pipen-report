@@ -1,3 +1,5 @@
+# Folder structure
+
 ## Output directory structure
 
 The reports (html files, assets, built js files, etc) will be saved at `<pipeline.outdir>/REPORTS`
