@@ -7,10 +7,12 @@ import css from 'rollup-plugin-css-only';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import data from './src/data.json' assert { type: 'json' };
+import { optimizeImports, optimizeCss } from "carbon-preprocess-svelte";
 
 const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 	plugins: [
 		svelte({
+			preprocess: [optimizeImports()],
 			compilerOptions: { dev: false },
 			onwarn: (warning, handler) => {
 				// carbon-components-svelte 0.37.5
@@ -19,6 +21,7 @@ const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 				handler(warning);
 			}
 		}),
+		process.env.NODE_ENV === 'production' && optimizeImports(),
 		alias({
 			entries: [
 				{ find: '$components', replacement: '../../components' },
