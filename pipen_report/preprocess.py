@@ -7,7 +7,6 @@ from typing import Any, List, Mapping, Tuple, Union
 import hashlib
 
 from slugify import slugify
-from PIL import Image as PILImage
 
 RELPATH_TAGS = {
     "a": "href",
@@ -103,6 +102,8 @@ def _preprocess_relpath_tag(
     if tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
         # Add width and height to Image tag
         try:
+            from PIL import Image as PILImage
+
             img = PILImage.open(pathval)
             if "width=" not in attrs:
                 attrs += f' width={{{img.width}}}'
