@@ -29,14 +29,15 @@
     {logotext}
     {/if}
   </Tile>
-  <HeaderUtilities>
+  <HeaderUtilities class="header-util">
     <Theme
       render="select"
+      theme="g10"
       persist
       persistKey="__pipen-report-theme"
       select={{
           themes: ['g10', 'white', 'g80', 'g90', 'g100'],
-          labelText: 'Select a theme',
+          labelText: 'Theme',
           inline: true
       }}
     />
