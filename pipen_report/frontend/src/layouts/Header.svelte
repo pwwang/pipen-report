@@ -69,3 +69,10 @@
     {/if}
   </HeaderUtilities>
 </Header>
+
+<style>
+  :global(.head-util) {
+    /* to keep it while resizing */
+    width: 2rem;
+  }
+</style>
