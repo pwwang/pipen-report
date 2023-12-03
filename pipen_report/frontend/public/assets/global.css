@@ -115,6 +115,10 @@ div[themes].bx--form-item > .bx--select--inline label {
 	height: auto;
 }
 
+.bx--accordion__heading {
+	background-color: rgb(from var(--cds-background-selected) r g b / 40%) !important;
+}
+
 .runinfo div.bx--inline-notification {
 	transform: scale(0.8);
 }
