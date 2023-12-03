@@ -34,6 +34,12 @@
         grid-template-columns: repeat(1, 1fr);
     }
 
+    @media (max-width: 768px) {
+        .proc-list {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+
     .proc-list > div {
         min-height: 6.2rem;
     }
