@@ -408,3 +408,153 @@ This will be rendered as:
 
     {{ job | render_job }}
     ```
+
+## Registering new component renderer
+
+`pipen-report` allows you to register new component renderer. For example, you can register a new component renderer for `my-component`:
+
+```python
+from pipen_report.filters import register_component, _tag
+
+
+@register_component("my-component", "mycomp")
+def _render_my_component(args, job, level):
+    """Render my-component
+
+    Args:
+        args should be a dict with the following keys:
+            - kind: The kind of the component, "my-component" or "mycomp" in this case
+            - arg1: ...  # The arguments passed to the component
+            - arg2: ...
+            - ...
+
+        job: The job object used to render the template
+        level: The indent level of the component
+    """
+    # Rendered as
+    # <div>This is my component</div>
+    return _tag("div", slot="This is my component", _level=level)
+```
+
+When the above component renderer is registered, `my-component` can be used in the `report.json` file:
+
+```json
+{
+  "h1": {
+    "h2": {
+      "h3": {
+        "ui": [
+          {
+            "kind": "my-component",
+            "arg1": "value1",
+            "arg2": "value2"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+Or in the dict passed to the `render_component` filter:
+
+```liquid
+{{ {"kind": "my-component", "arg1": "value1", "arg2": "value2"} | render_component }}
+```
+
+
+## Registering new ui renderer
+
+`ui` is a layout of components, which defines how the set of components are rendered.
+
+`pipen-report` allows you to register new ui renderer. For example, you can register a new ui renderer for `grid`:
+
+```python
+from pipen_report.filters import register_ui, render_component, _tag
+
+
+@register_ui("grid")
+def _render_my_ui(contents, job, level):
+    """Render grid ui
+
+    Args:
+        contents: The contents of components to render
+        job: The job object used to render the template
+        level: The indent level of the components
+    """
+    return _tag(
+        "div",
+        slot="\n".join(
+            _tag("div", slot=render_component(c, job, 2), _level=1)
+            for c in contents
+        ),
+        _level=level,
+        style="display: grid; grid-template-columns: repeat(2, auto); "
+    )
+```
+
+This will render a `grid` ui as:
+
+```html
+<div style="display: grid; grid-template-columns: repeat(2, auto); ">
+    <div>
+        <Component1 />
+    </div>
+    <div>
+        <Component2 />
+    </div>
+</div>
+```
+
+When the above ui renderer is registered, `grid` can be used in the `report.json` file:
+
+```json
+{
+  "h1": {
+    "h2": {
+      "h3": {
+        "grid": [
+          {
+            "kind": "<component>",
+            ...
+          },
+          {
+            "kind": "<component>",
+            ...
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+Or in the dict passed to the `render_ui` filter:
+
+```liquid
+{{ [ { "kind": "<component>", ... }, { "kind": "<component>", ... } ] | render_ui: "grid" }}
+```
+
+You can also pass extra arguments to the ui renderer. In the above example, for example, we can
+pass the number of columns to the `grid` ui, by registering the renderer as:
+
+```python
+@register_ui("grid")
+def _render_my_ui(contents, job, level, arg: str | None = None):
+    """Render grid ui
+
+    The `arg` should be the residual of the ui name after the first `:`.
+    For example, `grid:3` will pass `arg="3"` to the renderer.
+    """
+    arg = arg or "2"
+    ncol = int(arg)
+    return _tag(
+        "div",
+        slot="\n".join(
+            _tag("div", slot=render_component(c, job, 2), _level=1)
+            for c in contents
+        ),
+        _level=level,
+        style=f"display: grid; grid-template-columns: repeat({ncol}, auto); "
+    )
+```

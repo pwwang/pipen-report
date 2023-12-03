@@ -83,8 +83,8 @@ def datatable(
 
 def render_component(
     component: str | Mapping[str, Any],
-    job: Mapping[str, Any],
-    level: int,
+    job: Mapping[str, Any] = None,
+    level: int = 0,
 ) -> str:
     """
     Render the content based on its kind.
@@ -100,37 +100,45 @@ def render_component(
     Raises:
         ValueError: If the kind of component in toc is unknown.
     """
+    job = job or {}
     if not isinstance(component, dict):
         return _tag("p", slot=html.escape(str(component)), _level=level)
 
     cont = component.copy()
     kind = cont.pop("kind")
-    if kind == "accordion":
-        return _render_accordion(cont, job=job, level=level)
-    if kind == "descr":
-        return _render_descr(cont, job=job, level=level)
-    if kind == "error":
-        return _render_error(cont, job=job, level=level)
-    if kind == "list":
-        return _render_list(cont, job=job, level=level)
-    if kind == "table" or kind == "datatable":
-        return _render_table(cont, job=job, level=level)
-    if kind == "img" or kind == "image":
-        return _render_image(cont, job=job, level=level)
-    if kind == "table_img" or kind == "table_image":
-        return _render_table_image(cont, job=job, level=level)
-    if kind == "tab":
-        return _render_tab(cont, job=job, level=level)
-    if kind == "tag":
-        tag = cont.pop("tag")
-        return _tag(tag, **cont, _level=level)
+    if kind not in render_component.renderers:
+        raise ValueError(
+            f"Unknown kind of component: {kind}. "
+            f"Allowed components: {list(render_component.renderers)}"
+        )
 
-    raise ValueError(
-        f"Unknown kind of component in toc: {kind}. "
-        "Allowed: descr, error, list, table, img, table_img and tag."
-    )
+    return render_component.renderers[kind](cont, job=job, level=level)
 
 
+render_component.renderers = {}
+
+
+def register_component(kind: str, *aliases: str):
+    """Register a component renderer
+
+    Args:
+        kind (str): The kind of component to register.
+        *aliases (str): The aliases of the kind.
+
+    Returns:
+        Callable: The decorator to register the component renderer.
+    """
+    kinds = [kind, *aliases]
+
+    def decorator(func):
+        for knd in kinds:
+            render_component.renderers[knd] = func
+        return func
+
+    return decorator
+
+
+@register_component("accordion")
 def _render_accordion(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -147,15 +155,19 @@ def _render_accordion(
     Returns:
         str: The rendered accordion item.
     """
-    ui = cont.get("ui", "flat")
+    cont = cont.copy()
+    ui = cont.pop("ui", "flat")
+    contents = cont.pop("contents", [])
+    cont.setdefault("align", "start")
     return _tag(
         "AccordionItem",
-        title=cont["title"],
         _level=level,
-        slot=render_ui(cont["contents"], ui, job=job, level=1),
+        slot=render_ui(contents, ui, job=job, level=1),
+        **cont,
     )
 
 
+@register_component("descr")
 def _render_descr(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -181,6 +193,7 @@ def _render_descr(
     return _tag("Descr", slot=slot, _level=level, title=title, **cont)
 
 
+@register_component("error")
 def _render_error(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -204,6 +217,7 @@ def _render_error(
     return _tag("InlineNotification", **cont, _level=level)
 
 
+@register_component("list")
 def _render_list(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -227,6 +241,7 @@ def _render_list(
     return _tag(tag, slot="\n".join(list_items), **cont, _level=level)
 
 
+@register_component("table", "datatable")
 def _render_table(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -258,6 +273,7 @@ def _render_table(
     return _tag("DataTable", **attrs, _level=level)
 
 
+@register_component("img", "image")
 def _render_image(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -292,6 +308,7 @@ def _render_image(
     return _tag("Image", **attrs, _level=level)
 
 
+@register_component("table_img", "table_image")
 def _render_table_image(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -336,6 +353,7 @@ def _render_table_image(
     )
 
 
+@register_component("tab")
 def _render_tab(
     cont: Mapping[str, Any],
     job: Mapping[str, Any],
@@ -368,6 +386,28 @@ def _render_tab(
     )
 
 
+@register_component("tag")
+def _render_tag(
+    cont: Mapping[str, Any],
+    job: Mapping[str, Any],
+    level: int,
+) -> str:
+    """
+    Render a tag.
+
+    Args:
+        cont (Mapping[str, Any]): The container containing the tag information.
+        job (Mapping[str, Any]): The job information.
+        level (int): The level of the tag.
+
+    Returns:
+        str: The rendered tag.
+
+    """
+    tag = cont.pop("tag")
+    return _tag(tag, **cont, _level=level)
+
+
 def render_ui(
     contents: List[Mapping[str, Any]],
     ui: str,
@@ -390,20 +430,41 @@ def render_ui(
         ValueError: If the provided UI type is not one of the allowed values.
     """
     job = job or {}
-    if ui == "flat":
-        return _ui_flat(contents, job, level=level)
-    if ui.startswith("table_of_images"):
-        return _ui_table_of_images(ui, contents, job, level=level)
-    if ui == "tabs":
-        return _ui_tabs(contents, job, level=level)
-    if ui == "accordion":
-        return _ui_accordion(contents, job, level=level)
+    ui_parts = ui.split(":")
 
-    raise ValueError(
-        f"Unknown ui: {ui}. Allowed: flat, table_of_images, accordion, and tabs."
-    )
+    if ui_parts[0] not in render_ui.renderers:
+        raise ValueError(
+            f"Unknown ui: {ui_parts[0]}. Allowed: {list(render_ui.renderers)}"
+        )
+
+    renderer = render_ui.renderers[ui_parts[0]]
+    return renderer(contents, job, level, *ui_parts[1:])
 
 
+render_ui.renderers = {}
+
+
+def register_ui(kind: str, *aliases: str):
+    """Register a UI renderer
+
+    Args:
+        kind (str): The kind of UI to register.
+        *aliases (str): The aliases of the kind.
+
+    Returns:
+        Callable: The decorator to register the UI renderer.
+    """
+    kinds = [kind, *aliases]
+
+    def decorator(func):
+        for knd in kinds:
+            render_ui.renderers[knd] = func
+        return func
+
+    return decorator
+
+
+@register_ui("flat")
 def _ui_flat(
     contents: List[Mapping[str, Any]],
     job: Mapping[str, Any],
@@ -422,11 +483,12 @@ def _ui_flat(
     return "\n".join(render_component(cont, job, level) for cont in contents)
 
 
+@register_ui("table_of_images")
 def _ui_table_of_images(
-    ui: str,
     contents: List[Mapping[str, Any]],
     job: Mapping[str, Any],
     level: int,
+    ui_arg: str = None,
 ) -> str:
     """
     Render a table of images UI.
@@ -444,23 +506,15 @@ def _ui_table_of_images(
         ValueError: If the 'kind' attribute of any image content is not 'table_img' or
         'table_image'.
     """
-    if ":" not in ui:
-        ncol = 2
-    else:
-        _, ncol = ui.split(":", 1)
-        ncol = int(ncol)
+    ncol = int(ui_arg or "2")
 
     grid_col = "auto" if len(contents) >= ncol else f"{100./ncol}%"
     img_src = []
     for cont in contents:
-        kind = cont.get("kind", "table_image")
-        if kind not in ("table_img", "table_image"):
-            raise ValueError(
-                "Only kind = tag_img/tab_image allow in ui table_of_images, "
-                f"got {kind}"
-            )
+        if isinstance(cont, str):
+            cont = {"kind": "tag", "tag": "div", "slot": cont}
 
-        cont["kind"] = "table_image"
+        cont.setdefault("kind", "table_image")
         img_src.append(render_component(cont, job=job, level=1))
 
     return _tag(
@@ -472,6 +526,7 @@ def _ui_table_of_images(
     )
 
 
+@register_ui("tabs")
 def _ui_tabs(
     contents: List[Mapping[str, Any]],
     job: Mapping[str, Any],
@@ -508,6 +563,7 @@ def _ui_tabs(
     return _tag("Tabs", slot="\n".join(tab_slot), _level=level)
 
 
+@register_ui("accordion")
 def _ui_accordion(
     contents: List[Mapping[str, Any]],
     job: Mapping[str, Any],
@@ -525,11 +581,14 @@ def _ui_accordion(
         str: The rendered accordion UI.
     """
     accords = []
-    for cont in contents:
+    has_open = any(cont.get("open", False) for cont in contents)
+    for i, cont in enumerate(contents):
         if cont.get("kind", "accordion") != "accordion":
             raise ValueError("Only kind = accordion allow in ui accordion")
 
         cont["kind"] = "accordion"
+        if not has_open and i == 0:
+            cont["open"] = True
         accords.append(render_component(cont, job=job, level=1))
 
     return _tag("Accordion", slot="\n".join(accords), _level=level)
