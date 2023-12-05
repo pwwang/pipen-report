@@ -21,7 +21,7 @@ const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 				handler(warning);
 			}
 		}),
-		process.env.NODE_ENV === 'production' && optimizeImports(),
+		optimizeCss(),
 		alias({
 			entries: [
 				{ find: '$components', replacement: '../../components' },
@@ -103,19 +103,27 @@ const procConfig = (proc) => {
 	return out;
 }
 
-// Configuration for the proc pages
-const entryConfigs = (entries) => {
-	let out = []
-	for (let entry of entries) {
-		if (entry.procs) {
-			for (let proc of entry.procs) {
-				out = out.concat(procConfig(proc));
+
+export default cliArgs => {
+	const proc = cliArgs.configProc;
+
+	if (proc === "_index") {
+		return indexConfig;
+	}
+
+	const [entryName, procName] = proc.split("/");
+
+	for (const entry of data.entries) {
+		if (entry.name === entryName) {
+			if (procName) {
+				for (const proc of entry.procs) {
+					if (proc.name === procName) {
+						return procConfig(proc);
+					}
+				}
+			} else {
+				return procConfig(entry);
 			}
-		} else {
-			out = out.concat(procConfig(entry));
 		}
 	}
-	return out;
-}
-
-export default [indexConfig, ...entryConfigs(data.entries)];
+};

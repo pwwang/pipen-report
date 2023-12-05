@@ -277,3 +277,19 @@ li.bx--list__item::before {
 .pipen-report-table-of-images > div {
 	min-width: 0;
 }
+
+@media (min-width: 640px) {
+	.bx--accordion__content {
+		padding-right: 3rem;
+	}
+}
+@media (min-width: 1300px) {
+	.bx--accordion__content {
+		padding-right: 25%;
+	}
+}
+
+.bx--data-table {
+	overflow: auto;
+	display: block;
+}

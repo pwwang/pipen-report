@@ -15,17 +15,19 @@ from copier import run_copy
 from pipen import Proc, ProcGroup
 from pipen.exceptions import TemplateRenderingError
 from pipen.template import TemplateLiquid, TemplateJinja2
-from pipen.utils import get_base, desc_from_docstring
+from pipen.utils import get_base, desc_from_docstring, get_marked
 
 from .filters import FILTERS
 from .preprocess import preprocess
-from .utils import get_config
+from .utils import UnifiedLogger, get_config, logger
 from .versions import version_str
 
 if TYPE_CHECKING:
     from pipen import Pipen
     from pipen.job import Job
     from pipen.template import Template
+
+ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 
 def _render_file(
@@ -40,6 +42,10 @@ def _render_file(
         engine_opts["comment_start_string"] = "{!"
         engine_opts["comment_end_string"] = "!}"
     return engine(source, **engine_opts).render(render_data)
+
+
+class NPMBuildingError(Exception):
+    """Error when npm run build failed"""
 
 
 class ReportManager:
@@ -66,7 +72,6 @@ class ReportManager:
 
     def check_npm_and_setup_dirs(self) -> None:
         """Check if npm is available"""
-        from .report_plugin import logger
 
         logger.debug("Checking npm and frontend dependencies ...")
 
@@ -163,81 +168,97 @@ class ReportManager:
         rendering_data["job0"] = rendering_data["jobs"][0]
         return rendering_data
 
-    def _npm_run_build(self, cwd: Path) -> None:
-        """Run a command and log the messages"""
-        from .report_plugin import logger
+    def _npm_run_build(
+        self,
+        cwd: Path,
+        proc: str,
+        ulogger: UnifiedLogger,
+        force_build: bool,
+        cached: bool,
+        procgroup: str | None = None,
+    ) -> None:
+        """Run a command and log the messages
 
+        proc is ProcGroup:Proc or Proc
+        """
         logfile = self.workdir / "pipen-report.log"
+        if proc == "_index":
+            logfile.write_text("")
+            destfile = self.outdir.joinpath("index", "index.js")
+            ini_datafile = self.workdir / "src" / "init_data.json"
+            src_changed = (
+                not ini_datafile.exists()
+                or json.loads(ini_datafile.read_text()) != self.pipeline_data
+            )
+            proc_or_pg = proc
+        else:
+            proc_or_pg = f"{procgroup}/{proc}" if procgroup else proc
+            srcfile = self.workdir.joinpath("src", "pages", proc, "proc.svelte")
+            destfile = self.outdir.joinpath("procs", proc, "index.js")
+            src_changed = (
+                not destfile.exists()
+                or srcfile.stat().st_mtime > destfile.stat().st_mtime
+            )
 
-        total_pages = 1  # _index
-        for entry in self.pipeline_data["entries"]:
-            if "procs" in entry:
-                total_pages += sum(proc["npages"] for proc in entry["procs"])
-            else:
-                total_pages += entry["npages"]
+        if (
+            destfile.exists()
+            and not force_build
+            and cached
+            and not src_changed
+        ):
+            ulogger.info(
+                f"{'Home page' if proc == '_index' else proc_or_pg} cached, skipping"
+            )
+            return
 
-        building_idx = 0
-        chars_to_log = " → "
+        ulogger.debug(
+            f"Destination exists: {destfile.exists()}; "
+            f"force_build: {force_build}; "
+            f"cached: {cached}; "
+            f"src_changed: {src_changed}"
+        )
+        ulogger.info(
+            "Building report: "
+            f"{'Home page' if proc_or_pg == '_index' else proc_or_pg} ..."
+        )
+
         chars_to_error = "(!)"
         errored = False
 
-        with open(logfile, "wt") as flog:
-            flog.write("WORKING DIRECTORY:\n")
-            flog.write("--------------------\n")
-            flog.write(f"{self.workdir.resolve()}\n\n")
+        with open(logfile, "at") as flog:
+            flog.write("\n")
+            flog.write(f"# BUILDING {proc_or_pg} ...\n")
+            flog.write("----------------------------------------\n")
 
             try:
                 p = sp.Popen(
-                    [self.npm, "run", "build"],
+                    [self.npm, "run", "build", "--", f"--configProc={proc_or_pg}"],
                     stdout=sp.PIPE,
                     stderr=sp.STDOUT,
                     cwd=str(cwd),
                 )
                 for line in p.stdout:
                     line = line.decode()
-                    line = re.sub("\033\\[\\d+m", "", line)
                     # src/pages/_index/index.js → public/index/index.js
-                    flog.write(line)
+                    flog.write(ansi_escape.sub('', line))
 
-                    m = re.match(
-                        rf"src/pages/([^/]+)/index\.js{chars_to_log}public/.+",
-                        line,
-                    )
-                    if m:
-                        if errored:
-                            # Early stop
-                            p.terminate()
-                            p.kill()
-                            raise RuntimeError
-
-                        building_idx += 1
-                        # Make building_idx the same length as total_pages
-                        building_idx_str = str(building_idx).zfill(
-                            len(str(total_pages))
-                        )
-                        page_name = m.group(1)
-                        if page_name == "_index":
-                            page_name = "HomePage"
-                        logger.info(
-                            f"- [{building_idx_str}/{total_pages}] "
-                            f"Building {page_name} ..."
-                        )
-                    elif chars_to_error in line:  # pragma: no cover
-                        logger.error(f"  {line.rstrip()}")
+                    if chars_to_error in line:
+                        ulogger.error(f"  {line.rstrip()}")
                         errored = True
 
+                    if errored:
+                        # Early stop
+                        p.terminate()
+                        p.kill()
+                        raise NPMBuildingError
+
                 if p.wait() != 0:
-                    raise RuntimeError
+                    raise NPMBuildingError
 
             except Exception as e:  # pragma: no cover
-                if not isinstance(e, RuntimeError):
+                if not isinstance(e, NPMBuildingError):
                     flog.write(str(e))
-                logger.error("Failed to build reports")
-                logger.error("See %s for details", logfile)
-            else:
-                logger.info("View the reports at %s", self.outdir)
-                logger.info("Or run the following command to serve them:")
-                logger.info("$> pipen report serve -r %s", self.outdir.parent)
+                ulogger.error(f"(!) Failed. See: {logfile}")
 
     def init_pipeline_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
@@ -259,7 +280,7 @@ class ReportManager:
 
             entry = {
                 "name": proc.name,
-                "desc": proc.desc,
+                "desc": proc.desc or desc_from_docstring(proc, Proc),
                 "npages": 1,
                 "report_toc": True,
                 "order": (
@@ -291,6 +312,15 @@ class ReportManager:
                 self.pipeline_data["entries"].append(entry)
 
         self.pipeline_data["entries"].sort(key=lambda x: x["order"])
+
+        # Write the initial data to check if home page is cached
+        datafile = self.workdir / "src" / "init_data.json"
+        if (
+            not datafile.exists()
+            or json.loads(datafile.read_text()) != self.pipeline_data
+        ):
+            with datafile.open("w") as f:
+                json.dump(self.pipeline_data, f, indent=2)
 
     def _update_proc_meta(self, proc: Proc, npages: int) -> None:
         """Update the number of pages for a process"""
@@ -346,25 +376,13 @@ class ReportManager:
                 entry.update(to_update)
                 break
 
-    def render_proc_report(self, proc: Proc, status: str | bool) -> None:
+    def render_proc_report(self, proc: Proc):
         """Render the report template for a process
 
         Args:
             proc: The process
             status: The status of the process
         """
-        from .report_plugin import logger
-
-        if (
-            not status
-            or not proc.plugin_opts
-            or not proc.plugin_opts.get("report", False)
-        ):
-            return
-
-        self.has_reports = True
-
-        proc.log("debug", "Rendering report ...", logger=logger)
         rendering_data = self._rendering_data(proc)
 
         # Render the report
@@ -434,7 +452,7 @@ class ReportManager:
         name: str,
         page: int,
         toc: List[Mapping[str, Any]] | None,
-    ):
+    ) -> Path:
         """Render a page of the report"""
         tpl_dir = self.nmdir.joinpath("src", "pages", "proc")
         if page == 0:
@@ -448,36 +466,64 @@ class ReportManager:
             overwrite=True,
             quiet=True,
             data={"name": name, "page": page},
+            skip_if_exists=["proc.svelte"],
         )
         rendered_report = dest_dir / "proc.svelte"
-
-        if rendered_report.exists():
-            rendered_report.unlink()
-        rendered_report.write_text(rendered)
 
         with dest_dir.joinpath("toc.json").open("w") as f:
             json.dump(toc, f, indent=2)
 
+        if not rendered_report.exists() or rendered_report.read_text() != rendered:
+            rendered_report.write_text(rendered)
+
         return rendered_report
 
-    async def build(self, pipen: Pipen) -> None:
-        """Build all reports
+    async def build(
+        self,
+        proc: Proc | str,
+        nobuild: bool,
+        force_build: bool,
+        cached: bool = False,
+    ) -> None:
+        """Build report for a process
 
         Args:
-            logger: The logger
+            proc: The process
+            nobuild: Don't build the report
+            cached: Whether the process is cached
         """
-        from .report_plugin import logger
+        ulogger = UnifiedLogger(logger, proc)
 
-        if not self.has_reports:
-            logger.info(
-                "Skipping report generation, no process generates a report."
-            )
+        if proc == "_index":
+            if nobuild:
+                ulogger.debug("`report_nobuild` is True, skipping building home page.")
+            else:
+                self._npm_run_build(
+                    cwd=self.workdir,
+                    proc="_index",
+                    ulogger=ulogger,
+                    force_build=force_build,
+                    cached=cached,
+                )
+
             return
 
-        logger.debug("Saving pipeline data ...")
+        self.render_proc_report(proc)
+
         datafile = self.workdir / "src" / "data.json"
         with datafile.open("w") as f:
             json.dump(self.pipeline_data, f, indent=2)
 
-        logger.info("Building reports ...")
-        self._npm_run_build(cwd=self.workdir)
+        if nobuild or self.nobuild:
+            ulogger.debug("`report_nobuild` is True, skipping building report.")
+            return
+
+        procgroup = get_marked(proc, "procgroup")
+        self._npm_run_build(
+            cwd=self.workdir,
+            proc=proc.name,
+            ulogger=ulogger,
+            force_build=force_build,
+            cached=cached,
+            procgroup=procgroup.name if procgroup else None,
+        )

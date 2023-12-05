@@ -19,6 +19,9 @@ NMDIR = str(Path(__file__).parent.joinpath("frontend").resolve())
 # Say if you want to do the building manually
 NOBUILD = False
 
+# Force build report even if cached
+FORCE_BUILD = False
+
 # External components to be used in the report
 EXTLIBS = None
 

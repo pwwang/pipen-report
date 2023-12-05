@@ -189,12 +189,21 @@
       }
     }
   },
-  "Image#1": {
+  "DropDownSwitcher": {
     "#" : {
       "#" : {
-        "flat": [
+        "dropdown_switcher:1": [
+          {
+            "ds_name": "Select an item ..."
+          },
           {
             "kind": "image",
+            "ds_name": "Image 1",
+            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+          },
+          {
+            "kind": "image",
+            "ds_name": "Image 2",
             "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]

@@ -3,16 +3,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 from pipen import plugin
-from pipen.utils import get_logger
 
-from .utils import get_config
+from .utils import get_config, logger
 from .versions import __version__  # noqa: F401
 from .report_manager import ReportManager
 
 if TYPE_CHECKING:
     from pipen import Pipen, Proc
-
-logger = get_logger("report")
 
 
 class PipenReport:
@@ -54,6 +51,9 @@ class PipenReport:
         # Force the process to export output when report template is given
         pipen.config.plugin_opts.setdefault("report_force_export", True)
         # pipeline-level
+        # Force the process to rebuild the report when cached
+        pipen.config.plugin_opts.setdefault("report_force_build", False)
+        # pipeline-level
         pipen.config.plugin_opts.setdefault("report_npm", None)
         # pipeline-level
         pipen.config.plugin_opts.setdefault("report_nmdir", None)
@@ -86,13 +86,18 @@ class PipenReport:
             if isinstance(loglevel, int)
             else loglevel.upper()
         )
-        self.manager = ReportManager(
-            pipen.config.plugin_opts or {},
-            pipen.outdir,
-            pipen.workdir,
-        )
+        plugin_opts = pipen.config.plugin_opts or {}
+        self.manager = ReportManager(plugin_opts, pipen.outdir, pipen.workdir)
         self.manager.check_npm_and_setup_dirs()
         self.manager.init_pipeline_data(pipen)
+
+        if len(self.manager.pipeline_data["entries"]) > 0:
+            await self.manager.build(
+                "_index",
+                get_config("nobuild", plugin_opts.get("report_nobuild")),
+                get_config("force_build", plugin_opts.get("report_force_build")),
+                True,
+            )
 
     @plugin.impl
     def on_proc_create(self, proc: Proc) -> None:
@@ -123,7 +128,19 @@ class PipenReport:
         self, proc: "Proc", succeeded: Union[str, bool]
     ) -> None:
         """Generate reports for each process"""
-        self.manager.render_proc_report(proc, succeeded)
+        if succeeded is False:
+            return
+
+        plugin_opts = proc.plugin_opts or {}
+        if not plugin_opts.get("report", False):
+            return
+
+        await self.manager.build(
+            proc,
+            get_config("nobuild", plugin_opts.get("report_nobuild")),
+            get_config("force_build", plugin_opts.get("report_force_build")),
+            succeeded == "cached",
+        )
 
     @plugin.impl
     async def on_complete(self, pipen: "Proc", succeeded: bool) -> None:
@@ -131,11 +148,13 @@ class PipenReport:
         if not succeeded:
             return
 
-        if not get_config(
-            "nobuild",
-            pipen.config.plugin_opts.get("report_nobuild"),
-        ):
-            await self.manager.build(pipen)
+        plugin_opts = pipen.config.plugin_opts or {}
+        nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
+
+        if not nobuild and len(self.manager.pipeline_data["entries"]) > 0:
+            logger.info("View the reports at %s/REPORTS", pipen.outdir)
+            logger.info("Or run the following command to serve them:")
+            logger.info("$ pipen report serve -r %s", pipen.outdir)
 
         del self.manager
         self.manager = None

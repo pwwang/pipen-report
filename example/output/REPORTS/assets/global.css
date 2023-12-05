@@ -23,12 +23,13 @@ div[themes].bx--form-item > .bx--select--inline {
 }
 
 div[themes].bx--form-item > .bx--select--inline select {
-	background-color: var(--cds-field-01);
+	background-color: var(--cds-active-01);
+	height: 1.8rem;
 }
 
-/* div[themes].bx--form-item > .bx--select--inline label {
+div[themes].bx--form-item > .bx--select--inline label {
 	color: #b9b9b9 !important;
-} */
+}
 
 .bx--header__name {
 	padding-left: 1.6rem !important;
@@ -114,6 +115,10 @@ div[themes].bx--form-item > .bx--select--inline select {
 	height: auto;
 }
 
+.bx--accordion__heading {
+	background-color: rgb(from var(--cds-background-selected) r g b / 40%) !important;
+}
+
 .runinfo div.bx--inline-notification {
 	transform: scale(0.8);
 }
@@ -186,8 +191,8 @@ img.pipen-report-image-lg {
 
 .pipen-report-toc-anchor {
 	/* Make sure page navigate to the right position when toc item clicked */
-	top: -175px;
 	position: relative;
+	scroll-margin-top: 250px;
 }
 
 .toc-noncurrent-page .bx--side-nav__link-text,
@@ -271,4 +276,20 @@ li.bx--list__item::before {
 
 .pipen-report-table-of-images > div {
 	min-width: 0;
+}
+
+@media (min-width: 640px) {
+	.bx--accordion__content {
+		padding-right: 3rem;
+	}
+}
+@media (min-width: 1300px) {
+	.bx--accordion__content {
+		padding-right: 25%;
+	}
+}
+
+.bx--data-table {
+	overflow: auto;
+	display: block;
 }
