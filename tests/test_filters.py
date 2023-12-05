@@ -20,6 +20,7 @@ from pipen_report.filters import (
     _ui_table_of_images,
     _ui_tabs,
     _ui_accordion,
+    _ui_dropdown_switcher,
     _tag,
     render_job,
     register_component,
@@ -183,7 +184,7 @@ def test_tag(tag, level, attrs, expected):
             },
             {"job_info": "Job1"},
             0,
-            f'<AccordionItem title="Title1" align="start">\n{TAB}<p>Contents1</p>\n</AccordionItem>',
+            f'<AccordionItem title="Title1">\n{TAB}<p>Contents1</p>\n</AccordionItem>',
         ),
         (
             {
@@ -201,7 +202,7 @@ def test_tag(tag, level, attrs, expected):
             {"job_info": "Job2"},
             1,
             (
-                f'{TAB}<AccordionItem title="Title2" align="start">\n'
+                f'{TAB}<AccordionItem title="Title2">\n'
                 f'{TAB * 2}<div class="my-class">abc</div>\n'
                 f'{TAB}</AccordionItem>'
             ),
@@ -651,6 +652,40 @@ def test_ui_flat():
     )
 
 
+def test_ui_dropdown_switcher():
+    contents = [
+        {
+            "kind": "tag",
+            "tag": "div",
+            "slot": "abc",
+            "ds_name": "Item 1",
+        },
+        {
+            "ds_name": "Item 2",
+        },
+    ]
+    result = _ui_dropdown_switcher(contents, {}, 0)
+    assert result == (
+        '<Dropdown\n'
+        f'{TAB}selectedId="0"\n'
+        f'{TAB}items={{ [{{"id": "0", "text": "Item 1"}}, {{"id": "1", "text": "Item 2"}}] }}\n'
+        f'{TAB}on:select="{{ ({{detail}}) => {{'
+        '    const conents = document.getElementsByClassName('
+        '      \'pipen-report-ds-content-0\''
+        '    );'
+        '    for (const content of conents) {'
+        '       content.style.display = \'none\';'
+        '    }'
+        '    document.getElementById('
+        '      \'pipen-report-ds-content-0-\' + detail.selectedId'
+        '    ).style.display = \'block\';} }" />\n'
+        '<div id="pipen-report-ds-content-0-0" class="pipen-report-ds-content-0" style="">\n'
+        '  <div>abc</div>\n'
+        '</div>\n'
+        '<div id="pipen-report-ds-content-0-1" class="pipen-report-ds-content-0" style="display: none;" />'
+    )
+
+
 def test_ui_table_of_images():
     contents = [
         {
@@ -840,12 +875,12 @@ def test_ui_accordion():
     ]
     result = _ui_accordion(contents, {}, 0)
     assert result == (
-        '<Accordion>\n'
-        f'{TAB}<AccordionItem title="Title1" open align="start">\n'
+        '<Accordion align="start">\n'
+        f'{TAB}<AccordionItem title="Title1" open>\n'
         f'{TAB * 2}<div>abc</div>\n'
         f'{TAB * 2}<Descr>Content1</Descr>\n'
         f'{TAB}</AccordionItem>\n'
-        f'{TAB}<AccordionItem title="Title2" align="start">\n'
+        f'{TAB}<AccordionItem title="Title2">\n'
         f'{TAB * 2}<div>abc</div>\n'
         f'{TAB * 2}<Descr>Content2</Descr>\n'
         f'{TAB}</AccordionItem>\n'

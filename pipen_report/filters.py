@@ -158,7 +158,6 @@ def _render_accordion(
     cont = cont.copy()
     ui = cont.pop("ui", "flat")
     contents = cont.pop("contents", [])
-    cont.setdefault("align", "start")
     return _tag(
         "AccordionItem",
         _level=level,
@@ -188,7 +187,7 @@ def _render_descr(
     if cont.get("once", False) and job["index"] != 0:
         return ""
 
-    slot = str(cont.pop("content", cont.pop("descr", "")))
+    slot = str(cont.pop("content", cont.pop("descr", "")) or "")
     title = cont.pop("title", cont.pop("name", None))
     return _tag("Descr", slot=slot, _level=level, title=title, **cont)
 
@@ -483,6 +482,86 @@ def _ui_flat(
     return "\n".join(render_component(cont, job, level) for cont in contents)
 
 
+@register_ui("dropdown_switcher")
+def _ui_dropdown_switcher(
+    contents: List[Mapping[str, Any]],
+    job: Mapping[str, Any],
+    level: int,
+    ui_arg: str = None,
+) -> str:
+    """
+    Render a dropdown switcher UI.
+
+    Args:
+        contents (List[Mapping[str, Any]]): The contents to be rendered.
+        job (Mapping[str, Any]): The job information.
+        level (int): The level of the dropdown switcher.
+
+    Returns:
+        str: The rendered dropdown switcher HTML.
+
+    Raises:
+        ValueError: If the 'kind' attribute of any content is not 'tab'.
+    """
+    ds_id = _ui_dropdown_switcher.counter
+    _ui_dropdown_switcher.counter += 1
+    selected_id = ui_arg or "0"
+    components = []
+    items = []
+
+    for i, cont in enumerate(contents):
+        name = cont.pop("ds_name")
+        items.append({"id": str(i), "text": name})
+        if "kind" not in cont:
+            components.append(
+                _tag(
+                    "div",
+                    id=f"pipen-report-ds-content-{ds_id}-{i}",
+                    _level=level,
+                    class_=f"pipen-report-ds-content-{ds_id}",
+                    style="display: none;" if i != int(selected_id) else "",
+                )
+            )
+        else:
+            components.append(
+                _tag(
+                    "div",
+                    id=f"pipen-report-ds-content-{ds_id}-{i}",
+                    _level=level,
+                    class_=f"pipen-report-ds-content-{ds_id}",
+                    slot=render_component(cont, job=job, level=1),
+                    style="display: none;" if i != int(selected_id) else "",
+                )
+            )
+
+    dropdown = _tag(
+        "Dropdown",
+        selectedId=selected_id,
+        items=items,
+        _level=level,
+        **{
+            "on:select": (
+                "{ ({detail}) => {"
+                "    const conents = document.getElementsByClassName("
+                f"      'pipen-report-ds-content-{ds_id}'"
+                "    );"
+                "    for (const content of conents) {"
+                "       content.style.display = 'none';"
+                "    }"
+                "    document.getElementById("
+                f"      'pipen-report-ds-content-{ds_id}-' + detail.selectedId"
+                "    ).style.display = 'block';"
+                "} }"
+            )
+        }
+    )
+
+    return "\n".join([dropdown, *components])
+
+
+_ui_dropdown_switcher.counter = 0
+
+
 @register_ui("table_of_images")
 def _ui_table_of_images(
     contents: List[Mapping[str, Any]],
@@ -568,6 +647,7 @@ def _ui_accordion(
     contents: List[Mapping[str, Any]],
     job: Mapping[str, Any],
     level: int,
+    ui_arg: str = None,
 ) -> str:
     """
     Render an accordion ui.
@@ -581,6 +661,7 @@ def _ui_accordion(
         str: The rendered accordion UI.
     """
     accords = []
+    ui_arg = ui_arg or "start"
     has_open = any(cont.get("open", False) for cont in contents)
     for i, cont in enumerate(contents):
         if cont.get("kind", "accordion") != "accordion":
@@ -591,7 +672,7 @@ def _ui_accordion(
             cont["open"] = True
         accords.append(render_component(cont, job=job, level=1))
 
-    return _tag("Accordion", slot="\n".join(accords), _level=level)
+    return _tag("Accordion", align=ui_arg, slot="\n".join(accords), _level=level)
 
 
 def _tag(tag: str, _level: int = 0, **attrs: Any) -> str:

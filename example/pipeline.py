@@ -267,12 +267,21 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '      }' >> $report_file
         echo '    }' >> $report_file
         echo '  },' >> $report_file
-        echo '  "Image#1": {' >> $report_file
+        echo '  "DropDownSwitcher": {' >> $report_file
         echo '    "#" : {' >> $report_file
         echo '      "#" : {' >> $report_file
-        echo '        "flat": [' >> $report_file
+        echo '        "dropdown_switcher:1": [' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "ds_name": "Select an item ..."' >> $report_file
+        echo '          },' >> $report_file
         echo '          {' >> $report_file
         echo '            "kind": "image",' >> $report_file
+        echo '            "ds_name": "Image 1",' >> $report_file
+        echo "            \\"src\\": \\"$image\\"" >> $report_file
+        echo '          },' >> $report_file
+        echo '          {' >> $report_file
+        echo '            "kind": "image",' >> $report_file
+        echo '            "ds_name": "Image 2",' >> $report_file
         echo "            \\"src\\": \\"$image\\"" >> $report_file
         echo '          }' >> $report_file
         echo '        ]' >> $report_file
@@ -382,7 +391,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         "report": """
         <script>
             import { Image, DataTable, Descr } from '$lib';
-            import { Tabs, TabContent, Tab, Accordion, AccordionItem, InlineNotification, UnorderedList, OrderedList, ListItem } from '$ccs';
+            import { Dropdown, Tabs, TabContent, Tab, Accordion, AccordionItem, InlineNotification, UnorderedList, OrderedList, ListItem } from '$ccs';
         </script>
 
         {{ job | render_job }}
