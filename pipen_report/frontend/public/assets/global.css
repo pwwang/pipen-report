@@ -191,8 +191,8 @@ img.pipen-report-image-lg {
 
 .pipen-report-toc-anchor {
 	/* Make sure page navigate to the right position when toc item clicked */
-	top: -175px;
 	position: relative;
+	scroll-margin-top: 250px;
 }
 
 .toc-noncurrent-page .bx--side-nav__link-text,

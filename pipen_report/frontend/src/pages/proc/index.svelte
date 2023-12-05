@@ -1,4 +1,6 @@
 <script>
+    import { onMount } from "svelte";
+
     import ProcLayout from "$layouts/ProcLayout.svelte";
     import PageNavButton from "$components/PageNavButton.svelte";
     import ProcReport from "./proc.svelte";
@@ -26,6 +28,17 @@
             }
         }
     }
+
+    onMount(() => {
+        const url = new URL(window.location.href);
+        let anchor;
+        if (url.hash.length > 1) {
+            anchor = document.getElementById(`${url.hash.slice(1)}`);
+        }
+        if (anchor) {
+            anchor.scrollIntoView({block: "start", behavior: "smooth"});
+        }
+    });
 </script>
 
 <ProcLayout

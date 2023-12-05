@@ -42,7 +42,7 @@
         } else {
             toc_heading = document.querySelector(".toc-current-page");
         }
-        toc_heading.scrollIntoView();
+        toc_heading.scrollIntoView({behavior: "smooth"});
     });
 
 </script>
