@@ -84,14 +84,16 @@ def _preprocess_relpath_tag(
         try:
             attrval = pathval.relative_to(basedir.parent)
         except ValueError:
-            # If we can't get the relative path, that means those files
-            # are not exported, we need to copy the file to a directory
-            # where the html file can access
-            suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
-            attrval = f"data/{pathval.name}.{suffix}"
+            # if it's a relative path, suppose it is pages
+            if pathval.is_absolute():
+                # If we can't get the relative path, that means those files
+                # are not exported, we need to copy the file to a directory
+                # where the html file can access
+                suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
+                attrval = f"data/{pathval.name}.{suffix}"
 
-            shutil.copyfile(pathval, basedir / attrval)
-            attrval = f"../../{attrval}"
+                shutil.copyfile(pathval, basedir / attrval)
+                attrval = f"../../{attrval}"
         else:
             # results are at uplevel dir
             attrval = f"../../../{attrval}"
