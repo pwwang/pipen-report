@@ -7,6 +7,7 @@ import shutil
 import sys
 import subprocess as sp
 import textwrap
+from contextlib import suppress
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
@@ -258,6 +259,8 @@ class ReportManager:
             except Exception as e:  # pragma: no cover
                 if not isinstance(e, NPMBuildingError):
                     flog.write(str(e))
+                with suppress(FileNotFoundError):
+                    destfile.unlink()
                 ulogger.error(f"(!) Failed. See: {logfile}")
 
     def init_pipeline_data(self, pipen: Pipen) -> None:
