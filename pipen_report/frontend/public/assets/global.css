@@ -249,10 +249,12 @@ div.pipen-report-image-loading.error {
 /* Fix list items */
 ul.bx--list--unordered {
 	list-style: inside square;
+	margin-left: .5rem;
 }
 
 ol.bx--list--ordered {
 	list-style: inside decimal;
+	margin-left: .5rem;
 }
 
 li.bx--list__item::before {
@@ -280,16 +282,27 @@ li.bx--list__item::before {
 
 @media (min-width: 640px) {
 	.bx--accordion__content {
-		padding-right: 3rem;
+		padding-right: 2rem;
 	}
 }
 @media (min-width: 1300px) {
 	.bx--accordion__content {
-		padding-right: 25%;
+		padding-right: 15%;
 	}
 }
 
 .bx--data-table {
 	overflow: auto;
 	display: block;
+}
+.bx--data-table th {
+	width: 100vw !important;
+}
+
+code {
+	border: 1px solid var(--cds-active-01);
+    border-radius: 4px;
+    font-size: 90%;
+    padding: 2px 4px;
+	background-color: var(--cds-background);
 }
