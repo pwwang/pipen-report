@@ -1,5 +1,38 @@
 # Change Log
 
+## 0.16.0
+
+- Fix image height in global.css
+- Add width and height to Image tag so loading indicators have same size
+- Set sep to TAB for datatable filter
+- Allow add class and other attributes to `Descr` component
+- Allow set extra classes for Image component
+- Add filters: render_component, render_ui and render_job
+- Add carbon-preprocess-svelte package and optimize imports
+- Update logo in README
+- Update docs, using mkdocs-rtd
+- Update docs/requirements.txt
+- Remove emoji extension from mkdocs.yml
+- Add pillow library
+- Fix missing import for PILImage in preprocess.py
+- Fix poetry installation in docs.yml
+- Update copier version to 9.1.0 and colorama version to 0.4.6
+- Update favicon
+- Allow to register components and uis for filters: render_component, render_ui and render_job
+- Make proc list one column for narrow screen on index page
+- Make proc group card on index page expand on top, instead of bottom, when short of space
+- Make g10 as default theme
+- Add width style to .head-util so the right part of the header do not hide when resizing
+- Add space to bottom of the index page
+- Make theme selector look better
+- Change the background color of Accordion headers
+- Add dropdown_switcher ui for render_ui and render_job filters
+- Scroll anchor into view on the page
+- Build report when process is done, instead of the whole pipeline
+- Remove dest file when npm build fails (so that it won't be cached)
+- Copy file only when its path is absolute in preprocessing
+- Update global.css file
+
 ## 0.15.3
 
 - Fix image loading height in global.css
