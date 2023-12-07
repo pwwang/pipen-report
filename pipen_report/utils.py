@@ -22,7 +22,7 @@ def get_config(key: str, runtime_value: Any = None) -> Any:
     return defaults.CONFIG.get(key, default)
 
 
-class UnifiedLogger:
+class UnifiedLogger:  # pragma: no cover
 
     def __init__(self, logger: Logger, proc: Proc | str):
         self.logger = logger

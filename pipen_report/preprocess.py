@@ -1,10 +1,11 @@
 """Provides preprocess"""
 import math
-import re
-from pathlib import Path
-import shutil
-from typing import Any, List, Mapping, Tuple, Union
 import hashlib
+import re
+import shutil
+from contextlib import suppress
+from pathlib import Path
+from typing import Any, List, Mapping, Tuple, Union
 
 from slugify import slugify
 
@@ -103,7 +104,7 @@ def _preprocess_relpath_tag(
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
     if tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
         # Add width and height to Image tag
-        try:
+        with suppress(Exception):
             from PIL import Image as PILImage
 
             img = PILImage.open(pathval)
@@ -111,8 +112,6 @@ def _preprocess_relpath_tag(
                 attrs += f' width={{{img.width}}}'
             if "height=" not in attrs:
                 attrs += f' height={{{img.height}}}'
-        except Exception:
-            pass
 
     return f"<{tag}{attrs}{matching.group('end')}"
 

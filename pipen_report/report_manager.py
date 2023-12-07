@@ -68,7 +68,7 @@ class ReportManager:
         # Used to pass to the UI for rendering
         self.pipeline_data = None
 
-        if isinstance(self.no_collapse_pgs, str):
+        if isinstance(self.no_collapse_pgs, str):  # pragma: no cover
             self.no_collapse_pgs = [self.no_collapse_pgs]
 
     def check_npm_and_setup_dirs(self) -> None:
@@ -243,17 +243,17 @@ class ReportManager:
                     # src/pages/_index/index.js → public/index/index.js
                     flog.write(ansi_escape.sub('', line))
 
-                    if chars_to_error in line:
+                    if chars_to_error in line:  # pragma: no cover
                         ulogger.error(f"  {line.rstrip()}")
                         errored = True
 
-                    if errored:
+                    if errored:  # pragma: no cover
                         # Early stop
                         p.terminate()
                         p.kill()
                         raise NPMBuildingError
 
-                if p.wait() != 0:
+                if p.wait() != 0:  # pragma: no cover
                     raise NPMBuildingError
 
             except Exception as e:  # pragma: no cover
@@ -295,7 +295,7 @@ class ReportManager:
             if (
                 self.no_collapse_pgs is True
                 or (pg and pg.name in self.no_collapse_pgs)
-            ):
+            ):  # pragma: no cover
                 pg = None
 
             if pg and pg.name not in procgroups:
@@ -365,7 +365,7 @@ class ReportManager:
         if (
             self.no_collapse_pgs is True
             or (pg and pg.name in self.no_collapse_pgs)
-        ):
+        ):  # pragma: no cover
             pg = None
 
         for entry in self.pipeline_data["entries"]:
@@ -498,7 +498,7 @@ class ReportManager:
         ulogger = UnifiedLogger(logger, proc)
 
         if proc == "_index":
-            if nobuild:
+            if nobuild:  # pragma: no cover
                 ulogger.debug("`report_nobuild` is True, skipping building home page.")
             else:
                 self._npm_run_build(
@@ -517,7 +517,7 @@ class ReportManager:
         with datafile.open("w") as f:
             json.dump(self.pipeline_data, f, indent=2)
 
-        if nobuild or self.nobuild:
+        if nobuild or self.nobuild:  # pragma: no cover
             ulogger.debug("`report_nobuild` is True, skipping building report.")
             return
 

@@ -9,6 +9,7 @@ import re
 import html
 import json
 import textwrap
+from contextlib import suppress
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
@@ -293,7 +294,7 @@ def _render_image(
     width = attrs.get("width", None)
     height = attrs.get("height", None)
     if not width or not height:
-        try:
+        with suppress(Exception):
             from PIL import Image
 
             img = Image.open(src)
@@ -301,8 +302,6 @@ def _render_image(
                 attrs["width"] = img.width
             if not height:
                 attrs["height"] = img.height
-        except Exception:
-            pass
 
     return _tag("Image", **attrs, _level=level)
 

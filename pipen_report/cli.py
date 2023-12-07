@@ -5,6 +5,7 @@ import stat
 import http.server
 import socketserver
 import subprocess as sp
+from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -225,7 +226,5 @@ class PipenCliReport(CLIPlugin):
                     self.log_error(str(e))
 
         with socketserver.TCPServer((host, port), Handler) as httpd:
-            try:
+            with suppress(KeyboardInterrupt):
                 httpd.serve_forever()
-            except KeyboardInterrupt:
-                pass
