@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.16.1
+
+- Handle iframe src in preprocessing
+
 ## 0.16.0
 
 - Fix image height in global.css
