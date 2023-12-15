@@ -189,7 +189,7 @@ class ReportManager:
             ini_datafile = self.workdir / "src" / "init_data.json"
             src_changed = (
                 not ini_datafile.exists()
-                or json.loads(ini_datafile.read_text()) != self.pipeline_data
+                or ini_datafile.stat().st_mtime > destfile.stat().st_mtime
             )
             proc_or_pg = proc
         else:
