@@ -17,6 +17,7 @@ RELPATH_TAGS = {
     "Image": "src",
     "ImageLoader": "src",
     "DataTable": "src",
+    "iframe": "src",
     "Download": "href",
 }
 H1_TAG = re.compile(r"(<h1.*?>.+?</h1>)", re.IGNORECASE | re.DOTALL)
@@ -86,12 +87,13 @@ def _preprocess_relpath_tag(
             attrval = pathval.relative_to(basedir.parent)
         except ValueError:
             # if it's a relative path, suppose it is pages
+            # otherwise, it's a path to the results
             if pathval.is_absolute():
                 # If we can't get the relative path, that means those files
                 # are not exported, we need to copy the file to a directory
                 # where the html file can access
                 suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
-                attrval = f"data/{pathval.name}.{suffix}"
+                attrval = f"data/{pathval.stem}.{suffix}{pathval.suffix}"
 
                 shutil.copyfile(pathval, basedir / attrval)
                 attrval = f"../../{attrval}"
