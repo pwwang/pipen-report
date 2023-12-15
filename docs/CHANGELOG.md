@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.16.2
+
+- Fix home page caching issue
+
 ## 0.16.1
 
 - Handle iframe src in preprocessing
