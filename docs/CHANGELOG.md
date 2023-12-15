@@ -3,6 +3,8 @@
 ## 0.16.2
 
 - Fix home page caching issue
+- Update frontend deps
+- Fix tests for home page caching
 
 ## 0.16.1
 
