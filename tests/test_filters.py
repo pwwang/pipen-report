@@ -29,10 +29,14 @@ from pipen_report.filters import (
 
 
 datafile = Path(__file__).parent / "data" / "data.csv"
+datafile2 = Path(__file__).parent / "data" / "data2.csv"
 imgpath = Path(__file__).parent.parent / "example" / "placeholder.png"
 
 
 def test_datatable():
+    out = datatable(datafile2)
+    assert out == '[{"ROWNAMES":"R1","h1":"a","h2":1,"id":0}]'
+
     out = datatable(datafile)
     assert out == (
         '[{"h_1":"a","h2":1,"h3":1.1235,"id":0},'
