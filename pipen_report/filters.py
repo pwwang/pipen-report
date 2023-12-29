@@ -50,6 +50,9 @@ def datatable(
     """
     kwargs.setdefault("sep", "\t")
     df = pandas.read_csv(path, *args, **kwargs)
+    if not isinstance(df.index, pandas.RangeIndex):
+        df = df.reset_index(names=["ROWNAMES"])
+
     if excluded:
         kept_cols = [col for col in df.columns if col not in excluded]
         df = df.loc[:, kept_cols]
