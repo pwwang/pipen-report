@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.16.3
+
+- fix: show index in datatable filter if any
+- fix: exit pipeline when report building fails
+- deps: bump pipen to 0.12.5
+
 ## 0.16.2
 
 - Fix home page caching issue
