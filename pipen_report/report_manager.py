@@ -258,11 +258,16 @@ class ReportManager:
                     raise NPMBuildingError
 
             except Exception as e:  # pragma: no cover
-                if not isinstance(e, NPMBuildingError):
-                    flog.write(str(e))
                 with suppress(FileNotFoundError):
                     destfile.unlink()
+
+                if not isinstance(e, NPMBuildingError):
+                    flog.write(str(e))
+                    for line in str(e).splitlines():
+                        ulogger.error(f"  {line.rstrip()}")
+
                 ulogger.error(f"(!) Failed. See: {logfile}")
+                sys.exit(1)
 
     def init_pipeline_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
