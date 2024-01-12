@@ -1,6 +1,10 @@
-![logo](docs/logo.png)
-
-Report generation system for [pipen][1]
+<p align="center">
+  <img src="docs/logo.png">
+</p>
+<p align="center">
+Report generation system for <a href="https://github.com/pwwang/pipen">pipen</a>.
+</p>
+<hr />
 
 ## Installation
 
