@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.17.0
+
+- deps: bump pipen to 0.13
+
 ## 0.16.3
 
 - fix: show index in datatable filter if any
