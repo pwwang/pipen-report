@@ -23,8 +23,11 @@
         url.hash = "";
         if (toc_page === 0) {
             url.pathname = url.pathname.replace(/-\d+\.html/, ".html");
-        } else if (page === 0) {
+        } else if (page === 0 && url.pathname.endsWith(".html")) {
             url.pathname = url.pathname.replace(".html", `-${toc_page}.html`);
+        } else if (page === 0) {
+            // index.html is hidden in the url by some servers
+            url.pathname = `${url.pathname.replace(/\/$/, '')}/index-${toc_page}.html`;
         } else {
             url.pathname = url.pathname.replace(/-\d+\.html/, `-${toc_page}.html`);
         }
