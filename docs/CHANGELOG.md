@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.17.1
+
+- fix: fix toc links when index.html is hidden in url
+
 ## 0.17.0
 
 - deps: bump pipen to 0.13
