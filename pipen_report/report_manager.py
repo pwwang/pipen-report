@@ -194,7 +194,13 @@ class ReportManager:
             )
             proc_or_pg = proc
         else:
-            proc_or_pg = f"{procgroup}/{proc}" if procgroup else proc
+            proc_or_pg = (
+                proc
+                if not procgroup
+                or self.no_collapse_pgs is True
+                or procgroup in self.no_collapse_pgs
+                else f"{procgroup}/{proc}"
+            )
             srcfile = self.workdir.joinpath("src", "pages", proc, "proc.svelte")
             destfile = self.outdir.joinpath("procs", proc, "index.js")
             src_changed = (
