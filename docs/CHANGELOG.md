@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.17.2
+
+- docs: center logo in readme
+- feat: add `Iframe` component so loading is indicated
+
 ## 0.17.1
 
 - fix: fix toc links when index.html is hidden in url
