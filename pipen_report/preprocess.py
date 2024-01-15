@@ -18,6 +18,7 @@ RELPATH_TAGS = {
     "ImageLoader": "src",
     "DataTable": "src",
     "iframe": "src",
+    "Iframe": "src",
     "Download": "href",
 }
 H1_TAG = re.compile(r"(<h1.*?>.+?</h1>)", re.IGNORECASE | re.DOTALL)

@@ -411,9 +411,10 @@ class ProcessWithoutHeadings(Proc):
     plugin_opts = {
         "report": """
             <script>
-                import { Image } from '$lib';
+                import { Iframe } from '$lib';
             </script>
-            <Image src="{{ job.out.outimg }}" />
+            <Iframe style="height:50vh" src="../../" />
+            <Iframe style="height:50vh" src="https://google.com" />
         """
     }
 
