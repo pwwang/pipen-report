@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.17.2"
+version = "0.17.3"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"

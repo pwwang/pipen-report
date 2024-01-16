@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.17.3
+
+- fix: fix but when `report_no_collapse_pgs` is true
+
 ## 0.17.2
 
 - docs: center logo in readme
