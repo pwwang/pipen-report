@@ -11,6 +11,7 @@ import json
 import textwrap
 import warnings
 import imagesize
+from contextlib import suppress
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
@@ -300,10 +301,11 @@ def _render_image(
     width = attrs.get("width", None)
     height = attrs.get("height", None)
     if not width or not height:
-        width, height = imagesize.get(src)
-        if width > 0 and height > 0:
-            attrs["width"] = width
-            attrs["height"] = height
+        with suppress(FileNotFoundError):
+            width, height = imagesize.get(src)
+            if width > 0 and height > 0:
+                attrs["width"] = width
+                attrs["height"] = height
 
     return _tag("Image", **attrs, _level=level)
 
