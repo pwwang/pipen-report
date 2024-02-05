@@ -18,7 +18,7 @@ Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"
 pipen-runinfo = {optional = true, version = "^0.6"}
-pillow = "^10.2"
+imagesize = "^1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7"

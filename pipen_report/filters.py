@@ -10,7 +10,7 @@ import html
 import json
 import textwrap
 import warnings
-from contextlib import suppress
+import imagesize
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
@@ -300,14 +300,10 @@ def _render_image(
     width = attrs.get("width", None)
     height = attrs.get("height", None)
     if not width or not height:
-        with suppress(Exception):
-            from PIL import Image
-
-            img = Image.open(src)
-            if not width:
-                attrs["width"] = img.width
-            if not height:
-                attrs["height"] = img.height
+        width, height = imagesize.get(src)
+        if width > 0 and height > 0:
+            attrs["width"] = width
+            attrs["height"] = height
 
     return _tag("Image", **attrs, _level=level)
 
