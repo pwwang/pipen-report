@@ -12,12 +12,12 @@ repository = "https://github.com/pwwang/pipen-report"
 generate-setup-file = true
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pipen = "^0.13"
+python = "^3.9"
+pipen = "^0.14"
 Markdown = "^3"
 copier = "^9"
-python-slugify = "^8.0.1"
-pipen-runinfo = {optional = true, version = "^0.5"}
+python-slugify = "^8.0"
+pipen-runinfo = {optional = true, version = "^0.6"}
 pillow = "^10.2"
 
 [tool.poetry.dev-dependencies]
@@ -25,7 +25,7 @@ pytest = "^7"
 pytest-cov = "^4"
 pytest-xdist = "^2"
 pytest-forked = "^1"
-pipen-filters = "^0.11"
+pipen-filters = "^0.12"
 
 [build-system]
 requires = ["poetry>=1.0"]

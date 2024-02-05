@@ -9,12 +9,11 @@ import re
 import html
 import json
 import textwrap
+import warnings
 from contextlib import suppress
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
-
-import pandas
 
 TAB = "  "
 
@@ -48,6 +47,10 @@ def datatable(
         str: A JSON format of the data.
 
     """
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        import pandas
+
     kwargs.setdefault("sep", "\t")
     df = pandas.read_csv(path, *args, **kwargs)
     if not isinstance(df.index, pandas.RangeIndex):
