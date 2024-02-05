@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.18.0
+
+- deps: drop python3.8 support
+- deps: bump pipen to 0.14
+- deps: use imagesize instead of pillow
+
 ## 0.17.3
 
 - fix: fix but when `report_no_collapse_pgs` is true
