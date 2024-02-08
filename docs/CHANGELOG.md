@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.18.1
+
+- enh: cache template rendering and preprocessing
+
 ## 0.18.0
 
 - deps: drop python3.8 support
