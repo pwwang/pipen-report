@@ -10,6 +10,8 @@ from typing import Any, List, Mapping, Tuple, Union
 
 from slugify import slugify
 
+from .utils import cache_fun
+
 RELPATH_TAGS = {
     "a": "href",
     "embed": "src",
@@ -108,7 +110,7 @@ def _preprocess_relpath_tag(
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
     if tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
         # Add width and height to Image tag
-        with suppress(FileNotFoundError):
+        with suppress(FileNotFoundError):  # pragma: no cover
             width, height = imagesize.get(pathval)
             if width > 0 and height > 0:
                 if "width=" not in attrs:
@@ -179,6 +181,7 @@ def _preprocess_section(
     return re.sub(H2_TAG_TEXT, repl_h2, section), toc
 
 
+@cache_fun
 def preprocess(
     text: str,
     basedir: Path,

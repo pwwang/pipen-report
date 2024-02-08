@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import json
+from os import path
+from hashlib import md5
+from functools import wraps
+from tempfile import gettempdir
+from typing import TYPE_CHECKING, Any, Callable
 
 from pipen.utils import get_logger
 from pipen import Proc
@@ -20,6 +25,46 @@ def get_config(key: str, runtime_value: Any = None) -> Any:
 
     default = getattr(defaults, key.upper())
     return defaults.CONFIG.get(key, default)
+
+
+def _stringify(obj: Any) -> str:
+    """Stringify an object"""
+    if isinstance(obj, list):
+        return "[" + ", ".join(map(_stringify, obj)) + "]"
+    if isinstance(obj, tuple):
+        return "(" + ", ".join(map(_stringify, obj)) + ")"
+    if isinstance(obj, dict):
+        return "{" + ", ".join(f"{k}: {_stringify(obj[k])}" for k in sorted(obj)) + "}"
+    if callable(obj):
+        return f"<callable {obj.__name__}>"
+    if isinstance(obj, Proc):
+        return repr(obj.__class__)
+    return repr(obj)
+
+
+def cache_fun(func: Callable) -> Callable:
+    """Decorator to cache the result of a function to disk"""
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        str_args = _stringify(args)
+        str_kwargs = _stringify(kwargs)
+        sig = md5(f"{str_args}\n{str_kwargs}".encode("utf-8")).hexdigest()
+        sigfile = path.join(
+            gettempdir(),
+            f"pipen-report.{func.__name__}.{sig}.json",
+        )
+
+        if not path.exists(sigfile):
+            result = func(*args, **kwargs)
+            with open(sigfile, "w") as fout:
+                json.dump(result, fout)
+        else:
+            with open(sigfile, "r") as fin:
+                result = json.load(fin)
+
+        return result
+
+    return wrapper
 
 
 class UnifiedLogger:  # pragma: no cover

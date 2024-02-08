@@ -20,7 +20,7 @@ from pipen.utils import get_base, desc_from_docstring, get_marked
 
 from .filters import FILTERS
 from .preprocess import preprocess
-from .utils import UnifiedLogger, get_config, logger
+from .utils import UnifiedLogger, get_config, logger, cache_fun
 from .versions import version_str
 
 if TYPE_CHECKING:
@@ -31,6 +31,7 @@ if TYPE_CHECKING:
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 
+@cache_fun
 def _render_file(
     engine: Type[Template],
     engine_opts: MutableMapping[str, Any],
