@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.18.2
+
+- fix: fix getting image size when path is None
+
 ## 0.18.1
 
 - enh: cache template rendering and preprocessing
