@@ -108,7 +108,7 @@ def _preprocess_relpath_tag(
         return f' {attrname}="{attrval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
-    if tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
+    if pathval and tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
         # Add width and height to Image tag
         with suppress(FileNotFoundError):  # pragma: no cover
             width, height = imagesize.get(pathval)
