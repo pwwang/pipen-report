@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.18.3
+
+- deps: bump pipen to 0.14.3
+- fix: fix download button for DataTable
+- deps: bump frontend deps
+
 ## 0.18.2
 
 - fix: fix getting image size when path is None
