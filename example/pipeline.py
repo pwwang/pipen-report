@@ -394,8 +394,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
             import { Image, DataTable, Descr } from '$lib';
             import { Dropdown, Tabs, TabContent, Tab, Accordion, AccordionItem, InlineNotification, UnorderedList, OrderedList, ListItem } from '$ccs';
         </script>
-        {% import_ inspect %}
-        {{inspect.getmodule(render_job).__file__}}
+
         {{ job | render_job }}
         """,  # noqa: E501
         "report_paging": 4,

@@ -31,7 +31,6 @@ if TYPE_CHECKING:
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 
-@cache_fun
 def _render_file(
     engine: Type[Template],
     engine_opts: MutableMapping[str, Any],
