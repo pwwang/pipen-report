@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.18.4
+
+- choir: remove caching for `_render_file()`.
+   - Template rendering can be dependent on the file contents (e.g. `<job.outdir>/report.json`)
+
 ## 0.18.3
 
 - deps: bump pipen to 0.14.3
