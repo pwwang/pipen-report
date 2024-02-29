@@ -99,7 +99,8 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '        "flat": [' >> $report_file
         echo '          {' >> $report_file
         echo '            "kind": "table",' >> $report_file
-        echo "            \\"src\\": \\"$table_file\\"" >> $report_file
+        echo "            \\"data\\": {\\"file\\": \\"$table_file\\"}," >> $report_file
+        echo '            "src": true' >> $report_file
         echo '          }' >> $report_file
         echo '        ]' >> $report_file
         echo '      }' >> $report_file
@@ -393,10 +394,12 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
             import { Image, DataTable, Descr } from '$lib';
             import { Dropdown, Tabs, TabContent, Tab, Accordion, AccordionItem, InlineNotification, UnorderedList, OrderedList, ListItem } from '$ccs';
         </script>
-
+        {% import_ inspect %}
+        {{inspect.getmodule(render_job).__file__}}
         {{ job | render_job }}
         """,  # noqa: E501
         "report_paging": 4,
+        "report_force_build": True,
     }
 
 

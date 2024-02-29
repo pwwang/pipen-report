@@ -21,7 +21,8 @@
         "flat": [
           {
             "kind": "table",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
+            "data": {"file": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"},
+            "src": true
           }
         ]
       }

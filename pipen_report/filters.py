@@ -259,6 +259,11 @@ def _render_table(
 
     Args:
         cont (Mapping[str, Any]): The container for the table attributes.
+            Keys will be passed to `<DataTable ... />` component.
+            `data` is special key to hold arguments passed to `datatable` filter.
+            `data.file` or `data.path` is used to hold the path to the data file.
+            The rest of the keys in `data` are passed to `datatable` filter.
+            `src` can be True so that `data.path` or `data.file` is used as the `src`.
         job (Mapping[str, Any]): The container for the job attributes.
         level (int): The level of the table.
 
@@ -267,11 +272,11 @@ def _render_table(
     """
     attrs = cont.copy()
     data = attrs.pop("data", {}).copy()
-    src = attrs.pop("src", True)
+    src = attrs.get("src", True)
     path = data.pop("path", data.pop("file", src))
 
     if isinstance(path, bool):
-        raise ValueError("No data src/data[path/file] specified")
+        raise ValueError("No data.path or data.file is specified")
 
     if src is True:
         attrs["src"] = path

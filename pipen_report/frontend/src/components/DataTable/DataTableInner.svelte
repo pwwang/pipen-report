@@ -98,7 +98,7 @@
         })()
       );
     const filename =
-      src.length > 0
+      (src && src.length > 0)
         ? src.split("/").pop().split(".")[0] + ".xls"
         : "data-subset.xls";
     download(href, filename);
