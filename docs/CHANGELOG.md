@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.18.5
+
+- feat: indicate number of pages in log message
+
 ## 0.18.4
 
 - choir: remove caching for `_render_file()`.
