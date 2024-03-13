@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Writing report templates - pipen-report</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Writing report templates";
+        var mkdocs_page_input_path = "writing.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-social"><div class="github_repo">
+      <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub" target="_blank">
+        <!-- Icon from https://www.iconfinder.com/search?q=github&category=social-media -->
+        <img src="../github_icon.png" alt="GitHub repo" />
+      </a>
+    </div></div>
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Writing report templates</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#using-carbon-components-svelte-components">Using carbon-components-svelte components</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-builtin-components">Using builtin components</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#datatable">DataTable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#image">Image</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdown">Markdown</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#advanced-usage">Advanced usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-self-defined-components">Using self-defined components</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#using-other-svelte-components">Using other svelte components</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.versions/">pipen_report.versions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Writing report templates</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/writing.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="writing-reports">Writing reports</h2>
+<h3 id="using-carbon-components-svelte-components">Using carbon-components-svelte components</h3>
+<p><a href="https://github.com/carbon-design-system/carbon-components-svelte"><code>carbon-components-svelte</code></a> is supported by default. So you can use any components from the package. See their <a href="http://ibm.biz/carbon-svelte">documentations</a>.</p>
+<p>To use a components from <code>carbon-components-svelte</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;carbon-components-svelte`;</span>
+<span class="s1">    // or use a shortcut</span>
+<span class="s1">    import { Button } from &#39;</span><span class="nx">$ccs</span><span class="err">&#39;</span><span class="p">;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="p">/&gt;</span>
+</code></pre></div>
+<h3 id="using-builtin-components">Using builtin components</h3>
+<p>There are also builting components to enhance some functions.</p>
+<p>To use a builtin component:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Image</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../../components&#39;</span><span class="p">;</span>
+<span class="c1">// or use a shortcut</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Image</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;$libs&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Image</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;$components&#39;</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="datatable">DataTable</h4>
+<p>An enhanced <code>DataTable</code> from <code>carbon-components-svelte/DataTable</code>.</p>
+<p>Additional features:</p>
+<ul>
+<li>
+<p>Paginations enabled by default, with properties:</p>
+</li>
+<li>
+<p><code>page</code>: set current page</p>
+</li>
+<li><code>pageSize</code>: set current page size</li>
+<li>
+<p><code>pageSizes</code>: allowed page sizes to set</p>
+</li>
+<li>
+<p>Sorting enabled by default (with <code>sortable = true</code>)</p>
+</li>
+<li><code>zebra</code> set to <code>true</code> by default (with <code>zebra = true</code>)</li>
+<li>Added a frame around the table, so tables and images can be aligned (better looking)</li>
+<li>You can set <code>frameProps</code> to <code>null</code>/<code>undefined</code> to disable it.</li>
+<li>Implemented download of data in the table or the entire data file if property <code>src</code> is set.</li>
+<li>Implemented search</li>
+<li>Allowing a single <code>data</code> property to pass data instead of <code>headers</code> and <code>rows</code></li>
+<li><code>data</code> is just <code>rows</code>, but <code>headers</code> will be inferred from it.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>A <code>datatable</code> filter is added for python to render the template, so that we can read the data from a data file.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">DataTable</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;$libs&quot;</span><span class="p">;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">DataTable</span><span class="w"> </span><span class="na">src</span><span class="o">=</span><span class="s">&quot;{{job.out.outfile}}&quot;</span><span class="w"> </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="nx">job</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">outfile</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">datafile</span><span class="o">:</span><span class="w"> </span><span class="nx">sep</span><span class="o">=</span><span class="s2">&quot;\t&quot;</span><span class="w"> </span><span class="p">}}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+</code></pre></div>
+<p>All other arguments will be passed to <code>pandas.read_csv()</code> except <code>doule_precision</code>, which will be passed to <code>pandas.DataFrame.to_json()</code> to control the precision of the numbers.</p>
+</div>
+<h4 id="image">Image</h4>
+<p>An enhanced <code>ImageLoader</code> from <code>carbon-components-svelte/ImageLoader</code></p>
+<p>Additional features:</p>
+<ul>
+<li>Similarly, a frame is added and enabled by default. To disable it, set <code>frameProps</code> to <code>null</code>/<code>undefined</code></li>
+<li>Removed the width 100% style, added a class, and set the default width 45%.</li>
+<li>Added a modal when clicking on the image, the original dimension of the image is shown.</li>
+<li>Added "open in new window" for the image in the modal.</li>
+</ul>
+<h4 id="markdown">Markdown</h4>
+<p>A markdown tag is processed at server side by python, which is not implemented as a svelte component. So you don't need to import it in <code>script</code> tag.</p>
+<p>Everything inside the <code>&lt;Markdown&gt;</code> is passed to <code>markdown.markdown()</code> from python <code>Markdown</code> package to convert to html.</p>
+<h3 id="advanced-usage">Advanced usage</h3>
+<h3 id="using-self-defined-components">Using self-defined components</h3>
+<p>Say you have a set of components that you want to use in all your reports. You can specify the path to the directory containing the components in <code>report_exlibs</code> by either <code>pipen report config --exlibs &lt;path&gt;</code> or <code>pipeline.config.plugin_opts.report_exlibs = &lt;path&gt;</code>.</p>
+<p>Then you can import the components from the path you specified.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">MyComponent</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;$exlibs/MyComponent.svelte&#39;</span><span class="p">;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>You can write your own components based on <code>carbon-components-svelte</code> components.</p>
+<p>Note that the shortcut <code>$ccs</code> is not available in the components you write. You have to use 'carbon-components-svelte'.</p>
+<h4 id="using-other-svelte-components">Using other svelte components</h4>
+<ul>
+<li>
+<p>Can you use other svelte components?</p>
+<p>Yes. But you have to do it for every pipeline run. And you have to set <code>report_nobuild</code> to <code>True</code>.</p>
+</li>
+<li>
+<p>How?</p>
+<p>In the working directory, remove <code>node_modules</code> and make a copy of <code>package.json</code> instead of a symbolinc link. This is important, you may not want to pollute the global one.</p>
+<p>For example, if you want to use <a href="https://smeltejs.com/"><code>smelte</code></a>
+Then run <code>npm install</code> and <code>npm install -D smelte</code></p>
+<p>In your template:
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Chip</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;smelte&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">closed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">clicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">Chip</span>
+<span class="w">    </span><span class="na">icon</span><span class="o">=</span><span class="s">&quot;face&quot;</span>
+<span class="w">    </span><span class="na">removable</span>
+<span class="w">    </span><span class="na">selectable</span>
+<span class="w">    </span><span class="na">on</span><span class="err">:</span><span class="na">close</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">closed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+<span class="w">    </span><span class="na">on</span><span class="err">:</span><span class="na">click</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">clicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+<span class="p">&gt;</span><span class="nx">test</span><span class="p">&lt;/</span><span class="nt">Chip</span><span class="p">&gt;</span>
+</code></pre></div></p>
+<p>Finally, run <code>npm build</code> to buld your reports</p>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../rendering/" class="btn btn-neutral float-left" title="Template rendering"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../filters/" class="btn btn-neutral float-right" title="Filters for rendering">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../rendering/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../filters/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/mkapi.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
