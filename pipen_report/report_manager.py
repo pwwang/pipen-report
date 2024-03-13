@@ -176,6 +176,7 @@ class ReportManager:
         ulogger: UnifiedLogger,
         force_build: bool,
         cached: bool,
+        npages: int = 1,
         procgroup: str | None = None,
     ) -> None:
         """Run a command and log the messages
@@ -225,10 +226,12 @@ class ReportManager:
             f"cached: {cached}; "
             f"src_changed: {src_changed}"
         )
-        ulogger.info(
-            "Building report: "
-            f"{'Home page' if proc_or_pg == '_index' else proc_or_pg} ..."
-        )
+        if proc_or_pg == "_index":
+            ulogger.info("Building home page ...")
+        elif npages == 1:
+            ulogger.info(f"Building report ...")
+        else:
+            ulogger.info(f"Building report ({npages} pages) ...")
 
         chars_to_error = "(!)"
         errored = False
@@ -461,6 +464,8 @@ class ReportManager:
                 toc=toc,
             )
 
+        return npages
+
     def _render_page(
         self,
         rendered: str,
@@ -523,7 +528,7 @@ class ReportManager:
 
             return
 
-        self.render_proc_report(proc)
+        npages = self.render_proc_report(proc)
 
         datafile = self.workdir / "src" / "data.json"
         with datafile.open("w") as f:
@@ -540,5 +545,6 @@ class ReportManager:
             ulogger=ulogger,
             force_build=force_build,
             cached=cached,
+            npages=npages,
             procgroup=procgroup.name if procgroup else None,
         )
