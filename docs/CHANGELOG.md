@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.19.0
+
+- refactor(frontend): use `system.js` (instead iife) to chunk vendor libraries
+- ci: update `ghp-import` command to disable Jekyll processing
+- deps: update frontend dependencies
+
 ## 0.18.5
 
 - feat: indicate number of pages in log message
