@@ -45,7 +45,7 @@
     <HeaderAction isOpen={isOpen} transition={transition}>
       <HeaderPanelLinks>
         <HeaderPanelDivider>Go to home: </HeaderPanelDivider>
-        <HeaderPanelLink href="../../index.html">
+        <HeaderPanelLink href="index.html">
           {pipeline_name}
         </HeaderPanelLink>
 
@@ -54,12 +54,12 @@
           {#if entry.procs}
             <HeaderPanelLink class="procgroup">{entry.name}</HeaderPanelLink>
             {#each entry.procs as proc}
-            <HeaderPanelLink title={proc.name} class="procgroup-proc" href={`../../procs/${proc.name}/index.html`}>
+            <HeaderPanelLink title={proc.name} class="procgroup-proc" href={`?proc=${proc.name}`}>
                 - {proc.name}
             </HeaderPanelLink>
             {/each}
           {:else}
-          <HeaderPanelLink title={entry.name} href={`../../procs/${entry.name}/index.html`}>
+          <HeaderPanelLink title={entry.name} href={`?proc=${entry.name}`}>
               {entry.name}
           </HeaderPanelLink>
           {/if}

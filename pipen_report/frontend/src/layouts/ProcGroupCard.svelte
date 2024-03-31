@@ -39,7 +39,7 @@
     style='--desc: "{desc}";'
     on:select={e => {
         if (e.detail.selectedItem.id !== pgId) {
-            window.location.href = `procs/${e.detail.selectedItem.id}/index.html`;
+            window.location.href = `?proc=${e.detail.selectedItem.id}`;
         }
     }}
     let:item

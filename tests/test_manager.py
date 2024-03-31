@@ -16,23 +16,20 @@ def test_report_paging(tmp_path):
     report0 = tmp_path.joinpath(
         "outdir",
         "REPORTS",
-        "procs",
-        "Process2",
-        "index.js",
+        "pages",
+        "Process2.js",
     )
     report1 = tmp_path.joinpath(
         "outdir",
         "REPORTS",
-        "procs",
-        "Process2",
-        "index-1.js",
+        "pages",
+        "Process2-1.js",
     )
     report2 = tmp_path.joinpath(
         "outdir",
         "REPORTS",
-        "procs",
-        "Process2",
-        "index-2.js",
+        "pages",
+        "Process2-2.js",
     )
     assert report0.exists()
     assert report1.exists()
@@ -54,5 +51,5 @@ def test_force_export(tmp_path):
 def test_large(tmp_path):
     """Test process forced export"""
     run_pipeline("large", _dir=tmp_path)
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Process2" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Process2.js"
     assert report.exists()

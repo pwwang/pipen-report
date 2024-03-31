@@ -11,24 +11,12 @@
     const get_url = () => {
         let url = new URL(window.location.href);
         url.hash = "";
-        let matching = url.pathname.match(/-(\d+)\.html/);
-        if (matching === null) {
-            // curpage = 0
-            url.pathname = url.pathname.replace(".html", `-1.html`);
+        const curpage = parseInt(url.searchParams.get("page") || 0);
+        const topage = dir === "up" ? curpage - 1 : curpage + 1;
+        if (topage === 0) {
+            url.searchParams.delete("page");
         } else {
-            let curpage = parseInt(matching[1]);
-            let topage = dir === "up" ? curpage - 1 : curpage + 1;
-            if (topage === 0) {
-                url.pathname = url.pathname.replace(
-                    `-${curpage}.html`,
-                    `.html`
-                );
-            } else {
-                url.pathname = url.pathname.replace(
-                    `-${curpage}.html`,
-                    `-${topage}.html`
-                );
-            }
+            url.searchParams.set("page", topage);
         }
 
         return url.toString()

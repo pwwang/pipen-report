@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
-import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import data from './src/data.json' assert { type: 'json' };
 import { optimizeImports, optimizeCss } from "carbon-preprocess-svelte";
@@ -45,70 +44,54 @@ const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 		resolve({ browser: true, dedupe: ['svelte'] }),
 		commonjs(),
 		terser(),
-		json(),
-		copy(
-			proc_name === null ? {} : {
-				targets: [{
-					src: 'src/proc.html',
-					dest: `public/procs/${proc_name}/`,
-					rename: page === 0 ? 'index.html' : `index-${page}.html`
-				}]
-			}
-		)
+		json()
 	],
+	onwarn: (warning, handler) => {
+		if (warning.code === "EMPTY_BUNDLE") return;
+		handler(warning);
+	},
 	watch: { clearScreen: false }
 });
 
-// Common output configuration
-const commonOutput = {
+// Output configuration
+const outputConfig = {
 	sourcemap: false,
-	format: 'iife'
-}
-
-// Configuration for the index page
-const indexConfig = {
-	input: 'src/pages/_index/index.js',
-	output: {
-		file: 'public/index/index.js',
-		name: 'Index',
-		...commonOutput
-	},
-	...commonConfig()
+	format: 'system',
+	manualChunks: function(id) {
+		if (id.includes('node_modules/')) {
+			const lib = id.match(/node_modules\/([^/]+)/)[1];
+			return `vendor/${lib}`;
+		}
+	}
 }
 
 // Generate config for a single proc
 const procConfig = (proc) => {
-	const out = [{
-		input: `src/pages/${proc.name}/index.js`,
-		output: {
-			file: `public/procs/${proc.name}/index.js`,
-			name: proc.name,
-			...commonOutput
-		},
-		...commonConfig(proc.name)
-	}];
-	if (proc.npages !== undefined && proc.npages !== null && proc.npages > 1) {
-		for (let i = 1; i < proc.npages; i++) {
-			out.push({
-				input: `src/pages/${proc.name}-${i}/index.js`,
-				output: {
-					file: `public/procs/${proc.name}/index-${i}.js`,
-					name: proc.name,
-					...commonOutput
-				},
-				...commonConfig(proc.name, i, `index-${i}.css`)
-			});
-		}
+	let out = [];
+	const npages = proc.npages || 1;
+	for (let i = 0; i < npages; i++) {
+		// const prefix = group ? `${group}-` : '';
+		const suffix = i > 0 ? `-${i}` : '';
+		out.push({
+			input: `src/pages/${proc.name}${suffix}/index.js`,
+			output: {
+				dir: `public/pages/`,
+				// avoid named-registration modules for systemjs, which is erroring
+				name: null,
+				entryFileNames: `${proc.name}${suffix}.js`,
+				...outputConfig
+			},
+			...commonConfig(proc.name, i, `${proc.name}${suffix}.css`)
+		});
 	}
 	return out;
 }
-
 
 export default cliArgs => {
 	const proc = cliArgs.configProc;
 
 	if (proc === "_index") {
-		return indexConfig;
+		return procConfig({name: "_index"});
 	}
 
 	const [entryName, procName] = proc.split("/");

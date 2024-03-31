@@ -44,6 +44,7 @@
 <div class="pipen-report-footer bx--grid">
     <div class="runinfo">
         {#if runinfo}
+        <!-- svelte-ignore a11y-invalid-attribute -->
         <a href="javascript:void(0);" on:click={() => {modal_open = true}}>&gt; Running Information</a>
         {/if}
     </div>

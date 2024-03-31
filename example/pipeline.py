@@ -415,7 +415,7 @@ class ProcessWithoutHeadings(Proc):
             <script>
                 import { Iframe } from '$lib';
             </script>
-            <Iframe style="height:50vh" src="../../" />
+            <Iframe style="height:50vh" src="index.html" />
             <Iframe style="height:50vh" src="https://google.com" />
         """
     }
@@ -425,9 +425,10 @@ class Pipeline(Pipen):
     outdir = "./output"
     starts = pg.starts
     data = [[Path(__file__).parent.resolve().joinpath("placeholder.png")]]
-    # plugin_opts = {
-    #     "report_no_collapse_pgs": True,
-    # }
+    plugin_opts = {
+        # "report_no_collapse_pgs": True,
+        "report_loglevel": "debug",
+    }
 
 
 if __name__ == "__main__":

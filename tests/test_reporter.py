@@ -21,7 +21,7 @@ def test_regular(tmp_path):
 def test_noreport(tmp_path):
     run_pipeline("noreport", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Process2" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Process2.js"
     assert not report.exists()
 
 
@@ -29,9 +29,9 @@ def test_noreport(tmp_path):
 def test_noreport2(tmp_path):
     run_pipeline("noreport2", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Process2" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Process2.js"
     assert not report.exists()
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Process3" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Process3.js"
     assert report.exists()
 
 
@@ -39,5 +39,5 @@ def test_noreport2(tmp_path):
 def test_errant(tmp_path):
     run_pipeline("errant", _dir=tmp_path)
 
-    report = tmp_path / "outdir" / "REPORTS" / "procs"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Process.js"
     assert not report.exists()

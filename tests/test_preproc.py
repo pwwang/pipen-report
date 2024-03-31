@@ -6,7 +6,7 @@ from . import run_pipeline
 @pytest.mark.forked
 def test_regular(tmp_path):
     run_pipeline("regular", _dir=tmp_path)
-    report = tmp_path / "outdir" / "REPORTS" / "index" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "_index.js"
     assert report.exists()
 
 
@@ -28,5 +28,5 @@ def test_markdown(tmp_path):
 @pytest.mark.forked
 def test_extlibs(tmp_path):
     run_pipeline("extlibs", _dir=tmp_path)
-    report = tmp_path / "outdir" / "REPORTS" / "procs" / "Index" / "index.js"
+    report = tmp_path / "outdir" / "REPORTS" / "pages" / "Index.js"
     assert "Hello world" in report.read_text()

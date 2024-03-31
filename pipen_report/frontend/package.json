@@ -18,7 +18,6 @@
     "carbon-icons-svelte": "^12.3.0",
     "carbon-preprocess-svelte": "^0.10.0",
     "rollup": "^4.6",
-    "rollup-plugin-copy": "^3.4",
     "rollup-plugin-css-only": "^4.3",
     "rollup-plugin-livereload": "^2.0",
     "rollup-plugin-svelte": "^7.1.5",

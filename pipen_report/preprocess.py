@@ -100,10 +100,10 @@ def _preprocess_relpath_tag(
                 attrval = f"data/{pathval.stem}.{suffix}{pathval.suffix}"
 
                 shutil.copyfile(pathval, basedir / attrval)
-                attrval = f"../../{attrval}"
+                # attrval = f"../../{attrval}"
         else:
             # results are at uplevel dir
-            attrval = f"../../../{attrval}"
+            attrval = f"../{attrval}"
 
         return f' {attrname}="{attrval}"'
 

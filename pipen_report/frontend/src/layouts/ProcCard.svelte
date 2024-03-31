@@ -5,7 +5,7 @@
     export let desc;
 </script>
 
-<ClickableTile href="procs/{name}/index.html">
+<ClickableTile href="?proc={name}">
     <h2>{name}</h2>
     {desc || ""}
 </ClickableTile>

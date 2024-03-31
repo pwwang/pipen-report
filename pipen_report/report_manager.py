@@ -20,7 +20,7 @@ from pipen.utils import get_base, desc_from_docstring, get_marked
 
 from .filters import FILTERS
 from .preprocess import preprocess
-from .utils import UnifiedLogger, get_config, logger, cache_fun
+from .utils import UnifiedLogger, get_config, logger
 from .versions import version_str
 
 if TYPE_CHECKING:
@@ -186,7 +186,7 @@ class ReportManager:
         logfile = self.workdir / "pipen-report.log"
         if proc == "_index":
             logfile.write_text("")
-            destfile = self.outdir.joinpath("index", "index.js")
+            destfile = self.outdir.joinpath("pages", "_index.js")
             ini_datafile = self.workdir / "src" / "init_data.json"
             src_changed = (
                 not ini_datafile.exists()
@@ -203,7 +203,7 @@ class ReportManager:
                 else f"{procgroup}/{proc}"
             )
             srcfile = self.workdir.joinpath("src", "pages", proc, "proc.svelte")
-            destfile = self.outdir.joinpath("procs", proc, "index.js")
+            destfile = self.outdir.joinpath("pages", f"{proc}.js")
             src_changed = (
                 not destfile.exists()
                 or srcfile.stat().st_mtime > destfile.stat().st_mtime
