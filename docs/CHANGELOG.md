@@ -3,8 +3,10 @@
 ## 0.19.0
 
 - refactor(frontend): use `system.js` (instead iife) to chunk vendor libraries
+- deps: bump pipen to 0.14.6 and other deps to latest version
+- deps: bump frontend deps to latest version
 - ci: update `ghp-import` command to disable Jekyll processing
-- deps: update frontend dependencies
+- ci: use latest actions
 
 ## 0.18.5
 
