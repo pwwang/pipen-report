@@ -39,7 +39,7 @@ def pipeline(**config):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         pipeline(
-            plugins=["no:args"],
+            plugins=["-args"],
             workdir=sys.argv[1],
             outdir=sys.argv[2],
         ).run()
