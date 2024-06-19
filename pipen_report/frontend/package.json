@@ -9,18 +9,18 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0",
-    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-commonjs": "^26.0.0",
     "@rollup/plugin-json": "^6.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "acorn": "^8.8",
+    "acorn": "^8.12.0",
     "carbon-components-svelte": "^0.85.0",
-    "carbon-icons-svelte": "^12.3.0",
-    "carbon-preprocess-svelte": "^0.11.0",
-    "rollup": "^4.6",
+    "carbon-icons-svelte": "^12.9.0",
+    "carbon-preprocess-svelte": "^0.11.3",
+    "rollup": "^4.18.0",
     "rollup-plugin-css-only": "^4.3",
     "rollup-plugin-livereload": "^2.0",
-    "rollup-plugin-svelte": "^7.1.5",
-    "svelte": "^4.2.1"
+    "rollup-plugin-svelte": "^7.2.2",
+    "svelte": "^4.2.18"
   }
 }
