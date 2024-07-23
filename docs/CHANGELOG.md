@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.20.0
+
+- deps: bump pipen to 0.15
+
 ## 0.19.0
 
 - refactor(frontend): use `system.js` (instead iife) to chunk vendor libraries
