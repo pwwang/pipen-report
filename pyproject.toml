@@ -13,11 +13,11 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pipen = "^0.14"
+pipen = "^0.15.0"
 Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"
-pipen-runinfo = {optional = true, version = "^0.6"}
+pipen-runinfo = {optional = true, version = "^0.7"}
 imagesize = "^1.4"
 
 [tool.poetry.dev-dependencies]
@@ -25,7 +25,7 @@ pytest = "^8"
 pytest-cov = "^5"
 pytest-xdist = "^3"
 pytest-forked = "^1"
-pipen-filters = "^0.13"
+pipen-filters = "^0.14"
 
 [build-system]
 requires = ["poetry>=1.0"]
@@ -54,5 +54,5 @@ strict_optional = false
 
 [tool.black]
 line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311']
+target-version = ['py39', 'py310', 'py311', 'py312']
 include = '\.pyi?$'
