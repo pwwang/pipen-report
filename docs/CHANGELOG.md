@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.20.1
+
+- deps: bump pipen-runinfo to 0.8
+
 ## 0.20.0
 
 - deps: bump pipen to 0.15
