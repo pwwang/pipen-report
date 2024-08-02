@@ -418,13 +418,13 @@ files = [
 
 [[package]]
 name = "importlib-metadata"
-version = "8.1.0"
+version = "8.2.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-8.1.0-py3-none-any.whl", hash = "sha256:3cd29f739ed65973840b068e3132135ce954c254d48b5b640484467ef7ab3c8c"},
-    {file = "importlib_metadata-8.1.0.tar.gz", hash = "sha256:fcdcb1d5ead7bdf3dd32657bb94ebe9d2aabfe89a19782ddc32da5041d6ebfb4"},
+    {file = "importlib_metadata-8.2.0-py3-none-any.whl", hash = "sha256:11901fa0c2f97919b288679932bb64febaeacf289d18ac84dd68cb2e74213369"},
+    {file = "importlib_metadata-8.2.0.tar.gz", hash = "sha256:72e8d4399996132204f9a16dcc751af254a48f8d1b20b9ff0f98d4a8f901e73d"},
 ]
 
 [package.dependencies]
@@ -494,13 +494,13 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "jinxed"
-version = "1.2.1"
+version = "1.3.0"
 description = "Jinxed Terminal Library"
 optional = false
 python-versions = "*"
 files = [
-    {file = "jinxed-1.2.1-py2.py3-none-any.whl", hash = "sha256:37422659c4925969c66148c5e64979f553386a4226b9484d910d3094ced37d30"},
-    {file = "jinxed-1.2.1.tar.gz", hash = "sha256:30c3f861b73279fea1ed928cfd4dfb1f273e16cd62c8a32acfac362da0f78f3f"},
+    {file = "jinxed-1.3.0-py2.py3-none-any.whl", hash = "sha256:b993189f39dc2d7504d802152671535b06d380b26d78070559551cbf92df4fc5"},
+    {file = "jinxed-1.3.0.tar.gz", hash = "sha256:1593124b18a41b7a3da3b078471442e51dbad3d77b4d4f2b0c26ab6f7d660dbf"},
 ]
 
 [package.dependencies]
@@ -810,13 +810,13 @@ executing = ">=2.0,<3.0"
 
 [[package]]
 name = "pipen"
-version = "0.15.0"
+version = "0.15.2"
 description = "A pipeline framework for python"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen-0.15.0-py3-none-any.whl", hash = "sha256:ce5ddf0fadc59c967a73ef8371d4748611b70b8c52d8fb54e5167ad5714cd0da"},
-    {file = "pipen-0.15.0.tar.gz", hash = "sha256:d04b000536eb621cdbf7c32a4dfc0cd7c0ca43690f9d980f606aebb0ef3730db"},
+    {file = "pipen-0.15.2-py3-none-any.whl", hash = "sha256:9c6b64a13dbc8fd8e63518387c2718a8210fef69d4de92aa38e65a93b558de82"},
+    {file = "pipen-0.15.2.tar.gz", hash = "sha256:ac495ee63f5c5099a1a5ce89a39e0d43d373e0d296b7dce373dd9abd613d4618"},
 ]
 
 [package.dependencies]
@@ -828,7 +828,7 @@ pipda = ">=0.13,<0.14"
 python-simpleconf = {version = ">=0.6,<0.7", extras = ["toml"]}
 rtoml = ">=0.8,<0.9"
 varname = ">=0.13,<0.14"
-xqute = ">=0.4.1,<0.5.0"
+xqute = ">=0.5.1,<0.6.0"
 
 [[package]]
 name = "pipen-filters"
@@ -846,17 +846,17 @@ pipen = ">=0.15.0,<0.16.0"
 
 [[package]]
 name = "pipen-runinfo"
-version = "0.7.0"
+version = "0.8.0"
 description = "Generate running information for jobs in pipen pipelines"
 optional = true
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen_runinfo-0.7.0-py3-none-any.whl", hash = "sha256:a1967833ea1e6c7911987d4591a206f96683c1d117ab71bf322df37795f4c873"},
-    {file = "pipen_runinfo-0.7.0.tar.gz", hash = "sha256:ea054ce51ed787231fde598cb53234178d992903cb070f8df2fb933b183ed515"},
+    {file = "pipen_runinfo-0.8.0-py3-none-any.whl", hash = "sha256:c682f49ee7cb8e5b5e21ec42d0f0a7e74d373d577fb5f8a420f127d6ef22e374"},
+    {file = "pipen_runinfo-0.8.0.tar.gz", hash = "sha256:f29cf3b17422465dcb4946f0a4b0a0ea41e9178859c368580b5cc721c4f85b6b"},
 ]
 
 [package.dependencies]
-pipen = ">=0.15.0,<0.16.0"
+pipen = ">=0.15.2,<0.16.0"
 
 [[package]]
 name = "pluggy"
@@ -1067,13 +1067,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pytest"
-version = "8.3.1"
+version = "8.3.2"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-8.3.1-py3-none-any.whl", hash = "sha256:e9600ccf4f563976e2c99fa02c7624ab938296551f280835ee6516df8bc4ae8c"},
-    {file = "pytest-8.3.1.tar.gz", hash = "sha256:7e8e5c5abd6e93cb1cc151f23e57adc31fcf8cfd2a3ff2da63e23f732de35db6"},
+    {file = "pytest-8.3.2-py3-none-any.whl", hash = "sha256:4ba08f9ae7dcf84ded419494d229b48d0903ea6407b030eaec46df5e6a73bba5"},
+    {file = "pytest-8.3.2.tar.gz", hash = "sha256:c132345d12ce551242c87269de812483f5bcc87cdbb4722e48487ba194f9fdce"},
 ]
 
 [package.dependencies]
@@ -1519,13 +1519,13 @@ files = [
 
 [[package]]
 name = "xqute"
-version = "0.4.1"
+version = "0.5.1"
 description = "A job management system for python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "xqute-0.4.1-py3-none-any.whl", hash = "sha256:44876fdd7d02f3e9e5f38156bb5887f8e9e130401c04d8f6a7b7dec763696ee7"},
-    {file = "xqute-0.4.1.tar.gz", hash = "sha256:14d47399a61d622025b3d8d3674f9cd56b79902904a8cfa8d5cf73f8ca7ca658"},
+    {file = "xqute-0.5.1-py3-none-any.whl", hash = "sha256:bb77cbeacf4468030fc0201a0953556f60d056c9a11e7b67a47f0a7cc649575b"},
+    {file = "xqute-0.5.1.tar.gz", hash = "sha256:1d96875060283b60bb2bec801fa5d4adbd1884e29a39cfae1791fbc50c7ac04a"},
 ]
 
 [package.dependencies]
@@ -1557,4 +1557,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "3c9c5a0110078e8ca00573b4761da6bf201f67dee8bc56501bd148634044ab29"
+content-hash = "1f688fd3a5c22c773dd7e964a0972fdf1bbee736d07619a343e539fe9f5e1dd2"
