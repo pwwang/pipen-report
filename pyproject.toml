@@ -20,6 +20,9 @@ python-slugify = "^8.0"
 pipen-runinfo = {optional = true, version = "^0.8"}
 imagesize = "^1.4"
 
+[tool.poetry.extras]
+runinfo = ["pipen-runinfo"]
+
 [tool.poetry.dev-dependencies]
 pytest = "^8"
 pytest-cov = "^5"
