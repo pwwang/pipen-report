@@ -250,8 +250,11 @@ class ReportManager:
                 )
                 for line in p.stdout:
                     line = line.decode()
+                    logline = ansi_escape.sub("", line)
                     # src/pages/_index/index.js → public/index/index.js
                     flog.write(ansi_escape.sub('', line))
+                    if ' → ' in logline and logline.startswith('src/pages/'):
+                        ulogger.info(f"- {logline.split(' → ')[0]}")
 
                     if chars_to_error in line:  # pragma: no cover
                         ulogger.error(f"  {line.rstrip()}")
