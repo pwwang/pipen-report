@@ -1,5 +1,8 @@
 """Provides preprocess"""
+from __future__ import annotations
+
 import math
+import json
 import hashlib
 import re
 import shutil
@@ -17,7 +20,7 @@ RELPATH_TAGS = {
     "embed": "src",
     "img": "src",
     "Link": "href",
-    "Image": "src",
+    "Image": ("src", "download"),
     "ImageLoader": "src",
     "DataTable": "src",
     "iframe": "src",
@@ -30,8 +33,25 @@ H2_TAG_TEXT = re.compile(r"<h2.*?>(.+?)</h2>", re.IGNORECASE | re.DOTALL)
 TAG_RE = re.compile(
     fr"<(?P<tag>{'|'.join(RELPATH_TAGS)})(?P<attrs>.*?)(?P<end>/?>)", re.DOTALL
 )
+
+# noqa: E501
+# <Image src="{{ job.in.inimg}}"
+#   download={ {"src": "{{ job.in.inimg } }", "tip": "Download the high resolution format"} } />
+# <Image src="{{ job.in.inimg}}"
+#   download={ {"src": 1, "tip": "Download the high resolution format"} } />
+# <Image src="{{ job.in.inimg}}"
+#   download={ {"src": true, "tip": "Download the high resolution format"} } />
 TAG_ATTR_RE = re.compile(
-    r"\s+(?P<attrname>[\w_-]+)=\"(?P<attrval>[^\"]*)\"(?=\s|$)"
+    r"""
+    \s+(?P<attrname>[\w_-]+)=
+    (?:
+        \"(?P<attrval>[^\"]*)\"
+        |
+        \{(?P<attrval2>.*?)\}
+    )
+    (?=\s+[\w_-]+=|\s*$)
+    """,
+    re.VERBOSE | re.DOTALL
 )
 
 
@@ -40,11 +60,14 @@ def _preprocess_slash_h(
     index: int,
     page: int,
     kind: str,
-    text: str = None,
+    text: str | None = None,
 ) -> Tuple[str, Mapping[str, Any]]:
-    """Preprocess headings (h1 or h2 tag)
+    """Preprocess headings (h1 or h2 tag) adding anchor links
 
     Add an anchor link after the tag and produce the toc dict
+
+    For example, if the source is `<h1>Title 1</h1>`, the output will be
+    `<h1>Title 1</h1><a id="prt-h1-1-title-1" class="pipen-report-toc-anchor"> </a>`
 
     Args:
         text: The string repr of the tag (e.g `<h1>Title 1</h1>`)
@@ -66,6 +89,42 @@ def _preprocess_slash_h(
     )
 
 
+def _path_to_url(path: Path | str, basedir: Path) -> str:
+    """Convert a path to a url to be used in the html
+
+    If the path is a relative path to basedir.parent, it will be converted
+    to a relative path to basedir. Otherwise, it will be copied to a directory
+    where the html file can access.
+
+    Args:
+        path: The path to be converted
+        basedir: The base directory, usually, path/to/REPORTS
+
+    Returns:
+        The url
+    """
+    try:
+        path = Path(path).relative_to(basedir.parent)
+    except ValueError:
+        # if it's a relative path, suppose it is pages
+        # otherwise, it's a path to the results
+        if Path(path).is_absolute():
+            path = Path(path)
+            # If we can't get the relative path, that means those files
+            # are not exported, we need to copy the file to a directory
+            # where the html file can access
+            suffix = hashlib.md5(str(path).encode()).hexdigest()[:8]
+            newpath = f"data/{path.stem}.{suffix}{path.suffix}"
+            shutil.copyfile(path, basedir / newpath)
+            # path = f"../../{path}"
+            path = newpath
+    else:
+        # results are at uplevel dir
+        path = f"../{path}"
+
+    return str(path)
+
+
 def _preprocess_relpath_tag(
     matching: re.Match,
     basedir: Path,
@@ -78,34 +137,30 @@ def _preprocess_relpath_tag(
         nonlocal pathval
         attrname = mattrs.group("attrname")
         attrval = mattrs.group("attrval")
+        attrval2 = mattrs.group("attrval2")
+
         if (
-            tag not in RELPATH_TAGS
-            or attrname != RELPATH_TAGS[tag]
-            or re.match(r"^[a-z]+://", attrval)
-            or not attrval  # <img src="" />
+            isinstance(RELPATH_TAGS[tag], str)
+            and attrname != RELPATH_TAGS[tag]
+            or attrname not in RELPATH_TAGS[tag]
         ):
             return mattrs.group(0)
 
-        pathval = Path(attrval)
-        try:
-            attrval = pathval.relative_to(basedir.parent)
-        except ValueError:
-            # if it's a relative path, suppose it is pages
-            # otherwise, it's a path to the results
-            if pathval.is_absolute():
-                # If we can't get the relative path, that means those files
-                # are not exported, we need to copy the file to a directory
-                # where the html file can access
-                suffix = hashlib.md5(str(pathval).encode()).hexdigest()[:8]
-                attrval = f"data/{pathval.stem}.{suffix}{pathval.suffix}"
+        if tag == "Image" and attrname == "download" and attrval2:
+            av2 = json.loads(attrval2)
+            if not isinstance(av2, list):
+                av2 = [av2]
 
-                shutil.copyfile(pathval, basedir / attrval)
-                # attrval = f"../../{attrval}"
-        else:
-            # results are at uplevel dir
-            attrval = f"../{attrval}"
+            for i, av in enumerate(av2):
+                if isinstance(av, str):
+                    av2[i] = {"src": _path_to_url(av, basedir)}
+                elif isinstance(av, dict):
+                    av["src"] = _path_to_url(av["src"], basedir)
+            return f' {attrname}={{ {json.dumps(av2)} }}'
 
-        return f' {attrname}="{attrval}"'
+        pathval = attrval
+        urlval = _path_to_url(attrval, basedir)
+        return f' {attrname}="{urlval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
     if pathval and tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
@@ -114,9 +169,9 @@ def _preprocess_relpath_tag(
             width, height = imagesize.get(pathval)
             if width > 0 and height > 0:
                 if "width=" not in attrs:
-                    attrs += f' width={{{width}}}'
+                    attrs = f'{attrs.rstrip()} width={{{width}}} '
                 if "height=" not in attrs:
-                    attrs += f' height={{{height}}}'
+                    attrs = f'{attrs.rstrip()} height={{{height}}} '
 
     return f"<{tag}{attrs}{matching.group('end')}"
 
@@ -155,7 +210,6 @@ def _preprocess_section(
         basedir: The base directory to save the relative path resources
     """
     section = _preprocess_markdown(section)
-
     # handle relpath tags
     section = re.sub(
         TAG_RE,

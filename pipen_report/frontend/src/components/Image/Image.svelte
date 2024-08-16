@@ -32,6 +32,7 @@
         </ImageInner>
     </div>
 {:else}
+    <div style:position="relative">
     <ImageInner {src} {...$$restProps}>
         <svelte:fragment slot="loading">
             <div {...div_props}>Image loading ...</div>
@@ -40,4 +41,5 @@
             <div {...div_error_props}>Image loading error!</div>
         </svelte:fragment>
     </ImageInner>
+    </div>
 {/if}

@@ -162,6 +162,7 @@ img.pipen-report-image-lg {
 	overflow-x: auto;
 	padding: 1.5rem;
 	background-color: var(--cds-background-hover);
+	position: relative;
 }
 
 .pipen-report-datatable-frame {

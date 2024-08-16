@@ -54,7 +54,7 @@ class ProcessNoTOC(Proc):
         </script>
         <h1>Image</h1>
         <Descr>This is a description about the section.</Descr>
-        <Image src="{{ job.in.inimg }}" />
+        <Image src="{{ job.in.inimg }}" download={ {"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format"} } />
         """,
         "report_toc": False,
     }
@@ -379,6 +379,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '        "flat": [' >> $report_file
         echo '          {' >> $report_file
         echo '            "kind": "image",' >> $report_file
+        echo "            \\"download\\": [\\"$image\\", \\"$image\\"]," >> $report_file
         echo "            \\"src\\": \\"$image\\"" >> $report_file
         echo '          }' >> $report_file
         echo '        ]' >> $report_file

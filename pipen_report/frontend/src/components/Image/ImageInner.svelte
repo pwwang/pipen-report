@@ -15,6 +15,15 @@
     export let alt = "";
 
     /**
+     * The urls related to this image for download
+     * For exmaple, the PDF version of the image
+     * It is either an array of objects with `src`, `tip`, and `icon` properties
+     * or an array of strings representing the `src` values
+     * @type {Array<{ src: string, tip: string, icon: string }> | Array<string> | { src: string, tip: string, icon: string } | string}
+     */
+    export let download = [];
+
+    /**
      * Specify the aspect ratio for the image wrapper
      * @type {"2x1" | "16x9" | "4x3" | "1x1" | "3x4" | "3x2" | "9x16" | "1x2"}
      */
@@ -43,6 +52,7 @@
 
     export let border = true;
     let modal_open = false;
+    let showDownloadList = false;
 
     /**
      * Method invoked to load the image provided a `src` value
@@ -61,6 +71,7 @@
     import { onMount, createEventDispatcher } from "svelte";
     import { fade } from "svelte/transition";
     import { AspectRatio, Modal } from "carbon-components-svelte";
+    import ImageDownloadList from "./ImageDownloadList.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -68,6 +79,7 @@
     const fast02 = 110;
 
     let image = null;
+    let hideTimeout;
 
     $: loading = !loaded && !error;
     $: if (src && typeof window !== "undefined") loadImage();
@@ -102,8 +114,13 @@
             {alt}
             title="Click to zoom in ..."
             on:click={openModal}
+            on:mouseenter={() => { showDownloadList = true; }}
+            on:mouseleave={() => { hideTimeout = setTimeout(() => {showDownloadList = false;}, 100); }}
             transition:fade={{ duration: fadeIn ? fast02 : 0 }}
         />
+        {#if showDownloadList}
+            <ImageDownloadList data={download} on:mouseenter={() => { clearTimeout(hideTimeout); showDownloadList = true; }} />
+        {/if}
     {/if}
     {#if error}
         <slot name="error" />
@@ -121,8 +138,13 @@
                 {alt}
                 title="Click to zoom in ..."
                 on:click={openModal}
+                on:mouseenter={() => { showDownloadList = true; }}
+                on:mouseleave={() => { hideTimeout = setTimeout(() => {showDownloadList = false;}, 100); }}
                 transition:fade={{ duration: fadeIn ? fast02 : 0 }}
             />
+            {#if showDownloadList}
+                <ImageDownloadList data={download} on:mouseenter={() => { clearTimeout(hideTimeout); showDownloadList = true; }} />
+            {/if}
         {/if}
         {#if error}
             <slot name="error" />

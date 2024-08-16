@@ -13,4 +13,5 @@ def run_pipeline(pipeline, _dir=None):
         outdir = Path(_dir) / "outdir"
         cmd += [str(workdir), str(outdir)]
 
+    # print(' '.join(cmd))
     run(cmd)
