@@ -10,7 +10,9 @@
     import Tif from "carbon-icons-svelte/lib/Tif.svelte";
     import VideoPlayer from "carbon-icons-svelte/lib/VideoPlayer.svelte";
     import DatabaseElastic from "carbon-icons-svelte/lib/DatabaseElastic.svelte";
-    import WatsonHealthInteractiveSegmentationCursor from "carbon-icons-svelte/lib/WatsonHealthInteractiveSegmentationCursor.svelte";
+    import ChartLineData from "carbon-icons-svelte/lib/ChartLineData.svelte";
+    import DataVolume from "carbon-icons-svelte/lib/DataVolume.svelte";
+    import Archive from "carbon-icons-svelte/lib/Archive.svelte";
     import IbmWatsonxCodeAssistantForZRefactor from "carbon-icons-svelte/lib/IbmWatsonxCodeAssistantForZRefactor.svelte";
 
     export let src = "";
@@ -28,8 +30,9 @@
                 break;
 
             case "html":
-            case "WatsonHealthInteractiveSegmentationCursor":
-                iconComponent = WatsonHealthInteractiveSegmentationCursor;
+            case "htm":
+            case "ChartLineData":
+                iconComponent = ChartLineData;
                 break;
 
             case "png":
@@ -62,6 +65,8 @@
             case "mp4":
             case "avi":
             case "mov":
+            case "mkv":
+            case "webm":
             case "VideoPlayer":
                 iconComponent = VideoPlayer;
                 break;
@@ -70,14 +75,30 @@
                 iconComponent = Image;
                 break;
 
+            case "Data":
+            case "DataVolume":
+                iconComponent = DataVolume;
+                break;
+
+            case "Code":
+            case "IbmWatsonxCodeAssistantForZRefactor":
+                iconComponent = IbmWatsonxCodeAssistantForZRefactor;
+                break;
+
             case "svg":
             case "Svg":
                 iconComponent = Svg;
                 break;
 
             case "zip":
-            case "IbmWatsonxCodeAssistantForZRefactor":
-                iconComponent = IbmWatsonxCodeAssistantForZRefactor;
+            case "tar":
+            case "gz":
+            case "bz2":
+            case "7z":
+            case "rar":
+            case "xz":
+            case "Archive":
+                iconComponent = Archive;
                 break;
 
             default:
