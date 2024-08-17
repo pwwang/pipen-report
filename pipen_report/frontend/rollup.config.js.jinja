@@ -9,6 +9,7 @@ import data from './src/data.json' assert { type: 'json' };
 import { optimizeImports, optimizeCss } from "carbon-preprocess-svelte";
 
 const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
+	preserveSymlinks: true,  // for extlibs
 	plugins: [
 		svelte({
 			preprocess: [optimizeImports()],
@@ -29,18 +30,16 @@ const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
 				{ find: '$layout', replacement: '../../layouts' },
 				{ find: '$libs', replacement: '../../components' },
 				{ find: '$lib', replacement: '../../components' },
+				{%- if extlibs %}
+				{ find: '$extlibs', replacement: '../../extlibs/{{extlibs.split("/")[-1]}}' },
+				{% endif -%}
 				{ find: '$ccs', replacement: 'carbon-components-svelte' },
-				{% if extlibs %}
-				{ find: '$extlibs', replacement: '{{extlibs}}' },
-				{% endif %}
 			]
 		}),
 
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
 		css({ output: cssfile }),
-
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({ browser: true, dedupe: ['svelte'] }),
 		commonjs(),
 		terser(),

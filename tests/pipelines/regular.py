@@ -54,6 +54,7 @@ if __name__ == "__main__":
             plugins=["-args"],
             workdir=sys.argv[1],
             outdir=sys.argv[2],
+            plugin_opts={"report_loglevel": "debug"},
         ).run()
     else:
         pipeline().run()

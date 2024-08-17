@@ -29,6 +29,23 @@ import { Image } from '$libs';
 import { Image } from '$components';
 ```
 
+Thanks to the `rollup-alias` plugin, you can use the following aliases:
+
+```js
+{
+  entries: [
+  { find: '$components', replacement: '../../components' },
+  { find: '$component', replacement: '../../components' },
+  { find: '$layouts', replacement: '../../layouts' },
+  { find: '$layout', replacement: '../../layouts' },
+  { find: '$libs', replacement: '../../components' },
+  { find: '$lib', replacement: '../../components' },
+  { find: '$extlibs', replacement: '../../extlibs/{{extlibs.split("/")[-1]}}' },
+  { find: '$ccs', replacement: 'carbon-components-svelte' },
+ ]
+}
+```
+
 ### DataTable
 
 An enhanced `DataTable` from `carbon-components-svelte/DataTable`.
@@ -112,21 +129,36 @@ Everything inside the `<Markdown>` is passed to `markdown.markdown()` from pytho
 
 ## Advanced usage
 
-## Using self-defined components
+### Using self-defined components
 
-Say you have a set of components that you want to use in all your reports. You can specify the path to the directory containing the components in `report_exlibs` by either `pipen report config --exlibs <path>` or `pipeline.config.plugin_opts.report_exlibs = <path>`.
+Say you have a set of components that you want to use in all your reports. You can specify the path to the directory containing the components in `report_extlibs` by either `pipen report config --extlibs <path>` or `pipeline.config.plugin_opts.report_extlibs = <path>`.
 
 Then you can import the components from the path you specified.
 
 ```jsx
 <script>
-    import { MyComponent } from '$exlibs/MyComponent.svelte';
+    import { MyComponent } from '$extlibs/MyComponent.svelte';
 </script>
 ```
 
 You can write your own components based on `carbon-components-svelte` components.
 
 Note that the shortcut `$ccs` is not available in the components you write. You have to use 'carbon-components-svelte'.
+
+!!! Tip
+
+    You can also use the aliases/shortcuts for modules in your components. See [Using builtin components](#using-builtin-components) for the list of aliases.
+
+    For those relative paths, you have to pay attention to the path of your components.
+    The `extlibs` are symbolically linked to the `~/.pipen/Pipeline/.report-workdir/src/extlibs/{{extlibs.split("/")[-1]}}` directory. So you have to use the relative path from the `~/.pipen/Pipeline/.report-workdir/src/extlibs/{{extlibs.split("/")[-1]}}` directory. So it is Okay to use the aliases/shortcuts when your components are directly under the `extlibs` directory.
+    If your components are in a subdirectory, you have to go up more levels for the components. For example, let's say your component is in `<extlibs>/components/MyComponent.svelte`, then you have to import it like this:
+
+    ```jsx
+    <script>
+        // instead of using $libs
+        import { Image } from '../../../components';
+    </script>
+    ```
 
 ### Using other svelte components
 
@@ -136,12 +168,13 @@ Note that the shortcut `$ccs` is not available in the components you write. You 
 
 - How?
 
-    In the working directory, remove `node_modules` and make a copy of `package.json` instead of a symbolinc link. This is important, you may not want to pollute the global one.
+    In the working directory (`~/.pipen/Pipeline/.report-workdir/`), remove `node_modules` and make a copy of `package.json` instead of a symbolinc link. This is important, you may not want to pollute the global one.
 
     For example, if you want to use [`smelte`][3]
     Then run `npm install` and `npm install -D smelte`
 
     In your template:
+
     ```jsx
     <script>
         import { Chip } from "smelte";

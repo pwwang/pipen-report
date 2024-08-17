@@ -7,6 +7,7 @@ import shutil
 import sys
 import subprocess as sp
 import textwrap
+import traceback
 from contextlib import suppress
 from os import PathLike
 from pathlib import Path
@@ -106,6 +107,10 @@ class ReportManager:
         if nmdir.is_symlink():
             nmdir.unlink()
 
+        exdir = self.workdir / "src" / "extlibs"
+        shutil.rmtree(exdir, ignore_errors=True)
+        exdir.mkdir(parents=True, exist_ok=True)
+
         # Copy nmdir to workdir
         try:
             run_copy(
@@ -120,14 +125,20 @@ class ReportManager:
             logger.error("nmdir: %s", self.nmdir)
             logger.error("workdir: %s", self.workdir)
             logger.error("ERROR: %s", e)
+            traces = traceback.format_exc().splitlines()
+            for trace in traces:
+                logger.debug(trace)
             sys.exit(1)
 
         pubdir = self.workdir / "public"
         run_copy(str(pubdir), self.outdir, overwrite=True, quiet=True)
-        shutil.rmtree(pubdir)
+        shutil.rmtree(pubdir, ignore_errors=True)
         pubdir.symlink_to(self.outdir)
 
         nmdir.symlink_to(self.nmdir / "node_modules")
+
+        if self.extlibs:
+            exdir.joinpath(Path(self.extlibs).name).symlink_to(self.extlibs)
 
     def _template_opts(self, template_opts) -> Mapping[str, Any]:
         """Template options for renderring
@@ -234,6 +245,10 @@ class ReportManager:
             ulogger.info(f"Building report ({npages} pages) ...")
 
         chars_to_error = "(!)"
+        errors_to_ignore = {
+            # "(!) Unresolved dependencies":
+            # "May be ignored if you are using external libraries",
+        }
         errored = False
 
         with open(logfile, "at") as flog:
@@ -250,15 +265,20 @@ class ReportManager:
                 )
                 for line in p.stdout:
                     line = line.decode()
-                    logline = ansi_escape.sub("", line)
+                    logline = ansi_escape.sub("", line).rstrip()
                     # src/pages/_index/index.js → public/index/index.js
                     flog.write(ansi_escape.sub('', line))
                     if ' → ' in logline and logline.startswith('src/pages/'):
                         ulogger.info(f"- {logline.split(' → ')[0]}")
 
-                    if chars_to_error in line:  # pragma: no cover
-                        ulogger.error(f"  {line.rstrip()}")
-                        errored = True
+                    if logline.startswith(chars_to_error):  # pragma: no cover
+                        if logline in errors_to_ignore:
+                            ulogger.warning(
+                                f"  {logline} ({errors_to_ignore[logline]})"
+                            )
+                        else:
+                            ulogger.error(f"  {logline}")
+                            errored = True
 
                     if errored:  # pragma: no cover
                         # Early stop

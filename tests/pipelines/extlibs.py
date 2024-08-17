@@ -8,7 +8,8 @@ HERE = Path(__file__).parent
 class Process(Proc):
     """Example process"""
     input = "a:var, b:var"
-    output = "c:var:{{ in.a + in.b }}"
+    output = "c:file:{{in.a}}{{in.b}}.txt"
+    script = "echo {{in.a}} {{in.b}} > {{out.c}}"
     plugin_opts = {
         "report": """
             <script>
@@ -16,6 +17,7 @@ class Process(Proc):
             </script>
             <h1>Process</h1>
             <Component text="Hello world" />
+            <Component text="A link" src="{{job.out.c}}" />
         """
     }
 
@@ -25,9 +27,9 @@ def pipeline(**config):
     class Index(Process):
         """If a process is called index, see if it gets renamed to index_.html
         """
-    config.setdefault("plugin_opts", {})["report_extlibs"] = (
-        str(HERE.resolve() / "extlibs")
-    )
+    conf = config.setdefault("plugin_opts", {})
+    conf["report_extlibs"] = str(HERE.resolve() / "extlibs")
+    conf["report_relpath_tags"] = {"Component": "src"}
     return (
         Pipen("Extlibs-process", **config)
         .set_start(Index)
