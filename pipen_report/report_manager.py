@@ -411,6 +411,7 @@ class ReportManager:
         report = str(proc.plugin_opts["report"])
         report_toc = proc.plugin_opts.get("report_toc", True)
         report_paging = proc.plugin_opts.get("report_paging", False)
+        report_relpath_tags = proc.plugin_opts.get("report_relpath_tags", None) or {}
         if report.startswith("file://"):
             report_tpl = Path(report[7:])
             if not report_tpl.is_absolute():
@@ -445,6 +446,7 @@ class ReportManager:
             self.outdir,
             report_toc,
             report_paging,
+            report_relpath_tags,
         )
 
         if len(toc) > 10 and not report_paging:  # pragma: no cover

@@ -86,6 +86,17 @@ Default: `False` (collapse all procgroups)
 
 Don't collapse procgroups in the report. This is useful when you want to see the processes of the procgroup in the index page. Could be either a procgroup name, a list of procgroup names or `True` (don't collapse any procgroups)
 
+## `report_relpath_tags`
+
+Pipeline-level
+
+Default: `None`
+
+Tags with properties that need to convert to relative paths i.e. `{"Image": "src"}`.
+This is useful when you have a custom component that has a property that is a path to a resource.
+
+See [Converting paths to urls](../writing#converting-paths-to-urls) for more information.
+
 ## `report_paging`
 
 Process-level

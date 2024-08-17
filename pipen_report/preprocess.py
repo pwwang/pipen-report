@@ -9,7 +9,7 @@ import shutil
 import imagesize
 from contextlib import suppress
 from pathlib import Path
-from typing import Any, List, Mapping, Tuple, Union
+from typing import Any, List, Mapping, Sequence, Tuple, Union
 
 from slugify import slugify
 
@@ -30,9 +30,7 @@ RELPATH_TAGS = {
 H1_TAG = re.compile(r"(<h1.*?>.+?</h1>)", re.IGNORECASE | re.DOTALL)
 H1_TAG_TEXT = re.compile(r"<h1.*?>(.+?)</h1>", re.IGNORECASE | re.DOTALL)
 H2_TAG_TEXT = re.compile(r"<h2.*?>(.+?)</h2>", re.IGNORECASE | re.DOTALL)
-TAG_RE = re.compile(
-    fr"<(?P<tag>{'|'.join(RELPATH_TAGS)})(?P<attrs>.*?)(?P<end>/?>)", re.DOTALL
-)
+TAG_RE = re.compile(r"<(?P<tag>[\w-]+)(?P<attrs>.*?)(?P<end>/?>)", re.DOTALL)
 
 # noqa: E501
 # <Image src="{{ job.in.inimg}}"
@@ -43,13 +41,13 @@ TAG_RE = re.compile(
 #   download={ {"src": true, "tip": "Download the high resolution format"} } />
 TAG_ATTR_RE = re.compile(
     r"""
-    \s+(?P<attrname>[\w_-]+)=
+    \s+(?P<attrname>[\w-]+)=
     (?:
         \"(?P<attrval>[^\"]*)\"
         |
         \{(?P<attrval2>.*?)\}
     )
-    (?=\s+[\w_-]+=|\s*$)
+    (?=\s+[\w-]+=|\s*$)
     """,
     re.VERBOSE | re.DOTALL
 )
@@ -128,10 +126,13 @@ def _path_to_url(path: Path | str, basedir: Path) -> str:
 def _preprocess_relpath_tag(
     matching: re.Match,
     basedir: Path,
+    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
 ) -> str:
     """Preprocess tags with paths to be redirected"""
     pathval = None
     tag = matching.group("tag")
+    rp_tags = RELPATH_TAGS.copy()
+    rp_tags.update(relpath_tags or {})
 
     def repl_attrs(mattrs):
         nonlocal pathval
@@ -139,10 +140,13 @@ def _preprocess_relpath_tag(
         attrval = mattrs.group("attrval")
         attrval2 = mattrs.group("attrval2")
 
-        if (
-            isinstance(RELPATH_TAGS[tag], str)
-            and attrname != RELPATH_TAGS[tag]
-            or attrname not in RELPATH_TAGS[tag]
+        if not (
+            tag in rp_tags
+            and (
+                isinstance(rp_tags[tag], str)
+                and attrname == rp_tags[tag]
+                or attrname in rp_tags[tag]
+            )
         ):
             return mattrs.group(0)
 
@@ -200,6 +204,7 @@ def _preprocess_section(
     h2_index: int,
     page: int,
     basedir: Path,
+    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
 ) -> Tuple[str, List[Mapping[str, Any]]]:
     """Preprocesss a section of the document (between h1 tags)
 
@@ -213,7 +218,7 @@ def _preprocess_section(
     # handle relpath tags
     section = re.sub(
         TAG_RE,
-        lambda m: _preprocess_relpath_tag(m, basedir),
+        lambda m: _preprocess_relpath_tag(m, basedir, relpath_tags),
         section,
     )
 
@@ -241,6 +246,7 @@ def preprocess(
     basedir: Path,
     toc_switch: bool,
     paging: Union[bool, int],
+    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
 ) -> Tuple[List[str], List[Mapping[str, Any]]]:
     """Preprocess the rendered report and return the toc dict
 
@@ -277,6 +283,7 @@ def preprocess(
             h2_index=0,
             page=0,
             basedir=basedir,
+            relpath_tags=relpath_tags,
         )
         return [section], []
 
@@ -303,6 +310,7 @@ def preprocess(
                 h2_index=h2_index,
                 page=page,
                 basedir=basedir,
+                relpath_tags=relpath_tags,
             )
             h2_index += len(toc_items)
             pages[page].append(section)

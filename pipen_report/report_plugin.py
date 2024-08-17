@@ -63,6 +63,10 @@ class PipenReport:
         pipen.config.plugin_opts.setdefault("report_extlibs", None)
         # pipeline-level
         pipen.config.plugin_opts.setdefault("report_no_collapse_pgs", False)
+        # pipeline-level
+        # Tags with properties that need to convert to relative paths
+        # i.e. {"Image": "src"}
+        pipen.config.plugin_opts.setdefault("report_relpath_tags", None)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)

@@ -74,6 +74,35 @@ Additional features:
 - Removed the width 100% style, added a class, and set the default width 45%.
 - Added a modal when clicking on the image, the original dimension of the image is shown.
 - Added "open in new window" for the image in the modal.
+- Added a toolbar on the top-left corner of the image, with buttons to download the resources related to this image (i.e. the high-resolution image, the data file, etc.)
+  - To provide the information about the resources, use the `data` property. It should be:
+  - a list of objects or a single object, each object should have a `src`, `tip` and a `icon` property, where `src` is the path to the resource, `tip` is the tooltip, and `icon` is the icon to show. By default, the `icon` is auto, which will be inferred from the extension of the `src`. Available icons:
+    - `DocumentPdf`: Associated extensions: `pdf`
+    - `ChartLineData`: Associated extensions: `html`
+    - `Png`: Associated extensions: `png`
+    - `Jpg`: Associated extensions: `jpg`, `jpeg`
+    - `Gif`: Associated extensions: `gif`
+    - `Svg`: Associated extensions: `svg`
+    - `Tif`: Associated extensions: `tif`, `tiff`
+    - `Archive`: Associated extensions: `zip`, `tar`, `gz`, `bz2`, `xz`, `7z`, `rar`
+    - `DatabaseElastic`: Associated extensions: `eps`
+    - `Data`/`DataVolume`: No associated extensions, can be used for user specification
+    - `IbmWatsonxCodeAssistantForZRefactor`/`Code`: No associated extensions, can be used for user specification
+    - `VideoPlayer`: Associated extensions: `mp4`, `avi`, `mov`, `mkv`, `webm`
+    - `Image`: No associated extensions, can be used for user specification
+    - `DocumentDownload`: Default icon
+  - a list of strings or a single string, each string will be the `src` and `tip` will be inferred from the `src`. The `icon` will be `auto`.
+
+### Iframe
+
+An iframe component to embed an external page.
+
+Properties:
+
+- `src`: the url of the page to embed
+- `width`: the width of the iframe
+- `title`: the title of the iframe
+- `frameborder`: the border of the iframe
 
 ### Markdown
 
@@ -131,6 +160,49 @@ Note that the shortcut `$ccs` is not available in the components you write. You 
     ```
 
     Finally, run `npm build` to buld your reports
+
+### Converting paths to urls
+
+When we write a report template, we usually specify the path on the file system to the resources. But when we want to deploy the report, we need to convert the paths to urls, so that the resources can be accessed by the browser.
+
+Here is the rule to convert the paths to urls:
+
+- If the resource is a file from process results, which are usually stored in one-level up from the `REPORTS` directory, the path should be converted to a relative path to the `REPORTS` directory. For example, if the `REPORTS` directory is `/path/to/REPORTS`, the path to the resource is `/path/to/someproc/image.png`, then the converted path should be `../someproc/image.png`.
+- If the resource is a file from process results, but the process does not exports the results to the output directory (i.e. some intermediate processes), the resource will be copied to `/path/to/REPORTS/data` directory. The converted path should be `data/image.<id>.png`, where `<id>` is associated with the raw resource path.
+- A relative path or a URL to the resource will be kept as is.
+
+When we are using other, self-defined or external components, we should register the tag and the property with the path for conversion.
+
+For example, if we have a component `MyComponent` that has a property `src` that is a path to a resource, we should register the tag and the property with the path for conversion, using the `report_relpath_tags` configuration.
+
+```python
+from pipen import Pipen
+
+class Pipeline(Pipen):
+    plugin_opts = {
+        "report_relpath_tags": {
+            "MyComponent": "src",
+            "MyComponent2": ["src", "src2"],  # multiple properties
+        }
+    }
+```
+
+Already registered tags are:
+
+```python
+{
+    "a": "href",
+    "embed": "src",
+    "img": "src",
+    "Link": "href",
+    "Image": ("src", "download"),
+    "ImageLoader": "src",
+    "DataTable": "src",
+    "iframe": "src",
+    "Iframe": "src",
+    "Download": "href",
+}
+```
 
 [1]: https://github.com/carbon-design-system/carbon-components-svelte
 [2]: http://ibm.biz/carbon-svelte
