@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.20.1"
+version = "0.21.0"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pipen = "^0.15.0"
+pipen = "^0.15.5"
 Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"

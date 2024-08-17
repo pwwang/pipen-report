@@ -770,9 +770,9 @@ files = [
 
 [package.dependencies]
 numpy = [
-    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
     {version = ">=1.22.4", markers = "python_version < \"3.11\""},
     {version = ">=1.23.2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -1060,8 +1060,8 @@ files = [
 annotated-types = ">=0.4.0"
 pydantic-core = "2.20.1"
 typing-extensions = [
-    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
     {version = ">=4.6.1", markers = "python_version < \"3.13\""},
+    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
 ]
 
 [package.extras]
@@ -1649,9 +1649,9 @@ files = [
 
 [package.dependencies]
 aiopath = [
-    {version = "==0.7.*", markers = "python_version >= \"3.12\""},
     {version = "==0.5.*", markers = "python_version < \"3.10\""},
     {version = "==0.6.*", markers = "python_version >= \"3.10\" and python_version < \"3.12\""},
+    {version = "==0.7.*", markers = "python_version >= \"3.12\""},
 ]
 diot = ">=0.2,<0.3"
 rich = ">=13,<14"
@@ -1679,4 +1679,4 @@ runinfo = ["pipen-runinfo"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0dccff5ac5490519e36e00e0f521a8e68ab93dfb0b4f65f082ca622e6df7214c"
+content-hash = "606caf141f4f6e9a2ec063c898abde79f677c10b3efedd45df6519886ecc2a37"

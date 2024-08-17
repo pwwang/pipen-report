@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.21.0
+
+- deps: put `pipen-runinfo` into a extra dependency group
+- deps: bump `xqute` to 0.5.3
+- deps: add `pillow` as dev-dependency for test
+- deps: bump up frontend deps
+- test: update `pyproject.toml` to ignore deprecation warning
+- feat: add download bar for `Image` component
+- feat: add configuration `report_relpath_tags` to allow register components for properties to convert fs path to url
+- chore: add logging info when building each page
+- fix: fix importing modules in external frontend modules
+
 ## 0.20.1
 
 - deps: bump pipen-runinfo to 0.8
