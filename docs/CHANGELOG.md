@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.21.2
+
+- docs: update example output
+- chore: add aspect-ratio and max-width to the Plotly component
+
 ## 0.21.1
 
 - feat: improve Iframe component with dynamic resizing and event dispatching
