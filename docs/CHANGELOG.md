@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.21.3
+
+- chore: improve Plotly component with dynamic resizing
+
 ## 0.21.2
 
 - docs: update example output
