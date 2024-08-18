@@ -54,7 +54,10 @@
         style="aspect-ratio: {width} / {height}"
         on:load={
             // trigger resize event to make the plot fill up the frame
-            () => ref.setAttribute('width', width - 1)
+            () => setTimeout(() => {
+                ref.setAttribute('width', width - 1);
+                ref.setAttribute('height', height - 1);
+            }, 100)
         }
         />
 </div>
