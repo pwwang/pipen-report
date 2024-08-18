@@ -110,6 +110,16 @@ Additional features:
     - `DocumentDownload`: Default icon
   - a list of strings or a single string, each string will be the `src` and `tip` will be inferred from the `src`. The `icon` will be `auto`.
 
+### Descr
+
+A component to show a description.
+
+Properties:
+
+- `title`: the title of the description
+
+The content of the description is passed to the `slot`.
+
 ### Iframe
 
 An iframe component to embed an external page.
@@ -118,8 +128,24 @@ Properties:
 
 - `src`: the url of the page to embed
 - `width`: the width of the iframe
+- `height`: the height of the iframe
 - `title`: the title of the iframe
 - `frameborder`: the border of the iframe
+- `ref`: the reference of the iframe (HTMLElement)
+- `resize`: The way of resizing the iframe. Should be a CSS value of `resize`. Default is `none`.
+- `containerClass`: The class of the container of the iframe. Default is `""`.
+
+### Plotly
+
+A component to show a plotly plot. The plot must be saved as an html file.
+
+Properties:
+
+- `frameProps`: the properties of the frame around the plot. Default is `{"class": "pipen-report-plotly-frame"}`.
+- `src`: the path to the plotly html file.
+- `title`: the title of the plot (iframe)
+- `width`: the width of the plot (iframe)
+- `height`: the height of the plot (iframe)
 
 ### Markdown
 

@@ -12,16 +12,23 @@ class MyProcGroup(ProcGroup):
 
         class PG1(Proc):
             """Copy the image over"""
-            input = "inimg:file"
-            output = "outimg:file:{{in.inimg | basename}}"
-            script = "cp {{in.inimg}} {{out.outimg}}"
+            input = "inimg:file,plotly:file"
+            output = [
+                "outimg:file:{{in.inimg | basename}}",
+                "outplot:file:{{in.plotly | basename}}",
+            ]
+            script = """
+                cp {{in.inimg}} {{out.outimg}}
+                cp {{in.plotly}} {{out.outplot}}
+            """
             plugin_opts = {
                 "report": """
                 <script>
-                    import { Image } from '$lib';
+                    import { Image, Plotly } from '$lib';
                 </script>
                 <h1>Image</h1>
-                <Image src="{{ job.in.inimg }}" />
+                <Image src="{{ job.out.outimg }}" />
+                <Plotly src="{{ job.out.outplot }}" />
                 """,
             }
 
@@ -425,7 +432,14 @@ class ProcessWithoutHeadings(Proc):
 class Pipeline(Pipen):
     outdir = "./output"
     starts = pg.starts
-    data = [[Path(__file__).parent.resolve().joinpath("placeholder.png")]]
+    data = [
+        [
+            (
+                Path(__file__).parent.resolve().joinpath("placeholder.png"),
+                Path(__file__).parent.resolve().joinpath("plotly.html"),
+            )
+        ]
+    ]
     plugin_opts = {
         # "report_no_collapse_pgs": True,
         "report_loglevel": "debug",
