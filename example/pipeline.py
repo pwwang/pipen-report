@@ -18,8 +18,8 @@ class MyProcGroup(ProcGroup):
                 "outplot:file:{{in.plotly | basename}}",
             ]
             script = """
-                ln -s {{in.inimg}} {{out.outimg}}
-                ln -s {{in.plotly}} {{out.outplot}}
+                cp {{in.inimg}} {{out.outimg}}
+                cp {{in.plotly}} {{out.outplot}}
             """
             plugin_opts = {
                 "report": """
@@ -53,7 +53,7 @@ class ProcessNoTOC(Proc):
     requires = pg.starts
     # Use variable to skip checking
     output = "outimg:file:{{in.inimg | basename}}"
-    script = "ln -s {{in.inimg}} {{out.outimg}}"
+    script = "cp {{in.inimg}} {{out.outimg}}"
     plugin_opts = {
         "report": """
         <script>
@@ -74,7 +74,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
     # Use variable to skip checking
     output = "outimg:file:{{in.inimg | basename}}"
     script = """
-        ln -s {{in.inimg}} {{out.outimg}}
+        cp {{in.inimg}} {{out.outimg}}
         report_file={{job.outdir}}/report.json
         table_file={{job.outdir}}/table.txt
         echo -e 'A\tB\tC\tD' > $table_file
@@ -416,7 +416,7 @@ class ProcessWithoutHeadings(Proc):
     input = "inimg:file"
     output = "outimg:file:{{in.inimg | basename}}"
     script = """
-        ln -s {{in.inimg}} {{out.outimg}}
+        cp {{in.inimg}} {{out.outimg}}
     """
     plugin_opts = {
         "report": """
