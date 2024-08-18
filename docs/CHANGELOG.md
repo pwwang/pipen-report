@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.21.1
+
+- feat: improve Iframe component with dynamic resizing and event dispatching
+- feat: add Plotly component for displaying interactive plots
+- feat: add containerClass prop to Iframe component
+- refactor: add annotations for the Image component properties and optimize the code
+- docs: add Plotly as registed relpath tags
+
 ## 0.21.0
 
 - deps: put `pipen-runinfo` into a extra dependency group
@@ -35,7 +43,7 @@
 ## 0.18.4
 
 - choir: remove caching for `_render_file()`.
-   - Template rendering can be dependent on the file contents (e.g. `<job.outdir>/report.json`)
+  - Template rendering can be dependent on the file contents (e.g. `<job.outdir>/report.json`)
 
 ## 0.18.3
 
@@ -313,7 +321,6 @@
 - 🐛 Fix no toc generated when no H1 in report but report_toc is True
 - 🐛 Fix report without H1 not getting preprocessed
 
-
 ## 0.2.1
 
 - 🔊 Warn when there are > sections in report but paging is disabled
@@ -321,7 +328,6 @@
 - 🩹 De-highlight the H1's in TOC when there are H2's in there
 - 📝 Update example report
 - 📝 Add post install/update necessities in README.md
-
 
 ## 0.2.0
 
@@ -359,11 +365,9 @@
 - 🐛 Fix issues when dot in column names at frontend for `DataTable`
 - ⬆️ Upgrade frontend dependencies
 
-
 ## 0.0.11
 
 - ✨ Add process-level config `report_toc` to disable toc for a single process report
-
 
 ## 0.0.10
 
@@ -394,11 +398,9 @@
 - 🐛 Fix all procs other than those with report template to be included in the reports
 - ✨ Add `report_order` to define process order in report
 
-
 ## 0.0.4
 
 - 🐛 Add fontend/src/pages directory to the repo
-
 
 ## 0.0.3
 
