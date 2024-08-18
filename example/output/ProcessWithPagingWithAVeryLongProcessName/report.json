@@ -11,7 +11,7 @@
           },
           {
             "kind": "image",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }
@@ -21,7 +21,7 @@
         "flat": [
           {
             "kind": "table",
-            "data": {"file": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"},
+            "data": {"file": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"},
             "src": true
           }
         ]
@@ -39,7 +39,7 @@
               {
                 "title": "Image 1",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           },
@@ -50,12 +50,12 @@
               {
                 "title": "Image 2",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 3",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           },
@@ -66,17 +66,17 @@
               {
                 "title": "Image 4",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 5",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 6",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           }
@@ -95,7 +95,7 @@
               {
                 "title": "Image 1",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           },
@@ -106,12 +106,12 @@
               {
                 "title": "Image 2",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 3",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           },
@@ -122,17 +122,17 @@
               {
                 "title": "Image 4",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 5",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               },
               {
                 "title": "Image 6",
                 "descr": "This is a description about the image.",
-                "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+                "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
               }
             ]
           }
@@ -200,12 +200,12 @@
           {
             "kind": "image",
             "ds_name": "Image 1",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           },
           {
             "kind": "image",
             "ds_name": "Image 2",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }
@@ -217,7 +217,7 @@
         "flat": [
           {
             "kind": "table",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
           }
         ]
       }
@@ -229,7 +229,7 @@
         "flat": [
           {
             "kind": "image",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }
@@ -241,7 +241,7 @@
         "flat": [
           {
             "kind": "table",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
           }
         ]
       }
@@ -253,7 +253,7 @@
         "flat": [
           {
             "kind": "image",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }
@@ -265,7 +265,7 @@
         "flat": [
           {
             "kind": "table",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
           }
         ]
       }
@@ -277,7 +277,7 @@
         "flat": [
           {
             "kind": "image",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }
@@ -289,7 +289,7 @@
         "flat": [
           {
             "kind": "table",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
           }
         ]
       }
@@ -301,7 +301,8 @@
         "flat": [
           {
             "kind": "image",
-            "src": "/research/bsi/projects/adhoc/s304818.Single-cell-TCR-RNA-seq/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
+            "download": ["/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png", "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"],
+            "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/placeholder.png"
           }
         ]
       }

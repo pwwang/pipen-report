@@ -157,11 +157,12 @@ img.pipen-report-image-lg {
 	height: auto;  /* keep aspect ratio */
 }
 
-.pipen-report-image-frame {
+.pipen-report-image-frame, .pipen-report-plotly-frame {
 	width: 100%;
 	overflow-x: auto;
 	padding: 1.5rem;
 	background-color: var(--cds-background-hover);
+	position: relative;
 }
 
 .pipen-report-datatable-frame {
