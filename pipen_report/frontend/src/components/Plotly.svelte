@@ -51,6 +51,7 @@
         containerClass="pipen-report-plotly-container"
         bind:ref
         resize="both"
+        style="aspect-ratio: {width} / {height}"
         on:load={
             // trigger resize event to make the plot fill up the frame
             () => ref.setAttribute('width', width - 1)
@@ -61,5 +62,8 @@
 <style>
     :global(.pipen-report-plotly-container) {
         background-color: transparent !important;
+    }
+    :global(.pipen-report-plotly-container iframe) {
+        max-width: 55%;
     }
 </style>
