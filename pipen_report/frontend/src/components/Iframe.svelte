@@ -44,11 +44,17 @@
      */
     export let resize = "none";
 
+    /**
+     * The classes passed to the container
+     * @type {string}
+     */
+    export let containerClass = "";
+
     let loaded = false;
     const dispatch = createEventDispatcher();
 </script>
 
-<div class="pipen-report-iframe-container">
+<div class="pipen-report-iframe-container {containerClass}">
     {#if !loaded}
     <div class="pipen-report-iframe-indicator" style:width='{width}px' style:height='{height}px'>
         <InlineLoading description="Loading content ..." />
