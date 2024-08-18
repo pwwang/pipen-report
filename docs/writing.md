@@ -259,6 +259,7 @@ Already registered tags are:
     "DataTable": "src",
     "iframe": "src",
     "Iframe": "src",
+    "Plotly": "src",
     "Download": "href",
 }
 ```
