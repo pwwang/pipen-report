@@ -181,9 +181,15 @@ class PipenCliReport(CLIPlugin):
             print("The frontend directory:")
             print(f"\033[4m{nmdir}\033[0m")
             print("")
-            print("Running: npm update ...")
+            if not (nmdir / "node_modules").exists():
+                print("Running: npm install ... (first time setup)")
+                npm_command = "install"
+            else:
+                print("Running: npm update ...")
+                npm_command = "update"
+
             p = sp.Popen(
-                [get_config("npm"), "update"],
+                [get_config("npm"), npm_command],
                 cwd=str(nmdir),
                 stdout=sp.PIPE,
                 stderr=sp.STDOUT,

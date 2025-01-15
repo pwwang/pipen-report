@@ -14,6 +14,24 @@ def test_update():
 
 
 @pytest.mark.forked
+def test_update_first_time(tmp_path):
+    nmdir = tmp_path / "nmdir"
+    nmdir.mkdir()
+    out = sp.Popen(
+        ["pipen", "report", "config", "--local", "--nmdir", str(nmdir)],
+        cwd=str(tmp_path),
+        stdout=sp.PIPE,
+    )
+    assert out.wait() == 0
+
+    out = sp.Popen(["pipen", "report", "update"], cwd=str(tmp_path), stdout=sp.PIPE)
+    assert out.wait() == 0
+    stdout = out.stdout.read().decode()
+    assert "The frontend directory:" in stdout
+    assert "Running: npm install ... (first time setup)" in stdout
+
+
+@pytest.mark.forked
 def test_config(tmp_path):
 
     out = sp.Popen(["pipen", "report", "config", "--list"], stdout=sp.PIPE)
