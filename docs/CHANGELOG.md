@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.21.4
+
+- chore: update pytest-cov to version 6 in dev dependencies
+- feat: add markdown support for description rendering in reports
+- chore: specify Node.js engine version range in package.json
+- style: format code for improved readability and update max line length in tox.ini
+- feat: run 'npm install' instead of 'npm update' for first-time setup in CLI
+- chore: update rollup plugins and carbon-components-svelte to latest versions
+
 ## 0.21.3
 
 - chore: improve Plotly component with dynamic resizing
