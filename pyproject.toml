@@ -25,7 +25,7 @@ runinfo = ["pipen-runinfo"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^8"
-pytest-cov = "^5"
+pytest-cov = "^6"
 pytest-xdist = "^3"
 pytest-forked = "^1"
 pipen-filters = "^0.14"
