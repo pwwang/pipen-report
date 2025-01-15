@@ -301,11 +301,23 @@ def test_render_tab(cont, job, level, expected):
             1,
             f'{TAB}<Descr title="Title3">Content3</Descr>',
         ),
+        (
+            {
+                "content": "#### H4",
+                "once": False,
+                "title": "Title3",
+                "markdown": True,
+            },
+            {"index": 2},
+            1,
+            f'{TAB}<Descr title="Title3"><h4>H4</h4></Descr>',
+        ),
     ],
     ids=[
         "Test case 1: level 0",
         "Test case 2: level 0",
         "Test case 3: level 1",
+        "Test case 4: level 1",
     ],
 )
 def test_render_descr(cont, job, level, expected):

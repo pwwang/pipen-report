@@ -15,6 +15,7 @@ from contextlib import suppress
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
+from markdown import markdown as markdown_parse
 
 TAB = "  "
 
@@ -196,6 +197,9 @@ def _render_descr(
         return ""
 
     slot = str(cont.pop("content", cont.pop("descr", "")) or "")
+    markdown = cont.pop("markdown", False)
+    if markdown:
+        slot = markdown_parse(slot)
     title = cont.pop("title", cont.pop("name", None))
     return _tag("Descr", slot=slot, _level=level, title=title, **cont)
 
@@ -336,6 +340,7 @@ def _render_table_image(
     cont = cont.copy()
     name = cont.pop("name", cont.pop("title", cont.pop("caption", None)))
     descr = cont.pop("descr", None)
+    markdown = cont.pop("markdown", False)
     cont.setdefault("class", "pipen-report-table-image")
 
     return _tag(
@@ -347,6 +352,7 @@ def _render_table_image(
                         "content": descr,
                         "title": name,
                         "class": "pipen-report-table-image-descr",
+                        "markdown": markdown,
                     },
                     job=job,
                     level=1,

@@ -92,7 +92,8 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '            "kind": "descr",' >> $report_file
         echo '            "title": "Description title",' >> $report_file
         echo '            "style": "background-color: #e4e8ff",' >> $report_file
-        echo '            "content": "<p>This is a description about the section.</p><p>This is a description in another paragraph.</p>"' >> $report_file
+        echo '            "markdown": true,' >> $report_file
+        echo '            "content": "- This is a description about the section.\\n- This is a description in another paragraph."' >> $report_file
         echo '          },' >> $report_file
         echo '          {' >> $report_file
         echo '            "kind": "image",' >> $report_file
