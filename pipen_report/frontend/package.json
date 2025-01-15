@@ -7,6 +7,9 @@
   "scripts": {
     "build": "rollup -c"
   },
+  "engines": {
+    "node": ">=18.0.0 <21.0.0"
+  },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0",
     "@rollup/plugin-commonjs": "^26.0.0",
