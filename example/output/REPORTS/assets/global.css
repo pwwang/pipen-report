@@ -1,0 +1,309 @@
+.bx--header {
+	height: 7rem !important;
+}
+.bx--header h1 {
+	font-weight: 600 !important;
+}
+
+.bx--header__global {
+	align-items: center;
+}
+
+.bx--header-panel--expanded {
+	top: 7rem !important;
+	overflow-y: auto;
+}
+
+div[themes].bx--form-item {
+	padding-right: 3rem !important;
+}
+
+div[themes].bx--form-item > .bx--select--inline {
+	justify-content: flex-end;
+}
+
+div[themes].bx--form-item > .bx--select--inline select {
+	background-color: var(--cds-active-01);
+	height: 1.8rem;
+}
+
+div[themes].bx--form-item > .bx--select--inline label {
+	color: #b9b9b9 !important;
+}
+
+.bx--header__name {
+	padding-left: 1.6rem !important;
+}
+
+.bx--header~.bx--content {
+	margin-top: 7rem !important;
+	overflow-y: visible;
+}
+
+.bx--header~.bx--side-nav {
+	top: 7rem !important;
+}
+
+.header-tile{
+	background-color: #161616 !important;
+}
+
+.bx--header__action {
+	margin-right: 1rem;
+}
+.bx--header__action.bx--header__menu-trigger {
+	margin: 1rem 0 1rem 1rem;
+}
+
+.bx--table-toolbar {
+	/**
+	 * show entire tooltip
+	 */
+	/* overflow: visible !important; */
+	min-height: var(--cds-spacing-07) !important;
+}
+
+.bx--side-nav__submenu {
+	padding: 0 0.75rem !important;
+}
+
+.bx--side-nav__link-text, .bx--side-nav__submenu-title {
+	/** make first toc layer larger **/
+	font-size: 111% !important;
+}
+
+.bx--side-nav__menu a.bx--side-nav__link {
+	padding-left: 1.6em !important;
+}
+
+.pipen-report-sidenav li.toc-active {
+	box-shadow: inset 4px 0 0 0 #161616;
+}
+
+.bx--tab-content {
+	/** add frame to tab content **/
+	border: 1px solid var(--cds-ui-03);
+}
+
+.bx--tile--clickable {
+	height: 100%;
+}
+.bx--switcher__item:has(.procgroup-proc),
+.bx--switcher__item:has(.procgroup) {
+	height: auto;
+}
+.bx--switcher__item-link {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.bx--switcher__item-link.procgroup:hover {
+	background: unset;
+    cursor: default;
+    color: #9a9a9a;
+}
+.bx--switcher__item-link.procgroup {
+	color: #9a9a9a;
+    padding-bottom: 0.2rem;
+    cursor: default;
+    height: auto;
+}
+.bx--switcher__item-link.procgroup-proc {
+	padding-left: var(--cds-fluid-quotation-01-font-size, 1.25rem);
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+	height: auto;
+}
+
+.bx--accordion__heading {
+	background-color: rgb(from var(--cds-background-selected) r g b / 40%) !important;
+}
+
+.runinfo div.bx--inline-notification {
+	transform: scale(0.8);
+}
+
+.runinfo p.bx--inline-notification__title {
+	white-space: nowrap;
+}
+
+.runinfo .bx--accordion__content {
+	padding-right: 0 !important;
+}
+
+.runinfo .bx--snippet--multi {
+	background-color: var(--cds-field-02);
+}
+
+#main-content h3 {
+    margin: .3rem 0 .1rem 0;
+}
+#main-content h2 {
+    margin: .5rem 0 .2rem 0;
+}
+#main-content h1 {
+    margin: 1rem 0 .3rem 0;
+}
+
+img.pipen-report-image {
+	cursor: pointer;
+	max-width: 55%;
+	height: auto !important;  /* keep aspect ratio */
+	border: 2px solid #eee;
+}
+
+img.pipen-report-image-lg {
+	max-width: 100%;
+	height: auto;  /* keep aspect ratio */
+}
+
+.pipen-report-image-frame, .pipen-report-plotly-frame {
+	width: 100%;
+	overflow-x: auto;
+	padding: 1.5rem;
+	background-color: var(--cds-background-hover);
+	position: relative;
+}
+
+.pipen-report-datatable-frame {
+	width: 100%;
+	padding: 1.5rem;
+	background-color: var(--cds-background-hover);
+}
+
+.pipen-report-image-noborder {
+	border: 0 !important;
+}
+
+.pipen-report-footer {
+	/* text-align: right; */
+    /* padding-top: 2rem; */
+    font-size: small;
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.pipen-report-footer-versions {
+	font-style: italic;
+}
+
+.pipen-report-toc-anchor {
+	/* Make sure page navigate to the right position when toc item clicked */
+	position: relative;
+	scroll-margin-top: 250px;
+}
+
+.toc-noncurrent-page .bx--side-nav__link-text,
+.toc-noncurrent-page .bx--side-nav__submenu-title {
+	/* de-highlight the toc items not on current page */
+	color: var(--cds-text-on-color-disabled) !important;
+	font-style: italic;
+    font-weight: normal;
+}
+
+.bx--side-nav__item > button.bx--side-nav__submenu,
+.bx--side-nav__item > a.bx--side-nav__link {
+	padding: 0 0.75rem !important;
+}
+
+
+ul.bx--side-nav__items {
+	/* make sure all items in toc */
+	margin-bottom: 4rem;
+}
+
+.pagenav {
+	text-align: center;
+}
+
+.pagenav.down {
+	margin-top: 2rem;
+}
+
+/* distinguish procgroup card in index page */
+div.procgroup.bx--dropdown__wrapper div.bx--dropdown {
+	background-color: var(--cds-layer-accent);
+}
+
+/* Lazy load images */
+div.pipen-report-image-loading {
+	background-color: var(--cds-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--cds-active-01);
+	height: auto !important;
+	max-width: 55%;
+}
+div.pipen-report-image-loading.error {
+	background-color: var(--cds-notification-background-error);
+    color: var(--cds-danger-02);
+	height: auto !important;
+	max-width: 55%;
+}
+
+/* Fix list items */
+ul.bx--list--unordered {
+	list-style: inside square;
+	margin-left: .5rem;
+}
+
+ol.bx--list--ordered {
+	list-style: inside decimal;
+	margin-left: .5rem;
+}
+
+li.bx--list__item::before {
+	content: none !important;
+}
+
+/* classes used by filter report and related */
+.pipen-report-table-image {
+	max-width: 80% !important;
+}
+
+.pipen-report-table-image-descr {
+	margin-bottom: 0.4rem;
+}
+
+.pipen-report-table-of-images {
+	display: grid;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+.pipen-report-table-of-images > div {
+	min-width: 0;
+}
+
+@media (min-width: 640px) {
+	.bx--accordion__content {
+		padding-right: 2rem;
+	}
+}
+@media (min-width: 1300px) {
+	.bx--accordion__content {
+		padding-right: 15%;
+	}
+}
+
+.bx--data-table {
+	overflow: auto;
+	display: block;
+}
+.bx--data-table th {
+	width: 100vw !important;
+}
+
+code {
+	border: 1px solid var(--cds-active-01);
+    border-radius: 4px;
+    font-size: 90%;
+    padding: 2px 4px;
+	background-color: var(--cds-background);
+}
