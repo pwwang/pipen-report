@@ -35,7 +35,7 @@ TAG_RE = re.compile(r"<(?P<tag>[\w-]+)(?P<attrs>.*?)(?P<end>/?>)", re.DOTALL)
 
 # noqa: E501
 # <Image src="{{ job.in.inimg}}"
-#   download={ {"src": "{{ job.in.inimg } }", "tip": "Download the high resolution format"} } />
+#   download={ {"src": "{{ job.in.inimg } }", "tip": "Download the high resolution format"} } />  # noqa: E501
 # <Image src="{{ job.in.inimg}}"
 #   download={ {"src": 1, "tip": "Download the high resolution format"} } />
 # <Image src="{{ job.in.inimg}}"

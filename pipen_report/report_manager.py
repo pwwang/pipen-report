@@ -240,7 +240,7 @@ class ReportManager:
         if proc_or_pg == "_index":
             ulogger.info("Building home page ...")
         elif npages == 1:
-            ulogger.info(f"Building report ...")
+            ulogger.info("Building report ...")
         else:
             ulogger.info(f"Building report ({npages} pages) ...")
 

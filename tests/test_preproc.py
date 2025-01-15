@@ -46,7 +46,6 @@ def test_extlibs(tmp_path):
     assert "../Index/12.txt" in text
 
 
-
 @pytest.mark.parametrize(
     "source, index, page, kind, text, expected",
     [

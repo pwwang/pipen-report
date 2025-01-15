@@ -601,7 +601,7 @@ def _ui_table_of_images(
     """
     ncol = int(ui_arg or "2")
 
-    grid_col = "auto" if len(contents) >= ncol else f"{100./ncol}%"
+    grid_col = "auto" if len(contents) >= ncol else f"{100. / ncol}%"
     img_src = []
     for cont in contents:
         if isinstance(cont, str):
