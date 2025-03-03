@@ -7,7 +7,8 @@
             "kind": "descr",
             "title": "Description title",
             "style": "background-color: #e4e8ff",
-            "content": "<p>This is a description about the section.</p><p>This is a description in another paragraph.</p>"
+            "markdown": true,
+            "content": "- This is a description about the section.\n- This is a description in another paragraph."
           },
           {
             "kind": "image",

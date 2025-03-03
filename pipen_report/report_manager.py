@@ -9,11 +9,12 @@ import subprocess as sp
 import textwrap
 import traceback
 from contextlib import suppress
-from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
 
 from copier import run_copy
+from yunpath import CloudPath
+from xqute.path import DualPath
 from pipen import Proc, ProcGroup
 from pipen.exceptions import TemplateRenderingError
 from pipen.template import TemplateLiquid, TemplateJinja2
@@ -55,11 +56,22 @@ class ReportManager:
     def __init__(
         self,
         plugin_opts: Mapping[str, Any],
-        outdir: str | PathLike,
-        workdir: str | PathLike,
+        outdir: Path | CloudPath,
+        workdir: Path | CloudPath,
     ) -> None:
-        self.outdir = Path(outdir) / "REPORTS"
-        self.workdir = Path(workdir) / ".report-workdir"
+        # Make sure outdir and workdir are local paths
+        outdir = outdir / "REPORTS"
+        if isinstance(outdir, CloudPath):
+            self.outdir = DualPath(outdir, mounted=outdir.fspath).mounted
+        else:
+            self.outdir = DualPath(outdir).mounted
+
+        workdir = workdir / ".report-workdir"
+        if isinstance(workdir, CloudPath):
+            self.workdir = DualPath(workdir, mounted=workdir.fspath).mounted
+        else:
+            self.workdir = DualPath(workdir).mounted
+
         self.npm = get_config("npm", plugin_opts.get("report_npm"))
         self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))
         self.extlibs = get_config("extlibs", plugin_opts.get("report_extlibs"))

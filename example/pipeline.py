@@ -1,4 +1,5 @@
 """An example of using pipen-report to generate reports"""
+
 # also need to install pipen-filters
 from pathlib import Path
 from pipen import Proc, Pipen, ProcGroup
@@ -12,6 +13,7 @@ class MyProcGroup(ProcGroup):
 
         class PG1(Proc):
             """Copy the image over"""
+
             input = "inimg:file,plotly:file"
             output = [
                 "outimg:file:{{in.inimg | basename}}",
@@ -39,6 +41,7 @@ class MyProcGroup(ProcGroup):
 
         class PG2(self.p_pg1):
             """Copy the image over 2"""
+
             requires = self.p_pg1
 
         return PG2
@@ -49,6 +52,7 @@ pg = MyProcGroup()
 
 class ProcessNoTOC(Proc):
     """Report report_toc = False"""
+
     input = "inimg:file"
     requires = pg.starts
     # Use variable to skip checking
@@ -62,13 +66,14 @@ class ProcessNoTOC(Proc):
         <h1>Image</h1>
         <Descr>This is a description about the section.</Descr>
         <Image src="{{ job.in.inimg }}" download={ {"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format"} } />
-        """,
+        """,  # noqa: E501
         "report_toc": False,
     }
 
 
 class ProcessWithPagingWithAVeryLongProcessName(Proc):
     """Report with paging"""
+
     requires = ProcessNoTOC
     input = "inimg:file"
     # Use variable to skip checking
@@ -413,6 +418,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
 
 class ProcessWithoutHeadings(Proc):
     """A process without headings"""
+
     requires = ProcessWithPagingWithAVeryLongProcessName
     input = "inimg:file"
     output = "outimg:file:{{in.inimg | basename}}"
