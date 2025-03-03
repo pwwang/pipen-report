@@ -1,4 +1,5 @@
 """Report generation system for pipen"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
@@ -85,12 +86,9 @@ class PipenReport:
     async def on_start(self, pipen: "Pipen") -> None:
         """Check if we have the prerequisites for report generation"""
         loglevel = pipen.config.plugin_opts.report_loglevel
-        logger.setLevel(
-            loglevel
-            if isinstance(loglevel, int)
-            else loglevel.upper()
-        )
+        logger.setLevel(loglevel if isinstance(loglevel, int) else loglevel.upper())
         plugin_opts = pipen.config.plugin_opts or {}
+
         self.manager = ReportManager(plugin_opts, pipen.outdir, pipen.workdir)
         self.manager.check_npm_and_setup_dirs()
         self.manager.init_pipeline_data(pipen)
@@ -102,6 +100,7 @@ class PipenReport:
                 get_config("force_build", plugin_opts.get("report_force_build")),
                 True,
             )
+            await self.manager.sync_reports()
 
     @plugin.impl
     def on_proc_create(self, proc: Proc) -> None:
@@ -116,7 +115,7 @@ class PipenReport:
         proc_plugin_opts = proc.plugin_opts or {}
         if not proc_plugin_opts.get(
             "report_force_export",
-            pipeline_plugin_opts.get("report_force_export", False)
+            pipeline_plugin_opts.get("report_force_export", False),
         ):
             return
 
@@ -128,9 +127,7 @@ class PipenReport:
         proc.export = True
 
     @plugin.impl
-    async def on_proc_done(
-        self, proc: "Proc", succeeded: Union[str, bool]
-    ) -> None:
+    async def on_proc_done(self, proc: "Proc", succeeded: Union[str, bool]) -> None:
         """Generate reports for each process"""
         if succeeded is False:
             return
@@ -145,6 +142,7 @@ class PipenReport:
             get_config("force_build", plugin_opts.get("report_force_build")),
             succeeded == "cached",
         )
+        await self.manager.sync_reports(logfn=proc.log)
 
     @plugin.impl
     async def on_complete(self, pipen: "Proc", succeeded: bool) -> None:
@@ -156,9 +154,15 @@ class PipenReport:
         nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
 
         if not nobuild and len(self.manager.pipeline_data["entries"]) > 0:
-            logger.info("View the reports at %s/REPORTS", pipen.outdir)
+            logger.info(
+                "View the reports at %s/REPORTS",
+                getattr(pipen.outdir, "mounted", pipen.outdir),
+            )
             logger.info("Or run the following command to serve them:")
-            logger.info("$ pipen report serve -r %s", pipen.outdir)
+            logger.info(
+                "$ pipen report serve -r %s",
+                getattr(pipen.outdir, "mounted", pipen.outdir),
+            )
 
         del self.manager
         self.manager = None

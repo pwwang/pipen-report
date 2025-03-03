@@ -7,11 +7,13 @@ from functools import wraps
 from tempfile import gettempdir
 from typing import TYPE_CHECKING, Any, Callable
 
+from cloudpathlib.exceptions import OverwriteNewerCloudError
 from pipen.utils import get_logger
 from pipen import Proc
 from . import defaults
 
 if TYPE_CHECKING:
+    from pathlib import Path
     from logging import Logger
 
 
@@ -44,6 +46,7 @@ def _stringify(obj: Any) -> str:
 
 def cache_fun(func: Callable) -> Callable:
     """Decorator to cache the result of a function to disk"""
+
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         str_args = _stringify(args)
@@ -65,6 +68,20 @@ def cache_fun(func: Callable) -> Callable:
         return result
 
     return wrapper
+
+
+def rsync_to_cloud(path: Path) -> None:
+    # path must have a spec attribute and it must be a cloud path
+    if path.is_file():
+        try:
+            path.spec._upload_local_to_cloud(force_overwrite_to_cloud=False)
+        except OverwriteNewerCloudError:
+            path.spec._upload_local_to_cloud(force_overwrite_to_cloud=True)
+    else:  # is_dir()
+        path.spec.mkdir(parents=True, exist_ok=True)
+        for subpath in path.iterdir():
+            setattr(subpath, "spec", path.spec / subpath.name)
+            rsync_to_cloud(subpath)
 
 
 class UnifiedLogger:  # pragma: no cover

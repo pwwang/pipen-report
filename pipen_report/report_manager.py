@@ -10,7 +10,7 @@ import textwrap
 import traceback
 from contextlib import suppress
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Mapping, MutableMapping, Type
+from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
 
 from copier import run_copy
 from yunpath import CloudPath
@@ -22,7 +22,7 @@ from pipen.utils import get_base, desc_from_docstring, get_marked
 
 from .filters import FILTERS
 from .preprocess import preprocess
-from .utils import UnifiedLogger, get_config, logger
+from .utils import UnifiedLogger, get_config, logger, rsync_to_cloud
 from .versions import version_str
 
 if TYPE_CHECKING:
@@ -56,12 +56,15 @@ class ReportManager:
     def __init__(
         self,
         plugin_opts: Mapping[str, Any],
-        outdir: Path | CloudPath,
-        workdir: Path | CloudPath,
+        outdir: Path | CloudPath | DualPath,
+        workdir: Path | CloudPath | DualPath,
     ) -> None:
         # Make sure outdir and workdir are local paths
         outdir = outdir / "REPORTS"
-        if isinstance(outdir, CloudPath):
+        if isinstance(outdir, DualPath) and isinstance(outdir.path, CloudPath):
+            # modified by plugins like pipen-gcs
+            self.outdir = DualPath(outdir.path, mounted=outdir.path.fspath).mounted
+        elif isinstance(outdir, CloudPath):
             self.outdir = DualPath(outdir, mounted=outdir.fspath).mounted
         else:
             self.outdir = DualPath(outdir).mounted
@@ -239,7 +242,8 @@ class ReportManager:
             and not src_changed
         ):
             ulogger.info(
-                f"{'Home page' if proc == '_index' else proc_or_pg} cached, skipping"
+                f"{'Home page' if proc == '_index' else proc_or_pg} cached, "
+                "skipping report building."
             )
             return
 
@@ -585,3 +589,13 @@ class ReportManager:
             npages=npages,
             procgroup=procgroup.name if procgroup else None,
         )
+
+    async def sync_reports(self, logfn: Callable | None = None) -> None:
+        """Sync the reports to the cloud output directory if needed"""
+
+        if hasattr(self.outdir, "spec") and isinstance(self.outdir.spec, CloudPath):
+            if logfn:
+                logfn("info", "Syncing reports to cloud ...", logger=logger)
+            else:
+                logger.info("Syncing reports to cloud ...")
+            rsync_to_cloud(self.outdir)
