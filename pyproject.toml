@@ -13,7 +13,7 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pipen = { version = "^0.16.0a7", allow-prereleases = true }
+pipen = { version = "^0.16.0a8", allow-prereleases = true }
 Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"
