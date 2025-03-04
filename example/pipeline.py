@@ -65,7 +65,8 @@ class ProcessNoTOC(Proc):
         </script>
         <h1>Image</h1>
         <Descr>This is a description about the section.</Descr>
-        <Image src="{{ job.in.inimg }}" download={ {"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format"} } />
+        <Image src="{{ job.in.inimg }}"
+            download={ [{"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format"}, {"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format2"}] } />
         """,  # noqa: E501
         "report_toc": False,
     }

@@ -119,7 +119,7 @@
             transition:fade={{ duration: fadeIn ? fast02 : 0 }}
         />
         {#if showDownloadList}
-            <ImageDownloadList data={download} on:mouseenter={() => { clearTimeout(hideTimeout); showDownloadList = true; }} />
+            <ImageDownloadList dsrc={src} data={download} on:mouseenter={() => { clearTimeout(hideTimeout); showDownloadList = true; }} />
         {/if}
     {/if}
     {#if error}

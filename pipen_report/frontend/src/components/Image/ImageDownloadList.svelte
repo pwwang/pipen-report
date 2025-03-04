@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import ImageDownload from "./ImageDownload.svelte";
+    import ImageDimension from "./ImageDimension.svelte";
 
     /**
      * The urls related to this image for download
@@ -11,9 +12,16 @@
      */
     export let data = [];
 
+    /**
+     * The source of the displaying image
+     * @type {string}
+     */
+    export let dsrc = "";
+
     if (!Array.isArray(data)) {
         data = [data];
     }
+    data = [{src: "x", tip: "widthxheight"}, ...data];
     data = data.map((d) => {
         if (typeof d === "string") {
             return { src: d, tip: `Download the ${d.split(".").at(-1)} format.`, icon: "auto" };
@@ -40,7 +48,11 @@
     role="button"
     tabindex="0">
     {#each data as { src, tip, icon }, i}
-        <ImageDownload {src} {tip} {icon} />
+        {#if src === "x"}
+            <ImageDimension src={dsrc} {tip} />
+        {:else}
+            <ImageDownload {src} {tip} {icon} />
+        {/if}
     {/each}
 </div>
 {/if}
