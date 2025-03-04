@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pipen-report"
-version = "0.22.0a1"
+version = "0.22.0"
 description = "Report generation system for pipen"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
@@ -13,11 +13,11 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pipen = { version = "^0.16.0a8", allow-prereleases = true }
+pipen = "^0.16"
 Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"
-pipen-runinfo = { optional = true, version = "^0.9.0a1", allow-prereleases = true }
+pipen-runinfo = { optional = true, version = "^0.9.0", allow-prereleases = true }
 imagesize = "^1.4"
 
 [tool.poetry.extras]
@@ -28,9 +28,9 @@ pytest = "^8"
 pytest-cov = "^6"
 pytest-xdist = "^3"
 pytest-forked = "^1"
-pipen-filters = { version = "^0.15.0a1", allow-prereleases = true }
-pipen-gcs = { version = "^0.1.0a3", allow-prereleases = true }
-pipen-verbose = { version = "^0.13.0a2", allow-prereleases = true }
+pipen-filters = "^0.15"
+pipen-gcs = "^0.1"
+pipen-verbose = "^0.13"
 pillow = "^11"
 python-dotenv = "^1"
 cloudsh = "^0.1"

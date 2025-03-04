@@ -1220,13 +1220,13 @@ executing = ">=2.0,<3.0"
 
 [[package]]
 name = "pipen"
-version = "0.16.0a8"
+version = "0.16.0"
 description = "A pipeline framework for python"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen-0.16.0a8-py3-none-any.whl", hash = "sha256:cd5a255913de91bb32107ade8e2cecb56ae47db15cc672ec50efd78bec6b4cbe"},
-    {file = "pipen-0.16.0a8.tar.gz", hash = "sha256:63512fab632f56f24f98c56350dae46929137ec343c8676eed6b9987e9e5b436"},
+    {file = "pipen-0.16.0-py3-none-any.whl", hash = "sha256:0a824bf416469bea6957432647ef9e4342786dba01b2657aa183e22ceef9f607"},
+    {file = "pipen-0.16.0.tar.gz", hash = "sha256:5343fd3178ffe8716ab71426fbda9087bce202c0dade78003aa231875f0fa8c7"},
 ]
 
 [package.dependencies]
@@ -1241,60 +1241,60 @@ xqute = ">=0.8,<0.9"
 
 [[package]]
 name = "pipen-filters"
-version = "0.15.0a1"
+version = "0.15.0"
 description = "Add a set of useful filters for pipen templates"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen_filters-0.15.0a1-py3-none-any.whl", hash = "sha256:0447a9219789fce5bfd043752bd2c779105949f73d9d974ce23af9627c9d4d0a"},
-    {file = "pipen_filters-0.15.0a1.tar.gz", hash = "sha256:d763aae6acbe0dbb931713a380ccaffbb491f1bf8dfa79a7001303d32902b529"},
+    {file = "pipen_filters-0.15.0-py3-none-any.whl", hash = "sha256:2026d20132749e3aee8cd397c8fd81d4bf0e3237eb6a01a722c0c2e1d217edee"},
+    {file = "pipen_filters-0.15.0.tar.gz", hash = "sha256:1618ee3efbcca1d57f25a83e0a46a0c3bb9317fb2af448b88c1d66ce320a453e"},
 ]
 
 [package.dependencies]
-pipen = ">=0.16.0a4,<0.17.0"
+pipen = ">=0.16.0,<0.17.0"
 
 [[package]]
 name = "pipen-gcs"
-version = "0.1.0a3"
+version = "0.1.0"
 description = "A plugin for pipen to handle file metadata in Google Cloud Storage"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen_gcs-0.1.0a3-py3-none-any.whl", hash = "sha256:78398c40284333555a7c3d0c60929e3205f714679607e746fb63b3c209281ba0"},
-    {file = "pipen_gcs-0.1.0a3.tar.gz", hash = "sha256:7f92cb991e8d22e44163f719952f09d2c5a00114c2359f1e1a2bc4c56593e828"},
+    {file = "pipen_gcs-0.1.0-py3-none-any.whl", hash = "sha256:a8314e8a65a071c09c3e1f62520e2dc7b125a5ccd5ad315ee86bdf19bd5fc7cf"},
+    {file = "pipen_gcs-0.1.0.tar.gz", hash = "sha256:5e8cd84830cdb6ebaa27b73c0bb9f4a4f44862b2badd8845370610de6cfcfdc5"},
 ]
 
 [package.dependencies]
 google-cloud-storage = ">=3,<4"
-pipen = ">=0.16.0a1,<0.17.0"
+pipen = ">=0.16.0,<0.17.0"
 
 [[package]]
 name = "pipen-runinfo"
-version = "0.9.0a1"
+version = "0.9.0"
 description = "Generate running information for jobs in pipen pipelines"
 optional = true
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen_runinfo-0.9.0a1-py3-none-any.whl", hash = "sha256:d49876cd094b12be2a22f1a302337389c1057ebf20c62d80140fe34b118bbf48"},
-    {file = "pipen_runinfo-0.9.0a1.tar.gz", hash = "sha256:a2d83f6a81d3e932d0776db2e4ea4646be70ba775eeec7271b8da77f75d3b9d3"},
+    {file = "pipen_runinfo-0.9.0-py3-none-any.whl", hash = "sha256:c2168c867843beb9f8e2a730c8e0159e1b60b2e377492d16be57b27f6101f98a"},
+    {file = "pipen_runinfo-0.9.0.tar.gz", hash = "sha256:b9765ade124dee7f496f02705b8b1bea3a704a01ac81f2a458d6ebdad9922994"},
 ]
 
 [package.dependencies]
-pipen = ">=0.16.0a1,<0.17.0"
+pipen = ">=0.16.0,<0.17.0"
 
 [[package]]
 name = "pipen-verbose"
-version = "0.13.0a2"
+version = "0.13.0"
 description = "Add verbosal information in logs for pipen."
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "pipen_verbose-0.13.0a2-py3-none-any.whl", hash = "sha256:2385457f9314235aac7cd9d2744a1fef1bf848c259cb974aba31024365e6f8be"},
-    {file = "pipen_verbose-0.13.0a2.tar.gz", hash = "sha256:7e2297e70de1085c9fb0cadc1fac64bf70a450ca691541296038d3161de67c89"},
+    {file = "pipen_verbose-0.13.0-py3-none-any.whl", hash = "sha256:f8a13a475319b4d658d1fe13b83e52c75f88c77db8e36ef469cedb9ef640015c"},
+    {file = "pipen_verbose-0.13.0.tar.gz", hash = "sha256:1cfbc3b933eeae9df42d472ad662c379a8b89cb387ce4e97852c76551f975303"},
 ]
 
 [package.dependencies]
-pipen = ">=0.16.0a1,<0.17.0"
+pipen = ">=0.16.0,<0.17.0"
 
 [[package]]
 name = "platformdirs"
@@ -2232,4 +2232,4 @@ runinfo = ["pipen-runinfo"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "fc2698924d93da3283bad25df41ec4c9e576a183cc33ae7afb9b382d03f96e77"
+content-hash = "76261c0f79665ef0b5cfa933cf996880032bbdcb85d5f549e3678b708bd16e0e"
