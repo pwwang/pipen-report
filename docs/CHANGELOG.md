@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.22.0
+
+- chore: update pipen to 0.16.0 and related dependencies to latest
+- feat: adopt the case where outdir is a cloud path (when pipen-gcs is applied)
+- feat: enhance report manager to support cloud caching
+- fix: use ".spec" paths to render report templates
+- feat: add example pipeline for gbatch scheduler
+- feat: add ImageDimension component and integrate it into ImageDownloadList
+
 ## 0.21.4
 
 - chore: update pytest-cov to version 6 in dev dependencies
