@@ -16,6 +16,7 @@ from copier import run_copy
 from yunpath import CloudPath, GSClient
 from xqute.path import DualPath
 from pipen import Proc, ProcGroup
+from pipen.defaults import ProcInputType, ProcOutputType
 from pipen.exceptions import TemplateRenderingError
 from pipen.template import TemplateLiquid, TemplateJinja2
 from pipen.utils import get_base, desc_from_docstring, get_marked
@@ -172,7 +173,7 @@ class ReportManager:
         out["filters"] = {**template_opts.get("filters", {}), **FILTERS}
         return out
 
-    def _rendering_data(self, proc: "Proc") -> Mapping[str, Any]:
+    def _rendering_data(self, proc: Proc) -> Mapping[str, Any]:
         """Compute the data to render report template
 
         Args:
@@ -184,12 +185,37 @@ class ReportManager:
 
         def jobdata(job: Job) -> Mapping[str, Any]:
             """Get data from each job"""
+
+            # Do not use the mounted paths, since we are not building
+            # in the job execution environment
+            indata = {}
+            for inkey, intype in proc.input.type.items():
+
+                if intype == ProcInputType.VAR or job.input[inkey] is None:
+                    indata[inkey] = job.input[inkey]
+                    continue
+
+                if intype in (ProcInputType.FILE, ProcInputType.DIR):
+                    indata[inkey] = job.input[inkey].spec
+
+                if intype in (ProcInputType.FILES, ProcInputType.DIRS):
+                    indata[inkey] = [f.spec for f in job.input[inkey]]
+
+            outdata = {}
+            for outkey, outtype in job._output_types.items():
+
+                if outtype == ProcOutputType.VAR:
+                    outdata[outkey] = job.output[outkey]
+                    continue
+
+                outdata[outkey] = job.output[outkey].spec
+
             data = job.template_data["job"].copy()
             data.update(
                 {
-                    "in": job.template_data["in"],
-                    "in_": job.template_data["in_"],
-                    "out": job.template_data["out"],
+                    "in": indata,
+                    "in_": indata,
+                    "out": outdata,
                 }
             )
             return data
@@ -202,6 +228,7 @@ class ReportManager:
         # first job
         rendering_data["job"] = rendering_data["jobs"][0]
         rendering_data["job0"] = rendering_data["jobs"][0]
+
         return rendering_data
 
     def _npm_run_build(
