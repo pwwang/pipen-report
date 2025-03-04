@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
 
 from copier import run_copy
-from yunpath import CloudPath
+from yunpath import CloudPath, GSClient
 from xqute.path import DualPath
 from pipen import Proc, ProcGroup
 from pipen.exceptions import TemplateRenderingError
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from pipen.job import Job
     from pipen.template import Template
 
-ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
 def _render_file(
@@ -58,19 +58,31 @@ class ReportManager:
         plugin_opts: Mapping[str, Any],
         outdir: Path | CloudPath | DualPath,
         workdir: Path | CloudPath | DualPath,
+        cachedir_for_cloud: str,
     ) -> None:
+        """Initialize the report manager"""
+        client = GSClient(local_cache_dir=cachedir_for_cloud)
         # Make sure outdir and workdir are local paths
         outdir = outdir / "REPORTS"
         if isinstance(outdir, DualPath) and isinstance(outdir.path, CloudPath):
             # modified by plugins like pipen-gcs
             self.outdir = DualPath(outdir.path, mounted=outdir.path.fspath).mounted
         elif isinstance(outdir, CloudPath):
+            # specified directly
+            if outdir.client._cache_tmp_dir:
+                # default client, no specific local_cache_dir of client specified
+                outdir = client.CloudPath(str(outdir))
+
             self.outdir = DualPath(outdir, mounted=outdir.fspath).mounted
         else:
             self.outdir = DualPath(outdir).mounted
 
         workdir = workdir / ".report-workdir"
         if isinstance(workdir, CloudPath):
+            if workdir.client._cache_tmp_dir:
+                # default client, no specific local_cache_dir of client specified
+                workdir = client.CloudPath(str(workdir))
+
             self.workdir = DualPath(workdir, mounted=workdir.fspath).mounted
         else:
             self.workdir = DualPath(workdir).mounted
@@ -95,17 +107,14 @@ class ReportManager:
         npm = shutil.which(self.npm)
         if npm is None:  # pragma: no cover
             logger.error(
-                "Cannot find npm. Please install it or specify the path "
-                "to npm by:"
+                "Cannot find npm. Please install it or specify the path to npm by:"
             )
             logger.error("$ pipen report config [--local] --npm <path/to/npm>")
             sys.exit(1)
 
         if not self.nmdir.is_dir():  # pragma: no cover
             logger.error("Invalid nmdir: %s", self.nmdir)
-            logger.error(
-                "Run `pipen report config [--local] --nmdir ...` to set it"
-            )
+            logger.error("Run `pipen report config [--local] --nmdir ...` to set it")
             sys.exit(1)
 
         # check if frontend dependencies are installed
@@ -235,16 +244,13 @@ class ReportManager:
                 or srcfile.stat().st_mtime > destfile.stat().st_mtime
             )
 
-        if (
-            destfile.exists()
-            and not force_build
-            and cached
-            and not src_changed
-        ):
-            ulogger.info(
-                f"{'Home page' if proc == '_index' else proc_or_pg} cached, "
-                "skipping report building."
-            )
+        if destfile.exists() and not force_build and cached and not src_changed:
+            if proc == "_index":
+                ulogger.info("Home page cached, skipping report building")
+                ulogger.info(f"- workdir: {self.workdir}")
+            else:
+                ulogger.info(f"{proc_or_pg} cached, skipping report building.")
+
             return
 
         ulogger.debug(
@@ -255,6 +261,7 @@ class ReportManager:
         )
         if proc_or_pg == "_index":
             ulogger.info("Building home page ...")
+            ulogger.info(f"- workdir: {self.workdir}")
         elif npages == 1:
             ulogger.info("Building report ...")
         else:
@@ -283,8 +290,8 @@ class ReportManager:
                     line = line.decode()
                     logline = ansi_escape.sub("", line).rstrip()
                     # src/pages/_index/index.js → public/index/index.js
-                    flog.write(ansi_escape.sub('', line))
-                    if ' → ' in logline and logline.startswith('src/pages/'):
+                    flog.write(ansi_escape.sub("", line))
+                    if " → " in logline and logline.startswith("src/pages/"):
                         ulogger.info(f"- {logline.split(' → ')[0]}")
 
                     if logline.startswith(chars_to_error):  # pragma: no cover
@@ -340,15 +347,12 @@ class ReportManager:
                 "desc": proc.desc or desc_from_docstring(proc, Proc),
                 "npages": 1,
                 "report_toc": True,
-                "order": (
-                    (proc.plugin_opts or {}).get("report_order", 0) * 1000 + i
-                ),
+                "order": ((proc.plugin_opts or {}).get("report_order", 0) * 1000 + i),
             }
 
             pg = proc.__meta__["procgroup"]
-            if (
-                self.no_collapse_pgs is True
-                or (pg and pg.name in self.no_collapse_pgs)
+            if self.no_collapse_pgs is True or (
+                pg and pg.name in self.no_collapse_pgs
             ):  # pragma: no cover
                 pg = None
 
@@ -412,13 +416,12 @@ class ReportManager:
                 "session": runinfo_sess,
                 "time": runinfo_time,
                 "device": runinfo_dev,
-            }
+            },
         }
 
         pg = proc.__meta__["procgroup"]
-        if (
-            self.no_collapse_pgs is True
-            or (pg and pg.name in self.no_collapse_pgs)
+        if self.no_collapse_pgs is True or (
+            pg and pg.name in self.no_collapse_pgs
         ):  # pragma: no cover
             pg = None
 
@@ -455,9 +458,11 @@ class ReportManager:
                     proc.__class__,
                     Proc,
                     report,
-                    lambda klass: None
-                    if klass.plugin_opts is None
-                    else str(klass.plugin_opts.get("report", None)),
+                    lambda klass: (
+                        None
+                        if klass.plugin_opts is None
+                        else str(klass.plugin_opts.get("report", None))
+                    ),
                 )
                 report_tpl = Path(inspect.getfile(base)).parent / report_tpl
             report = report_tpl.read_text()
@@ -483,6 +488,7 @@ class ReportManager:
             report_toc,
             report_paging,
             report_relpath_tags,
+            logfn=lambda *args, **kwargs: proc.log(*args, **kwargs, logger=logger),
         )
 
         if len(toc) > 10 and not report_paging:  # pragma: no cover
@@ -598,4 +604,7 @@ class ReportManager:
                 logfn("info", "Syncing reports to cloud ...", logger=logger)
             else:
                 logger.info("Syncing reports to cloud ...")
+                logger.info(f" {self.outdir}")
+                logger.info(f" → {self.outdir.spec}")
+
             rsync_to_cloud(self.outdir)

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
+from tempfile import gettempdir
 from typing import TYPE_CHECKING, Union
 from pipen import plugin
 
@@ -68,6 +70,9 @@ class PipenReport:
         # Tags with properties that need to convert to relative paths
         # i.e. {"Image": "src"}
         pipen.config.plugin_opts.setdefault("report_relpath_tags", None)
+        # pipeline-level
+        # The base temporary directory when workdir is on cloud
+        pipen.config.plugin_opts.setdefault("report_cachedir_for_cloud", None)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)
@@ -83,13 +88,23 @@ class PipenReport:
         pipen.config.plugin_opts.setdefault("report_paging", False)
 
     @plugin.impl
-    async def on_start(self, pipen: "Pipen") -> None:
+    async def on_start(self, pipen: Pipen) -> None:
         """Check if we have the prerequisites for report generation"""
         loglevel = pipen.config.plugin_opts.report_loglevel
         logger.setLevel(loglevel if isinstance(loglevel, int) else loglevel.upper())
         plugin_opts = pipen.config.plugin_opts or {}
 
-        self.manager = ReportManager(plugin_opts, pipen.outdir, pipen.workdir)
+        cachedir_for_cloud = pipen.config.plugin_opts.report_cachedir_for_cloud
+        if cachedir_for_cloud is None:
+            dig = sha256(f"{pipen.workdir}...{pipen.outdir}".encode()).hexdigest()[:8]
+            cachedir_for_cloud = f"{gettempdir()}/pipen-report-cache-{dig}"
+
+        self.manager = ReportManager(
+            plugin_opts,
+            pipen.outdir,
+            pipen.workdir,
+            cachedir_for_cloud=cachedir_for_cloud,
+        )
         self.manager.check_npm_and_setup_dirs()
         self.manager.init_pipeline_data(pipen)
 
@@ -127,7 +142,7 @@ class PipenReport:
         proc.export = True
 
     @plugin.impl
-    async def on_proc_done(self, proc: "Proc", succeeded: Union[str, bool]) -> None:
+    async def on_proc_done(self, proc: Proc, succeeded: Union[str, bool]) -> None:
         """Generate reports for each process"""
         if succeeded is False:
             return
@@ -145,7 +160,7 @@ class PipenReport:
         await self.manager.sync_reports(logfn=proc.log)
 
     @plugin.impl
-    async def on_complete(self, pipen: "Proc", succeeded: bool) -> None:
+    async def on_complete(self, pipen: Proc, succeeded: bool) -> None:
         """Render and compile the entire report"""
         if not succeeded:
             return
@@ -154,15 +169,10 @@ class PipenReport:
         nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
 
         if not nobuild and len(self.manager.pipeline_data["entries"]) > 0:
-            logger.info(
-                "View the reports at %s/REPORTS",
-                getattr(pipen.outdir, "mounted", pipen.outdir),
-            )
+
+            logger.info("View the reports at %s", self.manager.outdir)
             logger.info("Or run the following command to serve them:")
-            logger.info(
-                "$ pipen report serve -r %s",
-                getattr(pipen.outdir, "mounted", pipen.outdir),
-            )
+            logger.info("$ pipen report serve -r %s", self.manager.outdir.parent)
 
         del self.manager
         self.manager = None

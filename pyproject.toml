@@ -29,10 +29,11 @@ pytest-cov = "^6"
 pytest-xdist = "^3"
 pytest-forked = "^1"
 pipen-filters = { version = "^0.15.0a1", allow-prereleases = true }
-pipen-gcs = { version = "^0.1.0a2", allow-prereleases = true }
-pipen-verbose = { version = "^0.13.0a1", allow-prereleases = true }
+pipen-gcs = { version = "^0.1.0a3", allow-prereleases = true }
+pipen-verbose = { version = "^0.13.0a2", allow-prereleases = true }
 pillow = "^11"
 python-dotenv = "^1"
+cloudsh = "^0.1"
 
 [build-system]
 requires = ["poetry>=1.0"]

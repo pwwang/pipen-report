@@ -1,9 +1,8 @@
-"""pipen-report example using pipen-gcs to localize the cloud files"""
+"""pipen-report example using using cloud workdir and outdir native support"""
 
 import os
 from pipen import Proc, Pipen
 from dotenv import load_dotenv
-import pipen_gcs  # noqa: F401
 
 load_dotenv()
 BUCKET = os.getenv("BUCKET")
@@ -15,7 +14,7 @@ class ImageProcess(Proc):
     input = "infile:file"
     output = "outfile:file:{{in.infile.stem}}.png"
     script = """
-        cp {{in.infile}} {{out.outfile}}
+        cloudsh cp {{in.infile}} {{out.outfile}}
     """
     plugin_opts = {
         "report": """
@@ -34,8 +33,8 @@ class TableProcess(Proc):
     input = "infile:file"
     output = "outfile:file:{{in.infile.stem}}.txt"
     script = """
-    echo "head1,head2" > {{out.outfile}}
-    echo "data1,data2" >> {{out.outfile}}
+        echo "head1,head2" | cloudsh sink {{out.outfile}}
+        echo "data1,data2" | cloudsh sink -a {{out.outfile}}
     """
     plugin_opts = {
         "report": """
@@ -48,13 +47,17 @@ class TableProcess(Proc):
     }
 
 
-class PipelineCloud1(Pipen):
+class PipelineCloud2(Pipen):
     """Pipeline to create an image and a table"""
 
     starts = ImageProcess
     data = [[f"gs://{BUCKET}/pipen-report-example/placeholder.png"]]
-    outdir = f"gs://{BUCKET}/pipen-report-example/cloud1-outdir"
+    outdir = f"gs://{BUCKET}/pipen-report-example/cloud2-outdir"
+    workdir = f"gs://{BUCKET}/pipen-report-example/cloud2-workdir"
+    plugin_opts = {
+        "report_loglevel": "debug",
+    }
 
 
 if __name__ == "__main__":
-    PipelineCloud1().run()
+    PipelineCloud2().run()

@@ -107,7 +107,7 @@ def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(path.name)
 
-    output = _path_to_url(path, basedir)
+    output = _path_to_url(str(path), basedir, "TAG", lambda *args: None)
 
     if absolute and not relative_to:
         expected = Path(list(basedir.glob(expected))[0]).relative_to(basedir).as_posix()
@@ -138,7 +138,7 @@ def test_preprocess_relpath_tag(tagstr, expected, tmp_path):
     basedir.mkdir(parents=True, exist_ok=True)
     tagstr = tagstr.format(basedir=basedir, tmp_path=tmp_path)
     matching = TAG_RE.match(tagstr)
-    assert _preprocess_relpath_tag(matching, basedir) == expected
+    assert _preprocess_relpath_tag(matching, basedir, None, lambda *args: None) == expected
 
 
 def test_preprocess_relpath_tag_imagesize(tmp_path):
@@ -150,7 +150,7 @@ def test_preprocess_relpath_tag_imagesize(tmp_path):
     tagstr = f'<Image src="{imgfile}" />'
     matching = TAG_RE.match(tagstr)
     expected = '<Image src="../file.png" width={100} height={50} />'
-    assert _preprocess_relpath_tag(matching, basedir) == expected
+    assert _preprocess_relpath_tag(matching, basedir, None, lambda *args: None) == expected
 
 
 def test_prepocess_markdown():
@@ -170,7 +170,7 @@ def test_preprocess_section(tmp_path):
             {"slug": "prt-h2-2-subsection-2", "text": "Subsection 2", "children": [], "page": 1},
         ],
     )
-    assert _preprocess_section(source, 1, 1, tmp_path) == expected
+    assert _preprocess_section(source, 1, 1, tmp_path, None, lambda *args: None) == expected
 
 
 def test_preprocess1(tmp_path):
@@ -212,7 +212,7 @@ def test_preprocess1(tmp_path):
             },
         ],
     )
-    assert preprocess(source, tmp_path, True, 1) == expected
+    assert preprocess(source, tmp_path, True, 1, None, lambda *args: None) == expected
 
 
 def test_preprocess2(tmp_path):
@@ -249,4 +249,4 @@ def test_preprocess2(tmp_path):
             }
         ],
     )
-    assert preprocess(source, basedir, True, 1) == expected
+    assert preprocess(source, basedir, True, 1, None, lambda *args: None) == expected

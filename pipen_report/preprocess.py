@@ -1,15 +1,16 @@
 """Provides preprocess"""
+
 from __future__ import annotations
 
 import math
 import json
 import hashlib
 import re
-import shutil
 import imagesize
 from contextlib import suppress
+from yunpath import AnyPath, CloudPath
 from pathlib import Path
-from typing import Any, List, Mapping, Sequence, Tuple, Union
+from typing import Any, List, Mapping, Sequence, Tuple, Union, Callable
 
 from slugify import slugify
 
@@ -50,7 +51,7 @@ TAG_ATTR_RE = re.compile(
     )
     (?=\s+[\w-]+=|\s*$)
     """,
-    re.VERBOSE | re.DOTALL
+    re.VERBOSE | re.DOTALL,
 )
 
 
@@ -88,7 +89,7 @@ def _preprocess_slash_h(
     )
 
 
-def _path_to_url(path: Path | str, basedir: Path) -> str:
+def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
     """Convert a path to a url to be used in the html
 
     If the path is a relative path to basedir.parent, it will be converted
@@ -98,28 +99,44 @@ def _path_to_url(path: Path | str, basedir: Path) -> str:
     Args:
         path: The path to be converted
         basedir: The base directory, usually, path/to/REPORTS
+        tag: The tag name
 
     Returns:
         The url
     """
+    path_passed = path
+    apath = AnyPath(path)
+    basedir_spec = getattr(basedir, "spec", basedir)
     try:
-        path = Path(path).relative_to(basedir.parent)
+        path = apath.relative_to(basedir_spec.parent)
     except ValueError:
         # if it's a relative path, suppose it is pages
         # otherwise, it's a path to the results
-        if Path(path).is_absolute():
-            path = Path(path)
+        if isinstance(apath, CloudPath) or apath.is_absolute():
             # If we can't get the relative path, that means those files
             # are not exported, we need to copy the file to a directory
             # where the html file can access
-            suffix = hashlib.md5(str(path).encode()).hexdigest()[:8]
-            newpath = f"data/{path.stem}.{suffix}{path.suffix}"
-            shutil.copyfile(path, basedir / newpath)
-            # path = f"../../{path}"
-            path = newpath
+            logfn(
+                "warning",
+                f"An external resource ({path}) detected for {tag}, "
+                "copying it to REPORTS/data ...",
+            )
+            suffix = hashlib.sha256(path.encode()).hexdigest()[:8]
+            path = f"data/{apath.stem}.{suffix}{apath.suffix}"
+
+            (basedir / path).write_bytes(apath.read_bytes())
+
+        # It's a relative path to the basedir, just use it
     else:
         # results are at uplevel dir
         path = f"../{path}"
+
+    path_via_base = basedir_spec.joinpath(path)
+    if isinstance(apath, CloudPath) and not path_via_base.joinpath(path).exists():
+        # The outdir is on cloud, we need to download the file
+        logfn("debug", f"Downloading {path_passed} for report building ...")
+        path_via_base.parent.mkdir(parents=True, exist_ok=True)
+        apath.download_to(path_via_base)
 
     return str(path)
 
@@ -127,7 +144,8 @@ def _path_to_url(path: Path | str, basedir: Path) -> str:
 def _preprocess_relpath_tag(
     matching: re.Match,
     basedir: Path,
-    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
+    relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    logfn: Callable,
 ) -> str:
     """Preprocess tags with paths to be redirected"""
     pathval = None
@@ -158,13 +176,13 @@ def _preprocess_relpath_tag(
 
             for i, av in enumerate(av2):
                 if isinstance(av, str):
-                    av2[i] = {"src": _path_to_url(av, basedir)}
+                    av2[i] = {"src": _path_to_url(av, basedir, tag, logfn)}
                 elif isinstance(av, dict):
-                    av["src"] = _path_to_url(av["src"], basedir)
-            return f' {attrname}={{ {json.dumps(av2)} }}'
+                    av["src"] = _path_to_url(av["src"], basedir, tag, logfn)
+            return f" {attrname}={{ {json.dumps(av2)} }}"
 
         pathval = attrval
-        urlval = _path_to_url(attrval, basedir)
+        urlval = _path_to_url(attrval, basedir, tag, logfn)
         return f' {attrname}="{urlval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
@@ -174,9 +192,9 @@ def _preprocess_relpath_tag(
             width, height = imagesize.get(pathval)
             if width > 0 and height > 0:
                 if "width=" not in attrs:
-                    attrs = f'{attrs.rstrip()} width={{{width}}} '
+                    attrs = f"{attrs.rstrip()} width={{{width}}} "
                 if "height=" not in attrs:
-                    attrs = f'{attrs.rstrip()} height={{{height}}} '
+                    attrs = f"{attrs.rstrip()} height={{{height}}} "
 
     return f"<{tag}{attrs}{matching.group('end')}"
 
@@ -205,7 +223,8 @@ def _preprocess_section(
     h2_index: int,
     page: int,
     basedir: Path,
-    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
+    relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    logfn: Callable,
 ) -> Tuple[str, List[Mapping[str, Any]]]:
     """Preprocesss a section of the document (between h1 tags)
 
@@ -219,7 +238,7 @@ def _preprocess_section(
     # handle relpath tags
     section = re.sub(
         TAG_RE,
-        lambda m: _preprocess_relpath_tag(m, basedir, relpath_tags),
+        lambda m: _preprocess_relpath_tag(m, basedir, relpath_tags, logfn),
         section,
     )
 
@@ -247,7 +266,8 @@ def preprocess(
     basedir: Path,
     toc_switch: bool,
     paging: Union[bool, int],
-    relpath_tags: Mapping[str, str | Sequence[str]] | None = None,
+    relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    logfn: Callable,
 ) -> Tuple[List[str], List[Mapping[str, Any]]]:
     """Preprocess the rendered report and return the toc dict
 
@@ -285,6 +305,7 @@ def preprocess(
             page=0,
             basedir=basedir,
             relpath_tags=relpath_tags,
+            logfn=logfn,
         )
         return [section], []
 
@@ -298,9 +319,7 @@ def preprocess(
     for i, splt in enumerate(splits[1:]):
         page = i // 2 // paging
         if i % 2 == 0:  # h1
-            h1, toc_item = _preprocess_slash_h(
-                splt, index=i // 2, page=page, kind="h1"
-            )
+            h1, toc_item = _preprocess_slash_h(splt, index=i // 2, page=page, kind="h1")
             pages[page].append(h1)
             if toc_switch:
                 toc.append(toc_item)
@@ -312,6 +331,7 @@ def preprocess(
                 page=page,
                 basedir=basedir,
                 relpath_tags=relpath_tags,
+                logfn=logfn,
             )
             h2_index += len(toc_items)
             pages[page].append(section)
