@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, 
 
 from copier import run_copy
 from yunpath import CloudPath, GSClient
-from xqute.path import DualPath
+from xqute.path import SpecCloudPath, MountedPath
 from pipen import Proc, ProcGroup
 from pipen.defaults import ProcInputType, ProcOutputType
 from pipen.exceptions import TemplateRenderingError
@@ -57,26 +57,26 @@ class ReportManager:
     def __init__(
         self,
         plugin_opts: Mapping[str, Any],
-        outdir: Path | CloudPath | DualPath,
-        workdir: Path | CloudPath | DualPath,
+        outdir: Path | CloudPath,
+        workdir: Path | CloudPath,
         cachedir_for_cloud: str,
     ) -> None:
         """Initialize the report manager"""
         client = GSClient(local_cache_dir=cachedir_for_cloud)
         # Make sure outdir and workdir are local paths
         outdir = outdir / "REPORTS"
-        if isinstance(outdir, DualPath) and isinstance(outdir.path, CloudPath):
+        if isinstance(outdir, SpecCloudPath):
             # modified by plugins like pipen-gcs
-            self.outdir = DualPath(outdir.path, mounted=outdir.path.fspath).mounted
+            self.outdir = MountedPath(outdir.fspath, spec=outdir)
         elif isinstance(outdir, CloudPath):
             # specified directly
             if outdir.client._cache_tmp_dir:
                 # default client, no specific local_cache_dir of client specified
                 outdir = client.CloudPath(str(outdir))
 
-            self.outdir = DualPath(outdir, mounted=outdir.fspath).mounted
+            self.outdir = MountedPath(outdir.fspath, spec=outdir)
         else:
-            self.outdir = DualPath(outdir).mounted
+            self.outdir = MountedPath(outdir)
 
         workdir = workdir / ".report-workdir"
         if isinstance(workdir, CloudPath):
@@ -84,9 +84,9 @@ class ReportManager:
                 # default client, no specific local_cache_dir of client specified
                 workdir = client.CloudPath(str(workdir))
 
-            self.workdir = DualPath(workdir, mounted=workdir.fspath).mounted
+            self.workdir = MountedPath(workdir.fspath, spec=workdir)
         else:
-            self.workdir = DualPath(workdir).mounted
+            self.workdir = MountedPath(workdir)
 
         self.npm = get_config("npm", plugin_opts.get("report_npm"))
         self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))

@@ -13,11 +13,11 @@ generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pipen = "^0.16"
+pipen = "0.17.*"
 Markdown = "^3"
 copier = "^9"
 python-slugify = "^8.0"
-pipen-runinfo = { optional = true, version = "^0.9.0", allow-prereleases = true }
+pipen-runinfo = { optional = true, version = "^0.9" }
 imagesize = "^1.4"
 
 [tool.poetry.extras]
@@ -29,8 +29,8 @@ pytest-cov = "^6"
 pytest-xdist = "^3"
 pytest-forked = "^1"
 pipen-filters = "^0.15"
-pipen-gcs = "^0.1"
-pipen-verbose = "^0.13"
+pipen-gcs = "^0.2"
+pipen-verbose = "^0.14"
 pillow = "^11"
 python-dotenv = "^1"
 cloudsh = "^0.1"
