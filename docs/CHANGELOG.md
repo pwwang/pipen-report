@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.23.0
+
+- chore(deps): bump pipen to 0.17
+
 ## 0.22.0
 
 - chore: update pipen to 0.16.0 and related dependencies to latest
