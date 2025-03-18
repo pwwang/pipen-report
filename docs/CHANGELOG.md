@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.23.1
+
+- chore: suppress UserWarning when initializing GSClient in ReportManager
+- chore: update poetry.lock to include latest dependencies
+
 ## 0.23.0
 
 - chore(deps): bump pipen to 0.17
