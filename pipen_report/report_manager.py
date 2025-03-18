@@ -8,6 +8,7 @@ import sys
 import subprocess as sp
 import textwrap
 import traceback
+import warnings
 from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
@@ -62,7 +63,12 @@ class ReportManager:
         cachedir_for_cloud: str,
     ) -> None:
         """Initialize the report manager"""
-        client = GSClient(local_cache_dir=cachedir_for_cloud)
+        with warnings.catch_warnings():
+            # UserWarning: Your application has authenticated using
+            # end user credentials from Google Cloud SDK without a quota project.
+            warnings.simplefilter("ignore", UserWarning)
+            client = GSClient(local_cache_dir=cachedir_for_cloud)
+
         # Make sure outdir and workdir are local paths
         outdir = outdir / "REPORTS"
         if isinstance(outdir, SpecCloudPath):
