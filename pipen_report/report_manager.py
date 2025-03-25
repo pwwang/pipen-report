@@ -8,13 +8,13 @@ import sys
 import subprocess as sp
 import textwrap
 import traceback
-import warnings
 from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
 
 from copier import run_copy
 from yunpath import CloudPath, GSClient
+from cloudpathlib import AzureBlobClient, S3Client, GSPath, S3Path, AzureBlobPath
 from xqute.path import SpecCloudPath, MountedPath
 from pipen import Proc, ProcGroup
 from pipen.defaults import ProcInputType, ProcOutputType
@@ -63,14 +63,27 @@ class ReportManager:
         cachedir_for_cloud: str,
     ) -> None:
         """Initialize the report manager"""
-        with warnings.catch_warnings():
-            # UserWarning: Your application has authenticated using
-            # end user credentials from Google Cloud SDK without a quota project.
-            warnings.simplefilter("ignore", UserWarning)
-            client = GSClient(local_cache_dir=cachedir_for_cloud)
+        outdir = outdir / "REPORTS"
+
+        if isinstance(outdir, GSPath):
+            outdir_client = GSClient(local_cache_dir=cachedir_for_cloud)
+        elif isinstance(outdir, S3Path):
+            outdir_client = S3Client(local_cache_dir=cachedir_for_cloud)
+        elif isinstance(outdir, AzureBlobPath):
+            outdir_client = AzureBlobClient(local_cache_dir=cachedir_for_cloud)
+        else:
+            outdir_client = None
+
+        if isinstance(workdir, GSPath):
+            workdir_client = GSClient(local_cache_dir=cachedir_for_cloud)
+        elif isinstance(workdir, S3Path):
+            workdir_client = S3Client(local_cache_dir=cachedir_for_cloud)
+        elif isinstance(workdir, AzureBlobPath):
+            workdir_client = AzureBlobClient(local_cache_dir=cachedir_for_cloud)
+        else:
+            workdir_client = None
 
         # Make sure outdir and workdir are local paths
-        outdir = outdir / "REPORTS"
         if isinstance(outdir, SpecCloudPath):
             # modified by plugins like pipen-gcs
             self.outdir = MountedPath(outdir.fspath, spec=outdir)
@@ -78,7 +91,7 @@ class ReportManager:
             # specified directly
             if outdir.client._cache_tmp_dir:
                 # default client, no specific local_cache_dir of client specified
-                outdir = client.CloudPath(str(outdir))
+                outdir = outdir_client.CloudPath(str(outdir))
 
             self.outdir = MountedPath(outdir.fspath, spec=outdir)
         else:
@@ -88,7 +101,7 @@ class ReportManager:
         if isinstance(workdir, CloudPath):
             if workdir.client._cache_tmp_dir:
                 # default client, no specific local_cache_dir of client specified
-                workdir = client.CloudPath(str(workdir))
+                workdir = workdir_client.CloudPath(str(workdir))
 
             self.workdir = MountedPath(workdir.fspath, spec=workdir)
         else:
