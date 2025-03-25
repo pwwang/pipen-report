@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.23.2
+
+- feat: enhance ReportManager to support multiple cloud clients for outdir and workdir
+- chore: bump up frontend deps
+
 ## 0.23.1
 
 - chore: suppress UserWarning when initializing GSClient in ReportManager
