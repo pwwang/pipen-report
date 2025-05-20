@@ -152,7 +152,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '            ]' >> $report_file
         echo '          },' >> $report_file
         echo '          {' >> $report_file
-        echo '            "title": "Table of Images 3",' >> $report_file
+        echo '            "title": "Table of Images 3 but with a very long tab name 3",' >> $report_file
         echo '            "ui": "table_of_images:3",' >> $report_file
         echo '            "contents": [' >> $report_file
         echo '              {' >> $report_file

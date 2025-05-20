@@ -26,7 +26,16 @@
 			const suffix = page === 0 ? '' : `-${page}`;
 
 			import_css(`./pages/${proc}${suffix}.css`);
-			System.import(`./pages/${proc}${suffix}.js`);
+			System.import(`./pages/${proc}${suffix}.js`).then(function() {
+				// Add title to the tab names so that the full name of the tab will be shown
+				// when hovering over the tab, in case the name is too long
+				document.querySelectorAll('ul[role="tablist"] li[role="presentation"] a[role="tab"]').forEach(
+					link => {
+						link.setAttribute('title', link.textContent.trim());
+					}
+				);
+			});
+
 		})();
 	</script>
 </head>
