@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.23.3
+
+- enh(font): update tab titles to show full names on hover
+- feat(front): add Math component for rendering LaTeX expressions
+- chore: update dependencies
+
 ## 0.23.2
 
 - feat: enhance ReportManager to support multiple cloud clients for outdir and workdir
