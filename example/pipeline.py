@@ -61,12 +61,19 @@ class ProcessNoTOC(Proc):
     plugin_opts = {
         "report": """
         <script>
-            import { Image, Descr } from '$lib';
+            import { Image, Descr, Math } from '$lib';
         </script>
         <h1>Image</h1>
         <Descr>This is a description about the section.</Descr>
         <Image src="{{ job.in.inimg }}"
             download={ [{"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format"}, {"src": "{{ job.in.inimg }}", "tip": "Download the high resolution format2"}] } />
+        <h1>Math</h1>
+        <p>Some text</p>
+        <Math>a+b^2</Math>
+        <p>Some text</p>
+        <Math>\\sqrt{'{x^2+y^2}'}</Math>
+        <p>Some text</p>
+        <Math displayMode>a+b^2</Math>
         """,  # noqa: E501
         "report_toc": False,
     }
