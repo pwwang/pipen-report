@@ -199,6 +199,28 @@ def _preprocess_relpath_tag(
     return f"<{tag}{attrs}{matching.group('end')}"
 
 
+def _preprocess_math(source: str) -> str:
+    """Preprocess the Math tag
+
+    A Math tag with latex content within it, which will be then encoded as base64 string
+    with a data url.
+    """
+    def callback(matching):
+        # encode the latex content as base64 string
+        from base64 import b64encode
+
+        tag = matching.group(1)
+        latex = matching.group(2)
+        return f"{tag}data:text/plain;base64,{b64encode(latex.encode()).decode()}</Math>"
+
+    return re.sub(
+        r"(<Math[^>]*?>)(.+?)</Math>",
+        callback,
+        source,
+        flags=re.DOTALL,
+    )
+
+
 def _preprocess_markdown(source: str) -> str:
     """Preprocess Markdown tag
 
@@ -234,6 +256,7 @@ def _preprocess_section(
         page: which page are we on?
         basedir: The base directory to save the relative path resources
     """
+    section = _preprocess_math(section)
     section = _preprocess_markdown(section)
     # handle relpath tags
     section = re.sub(

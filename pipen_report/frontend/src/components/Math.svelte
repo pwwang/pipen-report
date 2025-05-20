@@ -9,10 +9,21 @@
 
 	let slot;
 	let slotContent = '';
+    let html = '';
+    let markup = '';
 
-	$: slotContent = slot?.innerText ?? '';
-	$: markup = latex ?? slotContent ?? '';
-	$: html = temml.renderToString(markup, { displayMode, ...options });
+	$: {
+        slotContent = slot?.innerText ?? '';
+	    markup = latex ?? slotContent ?? '';
+        // check if markup is base64 encoded (data:text/plain;base64,...)
+        if (markup.startsWith('data:text/plain;base64,')) {
+            // decode base64
+            const base64 = markup.split(',')[1];
+            const decoded = atob(base64);
+            markup = decoded;
+        }
+	    html = temml.renderToString(markup, { displayMode, ...options });
+    }
 </script>
 
 <!-- Display rendered math -->

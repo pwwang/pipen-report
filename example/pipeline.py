@@ -72,6 +72,7 @@ class ProcessNoTOC(Proc):
         <Math>a+b^2</Math>
         <p>Some text</p>
         <Math>\\sqrt{'{x^2+y^2}'}</Math>
+        <Math>\\sqrt{x^2+y^2}</Math>
         <p>Some text</p>
         <Math displayMode>a+b^2</Math>
         """,  # noqa: E501
