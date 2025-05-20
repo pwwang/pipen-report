@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.23.4
+
+- feat(front): add base64 encoding for Math tag content where the braces can avoided to be translate by svelte⏎
+
 ## 0.23.3
 
 - enh(font): update tab titles to show full names on hover
