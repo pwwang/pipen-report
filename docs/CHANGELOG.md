@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.23.5
+
+- chore(deps): bump pipen to 0.17.8
+- chore(deps): move docs dependencies to pypoetry.toml
+- chore: update frontend dependencies in package-lock.json
+- chore: update example report output
+
 ## 0.23.4
 
 - feat(front): add base64 encoding for Math tag content where the braces can avoided to be translate by svelte⏎
