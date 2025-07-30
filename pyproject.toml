@@ -35,6 +35,12 @@ pillow = "^11"
 python-dotenv = "^1"
 cloudsh = "^0.1"
 
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6"
+mkdocs-rtd = "^0.0"
+pymdown-extensions = "10.*"
+mkapi-fix = "^0.1"
+
 [build-system]
 requires = ["poetry>=1.0"]
 build-backend = "poetry.masonry.api"

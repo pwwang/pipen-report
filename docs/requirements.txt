@@ -1,7 +1,0 @@
-# use_directory_urls doesn't work for newer versions
-mkdocs
-# AttributeError: module 'jinja2' has no attribute 'contextfilter'
-# jinja2==3.1.0
-mkdocs-rtd
-pymdown-extensions
-mkapi-fix
