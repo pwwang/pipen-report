@@ -1,7 +1,6 @@
 <script>
   import {
     Header,
-    HeaderUtilities,
     HeaderAction,
     HeaderPanelLinks,
     HeaderPanelDivider,
@@ -29,7 +28,7 @@
     {logotext}
     {/if}
   </Tile>
-  <HeaderUtilities class="header-util">
+  <div class:bx--header__global={true} class="header-util">
     <Theme
       render="select"
       theme="g10"
@@ -67,12 +66,21 @@
       </HeaderPanelLinks>
     </HeaderAction>
     {/if}
-  </HeaderUtilities>
+  </div>
 </Header>
 
 <style>
-  :global(.head-util) {
+  :global(.header-util .bx--select--inline) {
     /* to keep it while resizing */
-    width: 2rem;
+    justify-content: flex-end;
+  }
+  :global(.header-util .bx--label) {
+    color: #cfcfcf;
+  }
+  :global(.header-util .bx--select-input) {
+    background-color: var(--cds-ui-background, #ffffff);
+    outline-color: var(--cds-border-inverse, #f4f4f4);
+    font-size: var(--cds-caption-01-font-size, 0.75rem);
+    height: 2rem;
   }
 </style>
