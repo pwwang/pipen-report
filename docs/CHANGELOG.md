@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.23.6
+
+- fix(ui): fix the theme selector not aligning to the right
+- chore: update dependencies
+
 ## 0.23.5
 
 - chore(deps): bump pipen to 0.17.8
