@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.23.7
+
+- fix: fix rsync_to_cloud function not syncing folders
+- fix: fix preprocessing with gbatch scheduler
+- style: improve formatting in _preprocess_math function
+- fix: update path handling in render_job and _render_table functions
+- chore(deps): bump pipen to 0.17.11
+- fix: ensure path is converted to string in _render_table
+- chore: update .gitignore to include git bundle files
+
 ## 0.23.6
 
 - fix(ui): fix the theme selector not aligning to the right
