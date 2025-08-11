@@ -122,7 +122,7 @@ class ReportManager:
     def check_npm_and_setup_dirs(self) -> None:
         """Check if npm is available"""
 
-        logger.debug("Checking npm and frontend dependencies ...")
+        logger.info("Checking npm and frontend dependencies ...")
 
         npm = shutil.which(self.npm)
         if npm is None:  # pragma: no cover
@@ -527,10 +527,17 @@ class ReportManager:
                 f"[{proc.name}] Failed to render report file."
             ) from exc
 
+        mounted_outdir = getattr(proc.xqute.scheduler, "MOUNTED_OUTDIR", None)
+        if mounted_outdir:
+            mounted_outdir = (
+                MountedPath(proc.pipeline.outdir, spec=mounted_outdir) / "REPORTS"
+            )
+        else:
+            mounted_outdir = self.outdir
         # preprocess the rendered report and get the toc
         rendered_parts, toc = preprocess(
             rendered,
-            self.outdir,
+            mounted_outdir,
             report_toc,
             report_paging,
             report_relpath_tags,
