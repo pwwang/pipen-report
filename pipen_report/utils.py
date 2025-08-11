@@ -8,13 +8,14 @@ from tempfile import gettempdir
 from typing import TYPE_CHECKING, Any, Callable
 
 from cloudpathlib.exceptions import OverwriteNewerCloudError
+from xqute.path import MountedPath
 from pipen.utils import get_logger
-from pipen import Proc
+from pipen import Proc  # type: ignore[import]
 from . import defaults
 
 if TYPE_CHECKING:
-    from pathlib import Path
     from logging import Logger
+    from xqute.path import MountedCloudPath, MountedLocalPath
 
 
 logger = get_logger("report")
@@ -70,18 +71,19 @@ def cache_fun(func: Callable) -> Callable:
     return wrapper
 
 
-def rsync_to_cloud(path: Path) -> None:
+def rsync_to_cloud(path: MountedCloudPath | MountedLocalPath) -> None:
     # path must have a spec attribute and it must be a cloud path
+    spec = path.spec
     if path.is_file():
         try:
-            path.spec._upload_local_to_cloud(force_overwrite_to_cloud=False)
+            spec._upload_local_to_cloud(force_overwrite_to_cloud=False)  # type: ignore
         except OverwriteNewerCloudError:
-            path.spec._upload_local_to_cloud(force_overwrite_to_cloud=True)
+            spec._upload_local_to_cloud(force_overwrite_to_cloud=True)  # type: ignore
     else:  # is_dir()
-        path.spec.mkdir(parents=True, exist_ok=True)
+        spec.mkdir(parents=True, exist_ok=True)  # type: ignore
         for subpath in path.iterdir():
-            setattr(subpath, "spec", path.spec / subpath.name)
-            rsync_to_cloud(subpath)
+            subpath = MountedPath(subpath, spec=spec / subpath.name)  # type: ignore
+            rsync_to_cloud(subpath)  # type: ignore
 
 
 class UnifiedLogger:  # pragma: no cover
