@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+
+	<link rel='icon' type='image/png' href='./assets/favicon.png'>
+	<link rel='stylesheet' href='./assets/ccs.css'>
+	<link rel='stylesheet' href='./assets/global.css'>
+
+	<script src='./assets/system.min.js'></script>
+	<script defer type="text/javascript">
+		(function(){
+			// get proc and page from query string of URL
+			const url = new URL(window.location.href);
+			const proc = url.searchParams.get('proc') || '_index';
+			const page = parseInt(url.searchParams.get('page') || 0);
+
+			const import_css = function(href) {
+				let link = document.createElement('link');
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = href;
+				document.head.appendChild(link);
+			};
+			const suffix = page === 0 ? '' : `-${page}`;
+
+			import_css(`./pages/${proc}${suffix}.css`);
+			System.import(`./pages/${proc}${suffix}.js`).then(function() {
+				// Add title to the tab names so that the full name of the tab will be shown
+				// when hovering over the tab, in case the name is too long
+				document.querySelectorAll('ul[role="tablist"] li[role="presentation"] a[role="tab"]').forEach(
+					link => {
+						link.setAttribute('title', link.textContent.trim());
+					}
+				);
+			});
+
+		})();
+	</script>
+</head>
+<body></body>
+</html>
