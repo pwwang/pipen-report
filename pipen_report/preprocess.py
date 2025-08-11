@@ -211,7 +211,9 @@ def _preprocess_math(source: str) -> str:
 
         tag = matching.group(1)
         latex = matching.group(2)
-        return f"{tag}data:text/plain;base64,{b64encode(latex.encode()).decode()}</Math>"
+        return (
+            f"{tag}data:text/plain;base64,{b64encode(latex.encode()).decode()}</Math>"
+        )
 
     return re.sub(
         r"(<Math[^>]*?>)(.+?)</Math>",
