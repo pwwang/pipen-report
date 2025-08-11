@@ -292,7 +292,7 @@ def _render_table(
         path = spec_outdir / path.relative_to(outdir)
 
     if src is True:
-        attrs["src"] = path
+        attrs["src"] = str(path)
 
     attrs["data"] = json.loads(datatable(path, **data))
     return _tag("DataTable", **attrs, _level=level)

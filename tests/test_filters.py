@@ -439,7 +439,7 @@ def test_render_list(cont, job, level, expected):
                 "data": {"file": str(datafile)},
                 "src": False,
             },
-            {},
+            {"outdir": "/tmp"},
             0,
             (
                 '<DataTable\n'
@@ -463,7 +463,7 @@ def test_render_list(cont, job, level, expected):
                 "data": {"file": str(datafile)},
                 "src": True,
             },
-            {},
+            {"outdir": "/tmp"},
             0,
             (
                 '<DataTable\n'
@@ -490,7 +490,7 @@ def test_render_list(cont, job, level, expected):
                 "src": False,
                 "pageSize": 2,
             },
-            {},
+            {"outdir": "/tmp"},
             1,
             (
                 f'{TAB}<DataTable\n'
@@ -951,9 +951,9 @@ def test_ui_accordion():
     ],
 )
 def test_render_component(cont, func):
-    result = render_component(cont, {}, 0)
+    result = render_component(cont, {"outdir": "/tmp"}, 0)
     del cont["kind"]
-    assert result == func(cont, {}, 0)
+    assert result == func(cont, {"outdir": "/tmp"}, 0)
 
 
 def test_render_unknown_kind():
