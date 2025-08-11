@@ -131,3 +131,6 @@ TrackingNumCells.html
 /output
 gac_key.json
 .pipen.toml
+
+# git bundle files
+*.bundle
