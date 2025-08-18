@@ -11,13 +11,15 @@
     const get_url = () => {
         let url = new URL(window.location.href);
         url.hash = "";
-        const curpage = parseInt(url.searchParams.get("page") || 0);
+        const proc = url.searchParams.get("proc") || "_index";
+        // if the proc is _index, the page should be 0
+        // if the proc is _index-1, the page should be 1, etc.
+        const curpage = parseInt((proc.match(/-(\d+)$/) || ["-0", "0"])[1]);
         const topage = dir === "up" ? curpage - 1 : curpage + 1;
-        if (topage === 0) {
-            url.searchParams.delete("page");
-        } else {
-            url.searchParams.set("page", topage);
-        }
+        const procbase = proc.replace(/-\d+$/, "");
+        const toproc = topage === 0 ? procbase : `${procbase}-${topage}`;
+
+        url.searchParams.set("proc", toproc);
 
         return url.toString()
     };

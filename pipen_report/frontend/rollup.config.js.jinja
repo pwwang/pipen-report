@@ -8,7 +8,7 @@ import json from '@rollup/plugin-json';
 import data from './src/data.json' assert { type: 'json' };
 import { optimizeImports, optimizeCss } from "carbon-preprocess-svelte";
 
-const commonConfig = (proc_name = null, page = 0, cssfile = 'index.css') => ({
+const commonConfig = (cssfile = 'index.css') => ({
 	preserveSymlinks: true,  // for extlibs
 	plugins: [
 		svelte({
@@ -80,7 +80,7 @@ const procConfig = (proc) => {
 				entryFileNames: `${proc.name}${suffix}.js`,
 				...outputConfig
 			},
-			...commonConfig(proc.name, i, `${proc.name}${suffix}.css`)
+			...commonConfig(`${proc.name}${suffix}.css`)
 		});
 	}
 	return out;

@@ -14,19 +14,15 @@
 			// get proc and page from query string of URL
 			const url = new URL(window.location.href);
 			const proc = url.searchParams.get('proc') || '_index';
-			const page = parseInt(url.searchParams.get('page') || 0);
+			const css = `./pages/${proc}.css`;
 
-			const import_css = function(href) {
-				let link = document.createElement('link');
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = href;
-				document.head.appendChild(link);
-			};
-			const suffix = page === 0 ? '' : `-${page}`;
+			let link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = css;
+			document.head.appendChild(link);
 
-			import_css(`./pages/${proc}${suffix}.css`);
-			System.import(`./pages/${proc}${suffix}.js`).then(function() {
+			System.import(`./pages/${proc}.js`).then(function() {
 				// Add title to the tab names so that the full name of the tab will be shown
 				// when hovering over the tab, in case the name is too long
 				document.querySelectorAll('ul[role="tablist"] li[role="presentation"] a[role="tab"]').forEach(

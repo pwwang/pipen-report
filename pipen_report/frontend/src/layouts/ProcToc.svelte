@@ -21,17 +21,9 @@
         }
         let url = new URL(window.location.href);
         url.hash = "";
-        url.searchParams.set("page", toc_page);
-        // if (toc_page === 0) {
-        //     url.pathname = url.pathname.replace(/-\d+\.html/, ".html");
-        // } else if (page === 0 && url.pathname.endsWith(".html")) {
-        //     url.pathname = url.pathname.replace(".html", `-${toc_page}.html`);
-        // } else if (page === 0) {
-        //     // index.html is hidden in the url by some servers
-        //     url.pathname = `${url.pathname.replace(/\/$/, '')}/index-${toc_page}.html`;
-        // } else {
-        //     url.pathname = url.pathname.replace(/-\d+\.html/, `-${toc_page}.html`);
-        // }
+        const proc = url.searchParams.get("proc") || "_index";
+        const procbase = proc.replace(/-\d+$/, "");
+        url.searchParams.set("proc", toc_page === 0 ? procbase : `${procbase}-${toc_page}`);
 
         return url.toString()
     };
