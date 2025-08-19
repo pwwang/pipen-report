@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.23.8
+
+- fix: fix paging handling
+- chore(deps): bump pipen to 0.17.13
+- chore(frontend): bump up frontend dependencies
+
 ## 0.23.7
 
 - fix: fix rsync_to_cloud function not syncing folders
