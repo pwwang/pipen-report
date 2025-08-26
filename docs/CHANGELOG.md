@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.23.9
+
+- feat: add patch copier for fail-safe chmod handling
+- chore: bump frontend dependencies to latest versions
+
 ## 0.23.8
 
 - fix: fix paging handling
