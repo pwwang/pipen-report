@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.23.10
+
+- chore: require copier at least v9.5
+- chore: suppress DeprecationWarning for copier v9.10
+- chore: bump frontend @ibm/telemetry-js to 1.10.2 and @jridgewell/trace-mapping to 0.3.31
+- chore: set instantiate to True in PipenReport class
+
 ## 0.23.9
 
 - feat: add patch copier for fail-safe chmod handling
