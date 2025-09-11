@@ -43,6 +43,7 @@ class PipenReport:
 
     version = __version__
     name = "report"
+    instantiate = True
 
     @plugin.impl
     async def on_init(self, pipen: Pipen) -> None:
