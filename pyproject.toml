@@ -15,7 +15,7 @@ generate-setup-file = true
 python = "^3.9"
 pipen = "0.17.*"
 Markdown = "^3"
-copier = "^9"
+copier = "^9.5"
 python-slugify = "^8.0"
 pipen-runinfo = { optional = true, version = "^0.9" }
 imagesize = "^1.4"
