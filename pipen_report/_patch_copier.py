@@ -6,10 +6,16 @@ This is because `chmod` is not allowed for gcsfuse-mounted files.
 See: https://github.com/copier-org/copier/issues/2298
 """
 from __future__ import annotations
+
+import warnings
 from typing import TYPE_CHECKING
 
 from contextlib import suppress
-from copier import Worker  # v9.9.1
+
+# suppress DeprecationWarning for copier v9.10+
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    from copier import Worker  # v9.9.1
 from copier.errors import YieldTagInFileError
 
 if TYPE_CHECKING:
