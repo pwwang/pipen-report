@@ -787,17 +787,17 @@ def render_job(
     out_append = out.append
     for h1, section in toc_obj.items():
         h1 = h1.split("#", 1)[0].strip()
-        out_append(_tag(f"h{h}", slot=h1))
+        out_append(_tag(f"h{h}", slot=html.escape(h1)))
 
         for h2, subsection in section.items():
             h2 = h2.split("#", 1)[0].strip()
             if h2:
-                out_append(_tag(f"h{h + 1}", slot=h2))
+                out_append(_tag(f"h{h + 1}", slot=html.escape(h2)))
 
             for title, content in subsection.items():
                 title = title.split("#", 1)[0].strip()
                 if title:
-                    out_append(_tag(f"h{h + 2}", slot=title))
+                    out_append(_tag(f"h{h + 2}", slot=html.escape(title)))
 
                 for ui, conts in content.items():
                     ui = ui.split("#", 1)[0].strip()
