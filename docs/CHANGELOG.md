@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.23.11
+
+- fix: escape HTML in render_job headings
+
 ## 0.23.10
 
 - chore: require copier at least v9.5
