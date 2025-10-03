@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.23.12
+
+- chore: bump yunpath to 0.0.5
+- feat: optimize npm checking and dir setting up
+- fix: ensure extlibs directory is created without errors
+- fix: update nmdir handling in _update command
+- tests: update subprocess calls to use sys.executable
+- chore: update frontend dependencies
+- chore: update dependencies
+
 ## 0.23.11
 
 - fix: escape HTML in render_job headings
