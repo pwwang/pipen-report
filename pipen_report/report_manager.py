@@ -157,6 +157,7 @@ class ReportManager:
         exdir = self.workdir / "src" / "extlibs"
         with suppress(Exception):
             exdir.rmtree()
+        with suppress(Exception):
             exdir.mkdir(parents=True, exist_ok=True)
 
         # Check if self.workdir is writable
