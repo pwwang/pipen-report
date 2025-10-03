@@ -12,6 +12,7 @@ from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
 
+from liquid import Liquid
 from copier import run_copy
 from yunpath import CloudPath, GSClient
 from cloudpathlib import AzureBlobClient, S3Client, GSPath, S3Path, AzureBlobPath
@@ -143,6 +144,8 @@ class ReportManager:
             logger.error("Run `pipen report update` to install them")
             sys.exit(1)
 
+        self.workdir.mkdir(parents=True, exist_ok=True)
+
         pubdir = self.workdir / "public"
         if pubdir.is_symlink():
             pubdir.unlink()
@@ -152,33 +155,38 @@ class ReportManager:
             nmdir.unlink()
 
         exdir = self.workdir / "src" / "extlibs"
-        shutil.rmtree(exdir, ignore_errors=True)
-        exdir.mkdir(parents=True, exist_ok=True)
+        with suppress(Exception):
+            exdir.rmtree()
+            exdir.mkdir(parents=True, exist_ok=True)
 
-        # Copy nmdir to workdir
+        # Check if self.workdir is writable
         try:
-            run_copy(
-                str(self.nmdir),
-                self.workdir,
-                data=None if not self.extlibs else {"extlibs": self.extlibs},
-                quiet=True,
-                overwrite=True,
-            )
-        except Exception as e:  # pragma: no cover
-            logger.error("Failed to copy frontend dependencies to workdir")
-            logger.error("nmdir: %s", self.nmdir)
-            logger.error("workdir: %s", self.workdir)
-            logger.error("ERROR: %s", e)
+            testfile = self.workdir / ".writetest"
+            testfile.write_text("test")
+            testfile.unlink()
+        except Exception:  # pragma: no cover
+            logger.error("The report workdir is not writable:")
+            logger.error("  %s", self.workdir)
             traces = traceback.format_exc().splitlines()
             for trace in traces:
                 logger.debug(trace)
             sys.exit(1)
 
-        pubdir = self.workdir / "public"
-        run_copy(str(pubdir), self.outdir, overwrite=True, quiet=True)
-        shutil.rmtree(pubdir, ignore_errors=True)
-        pubdir.symlink_to(self.outdir)
+        # Copy rollup config file to workdir
+        rollup_config = self.nmdir.joinpath("rollup.config.js.jinja").read_text()
+        rollup_config = Liquid(rollup_config, from_file=False).render(
+            extlibs=self.extlibs
+        )
+        self.workdir.joinpath("rollup.config.js").write_text(rollup_config)
 
+        self.nmdir.joinpath("public").copytree(self.outdir)
+        self.nmdir.joinpath("src").copytree(self.workdir / "src")
+        self.nmdir.joinpath("package.json").copy(self.workdir / "package.json")
+        self.nmdir.joinpath("package-lock.json").copy(
+            self.workdir / "package-lock.json"
+        )
+
+        pubdir.symlink_to(self.outdir)
         nmdir.symlink_to(self.nmdir / "node_modules")
 
         if self.extlibs:
