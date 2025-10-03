@@ -574,8 +574,8 @@ files = [
 google-auth = ">=2.14.1,<3.0.0"
 googleapis-common-protos = ">=1.56.2,<2.0.0"
 proto-plus = [
+    {version = ">=1.22.3,<2.0.0"},
     {version = ">=1.25.0,<2.0.0", markers = "python_version >= \"3.13\""},
-    {version = ">=1.22.3,<2.0.0", markers = "python_version < \"3.13\""},
 ]
 protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<7.0.0"
 requests = ">=2.18.0,<3.0.0"
@@ -1337,9 +1337,9 @@ files = [
 
 [package.dependencies]
 numpy = [
-    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
     {version = ">=1.22.4", markers = "python_version < \"3.11\""},
     {version = ">=1.23.2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -2644,14 +2644,14 @@ gs = ["google-cloud-storage (>=3,<4)"]
 
 [[package]]
 name = "yunpath"
-version = "0.0.4"
+version = "0.0.5"
 description = "Monkey patch cloudpathlib to fix issues or add features"
 optional = false
 python-versions = "<4.0,>=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "yunpath-0.0.4-py3-none-any.whl", hash = "sha256:f965a404a6c2749b8a8eb87e40af96276910bbfefb9c664a68c56d492c1d4a63"},
-    {file = "yunpath-0.0.4.tar.gz", hash = "sha256:94931d4d04a3c4fb6d36c67ceb162623b2efdd2d45643ddeb181f7ec21cf90b8"},
+    {file = "yunpath-0.0.5-py3-none-any.whl", hash = "sha256:f3f5cab35aea2f3cd1452a27d52877b8438c54674cb3261e34d1af884c5f370d"},
+    {file = "yunpath-0.0.5.tar.gz", hash = "sha256:2e4d0cb2beefa461b2622ae633583fabb59dd1d103eab219c77abf0113f3238b"},
 ]
 
 [package.dependencies]
