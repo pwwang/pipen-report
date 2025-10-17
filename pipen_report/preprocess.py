@@ -8,7 +8,8 @@ import hashlib
 import re
 import imagesize
 from contextlib import suppress
-from yunpath import AnyPath, CloudPath
+from cloudpathlib import GSPath, AzureBlobPath, S3Path, CloudPath
+from yunpath import AnyPath
 from pathlib import Path
 from typing import Any, List, Mapping, Sequence, Tuple, Union, Callable
 
@@ -112,7 +113,10 @@ def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
     except ValueError:
         # if it's a relative path, suppose it is pages
         # otherwise, it's a path to the results
-        if isinstance(apath, CloudPath) or apath.is_absolute():
+        if isinstance(apath, (GSPath, AzureBlobPath, S3Path)) or (
+            # New in cloudpathlib 0.23.0 HttpsPath is added as a CloudPath
+            apath.is_absolute() and not isinstance(apath, CloudPath)
+        ):
             # If we can't get the relative path, that means those files
             # are not exported, we need to copy the file to a directory
             # where the html file can access
@@ -132,7 +136,10 @@ def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
         path = f"../{path}"
 
     path_via_base = basedir_spec.joinpath(path)
-    if isinstance(apath, CloudPath) and not path_via_base.joinpath(path).exists():
+    if (
+        isinstance(apath, (GSPath, AzureBlobPath, S3Path))
+        and not path_via_base.joinpath(path).exists()
+    ):
         # The outdir is on cloud, we need to download the file
         logfn("debug", f"Downloading {path_passed} for report building ...")
         path_via_base.parent.mkdir(parents=True, exist_ok=True)
@@ -205,6 +212,7 @@ def _preprocess_math(source: str) -> str:
     A Math tag with latex content within it, which will be then encoded as base64 string
     with a data url.
     """
+
     def callback(matching):
         # encode the latex content as base64 string
         from base64 import b64encode
