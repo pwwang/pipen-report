@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.23.13
+
+- chore: update dependencies
+- fix: fix https link being treated as cloud path by cloudpathlib v0.23+
+- feat: support bunjs as frontend builder
+- chore: update frontend dependencies
+
 ## 0.23.12
 
 - chore: bump yunpath to 0.0.5
