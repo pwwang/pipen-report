@@ -183,9 +183,18 @@ class ReportManager:
         self.nmdir.joinpath("public").copytree(self.outdir)
         self.nmdir.joinpath("src").copytree(self.workdir / "src")
         self.nmdir.joinpath("package.json").copy(self.workdir / "package.json")
-        self.nmdir.joinpath("package-lock.json").copy(
-            self.workdir / "package-lock.json"
-        )
+
+        node_lockfile = self.nmdir.joinpath("package-lock.json")
+        bun_lockfile = self.nmdir.joinpath("bun.lock")
+        if not bun_lockfile.exists() and not node_lockfile.exists():
+            logger.error("Frontend package lock file not found.")
+            logger.error("Run `pipen report install` to create it.")
+            sys.exit(1)
+
+        if bun_lockfile.exists():
+            bun_lockfile.copy(self.workdir / "bun.lock")
+        else:
+            node_lockfile.copy(self.workdir / "package-lock.json")
 
         pubdir.symlink_to(self.outdir)
         nmdir.symlink_to(self.nmdir / "node_modules")
