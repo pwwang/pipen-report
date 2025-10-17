@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>pipen_report.filters - pipen-report</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "pipen_report.filters";
+        var mkdocs_page_input_path = "api/pipen_report.filters.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../..">
+          <img src="../../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">pipen_report</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">pipen_report.filters</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersdatatable">datatable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersrender_component">render_component</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersregister_component">register_component</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersrender_ui">render_ui</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersregister_ui">register_ui</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipen_reportfiltersrender_job">render_job</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API</li>
+          <li class="breadcrumb-item">pipen_report</li>
+      <li class="breadcrumb-item active">pipen_report.filters</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/api/pipen_report.filters.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="mkapi-node" id="pipen_report.filters">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object module plain top">
+    <div class="mkapi-object-kind module top">module</div>
+    <h2 id="pipen_reportfilters" class="mkapi-object-body module top"><span class="mkapi-object-prefix"><a href="../pipen_report/#pipen_report">pipen_report</a>.</span><span class="mkapi-object-name">filters</span></h2>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters" title="Source for pipen_report.filters">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Filters for pipen-report</p><p>This module contains the filters for pipen-report. The filters are used
+in the report template to render the report.</p>
+</div>
+    </div>
+  <div class="mkapi-section functions">
+      <div class="mkapi-section-name functions">
+          <span class="mkapi-section-name-body functions">Functions</span> 
+        </div>
+      <div class="mkapi-section-body functions"><ul class="mkapi-items">
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.datatable">datatable</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">path</code>, <code class="mkapi-object-signature">*args</code>, <code class="mkapi-object-signature">ncols</code>, <code class="mkapi-object-signature">nrows</code>, <code class="mkapi-object-signature">double_precision</code>, <code class="mkapi-object-signature">excluded</code>, <code class="mkapi-object-signature">**kwargs</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Read data from a file, using pandas.read_csv() and make it to json sojs can handle it and render it with <DataTable />
+<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.datatable" title="Source for pipen_report.filters.datatable">&lt;/&gt;</a></span></li>
+
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.register_component">register_component</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">kind</code>, <code class="mkapi-object-signature">*aliases</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(Callable)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Register a component renderer<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.register_component" title="Source for pipen_report.filters.register_component">&lt;/&gt;</a></span></li>
+
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.register_ui">register_ui</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">kind</code>, <code class="mkapi-object-signature">*aliases</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(Callable)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Register a UI renderer<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.register_ui" title="Source for pipen_report.filters.register_ui">&lt;/&gt;</a></span></li>
+
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.render_component">render_component</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">component</code>, <code class="mkapi-object-signature">job</code>, <code class="mkapi-object-signature">level</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Render the content based on its kind.<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_component" title="Source for pipen_report.filters.render_component">&lt;/&gt;</a></span></li>
+
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.render_job">render_job</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">job</code>, <code class="mkapi-object-signature">report_file</code>, <code class="mkapi-object-signature">h</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Generate a report template from a report json file<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_job" title="Source for pipen_report.filters.render_job">&lt;/&gt;</a></span></li>
+
+<li class="function"><code class="mkapi-item-name"><a href="#pipen_report.filters.render_ui">render_ui</a></code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">contents</code>, <code class="mkapi-object-signature">ui</code>, <code class="mkapi-object-signature">job</code>, <code class="mkapi-object-signature">level</code><code class="mkapi-object-parenthesis">)</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Render a ui<a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_ui" title="Source for pipen_report.filters.render_ui">&lt;/&gt;</a></span></li>
+
+
+</ul></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.datatable">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersdatatable" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">datatable</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">path</code>, <code class="mkapi-object-signature">*args</code>, <code class="mkapi-object-signature">ncols=None</code>, <code class="mkapi-object-signature">nrows=None</code>, <code class="mkapi-object-signature">double_precision=4</code>, <code class="mkapi-object-signature">excluded=None</code>, <code class="mkapi-object-signature">**kwargs</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.datatable" title="Source for pipen_report.filters.datatable">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Read data from a file, using pandas.read_csv() and make it to json sojs can handle it and render it with <DataTable /></p>
+</div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">path</code>
+<span class="mkapi-item-type">(PathLike)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The path to the data file.</span></li>
+
+<li><code class="mkapi-item-name">*args</code>
+<span class="mkapi-item-type">(Any)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Additional positional arguments to pass to pandas.read_csv().</span></li>
+
+<li><code class="mkapi-item-name">ncols</code>
+<span class="mkapi-item-type">(Union[int, Iterable], optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Either the number of columns toselect or an iterable of column indices or names. Defaults to None.
+</span></li>
+
+<li><code class="mkapi-item-name">nrows</code>
+<span class="mkapi-item-type">(Union[int, Iterable], optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Either the number of rows to selector an iterable of row indices. Defaults to None.
+</span></li>
+
+<li><code class="mkapi-item-name">double_precision</code>
+<span class="mkapi-item-type">(int, optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The precision for double numbers.See also pandas.DataFrame.to_json(). Defaults to 4.
+</span></li>
+
+<li><code class="mkapi-item-name">excluded</code>
+<span class="mkapi-item-type">(set, optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">A set of column names to exclude from the resultingDataFrame. Defaults to None.
+</span></li>
+
+<li><code class="mkapi-item-name">**kwargs</code>
+<span class="mkapi-item-type">(Any)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Additional keyword arguments to pass to pandas.read_csv().</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(str)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>A JSON format of the data.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.render_component">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersrender_component" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">render_component</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">component</code>, <code class="mkapi-object-signature">job=None</code>, <code class="mkapi-object-signature">level=0</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_component" title="Source for pipen_report.filters.render_component">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Render the content based on its kind.</p></div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">component</code>
+<span class="mkapi-item-type">(Any)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The content to be rendered.</span></li>
+
+<li><code class="mkapi-item-name">job</code>
+<span class="mkapi-item-type">(Mapping[str, Any])</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The job information.</span></li>
+
+<li><code class="mkapi-item-name">level</code>
+<span class="mkapi-item-type">(int)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The level of the content.</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(str)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>The rendered content.</p></div>
+    </div>
+  <div class="mkapi-section raises">
+      <div class="mkapi-section-name raises">
+          <span class="mkapi-section-name-body raises">Raises</span> 
+        </div>
+      <div class="mkapi-section-body raises"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">ValueError</code>
+
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">If the kind of component in toc is unknown.</span></li>
+
+
+</ul></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.register_component">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersregister_component" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">register_component</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">kind</code>, <code class="mkapi-object-signature">*aliases</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.register_component" title="Source for pipen_report.filters.register_component">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Register a component renderer</p></div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">kind</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The kind of component to register.</span></li>
+
+<li><code class="mkapi-item-name">*aliases</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The aliases of the kind.</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(Callable)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>The decorator to register the component renderer.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.render_ui">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersrender_ui" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">render_ui</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">contents</code>, <code class="mkapi-object-signature">ui</code>, <code class="mkapi-object-signature">job=None</code>, <code class="mkapi-object-signature">level=0</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_ui" title="Source for pipen_report.filters.render_ui">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Render a ui</p></div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">contents</code>
+<span class="mkapi-item-type">(List[Mapping[str, Any]])</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The contents to render in the UI.</span></li>
+
+<li><code class="mkapi-item-name">ui</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The type of UI to render.Allowed values are "flat", "table_of_images", "accordion", and "tabs".
+</span></li>
+
+<li><code class="mkapi-item-name">job</code>
+<span class="mkapi-item-type">(Mapping[str, Any], optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The job information. Defaults to None.</span></li>
+
+<li><code class="mkapi-item-name">level</code>
+<span class="mkapi-item-type">(int, optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The level of the UI. Defaults to 0.</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(str)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>The rendered UI as a string.</p></div>
+    </div>
+  <div class="mkapi-section raises">
+      <div class="mkapi-section-name raises">
+          <span class="mkapi-section-name-body raises">Raises</span> 
+        </div>
+      <div class="mkapi-section-body raises"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">ValueError</code>
+
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">If the provided UI type is not one of the allowed values.</span></li>
+
+
+</ul></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.register_ui">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersregister_ui" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">register_ui</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">kind</code>, <code class="mkapi-object-signature">*aliases</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.register_ui" title="Source for pipen_report.filters.register_ui">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Register a UI renderer</p></div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">kind</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The kind of UI to register.</span></li>
+
+<li><code class="mkapi-item-name">*aliases</code>
+<span class="mkapi-item-type">(str)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The aliases of the kind.</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(Callable)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>The decorator to register the UI renderer.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mkapi-node" id="pipen_report.filters.render_job">
+<div class='mkapi-object-container'>
+  <div class="mkapi-object function code top">
+    <div class="mkapi-object-kind function top">function</div>
+    <h3 id="pipen_reportfiltersrender_job" class="mkapi-object-body function top"><code class="mkapi-object-prefix"><a href="#pipen_report.filters">pipen_report.filters</a>.</code><code class="mkapi-object-name">render_job</code><code class="mkapi-object-parenthesis">(</code><code class="mkapi-object-signature">job</code>, <code class="mkapi-object-signature">report_file=&#39;report.json&#39;</code>, <code class="mkapi-object-signature">h=1</code><code class="mkapi-object-parenthesis">)</code></h3>
+  </div>
+  <div class="mkapi-src-link">
+    <a class="mkapi-src-link" href="../source/pipen_report.filters/#pipen_report.filters.render_job" title="Source for pipen_report.filters.render_job">&lt;/&gt;</a>
+  </div>
+</div>
+<div class="mkapi-docstring">
+<div class="mkapi-section">
+      <div class="mkapi-section-body"><p>Generate a report template from a report json file</p></div>
+    </div>
+  <div class="mkapi-section parameters">
+      <div class="mkapi-section-name parameters">
+          <span class="mkapi-section-name-body parameters">Parameters</span> 
+        </div>
+      <div class="mkapi-section-body parameters"><ul class="mkapi-items">
+<li><code class="mkapi-item-name">job</code>
+<span class="mkapi-item-type">(Mapping)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The job data that can be used to render the template</span></li>
+
+<li><code class="mkapi-item-name">report_file</code>
+<span class="mkapi-item-type">(str, optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">Absolute path to a report file or relative to <code>job.outdir</code></span></li>
+
+<li><code class="mkapi-item-name">h</code>
+<span class="mkapi-item-type">(int, optional)</span>
+<span class="mkapi-item-dash">&mdash;</span> <span class="mkapi-item-description">The starting level of the headers</span></li>
+
+
+</ul></div>
+    </div>
+  <div class="mkapi-section returns">
+      <div class="mkapi-section-name returns">
+          <span class="mkapi-section-name-body returns">Returns</span> <span class="mkapi-item-type">(str)</span>
+        </div>
+      <div class="mkapi-section-body returns"><p>The generated report</p></div>
+    </div>
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../pipen_report.cli/" class="btn btn-neutral float-left" title="pipen_report.cli"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../pipen_report.versions/" class="btn btn-neutral float-right" title="pipen_report.versions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../pipen_report.cli/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../pipen_report.versions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/version-select.js"></script>
+      <script src="../../js/mkapi.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
