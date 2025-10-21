@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>pipen_report.cli - pipen-report</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../../../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../../../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "pipen_report.cli";
+        var mkdocs_page_input_path = "api/source/pipen_report.cli.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../..">
+          <img src="../../../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">pipen_report.cli</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/api/source/pipen_report.cli.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="mkapi-node">
+<h1 id="" class="mkapi-object mkapi-object-code plain">
+<span class="mkapi-object-kind mkapi-object-kind-code">SOURCE CODE</span>
+<span class="mkapi-object-prefix">pipen_report.</span><span class="mkapi-object-name">cli</span>
+<span id="pipen_report.cli"></span><a class="mkapi-docs-link" href="../../pipen_report.cli">DOCS</a>
+</h1>
+
+<div class="mkapi-code">
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Provide a command line interface for the pipen_report plugin&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">stat</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">http.server</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socketserver</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">rtoml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen.cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">CLIPlugin</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">NPM</span><span class="p">,</span> <span class="n">NMDIR</span><span class="p">,</span> <span class="n">LOCAL_CONFIG</span><span class="p">,</span> <span class="n">GLOBAL_CONFIG</span><span class="p">,</span> <span class="n">CONFIG_KEYS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_config</span>
+
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">argx</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">Namespace</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PipenCliReport</span><span class="p">(</span><span class="n">CLIPlugin</span><span class="p">):</span><span id="pipen_report.cli.PipenCliReport"></span><a class="mkapi-docs-link" title="pipen_report.cli.PipenCliReport" href="../../pipen_report.cli/#pipen_report.cli.PipenCliReport">DOCS</a>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CLI utility for pipen-report&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.versions</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;report&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parser</span><span class="p">:</span> <span class="n">ArgumentParser</span><span class="p">,</span>
+        <span class="n">subparser</span><span class="p">:</span> <span class="n">ArgumentParser</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">subparser</span><span class="p">)</span>
+        <span class="n">config_command</span> <span class="o">=</span> <span class="n">subparser</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+            <span class="s2">&quot;config&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Configure pipen-report&quot;</span><span class="p">,</span>
+            <span class="n">exit_on_void</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--local&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Save the configuration locally (./.pipen-report.toml)? &quot;</span>
+                <span class="s2">&quot;Otherwise, the configuration will be saved globally &quot;</span>
+                <span class="s2">&quot;in the user&#39;s home directory (~/.pipen-report.toml). &quot;</span>
+                <span class="s2">&quot;The local configuration has higher priority than the &quot;</span>
+                <span class="s2">&quot;global configuration.&quot;</span>
+            <span class="p">),</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--list&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List the configuration&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--extlibs&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;External components to be used in the report&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--npm&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The path to npm&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">NPM</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--nmdir&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Where should the frontend dependencies installed?</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;By default, the frontend dependencies will be installed in &quot;</span>
+                <span class="s2">&quot;frontend/ of the python package directory. However, this &quot;</span>
+                <span class="s2">&quot;directory may not be writable. In this case, the frontend &quot;</span>
+                <span class="s2">&quot;dependencies will be installed in the directory specified.&quot;</span>
+            <span class="p">),</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">NMDIR</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--nobuild&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Don&#39;t build the final report. &quot;</span>
+                <span class="s2">&quot;If True only preprare the environment &quot;</span>
+                <span class="s2">&quot;Say if you want to do the building manually&quot;</span>
+            <span class="p">),</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">subparser</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+            <span class="s2">&quot;update&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Install/Update the frontend dependencies&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">serve_command</span> <span class="o">=</span> <span class="n">subparser</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+            <span class="s2">&quot;serve&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Serve the report&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">serve_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--port&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The port to serve the report&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">18520</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">serve_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--host&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The host to serve the report&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span>
+        <span class="p">)</span>
+        <span class="n">serve_command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--reportdir&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;The directory of the reports, where the REPORTS/ directory is&quot;</span>
+            <span class="p">),</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">exec_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span><span id="pipen_report.cli.PipenCliReport.exec_command"></span><a class="mkapi-docs-link" title="pipen_report.cli.PipenCliReport.exec_command" href="../../pipen_report.cli/#pipen_report.cli.PipenCliReport.exec_command">DOCS</a>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the command&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">COMMAND2</span> <span class="o">==</span> <span class="s2">&quot;config&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">COMMAND2</span> <span class="o">==</span> <span class="s2">&quot;update&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">COMMAND2</span> <span class="o">==</span> <span class="s2">&quot;serve&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_serve</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the config command&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Note that these values can still be overwritten by:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[4m</span><span class="se">\033</span><span class="s2">[1m&quot;</span>
+                <span class="s2">&quot;pipeline.plugin_opts.report_&lt;key&gt; = &lt;value&gt;&quot;</span>
+                <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m</span><span class="se">\033</span><span class="s2">[0m&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">keylen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">CONFIG_KEYS</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">CONFIG_KEYS</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[4m</span><span class="se">\033</span><span class="s2">[1m</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">keylen</span> <span class="o">+</span> <span class="mi">17</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;= </span><span class="si">{</span><span class="n">get_config</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">config_file</span> <span class="o">=</span> <span class="n">LOCAL_CONFIG</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">local</span> <span class="k">else</span> <span class="n">GLOBAL_CONFIG</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;npm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">npm</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;nmdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">nmdir</span>
+
+        <span class="n">rtoml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The configuration is saved to&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[4m</span><span class="si">{</span><span class="n">config_file</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the update command&quot;&quot;&quot;</span>
+        <span class="n">nmdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;nmdir&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">nmdir</span> <span class="o">!=</span> <span class="n">Path</span><span class="p">(</span><span class="n">NMDIR</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">():</span>
+            <span class="c1"># run_copy(NMDIR, nmdir, overwrite=True, quiet=True)</span>
+            <span class="c1"># copy package.json</span>
+            <span class="n">nmdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">NMDIR</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;package.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">nmdir</span> <span class="o">/</span> <span class="s2">&quot;package.json&quot;</span><span class="p">)</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">NMDIR</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;package-lock.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">nmdir</span> <span class="o">/</span> <span class="s2">&quot;package-lock.json&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">nmdir</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWUSR</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The frontend directory is not writable:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[4m</span><span class="si">{</span><span class="n">nmdir</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You should either:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;1. Run `sudo pipen report update` &quot;</span>
+                <span class="s2">&quot;to install/update the frontend dependencies&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;2. Run `pipen report config --nmdir &lt;dir&gt;` &quot;</span>
+                <span class="s2">&quot;to specify a different directory to install &quot;</span>
+                <span class="s2">&quot;the frontend dependencies&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The frontend directory:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[4m</span><span class="si">{</span><span class="n">nmdir</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">nmdir</span> <span class="o">/</span> <span class="s2">&quot;node_modules&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running: npm install ... (first time setup)&quot;</span><span class="p">)</span>
+                <span class="n">npm_command</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running: npm update ...&quot;</span><span class="p">)</span>
+                <span class="n">npm_command</span> <span class="o">=</span> <span class="s2">&quot;update&quot;</span>
+
+            <span class="n">p</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;npm&quot;</span><span class="p">),</span> <span class="n">npm_command</span><span class="p">],</span>
+                <span class="n">cwd</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">nmdir</span><span class="p">),</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_serve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the serve command&quot;&quot;&quot;</span>
+        <span class="n">reportdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">reportdir</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">port</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">host</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">reportdir</span> <span class="o">/</span> <span class="s2">&quot;REPORTS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The REPORTS/ directory is not found in:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="se">\033</span><span class="s2">[4m</span><span class="si">{</span><span class="n">reportdir</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The report is not generated yet?&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Serving the report and data at http://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Find the report page: http://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/REPORTS/&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to stop the server&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">class</span><span class="w"> </span><span class="nc">Handler</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">SimpleHTTPRequestHandler</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;The request handler&quot;&quot;&quot;</span>
+            <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;directory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reportdir</span>
+                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Handle the GET request&quot;&quot;&quot;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;/REPORTS&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/REPORTS/index.html&quot;</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">do_GET</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">BrokenPipeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="n">socketserver</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="n">Handler</span><span class="p">)</span> <span class="k">as</span> <span class="n">httpd</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">KeyboardInterrupt</span><span class="p">):</span>
+                <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/version-select.js"></script>
+      <script src="../../../js/mkapi.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
