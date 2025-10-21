@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.23.14
+
+- feat: add copilot instructions for pipen-report
+- feat: update import assertion for data.json to adopt node v22+
+
 ## 0.23.13
 
 - chore: update dependencies
