@@ -5,7 +5,7 @@ import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
-import data from './src/data.json' assert { type: 'json' };
+import data from './src/data.json' with { type: 'json' };
 import { optimizeImports, optimizeCss } from "carbon-preprocess-svelte";
 
 const commonConfig = (cssfile = 'index.css') => ({
