@@ -1,5 +1,8 @@
 """pipen-report example using using cloud workdir and outdir native support"""
 
+# # NOT RUN
+# # This example needs to run on Google Cloud Platform
+
 import os
 from pipen import Proc, Pipen
 from dotenv import load_dotenv
@@ -26,10 +29,17 @@ class ImageProcess(Proc):
     }
 
 
+class ImageProcessNonexport(ImageProcess):
+    """Process to create an image without exporting the output"""
+
+    requires = ImageProcess
+    export = False
+
+
 class TableProcess(Proc):
     """Process to create a table"""
 
-    requires = ImageProcess
+    requires = ImageProcessNonexport
     input = "infile:file"
     output = "outfile:file:{{in.infile.stem}}.txt"
     script = """
@@ -47,16 +57,16 @@ class TableProcess(Proc):
     }
 
 
-class PipelineCloud2(Pipen):
+class PipelineCloud3(Pipen):
     """Pipeline to create an image and a table"""
 
     starts = ImageProcess
-    data = [[f"gs://{BUCKET}/pipen-test/placeholder.png:/mnt/input/placeholder.png"]]
+    data = [["/mnt/disks/input/placeholder.png"]]
     outdir = f"gs://{BUCKET}/pipen-test/report-example/cloud3-outdir"
     workdir = f"gs://{BUCKET}/pipen-test/report-example/cloud3-workdir"
     loglevel = "DEBUG"
     scheduler_opts = {
-        "fast_mount": f"gs://{BUCKET}/pipen-test:/mnt/input",
+        "mount": f"gs://{BUCKET}/pipen-test:/mnt/disks/input",
     }
     plugin_opts = {
         "report_loglevel": "debug",
@@ -64,4 +74,4 @@ class PipelineCloud2(Pipen):
 
 
 if __name__ == "__main__":
-    PipelineCloud2().run(profile="gbatch")
+    PipelineCloud3().run(profile="gbatch")

@@ -432,16 +432,17 @@ class ProcessWithoutHeadings(Proc):
     input = "inimg:file"
     output = "outimg:file:{{in.inimg | basename}}"
     script = """
+        echo "<h1>This is generated HTML file</h1>" > $(dirname {{out.outimg}})/generated.html
         cp {{in.inimg}} {{out.outimg}}
-    """
+    """  # noqa: E501
     plugin_opts = {
         "report": """
             <script>
                 import { Iframe } from '$lib';
             </script>
-            <Iframe style="height:50vh" src="index.html" />
+            <Iframe style="height:50vh" src="{{job.outdir}}/generated.html" />
             <Iframe style="height:50vh" src="https://google.com" />
-        """
+        """  # noqa: E501
     }
 
 

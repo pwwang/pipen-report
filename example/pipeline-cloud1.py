@@ -27,10 +27,17 @@ class ImageProcess(Proc):
     }
 
 
+class ImageProcessNonexport(ImageProcess):
+    """Process to create an image"""
+
+    requires = ImageProcess
+    export = False
+
+
 class TableProcess(Proc):
     """Process to create a table"""
 
-    requires = ImageProcess
+    requires = ImageProcessNonexport
     input = "infile:file"
     output = "outfile:file:{{in.infile.stem}}.txt"
     script = """
