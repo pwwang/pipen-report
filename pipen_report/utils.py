@@ -4,6 +4,7 @@ import json
 from os import path
 from hashlib import md5
 from functools import wraps
+from pathlib import Path
 from tempfile import gettempdir
 from typing import TYPE_CHECKING, Any, Callable
 
@@ -52,7 +53,13 @@ def cache_fun(func: Callable) -> Callable:
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         str_args = _stringify(args)
         str_kwargs = _stringify(kwargs)
-        sig = md5(f"{str_args}\n{str_kwargs}".encode("utf-8")).hexdigest()
+        str_preprocess = _stringify(
+            Path(__file__).parent.joinpath("preprocess.py").read_text()
+        )
+        str_utils = _stringify(Path(__file__).read_text())
+        sig = md5(
+            f"{str_args}\n{str_kwargs}\n{str_preprocess}\n{str_utils}".encode("utf-8")
+        ).hexdigest()
         sigfile = path.join(
             gettempdir(),
             f"pipen-report.{func.__name__}.{sig}.json",
