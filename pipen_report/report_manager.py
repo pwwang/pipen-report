@@ -545,17 +545,23 @@ class ReportManager:
                 f"[{proc.name}] Failed to render report file."
             ) from exc
 
-        mounted_outdir = getattr(proc.xqute.scheduler, "MOUNTED_OUTDIR", None)
-        if mounted_outdir:
-            mounted_outdir = (
-                MountedPath(proc.pipeline.outdir, spec=mounted_outdir) / "REPORTS"
-            )
-        else:
-            mounted_outdir = self.outdir
+        # How the pipeline/proc is run
+        # If mounted_outdir is not None, it means the pipeline is run remotely
+        # The spec paths are paths that mounted inside the remote environment
+        # They may not be working on this local system
+        run_meta = {
+            "pipeline_workdir": proc.pipeline.workdir,
+            "pipeline_outdir": proc.pipeline.outdir,
+            "outdir": self.outdir,
+            "workdir": self.workdir,
+            "mounted_outdir": getattr(proc.xqute.scheduler, "MOUNTED_OUTDIR", None),
+            "mounted_workdir": getattr(proc.xqute.scheduler, "MOUNTED_METADIR", None),
+        }
+
         # preprocess the rendered report and get the toc
         rendered_parts, toc = preprocess(
             rendered,
-            mounted_outdir,
+            run_meta,
             report_toc,
             report_paging,
             report_relpath_tags,

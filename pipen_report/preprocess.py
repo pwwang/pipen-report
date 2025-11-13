@@ -90,7 +90,12 @@ def _preprocess_slash_h(
     )
 
 
-def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
+def _path_to_url(
+    path: str,
+    run_meta: Mapping[str, Any],
+    tag: str,
+    logfn: Callable,
+) -> str:
     """Convert a path to a url to be used in the html
 
     If the path is a relative path to basedir.parent, it will be converted
@@ -99,23 +104,61 @@ def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
 
     Args:
         path: The path to be converted
-        basedir: The base directory, usually, path/to/REPORTS
+        run_meta: The run meta paths
         tag: The tag name
 
     Returns:
         The url
     """
+    # HTTP/HTTPS URLs should be returned as-is
+    if path.startswith(("http://", "https://")):
+        return path
+
+    basedir = run_meta["outdir"]
+    basedir_spec = getattr(basedir, "spec", basedir)
     path_passed = path
     apath = AnyPath(path)
-    basedir_spec = getattr(basedir, "spec", basedir)
+    if isinstance(apath, CloudPath):
+        # Make it local, since outdir is local
+        if isinstance(basedir_spec, CloudPath):
+            # use the same client so that we have the same cache dir
+            apath = apath.__class__(path, client=basedir_spec._client)
+            apath = Path(apath.fspath)
+        # otherwise, keep as it, since we can't determine the relationship
+        # of apath and basedir
+    elif (
+        run_meta["mounted_outdir"]
+        and apath.is_relative_to(Path(run_meta["mounted_outdir"]))
+    ):
+        # Use pipeline_outdir, which should be a cloud path
+        apath = run_meta["pipeline_outdir"].spec.joinpath(
+            apath.relative_to(run_meta["mounted_outdir"])
+        )
+    elif (
+        run_meta["mounted_workdir"]
+        and apath.is_relative_to(Path(run_meta["mounted_workdir"]))
+    ):
+        # Use workdir, which should be a cloud path
+        apath = run_meta["workdir"].spec.joinpath(
+            apath.relative_to(run_meta["mounted_workdir"])
+        )
+
+    print(path)
+    print(path_passed)
+    print(apath)
+    for k, v in run_meta.items():
+        print(f"- {k}: {v}")
+    print(basedir)
+    print(basedir_spec)
     try:
-        path = apath.relative_to(basedir_spec.parent)
+        path = apath.relative_to(basedir.parent)
     except ValueError:
         # if it's a relative path, suppose it is pages
         # otherwise, it's a path to the results
         if isinstance(apath, (GSPath, AzureBlobPath, S3Path)) or (
             # New in cloudpathlib 0.23.0 HttpsPath is added as a CloudPath
-            apath.is_absolute() and not isinstance(apath, CloudPath)
+            apath.is_absolute()
+            and not isinstance(apath, CloudPath)
         ):
             # If we can't get the relative path, that means those files
             # are not exported, we need to copy the file to a directory
@@ -128,14 +171,14 @@ def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
             suffix = hashlib.sha256(path.encode()).hexdigest()[:8]
             path = f"data/{apath.stem}.{suffix}{apath.suffix}"
 
-            (basedir / path).write_bytes(apath.read_bytes())
+            (basedir_spec / path).write_bytes(apath.read_bytes())
 
         # It's a relative path to the basedir, just use it
     else:
         # results are at uplevel dir
         path = f"../{path}"
 
-    path_via_base = basedir_spec.joinpath(path)
+    path_via_base = basedir.joinpath(path)
     if (
         isinstance(apath, (GSPath, AzureBlobPath, S3Path))
         and not path_via_base.joinpath(path).exists()
@@ -150,7 +193,7 @@ def _path_to_url(path: str, basedir: Path, tag: str, logfn: Callable) -> str:
 
 def _preprocess_relpath_tag(
     matching: re.Match,
-    basedir: Path,
+    run_meta: Mapping[str, Any],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
     logfn: Callable,
 ) -> str:
@@ -183,13 +226,13 @@ def _preprocess_relpath_tag(
 
             for i, av in enumerate(av2):
                 if isinstance(av, str):
-                    av2[i] = {"src": _path_to_url(av, basedir, tag, logfn)}
+                    av2[i] = {"src": _path_to_url(av, run_meta, tag, logfn)}
                 elif isinstance(av, dict):
-                    av["src"] = _path_to_url(av["src"], basedir, tag, logfn)
+                    av["src"] = _path_to_url(av["src"], run_meta, tag, logfn)
             return f" {attrname}={{ {json.dumps(av2)} }}"
 
         pathval = attrval
-        urlval = _path_to_url(attrval, basedir, tag, logfn)
+        urlval = _path_to_url(attrval, run_meta, tag, logfn)
         return f' {attrname}="{urlval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
@@ -254,7 +297,7 @@ def _preprocess_section(
     section: str,
     h2_index: int,
     page: int,
-    basedir: Path,
+    run_meta: Mapping[str, Any],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
     logfn: Callable,
 ) -> Tuple[str, List[Mapping[str, Any]]]:
@@ -264,14 +307,20 @@ def _preprocess_section(
         section: The source code of the section
         h2_index: The start h2 index
         page: which page are we on?
-        basedir: The base directory to save the relative path resources
+        run_meta: The run meta paths
+        relpath_tags: Tags with properties that need to convert to relative paths
+            i.e. {"Image": "src"}
+        logfn: The logging function
+
+    Returns:
+        The preprocessed section and the toc items
     """
     section = _preprocess_math(section)
     section = _preprocess_markdown(section)
     # handle relpath tags
     section = re.sub(
         TAG_RE,
-        lambda m: _preprocess_relpath_tag(m, basedir, relpath_tags, logfn),
+        lambda m: _preprocess_relpath_tag(m, run_meta, relpath_tags, logfn),
         section,
     )
 
@@ -296,7 +345,7 @@ def _preprocess_section(
 @cache_fun
 def preprocess(
     text: str,
-    basedir: Path,
+    run_meta: Mapping[str, Any],
     toc_switch: bool,
     paging: Union[bool, int],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
@@ -318,10 +367,13 @@ def preprocess(
 
     Args:
         text: The rendered report
-        basedir: The base directory
+        run_meta: The run meta paths
         toc_switch: Whether render a TOC?
         paging: Number of h1's in a page
             False to disable
+        relpath_tags: Tags with properties that need to convert to relative paths
+            i.e. {"Image": "src"}
+        logfn: The logging function
 
     Returns:
         The preprocessed text and the toc dict
@@ -336,7 +388,7 @@ def preprocess(
             splits[0],
             h2_index=0,
             page=0,
-            basedir=basedir,
+            run_meta=run_meta,
             relpath_tags=relpath_tags,
             logfn=logfn,
         )
@@ -362,7 +414,7 @@ def preprocess(
                 splt,
                 h2_index=h2_index,
                 page=page,
-                basedir=basedir,
+                run_meta=run_meta,
                 relpath_tags=relpath_tags,
                 logfn=logfn,
             )

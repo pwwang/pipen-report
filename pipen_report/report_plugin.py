@@ -95,16 +95,11 @@ class PipenReport:
         logger.setLevel(loglevel if isinstance(loglevel, int) else loglevel.upper())
         plugin_opts = pipen.config.plugin_opts or {}
 
-        cachedir_for_cloud = pipen.config.plugin_opts.report_cachedir_for_cloud
-        if cachedir_for_cloud is None:
-            dig = sha256(f"{pipen.workdir}...{pipen.outdir}".encode()).hexdigest()[:8]
-            cachedir_for_cloud = f"{gettempdir()}/pipen-report-cache-{dig}"
-
         self.manager = ReportManager(
             plugin_opts,
             pipen.outdir,
             pipen.workdir,
-            cachedir_for_cloud=cachedir_for_cloud,
+            cachedir_for_cloud=pipen.config.plugin_opts.get("gcs_cache", None),
         )
         self.manager.check_npm_and_setup_dirs()
         self.manager.init_pipeline_data(pipen)
