@@ -118,6 +118,7 @@ def _path_to_url(
     basedir_spec = getattr(basedir, "spec", basedir)
     path_passed = path
     apath = AnyPath(path)
+
     if isinstance(apath, CloudPath):
         # Make it local, since outdir is local
         if isinstance(basedir_spec, CloudPath):
@@ -128,37 +129,44 @@ def _path_to_url(
         # of apath and basedir
     elif (
         run_meta["mounted_outdir"]
-        and apath.is_relative_to(Path(run_meta["mounted_outdir"]))
+        and apath.is_relative_to(run_meta["mounted_outdir"])
     ):
-        # Use pipeline_outdir, which should be a cloud path
-        apath = run_meta["pipeline_outdir"].spec.joinpath(
+        # Use spec, which should be a cloud path
+        apath = basedir_spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_outdir"])
         )
+        apath = getattr(apath, "mounted", apath)
     elif (
         run_meta["mounted_workdir"]
-        and apath.is_relative_to(Path(run_meta["mounted_workdir"]))
+        and apath.is_relative_to(run_meta["mounted_workdir"])
     ):
         # Use workdir, which should be a cloud path
-        apath = run_meta["workdir"].spec.joinpath(
+        apath = run_meta["workdir"].spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_workdir"])
         )
+        apath = getattr(apath, "mounted", apath)
 
     try:
         path = apath.relative_to(basedir.parent)
     except ValueError:
         # if it's a relative path, suppose it is pages
         # otherwise, it's a path to the results
-        if isinstance(apath, (GSPath, AzureBlobPath, S3Path)) or (
+        if (
+            isinstance(apath, (GSPath, AzureBlobPath, S3Path))
             # New in cloudpathlib 0.23.0 HttpsPath is added as a CloudPath
-            apath.is_absolute()
-            and not isinstance(apath, CloudPath)
+            or not isinstance(apath, CloudPath)
         ):
             # If we can't get the relative path, that means those files
             # are not exported, we need to copy the file to a directory
             # where the html file can access
+            msg_path = (
+                f"'{path}' ({apath}) "
+                if str(path) != str(apath)
+                else f"{path} "
+            )
             logfn(
                 "warning",
-                f"An external resource ({path}) detected for {tag}, "
+                f"An external resource {msg_path}detected for {tag}, "
                 "copying it to REPORTS/data ...",
             )
             suffix = hashlib.sha256(path.encode()).hexdigest()[:8]

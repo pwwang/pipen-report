@@ -108,8 +108,6 @@ def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
         path.write_text(path.name)
 
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": basedir,
         "workdir": tmp_path,
         "mounted_outdir": None,
@@ -147,8 +145,6 @@ def test_preprocess_relpath_tag(tagstr, expected, tmp_path):
     tagstr = tagstr.format(basedir=basedir, tmp_path=tmp_path)
     matching = TAG_RE.match(tagstr)
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": basedir,
         "workdir": tmp_path,
         "mounted_outdir": None,
@@ -167,8 +163,6 @@ def test_preprocess_relpath_tag_imagesize(tmp_path):
     matching = TAG_RE.match(tagstr)
     expected = '<Image src="../file.png" width={100} height={50} />'
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": basedir,
         "workdir": tmp_path,
         "mounted_outdir": None,
@@ -195,8 +189,6 @@ def test_preprocess_section(tmp_path):
         ],
     )
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": tmp_path,
         "workdir": tmp_path,
         "mounted_outdir": None,
@@ -245,8 +237,6 @@ def test_preprocess1(tmp_path):
         ],
     )
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": tmp_path,
         "workdir": tmp_path,
         "mounted_outdir": None,
@@ -290,8 +280,6 @@ def test_preprocess2(tmp_path):
         ],
     )
     run_meta = {
-        "pipeline_workdir": tmp_path,
-        "pipeline_outdir": tmp_path,
         "outdir": basedir,
         "workdir": tmp_path,
         "mounted_outdir": None,
