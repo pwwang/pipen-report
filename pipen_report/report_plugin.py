@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from hashlib import sha256
-from tempfile import gettempdir
 from typing import TYPE_CHECKING, Union
 from pipen import plugin
 
@@ -95,11 +93,23 @@ class PipenReport:
         logger.setLevel(loglevel if isinstance(loglevel, int) else loglevel.upper())
         plugin_opts = pipen.config.plugin_opts or {}
 
+        gcs_cachedir_set = "gcs_cache" in plugin_opts
+        gcs_cachedir = plugin_opts.get("gcs_cache", None)
+        cachedir_for_cloud = pipen.config.plugin_opts.report_cachedir_for_cloud
+        if gcs_cachedir_set and cachedir_for_cloud is not None:
+            logger.warning(
+                "Plugin option 'gcs_cache' is set. "
+                "You are probably using pipen-gcs plugin. "
+                "The 'report_cachedir_for_cloud' option will be ignored.",
+            )
+        elif not gcs_cachedir_set:
+            gcs_cachedir = cachedir_for_cloud
+
         self.manager = ReportManager(
             plugin_opts,
             pipen.outdir,
             pipen.workdir,
-            cachedir_for_cloud=pipen.config.plugin_opts.get("gcs_cache", None),
+            cachedir_for_cloud=gcs_cachedir,
         )
         self.manager.check_npm_and_setup_dirs()
         self.manager.init_pipeline_data(pipen)
