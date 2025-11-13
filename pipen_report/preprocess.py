@@ -143,13 +143,6 @@ def _path_to_url(
             apath.relative_to(run_meta["mounted_workdir"])
         )
 
-    print(path)
-    print(path_passed)
-    print(apath)
-    for k, v in run_meta.items():
-        print(f"- {k}: {v}")
-    print(basedir)
-    print(basedir_spec)
     try:
         path = apath.relative_to(basedir.parent)
     except ValueError:
