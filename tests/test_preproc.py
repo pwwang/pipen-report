@@ -268,7 +268,7 @@ def test_preprocess2(tmp_path):
         </script>
         <h1>Image</h1><a id="prt-h1-0-image" class="pipen-report-toc-anchor"> </a>
         <Descr>This is a description about the section.</Descr>
-        <Image src="../PG1/placeholder.png"  height={50}  width={100}  download={ [{"src": "../PG1/placeholder.png", "tip": "Download the high resolution format"}] } />"""
+        <Image src="../PG1/placeholder.png" height={50} width={100} download={ [{"src": "../PG1/placeholder.png", "tip": "Download the high resolution format"}] } />"""
         ],
         [
             {
