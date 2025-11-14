@@ -8,8 +8,7 @@ import hashlib
 import re
 import imagesize
 from contextlib import suppress
-from cloudpathlib import GSPath, AzureBlobPath, S3Path, CloudPath
-from yunpath import AnyPath
+from yunpath import AnyPath, CloudPath
 from pathlib import Path
 from typing import Any, List, Mapping, Sequence, Tuple, Union, Callable
 
@@ -95,7 +94,7 @@ def _path_to_url(
     run_meta: Mapping[str, Any],
     tag: str,
     logfn: Callable,
-) -> str:
+) -> Tuple[str, str | Path | CloudPath]:
     """Convert a path to a url to be used in the html
 
     If the path is a relative path to basedir.parent, it will be converted
@@ -108,88 +107,105 @@ def _path_to_url(
         tag: The tag name
 
     Returns:
-        The url
+        The url and the content-accessible path
     """
     # HTTP/HTTPS URLs should be returned as-is
-    if path.startswith(("http://", "https://")):
-        return path
+    if (
+        path.startswith(("http://", "https://"))
+        or path.startswith("data:")
+        or path.startswith("mailto:")
+        or path.startswith("ftp://")
+        or not path
+    ):
+        return path, path
 
+    # Where REPORTS sit locally
     basedir = run_meta["outdir"]
+    # How the basedir (outdir) was specified, could be cloud path
     basedir_spec = getattr(basedir, "spec", basedir)
-    path_passed = path
-    apath = AnyPath(path)
+    # content-accessible path, any path
+    capath = apath = AnyPath(path)
 
+    # Save converted apath in case we try to check the relativity to workdir
+    wcapath = wapath = None
     if isinstance(apath, CloudPath):
         # Make it local, since outdir is local
         if isinstance(basedir_spec, CloudPath):
             # use the same client so that we have the same cache dir
-            apath = apath.__class__(path, client=basedir_spec._client)
+            capath = apath = apath.__class__(path, client=basedir_spec._client)
             apath = Path(apath.fspath)
+        if hasattr(run_meta["workdir"], "spec") and isinstance(
+            run_meta["workdir"].spec,
+            CloudPath,
+        ):
+            # use the same client so that we have the same cache dir
+            wcapath = wapath = AnyPath(path).__class__(
+                path,
+                client=run_meta["workdir"].spec._client,
+            )
+            wapath = Path(wapath.fspath)
         # otherwise, keep as it, since we can't determine the relationship
         # of apath and basedir
-    elif (
+    elif run_meta["mounted_outdir"] and apath.is_relative_to(
         run_meta["mounted_outdir"]
-        and apath.is_relative_to(run_meta["mounted_outdir"])
     ):
         # Use spec, which should be a cloud path
-        apath = basedir_spec.parent.joinpath(
+        capath = apath = basedir_spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_outdir"])
         )
         apath = getattr(apath, "mounted", apath)
-    elif (
+    elif run_meta["mounted_workdir"] and apath.is_relative_to(
         run_meta["mounted_workdir"]
-        and apath.is_relative_to(run_meta["mounted_workdir"])
     ):
         # Use workdir, which should be a cloud path
-        apath = run_meta["workdir"].spec.parent.joinpath(
+        capath = apath = run_meta["workdir"].spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_workdir"])
         )
         apath = getattr(apath, "mounted", apath)
 
     try:
+        # if it is relative to basedir.parent, meaning it is exported
+        # we can just use the relative path (uplevel)
         path = apath.relative_to(basedir.parent)
     except ValueError:
-        # if it's a relative path, suppose it is pages
-        # otherwise, it's a path to the results
+        # otherwise, let's check if it is relative to the workdir.parent
+        # if so, that means it is a result from non-export processes
         if (
-            isinstance(apath, (GSPath, AzureBlobPath, S3Path))
-            # New in cloudpathlib 0.23.0 HttpsPath is added as a CloudPath
-            or not isinstance(apath, CloudPath)
-        ):
-            # If we can't get the relative path, that means those files
-            # are not exported, we need to copy the file to a directory
-            # where the html file can access
-            msg_path = (
-                f"'{path}' ({apath}) "
-                if str(path) != str(apath)
-                else f"{path} "
-            )
-            logfn(
-                "warning",
-                f"An external resource {msg_path}detected for {tag}, "
-                "copying it to REPORTS/data ...",
-            )
-            suffix = hashlib.sha256(path.encode()).hexdigest()[:8]
-            path = f"data/{apath.stem}.{suffix}{apath.suffix}"
+            wapath and wapath.is_relative_to(run_meta["workdir"].parent)
+        ) or apath.is_relative_to(run_meta["workdir"].parent):
+            if wapath:
+                apath = wapath
+                capath = wcapath
 
-            (basedir_spec / path).write_bytes(apath.read_bytes())
+            warning_msg = (
+                f"Resource '{path}' from non-exported location detected for {tag}, "
+                "copying it to REPORTS/data ..."
+            )
+            path = apath.relative_to(run_meta["workdir"].parent).resolve()
+        else:
+            # otherwise if
+            # - it is a cloud path, we just copy it to data/
+            # - it is an absolute local path, we also copy it to data/
+            # - it is a relative local path, keep as is
+            if not isinstance(apath, CloudPath) and not apath.is_absolute():
+                return str(path), capath  # keep as is
 
-        # It's a relative path to the basedir, just use it
+            path_msg = f"'{path}' ({apath}) " if str(path) != str(apath) else f"{path} "
+            warning_msg = (
+                f"External resource {path_msg} detected for {tag}, "
+                "copying it to REPORTS/data ..."
+            )
+
+        logfn("warning", warning_msg)
+        suffix = hashlib.sha256(str(apath).encode()).hexdigest()[:8]
+        path = f"data/{apath.stem}.{suffix}{apath.suffix}"
+
+        (basedir_spec / path).write_bytes(apath.read_bytes())
     else:
         # results are at uplevel dir
         path = f"../{path}"
 
-    path_via_base = basedir.joinpath(path)
-    if (
-        isinstance(apath, (GSPath, AzureBlobPath, S3Path))
-        and not path_via_base.joinpath(path).exists()
-    ):
-        # The outdir is on cloud, we need to download the file
-        logfn("debug", f"Downloading {path_passed} for report building ...")
-        path_via_base.parent.mkdir(parents=True, exist_ok=True)
-        apath.download_to(path_via_base)
-
-    return str(path)
+    return str(path), capath
 
 
 def _preprocess_relpath_tag(
@@ -201,6 +217,12 @@ def _preprocess_relpath_tag(
     """Preprocess tags with paths to be redirected"""
     pathval = None
     tag = matching.group("tag")
+    attrs = matching.group("attrs")
+    has_height = False
+    has_width = False
+    if tag == "Image":
+        has_height = "height=" in attrs
+        has_width = "width=" in attrs
     rp_tags = RELPATH_TAGS.copy()
     rp_tags.update(relpath_tags or {})
 
@@ -227,26 +249,32 @@ def _preprocess_relpath_tag(
 
             for i, av in enumerate(av2):
                 if isinstance(av, str):
-                    av2[i] = {"src": _path_to_url(av, run_meta, tag, logfn)}
+                    av2[i] = {"src": _path_to_url(av, run_meta, tag, logfn)[0]}
                 elif isinstance(av, dict):
-                    av["src"] = _path_to_url(av["src"], run_meta, tag, logfn)
+                    av["src"] = _path_to_url(av["src"], run_meta, tag, logfn)[0]
             return f" {attrname}={{ {json.dumps(av2)} }}"
 
         pathval = attrval
-        urlval = _path_to_url(attrval, run_meta, tag, logfn)
+        urlval, path = _path_to_url(attrval, run_meta, tag, logfn)
+
+        if tag == "Image" and attrname == "src" and not has_height and pathval:
+            if isinstance(path, CloudPath):
+                path._refresh_cache()
+                path = path.fspath
+
+            out = f' {attrname}="{urlval}"'
+            with suppress(FileNotFoundError):  # pragma: no cover
+                width, height = imagesize.get(path)
+                if height > 0:
+                    out = f"{out} height={{{height}}}"
+                if width > 0 and not has_width:
+                    out = f"{out} width={{{width}}}"
+
+                return out
+
         return f' {attrname}="{urlval}"'
 
     attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
-    if pathval and tag == "Image" and ("width=" not in attrs or "height=" not in attrs):
-        # Add width and height to Image tag
-        with suppress(FileNotFoundError):  # pragma: no cover
-            width, height = imagesize.get(pathval)
-            if width > 0 and height > 0:
-                if "width=" not in attrs:
-                    attrs = f"{attrs.rstrip()} width={{{width}}} "
-                if "height=" not in attrs:
-                    attrs = f"{attrs.rstrip()} height={{{height}}} "
-
     return f"<{tag}{attrs}{matching.group('end')}"
 
 

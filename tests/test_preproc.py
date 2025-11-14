@@ -113,7 +113,7 @@ def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    output = _path_to_url(str(path), run_meta, "TAG", lambda *args: None)
+    output, _ = _path_to_url(str(path), run_meta, "TAG", lambda *args: None)
 
     if absolute and not relative_to:
         expected = Path(list(basedir.glob(expected))[0]).relative_to(basedir).as_posix()
@@ -161,7 +161,7 @@ def test_preprocess_relpath_tag_imagesize(tmp_path):
     Image.new("RGB", (100, 50)).save(imgfile)
     tagstr = f'<Image src="{imgfile}" />'
     matching = TAG_RE.match(tagstr)
-    expected = '<Image src="../file.png" width={100} height={50} />'
+    expected = '<Image src="../file.png" height={50} width={100} />'
     run_meta = {
         "outdir": basedir,
         "workdir": tmp_path,
@@ -268,7 +268,7 @@ def test_preprocess2(tmp_path):
         </script>
         <h1>Image</h1><a id="prt-h1-0-image" class="pipen-report-toc-anchor"> </a>
         <Descr>This is a description about the section.</Descr>
-        <Image src="../PG1/placeholder.png" download={ [{"src": "../PG1/placeholder.png", "tip": "Download the high resolution format"}] } width={100} height={50} />"""
+        <Image src="../PG1/placeholder.png"  height={50}  width={100}  download={ [{"src": "../PG1/placeholder.png", "tip": "Download the high resolution format"}] } />"""
         ],
         [
             {
