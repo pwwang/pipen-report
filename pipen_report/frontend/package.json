@@ -8,7 +8,7 @@
     "build": "rollup -c"
   },
   "engines": {
-    "node": ">=18.0.0 <21.0.0"
+    "node": ">=20.0.0 <23.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0",
