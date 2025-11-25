@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.23.15
+
+- feat: enhance cache function to include content from preprocess.py for signature generation
+- feat: add ImageProcessNonexport class in the examples
+- fix: update _path_to_url and related functions to use run_meta for path handling
+- fix: update run_meta to use MountedPath for mounted directories in ReportManager
+- fix: update cachedir_for_cloud handling in PipenReport to respect gcs_cache option
+- fix: update _path_to_url to return content-accessible path and handle image dimensions
+- fix: update node engine version requirement to support Node.js 22.x
+- test: correct formatting of Image component in test_preprocess2
+
 ## 0.23.14
 
 - feat: add copilot instructions for pipen-report
