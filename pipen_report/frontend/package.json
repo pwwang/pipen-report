@@ -12,12 +12,12 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0",
-    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-json": "^6.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.3",
     "acorn": "^8.12.0",
-    "carbon-components-svelte": "^0.89.0",
+    "carbon-components-svelte": "^0.96",
     "carbon-icons-svelte": "^13.3.0",
     "carbon-preprocess-svelte": "^0.11.3",
     "rollup": "^4.18.0",
@@ -25,6 +25,6 @@
     "rollup-plugin-livereload": "^2.0",
     "rollup-plugin-svelte": "^7.2.2",
     "svelte": "^4.2.19",
-    "temml": "^0.11.6"
+    "temml": "^0.12"
   }
 }
