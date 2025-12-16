@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.0
+
+- chore: update pipen and related dependencies to version 1.0
+- fix: update devDependencies for @rollup/plugin-commonjs and carbon-components-svelte
+
 ## 0.23.15
 
 - feat: enhance cache function to include content from preprocess.py for signature generation
