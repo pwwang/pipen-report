@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.2
+
+- fix(frontend): ensure pageSize is included in pageSizes and sorted correctly for DataTable component
+
 ## 1.0.1
 
 - fix: improve filter 'datatable' column handling when column names are integers (no column names)
