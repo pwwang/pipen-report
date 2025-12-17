@@ -3,6 +3,7 @@
 This module contains the filters for pipen-report. The filters are used
 in the report template to render the report.
 """
+
 from __future__ import annotations
 
 import re
@@ -83,6 +84,9 @@ def datatable(
 
     df = df.loc[nrows, ncols]
     # "." in column names causing problem at frontend
+    # If the column names as integrs, convert them to str first
+    if pandas.api.types.is_integer_dtype(df.columns):
+        df.columns = df.columns.map(lambda x: f"Column{x + 1}")
     df = df.rename(lambda x: re.sub(r"[^\w]+", "_", x), axis="columns")
     # add id for sorting purposes
     if "id" not in df:
@@ -356,18 +360,20 @@ def _render_table_image(
         "div",
         slot="\n".join(
             [
-                _render_descr(
-                    {
-                        "content": descr,
-                        "title": name,
-                        "class": "pipen-report-table-image-descr",
-                        "markdown": markdown,
-                    },
-                    job=job,
-                    level=1,
-                )
-                if name or descr
-                else "",
+                (
+                    _render_descr(
+                        {
+                            "content": descr,
+                            "title": name,
+                            "class": "pipen-report-table-image-descr",
+                            "markdown": markdown,
+                        },
+                        job=job,
+                        level=1,
+                    )
+                    if name or descr
+                    else ""
+                ),
                 _render_image(cont, job=job, level=1),
             ]
         ),
@@ -576,7 +582,7 @@ def _ui_dropdown_switcher(
                 "    ).style.display = 'block';"
                 "} }"
             )
-        }
+        },
     )
 
     return "\n".join([dropdown, *components])
@@ -748,9 +754,9 @@ def _tag(tag: str, _level: int = 0, **attrs: Any) -> str:
             and not slot.startswith(TAB)
             and "\n" not in tag_attrs
         )
-        else f"<{tag}{tag_attrs}>\n{slot}\n</{tag}>"
-        if slot
-        else f"<{tag}{tag_attrs} />"
+        else (
+            f"<{tag}{tag_attrs}>\n{slot}\n</{tag}>" if slot else f"<{tag}{tag_attrs} />"
+        )
     )
     return textwrap.indent(out, TAB * _level)
 
