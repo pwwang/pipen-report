@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+
+- fix: improve filter 'datatable' column handling when column names are integers (no column names)
+
 ## 1.0.0
 
 - chore: update pipen and related dependencies to version 1.0
