@@ -317,6 +317,7 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         echo '        "flat": [' >> $report_file
         echo '          {' >> $report_file
         echo '            "kind": "table",' >> $report_file
+        echo '            "pageSize": 3,' >> $report_file
         echo "            \\"src\\": \\"$table_file\\"" >> $report_file
         echo '          }' >> $report_file
         echo '        ]' >> $report_file

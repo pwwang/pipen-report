@@ -48,12 +48,17 @@
   export let rows = [];
   export let headers = [];
   export let pageSizes = [20, 50, 75, 100];
+  export let pageSize = pageSizes[0];
+
+  if (!pageSizes.includes(pageSize)) {
+    pageSizes = [pageSize, ...pageSizes];
+    pageSizes.sort((a, b) => a - b);
+  }
 
   let allColumns = headers.map(h => ({...h, selected: true}));
   $: headers = allColumns.filter(col => col.selected);
 
   let page = 1;
-  let pageSize = pageSizes[0];
 
   let value = "";
   let modal_open = false;
