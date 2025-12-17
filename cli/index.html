@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>CLI tools - pipen-report</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CLI tools";
+        var mkdocs_page_input_path = "cli.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">CLI tools</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#config">config</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#update">update</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#serve">serve</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">CLI tools</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/cli.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="cli-tools">CLI tools</h2>
+<p>List available CLI tools:</p>
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>--help
+Usage:<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">{</span>config,update,serve<span class="o">}</span><span class="w"> </span>...
+
+CLI<span class="w"> </span>utility<span class="w"> </span><span class="k">for</span><span class="w"> </span>pipen-report
+
+Optional<span class="w"> </span>Arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+
+Subcommands:
+<span class="w">    </span>config<span class="w">              </span>Configure<span class="w"> </span>pipen-report
+<span class="w">    </span>update<span class="w">              </span>Install/Update<span class="w"> </span>the<span class="w"> </span>frontend<span class="w"> </span>dependencies
+<span class="w">    </span>serve<span class="w">               </span>Serve<span class="w"> </span>the<span class="w"> </span>report
+</code></pre></div>
+<h3 id="config">config</h3>
+<p>Configure pipen-report. Note that these values can still be overwritten by the pipeline configurations at runtime.</p>
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>config<span class="w"> </span>--help
+Usage:<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--local<span class="o">]</span><span class="w"> </span><span class="o">[</span>--list<span class="o">]</span><span class="w"> </span><span class="o">[</span>--extlibs<span class="w"> </span>EXTLIBS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--npm<span class="w"> </span>NPM<span class="o">]</span>
+<span class="w">                                           </span><span class="o">[</span>--nmdir<span class="w"> </span>NMDIR<span class="o">]</span><span class="w"> </span><span class="o">[</span>--nobuild<span class="o">]</span>
+
+Optional<span class="w"> </span>Arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">         </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--local,<span class="w"> </span>-l<span class="w">        </span>Save<span class="w"> </span>the<span class="w"> </span>configuration<span class="w"> </span>locally<span class="w"> </span><span class="o">(</span>./.pipen-report.toml<span class="o">)</span>?<span class="w"> </span>Otherwise,<span class="w"> </span>the
+<span class="w">                     </span>configuration<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>saved<span class="w"> </span>globally<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>user<span class="s1">&#39;s home directory (~/.pipen-</span>
+<span class="s1">                     report.toml). The local configuration has higher priority than the global</span>
+<span class="s1">                     configuration. [default: False]</span>
+<span class="s1">  --list             List the configuration [default: False]</span>
+<span class="s1">  --extlibs EXTLIBS  External components to be used in the report</span>
+<span class="s1">  --npm NPM          The path to npm [default: npm]</span>
+<span class="s1">  --nmdir NMDIR      Where should the frontend dependencies installed?</span>
+<span class="s1">                     By default, the frontend dependencies will be installed in frontend/ of the</span>
+<span class="s1">                     python package directory. However, this directory may not be writable. In this</span>
+<span class="s1">                     case, the frontend dependencies will be installed in the directory specified.</span>
+<span class="s1">                     [default: /home/pwwang/github/pipen-report/pipen_report/frontend]</span>
+<span class="s1">  --nobuild          Don&#39;</span>t<span class="w"> </span>build<span class="w"> </span>the<span class="w"> </span>final<span class="w"> </span>report.<span class="w"> </span>If<span class="w"> </span>True<span class="w"> </span>only<span class="w"> </span>preprare<span class="w"> </span>the<span class="w"> </span>environment<span class="w"> </span>Say<span class="w"> </span><span class="k">if</span><span class="w"> </span>you
+<span class="w">                     </span>want<span class="w"> </span>to<span class="w"> </span><span class="k">do</span><span class="w"> </span>the<span class="w"> </span>building<span class="w"> </span>manually<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>False<span class="o">]</span>
+</code></pre></div>
+<h3 id="update">update</h3>
+<p>Install/Update the frontend dependencies:</p>
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>update<span class="w"> </span>--help
+Usage:<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>update<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span>
+
+Optional<span class="w"> </span>Arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">  </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<h3 id="serve">serve</h3>
+<p>Serve the report:</p>
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>serve<span class="w"> </span>--help
+Usage:<span class="w"> </span>pipen<span class="w"> </span>report<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--port<span class="w"> </span>PORT<span class="o">]</span><span class="w"> </span><span class="o">[</span>--host<span class="w"> </span>HOST<span class="o">]</span><span class="w"> </span>--reportdir<span class="w"> </span>REPORTDIR
+
+Required<span class="w"> </span>Arguments:
+<span class="w">  </span>--reportdir<span class="w"> </span>REPORTDIR,<span class="w"> </span>-r<span class="w"> </span>REPORTDIR
+<span class="w">                        </span>The<span class="w"> </span>directory<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>reports,<span class="w"> </span>where<span class="w"> </span>the<span class="w"> </span>REPORTS/<span class="w"> </span>directory<span class="w"> </span>is
+
+Optional<span class="w"> </span>Arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--port<span class="w"> </span>PORT,<span class="w"> </span>-p<span class="w"> </span>PORT<span class="w">  </span>The<span class="w"> </span>port<span class="w"> </span>to<span class="w"> </span>serve<span class="w"> </span>the<span class="w"> </span>report<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="m">8525</span><span class="o">]</span>
+<span class="w">  </span>--host<span class="w"> </span>HOST<span class="w">           </span>The<span class="w"> </span>host<span class="w"> </span>to<span class="w"> </span>serve<span class="w"> </span>the<span class="w"> </span>report<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="m">127</span>.0.0.1<span class="o">]</span>
+</code></pre></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../configurations/" class="btn btn-neutral float-left" title="Configurations"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../folder-structure/" class="btn btn-neutral float-right" title="Folder structure">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../configurations/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../folder-structure/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/version-select.js"></script>
+      <script src="../js/mkapi.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

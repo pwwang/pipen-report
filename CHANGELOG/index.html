@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Change Log - pipen-report</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Change Log";
+        var mkdocs_page_input_path = "CHANGELOG.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Change Log</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#102">1.0.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#101">1.0.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#100">1.0.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02315">0.23.15</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02314">0.23.14</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02313">0.23.13</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02312">0.23.12</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02311">0.23.11</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#02310">0.23.10</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0239">0.23.9</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0238">0.23.8</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0237">0.23.7</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0236">0.23.6</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0235">0.23.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0234">0.23.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0233">0.23.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0232">0.23.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0231">0.23.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0230">0.23.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0220">0.22.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0214">0.21.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0213">0.21.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0212">0.21.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0211">0.21.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0210">0.21.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0201">0.20.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0200">0.20.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0190">0.19.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0185">0.18.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0184">0.18.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0183">0.18.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0182">0.18.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0181">0.18.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0180">0.18.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0173">0.17.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0172">0.17.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0171">0.17.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0170">0.17.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0163">0.16.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0162">0.16.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0161">0.16.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0160">0.16.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0153">0.15.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0152">0.15.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0151">0.15.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0150">0.15.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0140">0.14.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0131">0.13.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0130">0.13.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0128">0.12.8</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0127">0.12.7</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0126">0.12.6</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0125">0.12.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0124">0.12.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0123">0.12.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0122">0.12.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0121">0.12.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0120">0.12.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0110">0.11.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0100">0.10.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#090">0.9.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#080">0.8.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#072">0.7.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#071">0.7.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#070">0.7.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#060">0.6.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#050">0.5.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#045">0.4.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#044">0.4.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#043">0.4.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#042">0.4.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#041">0.4.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#040">0.4.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#031">0.3.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#030">0.3.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#023">0.2.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#022">0.2.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#021">0.2.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#020">0.2.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#011">0.1.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#010">0.1.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0015">0.0.15</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0014">0.0.14</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0013">0.0.13</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0012">0.0.12</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0011">0.0.11</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0010">0.0.10</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#009">0.0.9</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#008">0.0.8</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#007">0.0.7</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#006">0.0.6</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#005">0.0.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#004">0.0.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#003">0.0.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#002">0.0.2</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Change Log</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/CHANGELOG.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="change-log">Change Log</h2>
+<h3 id="102">1.0.2</h3>
+<ul>
+<li>fix(frontend): ensure pageSize is included in pageSizes and sorted correctly for DataTable component</li>
+</ul>
+<h3 id="101">1.0.1</h3>
+<ul>
+<li>fix: improve filter 'datatable' column handling when column names are integers (no column names)</li>
+</ul>
+<h3 id="100">1.0.0</h3>
+<ul>
+<li>chore: update pipen and related dependencies to version 1.0</li>
+<li>fix: update devDependencies for @rollup/plugin-commonjs and carbon-components-svelte</li>
+</ul>
+<h3 id="02315">0.23.15</h3>
+<ul>
+<li>feat: enhance cache function to include content from preprocess.py for signature generation</li>
+<li>feat: add ImageProcessNonexport class in the examples</li>
+<li>fix: update _path_to_url and related functions to use run_meta for path handling</li>
+<li>fix: update run_meta to use MountedPath for mounted directories in ReportManager</li>
+<li>fix: update cachedir_for_cloud handling in PipenReport to respect gcs_cache option</li>
+<li>fix: update _path_to_url to return content-accessible path and handle image dimensions</li>
+<li>fix: update node engine version requirement to support Node.js 22.x</li>
+<li>test: correct formatting of Image component in test_preprocess2</li>
+</ul>
+<h3 id="02314">0.23.14</h3>
+<ul>
+<li>feat: add copilot instructions for pipen-report</li>
+<li>feat: update import assertion for data.json to adopt node v22+</li>
+</ul>
+<h3 id="02313">0.23.13</h3>
+<ul>
+<li>chore: update dependencies</li>
+<li>fix: fix https link being treated as cloud path by cloudpathlib v0.23+</li>
+<li>feat: support bunjs as frontend builder</li>
+<li>chore: update frontend dependencies</li>
+</ul>
+<h3 id="02312">0.23.12</h3>
+<ul>
+<li>chore: bump yunpath to 0.0.5</li>
+<li>feat: optimize npm checking and dir setting up</li>
+<li>fix: ensure extlibs directory is created without errors</li>
+<li>fix: update nmdir handling in _update command</li>
+<li>tests: update subprocess calls to use sys.executable</li>
+<li>chore: update frontend dependencies</li>
+<li>chore: update dependencies</li>
+</ul>
+<h3 id="02311">0.23.11</h3>
+<ul>
+<li>fix: escape HTML in render_job headings</li>
+</ul>
+<h3 id="02310">0.23.10</h3>
+<ul>
+<li>chore: require copier at least v9.5</li>
+<li>chore: suppress DeprecationWarning for copier v9.10</li>
+<li>chore: bump frontend @ibm/telemetry-js to 1.10.2 and @jridgewell/trace-mapping to 0.3.31</li>
+<li>chore: set instantiate to True in PipenReport class</li>
+</ul>
+<h3 id="0239">0.23.9</h3>
+<ul>
+<li>feat: add patch copier for fail-safe chmod handling</li>
+<li>chore: bump frontend dependencies to latest versions</li>
+</ul>
+<h3 id="0238">0.23.8</h3>
+<ul>
+<li>fix: fix paging handling</li>
+<li>chore(deps): bump pipen to 0.17.13</li>
+<li>chore(frontend): bump up frontend dependencies</li>
+</ul>
+<h3 id="0237">0.23.7</h3>
+<ul>
+<li>fix: fix rsync_to_cloud function not syncing folders</li>
+<li>fix: fix preprocessing with gbatch scheduler</li>
+<li>style: improve formatting in _preprocess_math function</li>
+<li>fix: update path handling in render_job and _render_table functions</li>
+<li>chore(deps): bump pipen to 0.17.11</li>
+<li>fix: ensure path is converted to string in _render_table</li>
+<li>chore: update .gitignore to include git bundle files</li>
+</ul>
+<h3 id="0236">0.23.6</h3>
+<ul>
+<li>fix(ui): fix the theme selector not aligning to the right</li>
+<li>chore: update dependencies</li>
+</ul>
+<h3 id="0235">0.23.5</h3>
+<ul>
+<li>chore(deps): bump pipen to 0.17.8</li>
+<li>chore(deps): move docs dependencies to pypoetry.toml</li>
+<li>chore: update frontend dependencies in package-lock.json</li>
+<li>chore: update example report output</li>
+</ul>
+<h3 id="0234">0.23.4</h3>
+<ul>
+<li>feat(front): add base64 encoding for Math tag content where the braces can avoided to be translate by svelte⏎</li>
+</ul>
+<h3 id="0233">0.23.3</h3>
+<ul>
+<li>enh(font): update tab titles to show full names on hover</li>
+<li>feat(front): add Math component for rendering LaTeX expressions</li>
+<li>chore: update dependencies</li>
+</ul>
+<h3 id="0232">0.23.2</h3>
+<ul>
+<li>feat: enhance ReportManager to support multiple cloud clients for outdir and workdir</li>
+<li>chore: bump up frontend deps</li>
+</ul>
+<h3 id="0231">0.23.1</h3>
+<ul>
+<li>chore: suppress UserWarning when initializing GSClient in ReportManager</li>
+<li>chore: update poetry.lock to include latest dependencies</li>
+</ul>
+<h3 id="0230">0.23.0</h3>
+<ul>
+<li>chore(deps): bump pipen to 0.17</li>
+</ul>
+<h3 id="0220">0.22.0</h3>
+<ul>
+<li>chore: update pipen to 0.16.0 and related dependencies to latest</li>
+<li>feat: adopt the case where outdir is a cloud path (when pipen-gcs is applied)</li>
+<li>feat: enhance report manager to support cloud caching</li>
+<li>fix: use ".spec" paths to render report templates</li>
+<li>feat: add example pipeline for gbatch scheduler</li>
+<li>feat: add ImageDimension component and integrate it into ImageDownloadList</li>
+</ul>
+<h3 id="0214">0.21.4</h3>
+<ul>
+<li>chore: update pytest-cov to version 6 in dev dependencies</li>
+<li>feat: add markdown support for description rendering in reports</li>
+<li>chore: specify Node.js engine version range in package.json</li>
+<li>style: format code for improved readability and update max line length in tox.ini</li>
+<li>feat: run 'npm install' instead of 'npm update' for first-time setup in CLI</li>
+<li>chore: update rollup plugins and carbon-components-svelte to latest versions</li>
+</ul>
+<h3 id="0213">0.21.3</h3>
+<ul>
+<li>chore: improve Plotly component with dynamic resizing</li>
+</ul>
+<h3 id="0212">0.21.2</h3>
+<ul>
+<li>docs: update example output</li>
+<li>chore: add aspect-ratio and max-width to the Plotly component</li>
+</ul>
+<h3 id="0211">0.21.1</h3>
+<ul>
+<li>feat: improve Iframe component with dynamic resizing and event dispatching</li>
+<li>feat: add Plotly component for displaying interactive plots</li>
+<li>feat: add containerClass prop to Iframe component</li>
+<li>refactor: add annotations for the Image component properties and optimize the code</li>
+<li>docs: add Plotly as registed relpath tags</li>
+</ul>
+<h3 id="0210">0.21.0</h3>
+<ul>
+<li>deps: put <code>pipen-runinfo</code> into a extra dependency group</li>
+<li>deps: bump <code>xqute</code> to 0.5.3</li>
+<li>deps: add <code>pillow</code> as dev-dependency for test</li>
+<li>deps: bump up frontend deps</li>
+<li>test: update <code>pyproject.toml</code> to ignore deprecation warning</li>
+<li>feat: add download bar for <code>Image</code> component</li>
+<li>feat: add configuration <code>report_relpath_tags</code> to allow register components for properties to convert fs path to url</li>
+<li>chore: add logging info when building each page</li>
+<li>fix: fix importing modules in external frontend modules</li>
+</ul>
+<h3 id="0201">0.20.1</h3>
+<ul>
+<li>deps: bump pipen-runinfo to 0.8</li>
+</ul>
+<h3 id="0200">0.20.0</h3>
+<ul>
+<li>deps: bump pipen to 0.15</li>
+</ul>
+<h3 id="0190">0.19.0</h3>
+<ul>
+<li>refactor(frontend): use <code>system.js</code> (instead iife) to chunk vendor libraries</li>
+<li>deps: bump pipen to 0.14.6 and other deps to latest version</li>
+<li>deps: bump frontend deps to latest version</li>
+<li>ci: update <code>ghp-import</code> command to disable Jekyll processing</li>
+<li>ci: use latest actions</li>
+</ul>
+<h3 id="0185">0.18.5</h3>
+<ul>
+<li>feat: indicate number of pages in log message</li>
+</ul>
+<h3 id="0184">0.18.4</h3>
+<ul>
+<li>choir: remove caching for <code>_render_file()</code>.</li>
+<li>Template rendering can be dependent on the file contents (e.g. <code>&lt;job.outdir&gt;/report.json</code>)</li>
+</ul>
+<h3 id="0183">0.18.3</h3>
+<ul>
+<li>deps: bump pipen to 0.14.3</li>
+<li>fix: fix download button for DataTable</li>
+<li>deps: bump frontend deps</li>
+</ul>
+<h3 id="0182">0.18.2</h3>
+<ul>
+<li>fix: fix getting image size when path is None</li>
+</ul>
+<h3 id="0181">0.18.1</h3>
+<ul>
+<li>enh: cache template rendering and preprocessing</li>
+</ul>
+<h3 id="0180">0.18.0</h3>
+<ul>
+<li>deps: drop python3.8 support</li>
+<li>deps: bump pipen to 0.14</li>
+<li>deps: use imagesize instead of pillow</li>
+</ul>
+<h3 id="0173">0.17.3</h3>
+<ul>
+<li>fix: fix but when <code>report_no_collapse_pgs</code> is true</li>
+</ul>
+<h3 id="0172">0.17.2</h3>
+<ul>
+<li>docs: center logo in readme</li>
+<li>feat: add <code>Iframe</code> component so loading is indicated</li>
+</ul>
+<h3 id="0171">0.17.1</h3>
+<ul>
+<li>fix: fix toc links when index.html is hidden in url</li>
+</ul>
+<h3 id="0170">0.17.0</h3>
+<ul>
+<li>deps: bump pipen to 0.13</li>
+</ul>
+<h3 id="0163">0.16.3</h3>
+<ul>
+<li>fix: show index in datatable filter if any</li>
+<li>fix: exit pipeline when report building fails</li>
+<li>deps: bump pipen to 0.12.5</li>
+</ul>
+<h3 id="0162">0.16.2</h3>
+<ul>
+<li>Fix home page caching issue</li>
+<li>Update frontend deps</li>
+<li>Fix tests for home page caching</li>
+</ul>
+<h3 id="0161">0.16.1</h3>
+<ul>
+<li>Handle iframe src in preprocessing</li>
+</ul>
+<h3 id="0160">0.16.0</h3>
+<ul>
+<li>Fix image height in global.css</li>
+<li>Add width and height to Image tag so loading indicators have same size</li>
+<li>Set sep to TAB for datatable filter</li>
+<li>Allow add class and other attributes to <code>Descr</code> component</li>
+<li>Allow set extra classes for Image component</li>
+<li>Add filters: render_component, render_ui and render_job</li>
+<li>Add carbon-preprocess-svelte package and optimize imports</li>
+<li>Update logo in README</li>
+<li>Update docs, using mkdocs-rtd</li>
+<li>Update docs/requirements.txt</li>
+<li>Remove emoji extension from mkdocs.yml</li>
+<li>Add pillow library</li>
+<li>Fix missing import for PILImage in preprocess.py</li>
+<li>Fix poetry installation in docs.yml</li>
+<li>Update copier version to 9.1.0 and colorama version to 0.4.6</li>
+<li>Update favicon</li>
+<li>Allow to register components and uis for filters: render_component, render_ui and render_job</li>
+<li>Make proc list one column for narrow screen on index page</li>
+<li>Make proc group card on index page expand on top, instead of bottom, when short of space</li>
+<li>Make g10 as default theme</li>
+<li>Add width style to .head-util so the right part of the header do not hide when resizing</li>
+<li>Add space to bottom of the index page</li>
+<li>Make theme selector look better</li>
+<li>Change the background color of Accordion headers</li>
+<li>Add dropdown_switcher ui for render_ui and render_job filters</li>
+<li>Scroll anchor into view on the page</li>
+<li>Build report when process is done, instead of the whole pipeline</li>
+<li>Remove dest file when npm build fails (so that it won't be cached)</li>
+<li>Copy file only when its path is absolute in preprocessing</li>
+<li>Update global.css file</li>
+</ul>
+<h3 id="0153">0.15.3</h3>
+<ul>
+<li>Fix image loading height in global.css</li>
+</ul>
+<h3 id="0152">0.15.2</h3>
+<ul>
+<li>Set width and height to the lazy loading placeholder</li>
+</ul>
+<h3 id="0151">0.15.1</h3>
+<ul>
+<li>Add <code>title</code> prop to <code>Descr</code> component</li>
+</ul>
+<h3 id="0150">0.15.0</h3>
+<ul>
+<li>Add ellipsis to procgroup card on index page</li>
+<li>Add lazy loading for Image</li>
+<li>Add <code>Descr</code> component to <code>$libs</code> to add styled description text</li>
+<li>Add active nav item indicator</li>
+<li>Bump frontend packages to latest versions</li>
+</ul>
+<h3 id="0140">0.14.0</h3>
+<ul>
+<li>⬆️ Bump pipen to 0.12</li>
+</ul>
+<h3 id="0131">0.13.1</h3>
+<ul>
+<li>Improve the indicator of groups in report index page</li>
+</ul>
+<h3 id="0130">0.13.0</h3>
+<ul>
+<li>⬆️ Bump pipen to 0.11</li>
+<li>⬆️ Bump up frontend deps</li>
+</ul>
+<h3 id="0128">0.12.8</h3>
+<ul>
+<li>⬆️ Update dependencies</li>
+<li>🐛 Fix report without headings</li>
+</ul>
+<h3 id="0127">0.12.7</h3>
+<ul>
+<li>👷 Add codesandbox scripts</li>
+<li>🐛 Fix order of procgroups in report</li>
+</ul>
+<h3 id="0126">0.12.6</h3>
+<ul>
+<li>💄 Make searchbox of DataTable persistent</li>
+<li>🐛 Fix npm build logging to file</li>
+<li>✨ Add column selector to DataTable</li>
+<li>📝 Update example</li>
+</ul>
+<h3 id="0125">0.12.5</h3>
+<ul>
+<li>⬆️ Bump copier to 8.1 (requires pydantic &lt; 2)</li>
+</ul>
+<h3 id="0124">0.12.4</h3>
+<ul>
+<li>💄 Truncate proc names with ellipses in navigator</li>
+</ul>
+<h3 id="0123">0.12.3</h3>
+<ul>
+<li>💄 Use new favicon</li>
+</ul>
+<h3 id="0122">0.12.2</h3>
+<ul>
+<li>💄 Fix procs in procgroups in index page being contained</li>
+</ul>
+<h3 id="0121">0.12.1</h3>
+<ul>
+<li>⬆️ Bump pipen-runinfo to 0.2</li>
+<li>📝 Update example with proc group</li>
+</ul>
+<h3 id="0120">0.12.0</h3>
+<ul>
+<li>✨ Allow collapse proc groups</li>
+<li>🎨 Improve logging in building process</li>
+<li>✅ Fix tests</li>
+</ul>
+<h3 id="0110">0.11.0</h3>
+<ul>
+<li>➖ Remove cmdy</li>
+<li>🐛 Fix unnecessary npm output showing in logs</li>
+<li>✨ Add running information</li>
+</ul>
+<h3 id="0100">0.10.0</h3>
+<ul>
+<li>⬆️ Bump pipen to 0.10.0</li>
+<li>🐛 Adopt pipen 0.10.0 (change on_proc_init to on_proc_create)</li>
+<li>⬆️ Update frontend dependencies</li>
+<li>✏️ Change <code>&gt;</code> to <code>$</code> as command hint in logs⏎</li>
+</ul>
+<h3 id="090">0.9.0</h3>
+<ul>
+<li>⬆️ Bump pipen to 0.9</li>
+<li>⬆️ Drop support for python 3.7</li>
+<li>⬆️ Upgrade frontend dependents</li>
+<li>⬆️ Add pipen-filters as dev deps</li>
+<li>🐛 Fix a11y warning for frontend</li>
+</ul>
+<h3 id="080">0.8.0</h3>
+<p>⬆️ Upgrade pipen to 0.7
+⬆️ Update frontend deps
+🎨 Use css grid for proc list</p>
+<h3 id="072">0.7.2</h3>
+<ul>
+<li>🐛 Fix toc missing for paging</li>
+<li>🐛 Load ccs css first in html instead of compiled into js in defer mode</li>
+<li>📝 Use a simpler example</li>
+</ul>
+<h3 id="071">0.7.1</h3>
+<ul>
+<li>💄 Add single form of path alias</li>
+<li>🔧 Change default port to 18520 for serve command</li>
+<li>⬆️ Update frontend deps</li>
+</ul>
+<h3 id="070">0.7.0</h3>
+<ul>
+<li>⬆️ Update frontend deps</li>
+<li>⬆️ Bump pipen to 0.6</li>
+</ul>
+<h3 id="060">0.6.0</h3>
+<ul>
+<li>👷 Use latest actions</li>
+<li>🐛 Add index.html so the reports work using file:// protocol</li>
+<li>🐛 Fix toc with paging</li>
+<li>⬆️ Bump pipen to 0.5</li>
+<li>📝 Update example</li>
+</ul>
+<h3 id="050">0.5.0</h3>
+<ul>
+<li>♻️ Refactor based on pipen v0.4</li>
+</ul>
+<h3 id="045">0.4.5</h3>
+<ul>
+<li>🩹 Fix some situations with dead links</li>
+<li>🐛 Fix error when node_modules mislinked to file-alike (#4)</li>
+<li>⬆️ Upgrade frontend deps</li>
+<li>⬆️ Pump pipen to 0.3.6</li>
+</ul>
+<h3 id="044">0.4.4</h3>
+<ul>
+<li>✨ Support Markdown tag</li>
+<li>⬆️ Upgrade frontend deps</li>
+</ul>
+<h3 id="043">0.4.3</h3>
+<ul>
+<li>🐛 Fix tag attributes missing in preprocessing</li>
+</ul>
+<h3 id="042">0.4.2</h3>
+<ul>
+<li>⬆️ Update frontend deps</li>
+<li>🐛 Fix the icon in DataTable and the example</li>
+</ul>
+<h3 id="041">0.4.1</h3>
+<ul>
+<li>⬆️ Upgrade xqute to v0.1</li>
+<li>➖ Remove reduandent deps</li>
+</ul>
+<h3 id="040">0.4.0</h3>
+<ul>
+<li>⬆️ Upgrade frontend deps</li>
+<li>⬆️ Upgrade pipen to v0.3.0</li>
+</ul>
+<h3 id="031">0.3.1</h3>
+<ul>
+<li>📌 Pin dep and doc dep verions</li>
+<li>✨ Allow injected jupyter html to collapse code</li>
+<li>📝 Add docs for CLI tools</li>
+<li>💥 Default title to the title tag instead of h1 for cli inject</li>
+<li>🐛 Use on_init hook to init config</li>
+<li>⬆️ Upgrade frontend deps, so no longer need to patch svelte for large report</li>
+<li>✅ Add tests</li>
+<li>🐛 Fix renaming report from process with name index</li>
+</ul>
+<h3 id="030">0.3.0</h3>
+<ul>
+<li>🐛 Fix preprocessing with tag attribute value is empty</li>
+<li>✨ Implement a cli plugin for pipen to inject external html page to the report</li>
+<li>📌 Pin doc dep verions</li>
+</ul>
+<h3 id="023">0.2.3</h3>
+<ul>
+<li>Allow datatable filter to exclude columns</li>
+</ul>
+<h3 id="022">0.2.2</h3>
+<ul>
+<li>🐛 Fix no toc generated when no H1 in report but report_toc is True</li>
+<li>🐛 Fix report without H1 not getting preprocessed</li>
+</ul>
+<h3 id="021">0.2.1</h3>
+<ul>
+<li>🔊 Warn when there are &gt; sections in report but paging is disabled</li>
+<li>🚑 Fix when there is no H1's in the report</li>
+<li>🩹 De-highlight the H1's in TOC when there are H2's in there</li>
+<li>📝 Update example report</li>
+<li>📝 Add post install/update necessities in README.md</li>
+</ul>
+<h3 id="020">0.2.0</h3>
+<ul>
+<li>♻️ Front: Use the builtin pagination table from ccs (carbon-design-system/carbon-components-svelte#702)</li>
+<li>✨ Implement backend report paging</li>
+<li>💥 Change config item <code>report_logging</code> to <code>report_loglevel</code></li>
+<li>✨ Implement frontend for report paging</li>
+</ul>
+<h3 id="011">0.1.1</h3>
+<ul>
+<li>🐛 Add postinstall to patch svelte compiler</li>
+</ul>
+<h3 id="010">0.1.0</h3>
+<ul>
+<li>⬆️ Update frontend deps</li>
+<li>🐛 Make a patch to svelte compiler to fix "Max Stack Size Exceeded for huge HTML" (sveltejs/svelte#4694)</li>
+</ul>
+<h3 id="0015">0.0.15</h3>
+<ul>
+<li>🐛 Fix min ncols wrongly using number of rows of df in datatable filter</li>
+</ul>
+<h3 id="0014">0.0.14</h3>
+<ul>
+<li>Replace all irregular characters in df column names in datatable filter</li>
+</ul>
+<h3 id="0013">0.0.13</h3>
+<ul>
+<li>Preprocess <code>embed</code> tag</li>
+</ul>
+<h3 id="0012">0.0.12</h3>
+<ul>
+<li>🐛 Fix #3 (same name toc link not working) and fix offset of toc links</li>
+<li>🐛 Don't cache non-export processes (Fix #2);</li>
+<li>🐛 Fix <code>report_force_export</code> not forcing process to export (#1)</li>
+<li>🐛 Fix issues when dot in column names at frontend for <code>DataTable</code></li>
+<li>⬆️ Upgrade frontend dependencies</li>
+</ul>
+<h3 id="0011">0.0.11</h3>
+<ul>
+<li>✨ Add process-level config <code>report_toc</code> to disable toc for a single process report</li>
+</ul>
+<h3 id="0010">0.0.10</h3>
+<ul>
+<li>🐛 Fix larger nrows/ncols not working for datatable filter</li>
+<li>🐛 Fix multiple column alignment in index page</li>
+</ul>
+<h3 id="009">0.0.9</h3>
+<ul>
+<li>🐛 Allow relative script path to be inherited</li>
+</ul>
+<h3 id="008">0.0.8</h3>
+<ul>
+<li>🩹 Expand the TOC by default</li>
+</ul>
+<h3 id="007">0.0.7</h3>
+<ul>
+<li>🐛 Fix non-tags in pre-processing</li>
+<li>⬆️ Upgrade frontend deps</li>
+<li>🩹 Fix background of theme selector</li>
+</ul>
+<h3 id="006">0.0.6</h3>
+<ul>
+<li>🩹 Don't initilize if pipeline init fails</li>
+<li>⬆️ Upgrade pipen to 0.2+ in deps</li>
+</ul>
+<h3 id="005">0.0.5</h3>
+<ul>
+<li>🐛 Fix all procs other than those with report template to be included in the reports</li>
+<li>✨ Add <code>report_order</code> to define process order in report</li>
+</ul>
+<h3 id="004">0.0.4</h3>
+<ul>
+<li>🐛 Add fontend/src/pages directory to the repo</li>
+</ul>
+<h3 id="003">0.0.3</h3>
+<ul>
+<li>✨ Set export to True if report template is provided for a process</li>
+</ul>
+<h3 id="002">0.0.2</h3>
+<ul>
+<li>Refactor previous version with the frontend builtin.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../api/pipen_report.preprocess/" class="btn btn-neutral float-left" title="pipen_report.preprocess"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../api/pipen_report.preprocess/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/version-select.js"></script>
+      <script src="../js/mkapi.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

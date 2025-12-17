@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>pipen_report.filters - pipen-report</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../../../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../../../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "pipen_report.filters";
+        var mkdocs_page_input_path = "api/source/pipen_report.filters.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../..">
+          <img src="../../../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">pipen_report.filters</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/api/source/pipen_report.filters.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="mkapi-node">
+<h1 id="" class="mkapi-object mkapi-object-code plain">
+<span class="mkapi-object-kind mkapi-object-kind-code">SOURCE CODE</span>
+<span class="mkapi-object-prefix">pipen_report.</span><span class="mkapi-object-name">filters</span>
+<span id="pipen_report.filters"></span><a class="mkapi-docs-link" href="../../pipen_report.filters">DOCS</a>
+</h1>
+
+<div class="mkapi-code">
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Filters for pipen-report</span>
+
+<span class="sd">This module contains the filters for pipen-report. The filters are used</span>
+<span class="sd">in the report template to render the report.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">html</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">imagesize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yunpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyPath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">markdown</span> <span class="k">as</span> <span class="n">markdown_parse</span>
+
+<span class="n">TAB</span> <span class="o">=</span> <span class="s2">&quot;  &quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">datatable</span><span class="p">(</span><span id="pipen_report.filters.datatable"></span><a class="mkapi-docs-link" title="pipen_report.filters.datatable" href="../../pipen_report.filters/#pipen_report.filters.datatable">DOCS</a>
+    <span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">ncols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">nrows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">double_precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">excluded</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read data from a file, using pandas.read_csv() and make it to json so</span>
+<span class="sd">    js can handle it and render it with &lt;DataTable /&gt;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (PathLike): The path to the data file.</span>
+<span class="sd">        *args (Any): Additional positional arguments to pass to pandas.read_csv().</span>
+<span class="sd">        ncols (Union[int, Iterable], optional): Either the number of columns to</span>
+<span class="sd">            select or an iterable of column indices or names. Defaults to None.</span>
+<span class="sd">        nrows (Union[int, Iterable], optional): Either the number of rows to select</span>
+<span class="sd">            or an iterable of row indices. Defaults to None.</span>
+<span class="sd">        double_precision (int, optional): The precision for double numbers.</span>
+<span class="sd">            See also pandas.DataFrame.to_json(). Defaults to 4.</span>
+<span class="sd">        excluded (set, optional): A set of column names to exclude from the resulting</span>
+<span class="sd">            DataFrame. Defaults to None.</span>
+<span class="sd">        **kwargs (Any): Additional keyword arguments to pass to pandas.read_csv().</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A JSON format of the data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span>
+
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ROWNAMES&quot;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">excluded</span><span class="p">:</span>
+        <span class="n">kept_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">kept_cols</span><span class="p">]</span>
+
+    <span class="c1"># use ncols and nrows to filter</span>
+    <span class="k">if</span> <span class="n">nrows</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ncols</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrows</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ncols</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ncols</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">nrows</span><span class="p">):</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">nrows</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ncols</span><span class="p">):</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ncols</span><span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">]</span>
+    <span class="c1"># &quot;.&quot; in column names causing problem at frontend</span>
+    <span class="c1"># If the column names as integrs, convert them to str first</span>
+    <span class="k">if</span> <span class="n">pandas</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Column</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^\w]+&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+    <span class="c1"># add id for sorting purposes</span>
+    <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span> <span class="n">double_precision</span><span class="o">=</span><span class="n">double_precision</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">render_component</span><span class="p">(</span><span id="pipen_report.filters.render_component"></span><a class="mkapi-docs-link" title="pipen_report.filters.render_component" href="../../pipen_report.filters/#pipen_report.filters.render_component">DOCS</a>
+    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render the content based on its kind.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        component (Any): The content to be rendered.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the content.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the kind of component in toc is unknown.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">job</span> <span class="o">=</span> <span class="n">job</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">component</span><span class="p">)),</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+    <span class="n">cont</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">render_component</span><span class="o">.</span><span class="n">renderers</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown kind of component: </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Allowed components: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">render_component</span><span class="o">.</span><span class="n">renderers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_component</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="n">kind</span><span class="p">](</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="n">render_component</span><span class="o">.</span><span class="n">renderers</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">register_component</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">aliases</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span><span id="pipen_report.filters.register_component"></span><a class="mkapi-docs-link" title="pipen_report.filters.register_component" href="../../pipen_report.filters/#pipen_report.filters.register_component">DOCS</a>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a component renderer</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kind (str): The kind of component to register.</span>
+<span class="sd">        *aliases (str): The aliases of the kind.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable: The decorator to register the component renderer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">kind</span><span class="p">,</span> <span class="o">*</span><span class="n">aliases</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">knd</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="n">render_component</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="n">knd</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;accordion&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_accordion</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render an accordion item based on the given content, job, and level.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The content of the accordion item.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the accordion item.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered accordion item.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cont</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">ui</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ui&quot;</span><span class="p">,</span> <span class="s2">&quot;flat&quot;</span><span class="p">)</span>
+    <span class="n">contents</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;contents&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span>
+        <span class="s2">&quot;AccordionItem&quot;</span><span class="p">,</span>
+        <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+        <span class="n">slot</span><span class="o">=</span><span class="n">render_ui</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">cont</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;descr&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_descr</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render the description based on the given content, job, and level.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The content mapping.</span>
+<span class="sd">        job (Mapping[str, Any]): The job mapping.</span>
+<span class="sd">        level (int): The level of the description.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered description.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cont</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;once&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">slot</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;descr&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">markdown</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;markdown&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">markdown</span><span class="p">:</span>
+        <span class="n">slot</span> <span class="o">=</span> <span class="n">markdown_parse</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;Descr&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">slot</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">cont</span><span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_error</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render an error message as an inline notification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The content of the error message.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the error message.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered error message as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cont</span><span class="p">[</span><span class="s2">&quot;subtitle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">cont</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;hideCloseButton&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">cont</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;lowContrast&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">cont</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;kind_&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;InlineNotification&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">cont</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_list</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container containing the list properties.</span>
+<span class="sd">        job (Mapping[str, Any]): The job containing the list items.</span>
+<span class="sd">        level (int): The level of the list.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered list as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ordered</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ordered&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;items&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;OrderedList&quot;</span> <span class="k">if</span> <span class="n">ordered</span> <span class="k">else</span> <span class="s2">&quot;UnorderedList&quot;</span>
+    <span class="n">list_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;ListItem&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">item</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_items</span><span class="p">),</span> <span class="o">**</span><span class="n">cont</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="s2">&quot;datatable&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_table</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container for the table attributes.</span>
+<span class="sd">            Keys will be passed to `&lt;DataTable ... /&gt;` component.</span>
+<span class="sd">            `data` is special key to hold arguments passed to `datatable` filter.</span>
+<span class="sd">            `data.file` or `data.path` is used to hold the path to the data file.</span>
+<span class="sd">            The rest of the keys in `data` are passed to `datatable` filter.</span>
+<span class="sd">            `src` can be True so that `data.path` or `data.file` is used as the `src`.</span>
+<span class="sd">        job (Mapping[str, Any]): The container for the job attributes.</span>
+<span class="sd">        level (int): The level of the table.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered table as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">src</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No data.path or data.file is specified&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Let&#39;s check where the path is.</span>
+    <span class="c1"># It could be on the cloud or local.</span>
+    <span class="n">outdir</span> <span class="o">=</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;outdir&quot;</span><span class="p">]</span>  <span class="c1"># carries the information of the path system</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">AnyPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_relative_to</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+        <span class="n">spec_outdir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">spec_outdir</span> <span class="o">/</span> <span class="n">path</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">datatable</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;DataTable&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_image</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render an image</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container containing the image attributes.</span>
+<span class="sd">        job (Mapping[str, Any]): The job containing the image data.</span>
+<span class="sd">        level (int): The level of the image in the hierarchy.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered image as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">width</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">height</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">):</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">imagesize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">width</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span>
+
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;Image&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;table_img&quot;</span><span class="p">,</span> <span class="s2">&quot;table_image&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_table_image</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a table image with optional name and description.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container containing the image details.</span>
+<span class="sd">        job (Mapping[str, Any]): The job details.</span>
+<span class="sd">        level (int): The level of the table image.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered table image HTML.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cont</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;caption&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)))</span>
+    <span class="n">descr</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;descr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">markdown</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;markdown&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">cont</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;pipen-report-table-image&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span>
+        <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+        <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="n">_render_descr</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">descr</span><span class="p">,</span>
+                            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;pipen-report-table-image-descr&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;markdown&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span>
+                        <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">descr</span>
+                    <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="p">),</span>
+                <span class="n">_render_image</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_tab</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a tab.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container containing the tab information.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the tab.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered tab.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ui</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ui&quot;</span><span class="p">,</span> <span class="s2">&quot;flat&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">_tag</span><span class="p">(</span>
+            <span class="s2">&quot;Tab&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">))),</span>
+            <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">_tag</span><span class="p">(</span>
+            <span class="s2">&quot;TabContent&quot;</span><span class="p">,</span>
+            <span class="n">slot</span><span class="o">=</span><span class="n">render_ui</span><span class="p">(</span><span class="n">cont</span><span class="p">[</span><span class="s2">&quot;contents&quot;</span><span class="p">],</span> <span class="n">ui</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@register_component</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_tag</span><span class="p">(</span>
+    <span class="n">cont</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a tag.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cont (Mapping[str, Any]): The container containing the tag information.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the tag.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered tag.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">cont</span><span class="p">,</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">render_ui</span><span class="p">(</span><span id="pipen_report.filters.render_ui"></span><a class="mkapi-docs-link" title="pipen_report.filters.render_ui" href="../../pipen_report.filters/#pipen_report.filters.render_ui">DOCS</a>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">ui</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render a ui</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): The contents to render in the UI.</span>
+<span class="sd">        ui (str): The type of UI to render.</span>
+<span class="sd">            Allowed values are &quot;flat&quot;, &quot;table_of_images&quot;, &quot;accordion&quot;, and &quot;tabs&quot;.</span>
+<span class="sd">        job (Mapping[str, Any], optional): The job information. Defaults to None.</span>
+<span class="sd">        level (int, optional): The level of the UI. Defaults to 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered UI as a string.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the provided UI type is not one of the allowed values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">job</span> <span class="o">=</span> <span class="n">job</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">ui_parts</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ui_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">render_ui</span><span class="o">.</span><span class="n">renderers</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown ui: </span><span class="si">{</span><span class="n">ui_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. Allowed: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">render_ui</span><span class="o">.</span><span class="n">renderers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">renderer</span> <span class="o">=</span> <span class="n">render_ui</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="n">ui_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">renderer</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="o">*</span><span class="n">ui_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+
+<span class="n">render_ui</span><span class="o">.</span><span class="n">renderers</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">register_ui</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">aliases</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span><span id="pipen_report.filters.register_ui"></span><a class="mkapi-docs-link" title="pipen_report.filters.register_ui" href="../../pipen_report.filters/#pipen_report.filters.register_ui">DOCS</a>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a UI renderer</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kind (str): The kind of UI to register.</span>
+<span class="sd">        *aliases (str): The aliases of the kind.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable: The decorator to register the UI renderer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">kind</span><span class="p">,</span> <span class="o">*</span><span class="n">aliases</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">knd</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="n">render_ui</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="n">knd</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+
+
+<span class="nd">@register_ui</span><span class="p">(</span><span class="s2">&quot;flat&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ui_flat</span><span class="p">(</span>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render a flat ui</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): The contents to render.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the UI.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered UI as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">render_component</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span> <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">)</span>
+
+
+<span class="nd">@register_ui</span><span class="p">(</span><span class="s2">&quot;dropdown_switcher&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ui_dropdown_switcher</span><span class="p">(</span>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">ui_arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a dropdown switcher UI.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): The contents to be rendered.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the dropdown switcher.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered dropdown switcher HTML.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the &#39;kind&#39; attribute of any content is not &#39;tab&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ds_id</span> <span class="o">=</span> <span class="n">_ui_dropdown_switcher</span><span class="o">.</span><span class="n">counter</span>
+    <span class="n">_ui_dropdown_switcher</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">selected_id</span> <span class="o">=</span> <span class="n">ui_arg</span> <span class="ow">or</span> <span class="s2">&quot;0&quot;</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cont</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">cont</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ds_name&quot;</span><span class="p">)</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+        <span class="k">if</span> <span class="s2">&quot;kind&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cont</span><span class="p">:</span>
+            <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">_tag</span><span class="p">(</span>
+                    <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+                    <span class="n">class_</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;display: none;&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">_tag</span><span class="p">(</span>
+                    <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+                    <span class="n">class_</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">slot</span><span class="o">=</span><span class="n">render_component</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;display: none;&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="n">dropdown</span> <span class="o">=</span> <span class="n">_tag</span><span class="p">(</span>
+        <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+        <span class="n">selectedId</span><span class="o">=</span><span class="n">selected_id</span><span class="p">,</span>
+        <span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">,</span>
+        <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+        <span class="o">**</span><span class="p">{</span>
+            <span class="s2">&quot;on:select&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;{ (</span><span class="si">{detail}</span><span class="s2">) =&gt; {&quot;</span>
+                <span class="s2">&quot;    const conents = document.getElementsByClassName(&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;      &#39;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="s2">&quot;    );&quot;</span>
+                <span class="s2">&quot;    for (const content of conents) {&quot;</span>
+                <span class="s2">&quot;       content.style.display = &#39;none&#39;;&quot;</span>
+                <span class="s2">&quot;    }&quot;</span>
+                <span class="s2">&quot;    document.getElementById(&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;      &#39;pipen-report-ds-content-</span><span class="si">{</span><span class="n">ds_id</span><span class="si">}</span><span class="s2">-&#39; + detail.selectedId&quot;</span>
+                <span class="s2">&quot;    ).style.display = &#39;block&#39;;&quot;</span>
+                <span class="s2">&quot;} }&quot;</span>
+            <span class="p">)</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">dropdown</span><span class="p">,</span> <span class="o">*</span><span class="n">components</span><span class="p">])</span>
+
+
+<span class="n">_ui_dropdown_switcher</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<span class="nd">@register_ui</span><span class="p">(</span><span class="s2">&quot;table_of_images&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ui_table_of_images</span><span class="p">(</span>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">ui_arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a table of images UI.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ui (str): The UI configuration for the table of images.</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): The list of image contents to be rendered.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the table of images.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered table of images HTML.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the &#39;kind&#39; attribute of any image content is not &#39;table_img&#39; or</span>
+<span class="sd">        &#39;table_image&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ncol</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui_arg</span> <span class="ow">or</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>
+
+    <span class="n">grid_col</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">ncol</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mf">100.</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ncol</span><span class="si">}</span><span class="s2">%&quot;</span>
+    <span class="n">img_src</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">cont</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="s2">&quot;slot&quot;</span><span class="p">:</span> <span class="n">cont</span><span class="p">}</span>
+
+        <span class="n">cont</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;table_image&quot;</span><span class="p">)</span>
+        <span class="n">img_src</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render_component</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span>
+        <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+        <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">img_src</span><span class="p">),</span>
+        <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;pipen-report-table-of-images&quot;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;grid-template-columns: repeat(</span><span class="si">{</span><span class="n">ncol</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">grid_col</span><span class="si">}</span><span class="s2">); &quot;</span><span class="p">,</span>
+        <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@register_ui</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ui_tabs</span><span class="p">(</span>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render a tabs UI.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): List of tab contents.</span>
+<span class="sd">        job (Mapping[str, Any]): Job information.</span>
+<span class="sd">        level (int): Level of the UI.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Rendered tabs UI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tabs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;tab&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;tab&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only kind = tab allowed in UI tabs&quot;</span><span class="p">)</span>
+
+        <span class="n">cont</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;tab&quot;</span>
+        <span class="n">tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render_component</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">tab_slot</span> <span class="o">=</span> <span class="p">[</span><span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="n">tabs</span><span class="p">]</span>
+    <span class="n">tab_slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">_tag</span><span class="p">(</span>
+            <span class="s2">&quot;svelte:fragment&quot;</span><span class="p">,</span>
+            <span class="n">slot_</span><span class="o">=</span><span class="s2">&quot;content&quot;</span><span class="p">,</span>
+            <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">tab</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="n">tabs</span><span class="p">]),</span>
+            <span class="n">_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;Tabs&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tab_slot</span><span class="p">),</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="nd">@register_ui</span><span class="p">(</span><span class="s2">&quot;accordion&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ui_accordion</span><span class="p">(</span>
+    <span class="n">contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">ui_arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render an accordion ui.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        contents (List[Mapping[str, Any]]): The contents of the accordion.</span>
+<span class="sd">        job (Mapping[str, Any]): The job information.</span>
+<span class="sd">        level (int): The level of the accordion.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered accordion UI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">accords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ui_arg</span> <span class="o">=</span> <span class="n">ui_arg</span> <span class="ow">or</span> <span class="s2">&quot;start&quot;</span>
+    <span class="n">has_open</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cont</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cont</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;accordion&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;accordion&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only kind = accordion allow in ui accordion&quot;</span><span class="p">)</span>
+
+        <span class="n">cont</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;accordion&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_open</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cont</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">accords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render_component</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">_tag</span><span class="p">(</span><span class="s2">&quot;Accordion&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="n">ui_arg</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">accords</span><span class="p">),</span> <span class="n">_level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a html tag for report</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tag (str): The HTML tag name.</span>
+<span class="sd">        _level (int, optional): The indentation level. Defaults to 0.</span>
+<span class="sd">        **attrs: Additional attributes for the HTML tag.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The generated HTML tag.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">slot</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;slot&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">tag_attrs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;class_&quot;</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;class&quot;</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;slot_&quot;</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;slot&quot;</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;kind_&quot;</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;kind&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">tag_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">tag_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tag_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="se">{{</span><span class="s2"> </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">}}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tag_attrs</span><span class="p">:</span>
+        <span class="n">tag_attrs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_attr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">60</span> <span class="k">for</span> <span class="n">tag_attr</span> <span class="ow">in</span> <span class="n">tag_attrs</span><span class="p">):</span>
+        <span class="n">tag_attrs</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tag_attrs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tag_attrs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tag_attrs</span><span class="p">),</span> <span class="n">TAB</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">tag_attrs</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">slot</span><span class="si">}</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">slot</span>
+            <span class="ow">and</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">slot</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">60</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">slot</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">TAB</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tag_attrs</span>
+        <span class="p">)</span>
+        <span class="k">else</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">tag_attrs</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">slot</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&gt;&quot;</span> <span class="k">if</span> <span class="n">slot</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">tag_attrs</span><span class="si">}</span><span class="s2"> /&gt;&quot;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">TAB</span> <span class="o">*</span> <span class="n">_level</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">render_job</span><span class="p">(</span><span id="pipen_report.filters.render_job"></span><a class="mkapi-docs-link" title="pipen_report.filters.render_job" href="../../pipen_report.filters/#pipen_report.filters.render_job">DOCS</a>
+    <span class="n">job</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">report_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;report.json&quot;</span><span class="p">,</span>
+    <span class="n">h</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a report template from a report json file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        job: The job data that can be used to render the template</span>
+<span class="sd">        report_file: Absolute path to a report file or relative to `job.outdir`</span>
+<span class="sd">        h: The starting level of the headers</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The generated report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># h1 =&gt; list(</span>
+    <span class="c1">#   h2 =&gt; list(</span>
+    <span class="c1">#       title1 =&gt; list(ui1 =&gt; list(content11, content12)),</span>
+    <span class="c1">#       title2 =&gt; list(ui2 =&gt; list(content21, content22))</span>
+    <span class="c1">#   )</span>
+    <span class="c1"># )</span>
+    <span class="n">outdir</span> <span class="o">=</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;outdir&quot;</span><span class="p">]</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">report_file</span><span class="p">)</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
+        <span class="n">report_file</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="n">report_file</span>
+
+    <span class="n">toc_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">report_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&lt;!-- Generated by pipen_report.filters.report --&gt;&quot;</span><span class="p">]</span>
+    <span class="n">out_append</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">append</span>
+    <span class="k">for</span> <span class="n">h1</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">toc_obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">out_append</span><span class="p">(</span><span class="n">_tag</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">h1</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">h2</span><span class="p">,</span> <span class="n">subsection</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">h2</span> <span class="o">=</span> <span class="n">h2</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">h2</span><span class="p">:</span>
+                <span class="n">out_append</span><span class="p">(</span><span class="n">_tag</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="n">h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">h2</span><span class="p">)))</span>
+
+            <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">subsection</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+                    <span class="n">out_append</span><span class="p">(</span><span class="n">_tag</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="n">h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">title</span><span class="p">)))</span>
+
+                <span class="k">for</span> <span class="n">ui</span><span class="p">,</span> <span class="n">conts</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">ui</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">out_append</span><span class="p">(</span><span class="n">render_ui</span><span class="p">(</span><span class="n">conts</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="n">job</span><span class="p">))</span>
+
+    <span class="n">out_append</span><span class="p">(</span><span class="s2">&quot;&lt;!-- End of Generated by pipen_report.filters.report --&gt;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="n">FILTERS</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">FILTERS</span><span class="p">[</span><span class="s2">&quot;datatable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datatable</span>
+<span class="n">FILTERS</span><span class="p">[</span><span class="s2">&quot;render_component&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">render_component</span>
+<span class="n">FILTERS</span><span class="p">[</span><span class="s2">&quot;render_ui&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">render_ui</span>
+<span class="n">FILTERS</span><span class="p">[</span><span class="s2">&quot;render_job&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">render_job</span>
+</code></pre></div>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/version-select.js"></script>
+      <script src="../../../js/mkapi.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

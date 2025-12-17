@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>pipen_report.report_manager - pipen-report</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../../../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../../../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "pipen_report.report_manager";
+        var mkdocs_page_input_path = "api/source/pipen_report.report_manager.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../..">
+          <img src="../../../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">pipen_report.report_manager</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/api/source/pipen_report.report_manager.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="mkapi-node">
+<h1 id="" class="mkapi-object mkapi-object-code plain">
+<span class="mkapi-object-kind mkapi-object-kind-code">SOURCE CODE</span>
+<span class="mkapi-object-prefix">pipen_report.</span><span class="mkapi-object-name">report_manager</span>
+<span id="pipen_report.report_manager"></span><a class="mkapi-docs-link" href="../../pipen_report.report_manager">DOCS</a>
+</h1>
+
+<div class="mkapi-code">
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">liquid</span><span class="w"> </span><span class="kn">import</span> <span class="n">Liquid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copier</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yunpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">CloudPath</span><span class="p">,</span> <span class="n">GSClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cloudpathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">AzureBlobClient</span><span class="p">,</span> <span class="n">S3Client</span><span class="p">,</span> <span class="n">GSPath</span><span class="p">,</span> <span class="n">S3Path</span><span class="p">,</span> <span class="n">AzureBlobPath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xqute.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecCloudPath</span><span class="p">,</span> <span class="n">MountedPath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proc</span><span class="p">,</span> <span class="n">ProcGroup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcInputType</span><span class="p">,</span> <span class="n">ProcOutputType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateRenderingError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen.template</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateLiquid</span><span class="p">,</span> <span class="n">TemplateJinja2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipen.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_base</span><span class="p">,</span> <span class="n">desc_from_docstring</span><span class="p">,</span> <span class="n">get_marked</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILTERS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.preprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnifiedLogger</span><span class="p">,</span> <span class="n">get_config</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">rsync_to_cloud</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.versions</span><span class="w"> </span><span class="kn">import</span> <span class="n">version_str</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pipen</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipen</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pipen.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">Job</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pipen.template</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+
+<span class="n">ansi_escape</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\x1B(?:[@-Z</span><span class="se">\\</span><span class="s2">-_]|\[[0-?]*[ -/]*[@-~])&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_file</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Template</span><span class="p">],</span>
+    <span class="n">engine_opts</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">render_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render a template file&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">engine</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TemplateLiquid</span><span class="p">,</span> <span class="n">TemplateJinja2</span><span class="p">):</span>
+        <span class="c1"># Avoid {#if ... } being treated as jinja comments</span>
+        <span class="n">engine_opts</span><span class="p">[</span><span class="s2">&quot;comment_start_string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{!&quot;</span>
+        <span class="n">engine_opts</span><span class="p">[</span><span class="s2">&quot;comment_end_string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;!}&quot;</span>
+    <span class="k">return</span> <span class="n">engine</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">**</span><span class="n">engine_opts</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">render_data</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NPMBuildingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span><span id="pipen_report.report_manager.NPMBuildingError"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.NPMBuildingError" href="../../pipen_report.report_manager/#pipen_report.report_manager.NPMBuildingError">DOCS</a>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error when npm run build failed&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReportManager</span><span class="p">:</span><span id="pipen_report.report_manager.ReportManager"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager">DOCS</a>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">plugin_opts</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">outdir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">CloudPath</span><span class="p">,</span>
+        <span class="n">workdir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">CloudPath</span><span class="p">,</span>
+        <span class="n">cachedir_for_cloud</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the report manager&quot;&quot;&quot;</span>
+        <span class="n">outdir</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">/</span> <span class="s2">&quot;REPORTS&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">GSPath</span><span class="p">):</span>
+            <span class="n">outdir_client</span> <span class="o">=</span> <span class="n">GSClient</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">S3Path</span><span class="p">):</span>
+            <span class="n">outdir_client</span> <span class="o">=</span> <span class="n">S3Client</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">AzureBlobPath</span><span class="p">):</span>
+            <span class="n">outdir_client</span> <span class="o">=</span> <span class="n">AzureBlobClient</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outdir_client</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span> <span class="n">GSPath</span><span class="p">):</span>
+            <span class="n">workdir_client</span> <span class="o">=</span> <span class="n">GSClient</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span> <span class="n">S3Path</span><span class="p">):</span>
+            <span class="n">workdir_client</span> <span class="o">=</span> <span class="n">S3Client</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span> <span class="n">AzureBlobPath</span><span class="p">):</span>
+            <span class="n">workdir_client</span> <span class="o">=</span> <span class="n">AzureBlobClient</span><span class="p">(</span><span class="n">local_cache_dir</span><span class="o">=</span><span class="n">cachedir_for_cloud</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">workdir_client</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Make sure outdir and workdir are local paths</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">SpecCloudPath</span><span class="p">):</span>
+            <span class="c1"># modified by plugins like pipen-gcs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span><span class="n">outdir</span><span class="o">.</span><span class="n">fspath</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">outdir</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+            <span class="c1"># specified directly</span>
+            <span class="k">if</span> <span class="n">outdir</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">_cache_tmp_dir</span><span class="p">:</span>
+                <span class="c1"># default client, no specific local_cache_dir of client specified</span>
+                <span class="n">outdir</span> <span class="o">=</span> <span class="n">outdir_client</span><span class="o">.</span><span class="n">CloudPath</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">outdir</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span><span class="n">outdir</span><span class="o">.</span><span class="n">fspath</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">outdir</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+
+        <span class="n">workdir</span> <span class="o">=</span> <span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;.report-workdir&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">workdir</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">_cache_tmp_dir</span><span class="p">:</span>
+                <span class="c1"># default client, no specific local_cache_dir of client specified</span>
+                <span class="n">workdir</span> <span class="o">=</span> <span class="n">workdir_client</span><span class="o">.</span><span class="n">CloudPath</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">workdir</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span><span class="n">workdir</span><span class="o">.</span><span class="n">fspath</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">workdir</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span><span class="n">workdir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">npm</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;npm&quot;</span><span class="p">,</span> <span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_npm&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;nmdir&quot;</span><span class="p">,</span> <span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_nmdir&quot;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extlibs</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;extlibs&quot;</span><span class="p">,</span> <span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_extlibs&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nobuild</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;nobuild&quot;</span><span class="p">,</span> <span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_nobuild&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span> <span class="o">=</span> <span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_no_collapse_pgs&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_reports</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Used to pass to the UI for rendering</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_npm_and_setup_dirs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span><span id="pipen_report.report_manager.ReportManager.check_npm_and_setup_dirs"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager.check_npm_and_setup_dirs" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager.check_npm_and_setup_dirs">DOCS</a>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if npm is available&quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Checking npm and frontend dependencies ...&quot;</span><span class="p">)</span>
+
+        <span class="n">npm</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">npm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot find npm. Please install it or specify the path to npm by:&quot;</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;$ pipen report config [--local] --npm &lt;path/to/npm&gt;&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid nmdir: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Run `pipen report config [--local] --nmdir ...` to set it&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># check if frontend dependencies are installed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span> <span class="o">/</span> <span class="s2">&quot;node_modules&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Frontend dependencies are not installed&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Run `pipen report update` to install them&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">pubdir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;public&quot;</span>
+        <span class="k">if</span> <span class="n">pubdir</span><span class="o">.</span><span class="n">is_symlink</span><span class="p">():</span>
+            <span class="n">pubdir</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+        <span class="n">nmdir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;node_modules&quot;</span>
+        <span class="k">if</span> <span class="n">nmdir</span><span class="o">.</span><span class="n">is_symlink</span><span class="p">():</span>
+            <span class="n">nmdir</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+        <span class="n">exdir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;extlibs&quot;</span>
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="n">exdir</span><span class="o">.</span><span class="n">rmtree</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="n">exdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Check if self.workdir is writable</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">testfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;.writetest&quot;</span>
+            <span class="n">testfile</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+            <span class="n">testfile</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;The report workdir is not writable:&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+            <span class="n">traces</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Copy rollup config file to workdir</span>
+        <span class="n">rollup_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;rollup.config.js.jinja&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+        <span class="n">rollup_config</span> <span class="o">=</span> <span class="n">Liquid</span><span class="p">(</span><span class="n">rollup_config</span><span class="p">,</span> <span class="n">from_file</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+            <span class="n">extlibs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extlibs</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;rollup.config.js&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">rollup_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;public&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;package.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;package.json&quot;</span><span class="p">)</span>
+
+        <span class="n">node_lockfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;package-lock.json&quot;</span><span class="p">)</span>
+        <span class="n">bun_lockfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;bun.lock&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bun_lockfile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node_lockfile</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Frontend package lock file not found.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Run `pipen report install` to create it.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bun_lockfile</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">bun_lockfile</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;bun.lock&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node_lockfile</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;package-lock.json&quot;</span><span class="p">)</span>
+
+        <span class="n">pubdir</span><span class="o">.</span><span class="n">symlink_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="p">)</span>
+        <span class="n">nmdir</span><span class="o">.</span><span class="n">symlink_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span> <span class="o">/</span> <span class="s2">&quot;node_modules&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extlibs</span><span class="p">:</span>
+            <span class="n">exdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extlibs</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symlink_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extlibs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_template_opts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_opts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Template options for renderring</span>
+<span class="sd">        Only supports liquid and jinja2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">template_opts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s2">&quot;filters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">template_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filters&quot;</span><span class="p">,</span> <span class="p">{}),</span> <span class="o">**</span><span class="n">FILTERS</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_rendering_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proc</span><span class="p">:</span> <span class="n">Proc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the data to render report template</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            proc: The process</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The data to render report template</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">jobdata</span><span class="p">(</span><span class="n">job</span><span class="p">:</span> <span class="n">Job</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Get data from each job&quot;&quot;&quot;</span>
+
+            <span class="c1"># Do not use the mounted paths, since we are not building</span>
+            <span class="c1"># in the job execution environment</span>
+            <span class="n">indata</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">inkey</span><span class="p">,</span> <span class="n">intype</span> <span class="ow">in</span> <span class="n">proc</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+                <span class="k">if</span> <span class="n">intype</span> <span class="o">==</span> <span class="n">ProcInputType</span><span class="o">.</span><span class="n">VAR</span> <span class="ow">or</span> <span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">indata</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">intype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ProcInputType</span><span class="o">.</span><span class="n">FILE</span><span class="p">,</span> <span class="n">ProcInputType</span><span class="o">.</span><span class="n">DIR</span><span class="p">):</span>
+                    <span class="n">indata</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span><span class="o">.</span><span class="n">spec</span>
+
+                <span class="k">if</span> <span class="n">intype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ProcInputType</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">ProcInputType</span><span class="o">.</span><span class="n">DIRS</span><span class="p">):</span>
+                    <span class="n">indata</span><span class="p">[</span><span class="n">inkey</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">spec</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="n">inkey</span><span class="p">]]</span>
+
+            <span class="n">outdata</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">outkey</span><span class="p">,</span> <span class="n">outtype</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">_output_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+                <span class="k">if</span> <span class="n">outtype</span> <span class="o">==</span> <span class="n">ProcOutputType</span><span class="o">.</span><span class="n">VAR</span><span class="p">:</span>
+                    <span class="n">outdata</span><span class="p">[</span><span class="n">outkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="n">outkey</span><span class="p">]</span>
+                    <span class="k">continue</span>
+
+                <span class="n">outdata</span><span class="p">[</span><span class="n">outkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="n">outkey</span><span class="p">]</span><span class="o">.</span><span class="n">spec</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">template_data</span><span class="p">[</span><span class="s2">&quot;job&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="n">indata</span><span class="p">,</span>
+                    <span class="s2">&quot;in_&quot;</span><span class="p">:</span> <span class="n">indata</span><span class="p">,</span>
+                    <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="n">outdata</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="n">rendering_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;proc&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="p">,</span>
+            <span class="s2">&quot;envs&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">envs</span><span class="p">,</span>
+            <span class="s2">&quot;jobs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">jobdata</span><span class="p">(</span><span class="n">job</span><span class="p">)</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">proc</span><span class="o">.</span><span class="n">jobs</span><span class="p">],</span>
+        <span class="p">}</span>
+        <span class="c1"># first job</span>
+        <span class="n">rendering_data</span><span class="p">[</span><span class="s2">&quot;job&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rendering_data</span><span class="p">[</span><span class="s2">&quot;jobs&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rendering_data</span><span class="p">[</span><span class="s2">&quot;job0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rendering_data</span><span class="p">[</span><span class="s2">&quot;jobs&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rendering_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_npm_run_build</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cwd</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">proc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ulogger</span><span class="p">:</span> <span class="n">UnifiedLogger</span><span class="p">,</span>
+        <span class="n">force_build</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">cached</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">npages</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">procgroup</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a command and log the messages</span>
+
+<span class="sd">        proc is ProcGroup:Proc or Proc</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;pipen-report.log&quot;</span>
+        <span class="k">if</span> <span class="n">proc</span> <span class="o">==</span> <span class="s2">&quot;_index&quot;</span><span class="p">:</span>
+            <span class="n">logfile</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">destfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="s2">&quot;_index.js&quot;</span><span class="p">)</span>
+            <span class="n">ini_datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;init_data.json&quot;</span>
+            <span class="n">src_changed</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">ini_datafile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="n">destfile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="n">ini_datafile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span> <span class="o">&gt;</span> <span class="n">destfile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span>
+            <span class="p">)</span>
+            <span class="n">proc_or_pg</span> <span class="o">=</span> <span class="n">proc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">proc_or_pg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">proc</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">procgroup</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span> <span class="ow">is</span> <span class="kc">True</span>
+                <span class="ow">or</span> <span class="n">procgroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span>
+                <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">procgroup</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">proc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">srcfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="n">proc</span><span class="p">,</span> <span class="s2">&quot;proc.svelte&quot;</span><span class="p">)</span>
+            <span class="n">destfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">proc</span><span class="si">}</span><span class="s2">.js&quot;</span><span class="p">)</span>
+            <span class="n">src_changed</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">destfile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="n">srcfile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span> <span class="o">&gt;</span> <span class="n">destfile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">destfile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_build</span> <span class="ow">and</span> <span class="n">cached</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">src_changed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">proc</span> <span class="o">==</span> <span class="s2">&quot;_index&quot;</span><span class="p">:</span>
+                <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Home page cached, skipping report building&quot;</span><span class="p">)</span>
+                <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- workdir: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">proc_or_pg</span><span class="si">}</span><span class="s2"> cached, skipping report building.&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span>
+
+        <span class="n">ulogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Destination exists: </span><span class="si">{</span><span class="n">destfile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">}</span><span class="s2">; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;force_build: </span><span class="si">{</span><span class="n">force_build</span><span class="si">}</span><span class="s2">; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;cached: </span><span class="si">{</span><span class="n">cached</span><span class="si">}</span><span class="s2">; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;src_changed: </span><span class="si">{</span><span class="n">src_changed</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">proc_or_pg</span> <span class="o">==</span> <span class="s2">&quot;_index&quot;</span><span class="p">:</span>
+            <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building home page ...&quot;</span><span class="p">)</span>
+            <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- workdir: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">npages</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building report ...&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Building report (</span><span class="si">{</span><span class="n">npages</span><span class="si">}</span><span class="s2"> pages) ...&quot;</span><span class="p">)</span>
+
+        <span class="n">chars_to_error</span> <span class="o">=</span> <span class="s2">&quot;(!)&quot;</span>
+        <span class="n">errors_to_ignore</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># &quot;(!) Unresolved dependencies&quot;:</span>
+            <span class="c1"># &quot;May be ignored if you are using external libraries&quot;,</span>
+        <span class="p">}</span>
+        <span class="n">errored</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="s2">&quot;at&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">flog</span><span class="p">:</span>
+            <span class="n">flog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# BUILDING </span><span class="si">{</span><span class="n">proc_or_pg</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;----------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">npm</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;--configProc=</span><span class="si">{</span><span class="n">proc_or_pg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+                    <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                    <span class="n">stderr</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+                    <span class="n">cwd</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">cwd</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                    <span class="n">logline</span> <span class="o">=</span> <span class="n">ansi_escape</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+                    <span class="c1"># src/pages/_index/index.js → public/index/index.js</span>
+                    <span class="n">flog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ansi_escape</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="s2">&quot; → &quot;</span> <span class="ow">in</span> <span class="n">logline</span> <span class="ow">and</span> <span class="n">logline</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;src/pages/&quot;</span><span class="p">):</span>
+                        <span class="n">ulogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">logline</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; → &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">logline</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">chars_to_error</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                        <span class="k">if</span> <span class="n">logline</span> <span class="ow">in</span> <span class="n">errors_to_ignore</span><span class="p">:</span>
+                            <span class="n">ulogger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">logline</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">errors_to_ignore</span><span class="p">[</span><span class="n">logline</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">ulogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">logline</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="n">errored</span> <span class="o">=</span> <span class="kc">True</span>
+
+                    <span class="k">if</span> <span class="n">errored</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                        <span class="c1"># Early stop</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+                        <span class="k">raise</span> <span class="n">NPMBuildingError</span>
+
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="k">raise</span> <span class="n">NPMBuildingError</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">):</span>
+                    <span class="n">destfile</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">NPMBuildingError</span><span class="p">):</span>
+                    <span class="n">flog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+                        <span class="n">ulogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">ulogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(!) Failed. See: </span><span class="si">{</span><span class="n">logfile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_pipeline_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipen</span><span class="p">:</span> <span class="n">Pipen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span><span id="pipen_report.report_manager.ReportManager.init_pipeline_data"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager.init_pipeline_data" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager.init_pipeline_data">DOCS</a>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to workdir&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">pipen</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="n">pipen</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;versions&quot;</span><span class="p">:</span> <span class="n">version_str</span><span class="p">,</span>
+            <span class="s2">&quot;entries&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># Either a proc or a procgroup</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="n">procgroups</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">proc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pipen</span><span class="o">.</span><span class="n">procs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="s2">&quot;plugin_opts&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">desc</span> <span class="ow">or</span> <span class="n">desc_from_docstring</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">Proc</span><span class="p">),</span>
+                <span class="s2">&quot;npages&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;report_toc&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="p">((</span><span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_order&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
+            <span class="p">}</span>
+
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">__meta__</span><span class="p">[</span><span class="s2">&quot;procgroup&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="n">pg</span> <span class="ow">and</span> <span class="n">pg</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span>
+            <span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">pg</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">pg</span> <span class="ow">and</span> <span class="n">pg</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">procgroups</span><span class="p">:</span>
+                <span class="n">procgroups</span><span class="p">[</span><span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="n">desc_from_docstring</span><span class="p">(</span><span class="n">pg</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ProcGroup</span><span class="p">),</span>
+                    <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;procs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">entry</span><span class="p">],</span>
+                <span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">procgroups</span><span class="p">[</span><span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">pg</span><span class="p">:</span>
+                <span class="n">procgroups</span><span class="p">[</span><span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                    <span class="n">procgroups</span><span class="p">[</span><span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;order&quot;</span><span class="p">],</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">procgroups</span><span class="p">[</span><span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;procs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Write the initial data to check if home page is cached</span>
+        <span class="n">datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;init_data.json&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">datafile</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">datafile</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span>
+        <span class="p">):</span>
+            <span class="k">with</span> <span class="n">datafile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_proc_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proc</span><span class="p">:</span> <span class="n">Proc</span><span class="p">,</span> <span class="n">npages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the number of pages for a process&quot;&quot;&quot;</span>
+
+        <span class="n">runinfo_sess_file</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;0&quot;</span> <span class="o">/</span> <span class="s2">&quot;job.runinfo.session&quot;</span>
+        <span class="n">runinfo_time_file</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;0&quot;</span> <span class="o">/</span> <span class="s2">&quot;job.runinfo.time&quot;</span>
+        <span class="n">runinfo_dev_file</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;0&quot;</span> <span class="o">/</span> <span class="s2">&quot;job.runinfo.device&quot;</span>
+
+        <span class="n">runinfo_sess</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">runinfo_sess_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">runinfo_sess_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="k">else</span> <span class="p">(</span>
+                <span class="s2">&quot;pipen-runinfo plugin not enabled or language not supported &quot;</span>
+                <span class="s2">&quot;for saving session information.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">runinfo_time</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">runinfo_time_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">runinfo_time_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="k">else</span> <span class="s2">&quot;pipen-runinfo plugin not enabled.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">runinfo_dev</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">runinfo_dev_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">runinfo_dev_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="k">else</span> <span class="s2">&quot;pipen-runinfo plugin not enabled.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">to_update</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;npages&quot;</span><span class="p">:</span> <span class="n">npages</span><span class="p">,</span>
+            <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span>
+            <span class="s2">&quot;report_toc&quot;</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_toc&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="s2">&quot;runinfo&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="n">runinfo_sess</span><span class="p">,</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">runinfo_time</span><span class="p">,</span>
+                <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="n">runinfo_dev</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="n">pg</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">__meta__</span><span class="p">[</span><span class="s2">&quot;procgroup&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">pg</span> <span class="ow">and</span> <span class="n">pg</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_collapse_pgs</span>
+        <span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">pg</span> <span class="ow">and</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">pg</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;procs&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">to_update</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">entry</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">to_update</span><span class="p">)</span>
+                <span class="k">break</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_proc_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proc</span><span class="p">:</span> <span class="n">Proc</span><span class="p">):</span><span id="pipen_report.report_manager.ReportManager.render_proc_report"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager.render_proc_report" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager.render_proc_report">DOCS</a>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Render the report template for a process</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            proc: The process</span>
+<span class="sd">            status: The status of the process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rendering_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rendering_data</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+
+        <span class="c1"># Render the report</span>
+        <span class="c1"># in case it&#39;s a Path object</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span><span class="p">[</span><span class="s2">&quot;report&quot;</span><span class="p">])</span>
+        <span class="n">report_toc</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_toc&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">report_paging</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_paging&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">report_relpath_tags</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_relpath_tags&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">report</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;file://&quot;</span><span class="p">):</span>
+            <span class="n">report_tpl</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">report</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">report_tpl</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
+                <span class="n">base</span> <span class="o">=</span> <span class="n">get_base</span><span class="p">(</span>
+                    <span class="n">proc</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+                    <span class="n">Proc</span><span class="p">,</span>
+                    <span class="n">report</span><span class="p">,</span>
+                    <span class="k">lambda</span> <span class="n">klass</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="kc">None</span>
+                        <span class="k">if</span> <span class="n">klass</span><span class="o">.</span><span class="n">plugin_opts</span> <span class="ow">is</span> <span class="kc">None</span>
+                        <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">klass</span><span class="o">.</span><span class="n">plugin_opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">report_tpl</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="n">base</span><span class="p">))</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">report_tpl</span>
+            <span class="n">report</span> <span class="o">=</span> <span class="n">report_tpl</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+
+        <span class="n">template_opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template_opts</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">template_opts</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rendered</span> <span class="o">=</span> <span class="n">_render_file</span><span class="p">(</span>
+                <span class="n">proc</span><span class="o">.</span><span class="n">template</span><span class="p">,</span>
+                <span class="n">template_opts</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="n">report</span><span class="p">,</span>
+                <span class="n">rendering_data</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">raise</span> <span class="n">TemplateRenderingError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Failed to render report file.&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+        <span class="c1"># How the pipeline/proc is run</span>
+        <span class="c1"># If mounted_outdir is not None, it means the pipeline is run remotely</span>
+        <span class="c1"># The spec paths are paths that mounted inside the remote environment</span>
+        <span class="c1"># They may not be working on this local system</span>
+        <span class="n">run_meta</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;outdir&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="p">,</span>
+            <span class="s2">&quot;workdir&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span>
+            <span class="s2">&quot;mounted_outdir&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">xqute</span><span class="o">.</span><span class="n">scheduler</span><span class="p">,</span> <span class="s2">&quot;MOUNTED_OUTDIR&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="s2">&quot;mounted_workdir&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">xqute</span><span class="o">.</span><span class="n">scheduler</span><span class="p">,</span> <span class="s2">&quot;MOUNTED_METADIR&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">]:</span>
+            <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span>
+                <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">],</span>
+                <span class="n">spec</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">]:</span>
+            <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MountedPath</span><span class="p">(</span>
+                <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">],</span>
+                <span class="n">spec</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># preprocess the rendered report and get the toc</span>
+        <span class="n">rendered_parts</span><span class="p">,</span> <span class="n">toc</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">rendered</span><span class="p">,</span>
+            <span class="n">run_meta</span><span class="p">,</span>
+            <span class="n">report_toc</span><span class="p">,</span>
+            <span class="n">report_paging</span><span class="p">,</span>
+            <span class="n">report_relpath_tags</span><span class="p">,</span>
+            <span class="n">logfn</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">report_paging</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">proc</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;There are &gt; 10 sections in the report, &quot;</span>
+                <span class="s2">&quot;enable paging (`report_paging`) ?&quot;</span><span class="p">,</span>
+                <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">npages</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rendered_parts</span><span class="p">)</span>
+        <span class="c1"># Update npages in data.json</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_proc_meta</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">npages</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rendered_part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rendered_parts</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_render_page</span><span class="p">(</span>
+                <span class="n">rendered</span><span class="o">=</span><span class="n">rendered_part</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">page</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                <span class="n">toc</span><span class="o">=</span><span class="n">toc</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">npages</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_render_page</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">rendered</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">page</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">toc</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Render a page of the report&quot;&quot;&quot;</span>
+        <span class="n">tpl_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="s2">&quot;proc&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dest_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dest_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;pages&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">run_copy</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">tpl_dir</span><span class="p">),</span>
+            <span class="n">dest_dir</span><span class="p">,</span>
+            <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">},</span>
+            <span class="n">skip_if_exists</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;proc.svelte&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">rendered_report</span> <span class="o">=</span> <span class="n">dest_dir</span> <span class="o">/</span> <span class="s2">&quot;proc.svelte&quot;</span>
+
+        <span class="k">with</span> <span class="n">dest_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;toc.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">toc</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rendered_report</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">rendered_report</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span> <span class="o">!=</span> <span class="n">rendered</span><span class="p">:</span>
+            <span class="n">rendered_report</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">rendered</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rendered_report</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span id="pipen_report.report_manager.ReportManager.build"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager.build" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager.build">DOCS</a>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">proc</span><span class="p">:</span> <span class="n">Proc</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">nobuild</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">force_build</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">cached</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build report for a process</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            proc: The process</span>
+<span class="sd">            nobuild: Don&#39;t build the report</span>
+<span class="sd">            cached: Whether the process is cached</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ulogger</span> <span class="o">=</span> <span class="n">UnifiedLogger</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">proc</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">proc</span> <span class="o">==</span> <span class="s2">&quot;_index&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nobuild</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">ulogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;`report_nobuild` is True, skipping building home page.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_npm_run_build</span><span class="p">(</span>
+                    <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span>
+                    <span class="n">proc</span><span class="o">=</span><span class="s2">&quot;_index&quot;</span><span class="p">,</span>
+                    <span class="n">ulogger</span><span class="o">=</span><span class="n">ulogger</span><span class="p">,</span>
+                    <span class="n">force_build</span><span class="o">=</span><span class="n">force_build</span><span class="p">,</span>
+                    <span class="n">cached</span><span class="o">=</span><span class="n">cached</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span>
+
+        <span class="n">npages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_proc_report</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+
+        <span class="n">datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;data.json&quot;</span>
+        <span class="k">with</span> <span class="n">datafile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nobuild</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobuild</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">ulogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;`report_nobuild` is True, skipping building report.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">procgroup</span> <span class="o">=</span> <span class="n">get_marked</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="s2">&quot;procgroup&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_npm_run_build</span><span class="p">(</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span>
+            <span class="n">proc</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ulogger</span><span class="o">=</span><span class="n">ulogger</span><span class="p">,</span>
+            <span class="n">force_build</span><span class="o">=</span><span class="n">force_build</span><span class="p">,</span>
+            <span class="n">cached</span><span class="o">=</span><span class="n">cached</span><span class="p">,</span>
+            <span class="n">npages</span><span class="o">=</span><span class="n">npages</span><span class="p">,</span>
+            <span class="n">procgroup</span><span class="o">=</span><span class="n">procgroup</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">procgroup</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">sync_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logfn</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span><span id="pipen_report.report_manager.ReportManager.sync_reports"></span><a class="mkapi-docs-link" title="pipen_report.report_manager.ReportManager.sync_reports" href="../../pipen_report.report_manager/#pipen_report.report_manager.ReportManager.sync_reports">DOCS</a>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sync the reports to the cloud output directory if needed&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">logfn</span><span class="p">:</span>
+                <span class="n">logfn</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;Syncing reports to cloud ...&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Syncing reports to cloud ...&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; → </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="o">.</span><span class="n">spec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">rsync_to_cloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outdir</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/version-select.js"></script>
+      <script src="../../../js/mkapi.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

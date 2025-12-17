@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Configurations - pipen-report</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Configurations";
+        var mkdocs_page_input_path = "configurations.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Configurations</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#report">report</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_order">report_order</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_toc">report_toc</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_npm">report_npm</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_nmdir">report_nmdir</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_nobuild">report_nobuild</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_loglevel">report_loglevel</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_force_export">report_force_export</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_no_collapse_pgs">report_no_collapse_pgs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_relpath_tags">report_relpath_tags</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report_paging">report_paging</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Configurations</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/configurations.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="configurations">Configurations</h2>
+<p>Configurations should be set under <code>plugin_opts</code>.</p>
+<p>Just like configurations for <code>pipen</code>, there are two levels of configuration items: process-level and pipeline-level.</p>
+<p>Process-level configurations should set at process definition. They can, however, be initialized at pipeline creation or in a configuration file, then those will apply to ALL processes if they are not set at process definition.</p>
+<p>Pipeline-level configurations are not set in configuration files or pipeline creation. Set values at process definition won't affect it.</p>
+<h3 id="report"><code>report</code></h3>
+<p>Process-level.</p>
+<p>Default: <code>None</code></p>
+<p>The report template. If <code>None</code>, no report will be generated for this process.
+If the template is a file, use a <code>file://</code> prefix: <code>file:///path/to/template</code></p>
+<h3 id="report_order"><code>report_order</code></h3>
+<p>Process-level.</p>
+<p>Default: <code>0</code></p>
+<p>The order of the process to show in the index page and app menu</p>
+<h3 id="report_toc"><code>report_toc</code></h3>
+<p>Process-level.</p>
+<p>Default: <code>True</code></p>
+<p>Whether add TOC (left-side navigation) to the process report</p>
+<h3 id="report_npm"><code>report_npm</code></h3>
+<p>Pipeline-level.</p>
+<p>Default: <code>"npm"</code></p>
+<p>The path to <code>npm</code>, in case you don't have it installed in <code>$PAT</code></p>
+<h3 id="report_nmdir"><code>report_nmdir</code></h3>
+<p>Pipeline-level.</p>
+<p>Default: <code>"~/.pipen-report"</code></p>
+<p>Where to save the <code>node_modules</code> directory (frontend dependencies), or where to run <code>npm install</code>.
+<code>pipen-report</code> will first try to run <code>npm install</code> at <code>frontend</code> of the package directory. However, if you don't have the write privileges to the directory (i.e. The package is installed by admin), we will try to run <code>npm install</code> in the given directory (<code>package.json</code> will be copied there).</p>
+<p>Another way is that you install this package in <code>user</code> mode: <code>pip install --user -U pipen-report</code></p>
+<p>The frontend dependencies are install once, and will be shared across all pipelines.</p>
+<h3 id="report_nobuild"><code>report_nobuild</code></h3>
+<p>Pipeline-level.</p>
+<p>Default: <code>False</code></p>
+<p>Don't build the reports, but just setup the frontend environment. You can build the reports by yourself manually at <code>&lt;pipeline-workdir&gt;/&lt;pipeline-name&gt;/.report-workdir</code></p>
+<h3 id="report_loglevel"><code>report_loglevel</code></h3>
+<p>Pipeline-level</p>
+<p>Default: <code>"info"</code></p>
+<p>The logging level of the <code>pipen-report</code> logger. It won't affect the pipen's main logger.</p>
+<h3 id="report_force_export"><code>report_force_export</code></h3>
+<p>Pipeline-level</p>
+<p>Default: <code>True</code></p>
+<p>Force the process to export output when report template is given</p>
+<h3 id="report_no_collapse_pgs"><code>report_no_collapse_pgs</code></h3>
+<p>Pipeline-level</p>
+<p>Default: <code>False</code> (collapse all procgroups)</p>
+<p>Don't collapse procgroups in the report. This is useful when you want to see the processes of the procgroup in the index page. Could be either a procgroup name, a list of procgroup names or <code>True</code> (don't collapse any procgroups)</p>
+<h3 id="report_relpath_tags"><code>report_relpath_tags</code></h3>
+<p>Pipeline-level</p>
+<p>Default: <code>None</code></p>
+<p>Tags with properties that need to convert to relative paths i.e. <code>{"Image": "src"}</code>.
+This is useful when you have a custom component that has a property that is a path to a resource.</p>
+<p>See <a href="../writing#converting-paths-to-urls">Converting paths to urls</a> for more information.</p>
+<h3 id="report_paging"><code>report_paging</code></h3>
+<p>Process-level</p>
+<p>Default: <code>False</code></p>
+<p>Break the process report into pages. They are split by <code>h1</code> tags, which has to be
+top-level tags. For example:</p>
+<div class="highlight"><pre><span></span><code>&lt;script&gt;
+    // ...
+&lt;/script&gt;
+
+&lt;h1&gt;Section1&lt;/h1&gt;
+content1
+
+&lt;h1&gt;Section2&lt;/h1&gt;
+content2
+
+&lt;h1&gt;Section3&lt;/h1&gt;
+content3
+</code></pre></div>
+<p>When <code>report_paging = 2</code>, then the report will be split into:</p>
+<div class="highlight"><pre><span></span><code>&lt;script&gt;
+    // ...
+&lt;/script&gt;
+
+&lt;h1&gt;Section1&lt;/h1&gt;
+content1
+
+&lt;h1&gt;Section2&lt;/h1&gt;
+content2
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><span></span><code>&lt;script&gt;
+    // ...
+&lt;/script&gt;
+
+&lt;h1&gt;Section3&lt;/h1&gt;
+content3
+</code></pre></div>
+<p>Note that the TOC will still show all items and when clicking one of them, the right page will be shown.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../cli/" class="btn btn-neutral float-right" title="CLI tools">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../cli/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/version-select.js"></script>
+      <script src="../js/mkapi.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

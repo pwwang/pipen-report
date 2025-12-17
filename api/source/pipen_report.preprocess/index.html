@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>pipen_report.preprocess - pipen-report</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.8.1/css/v4-shims.css" rel="stylesheet" />
+        <link href="../../../css/mkapi-common.css" rel="stylesheet" />
+        <link href="../../../style.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "pipen_report.preprocess";
+        var mkdocs_page_input_path = "api/source/pipen_report.preprocess.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.configure({ ignoreUnescapedHTML: true }); hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../..">
+          <img src="../../../logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="nav-scrollable-wrapper">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../configurations/">Configurations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../cli/">CLI tools</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../folder-structure/">Folder structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../rendering/">Template rendering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../writing/">Writing report templates</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../filters/">Filters for rendering</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">pipen_report</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report/">pipen_report</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_manager/">pipen_report.report_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.report_plugin/">pipen_report.report_plugin</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.utils/">pipen_report.utils</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.cli/">pipen_report.cli</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.filters/">pipen_report.filters</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.versions/">pipen_report.versions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pipen_report.preprocess/">pipen_report.preprocess</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../CHANGELOG/">Change Log</a>
+                </li>
+              </ul>
+      </div>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">pipen-report</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">pipen_report.preprocess</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/pwwang/pipen-report/edit/master/docs/api/source/pipen_report.preprocess.md">Edit on pwwang/pipen-report</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="mkapi-node">
+<h1 id="" class="mkapi-object mkapi-object-code plain">
+<span class="mkapi-object-kind mkapi-object-kind-code">SOURCE CODE</span>
+<span class="mkapi-object-prefix">pipen_report.</span><span class="mkapi-object-name">preprocess</span>
+<span id="pipen_report.preprocess"></span><a class="mkapi-docs-link" href="../../pipen_report.preprocess">DOCS</a>
+</h1>
+
+<div class="mkapi-code">
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Provides preprocess&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">imagesize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yunpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyPath</span><span class="p">,</span> <span class="n">CloudPath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">slugify</span><span class="w"> </span><span class="kn">import</span> <span class="n">slugify</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_fun</span>
+
+<span class="n">RELPATH_TAGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;href&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;embed&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;img&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Link&quot;</span><span class="p">:</span> <span class="s2">&quot;href&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Image&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;download&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;ImageLoader&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DataTable&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;iframe&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Iframe&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Plotly&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Download&quot;</span><span class="p">:</span> <span class="s2">&quot;href&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">H1_TAG</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(&lt;h1.*?&gt;.+?&lt;/h1&gt;)&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+<span class="n">H1_TAG_TEXT</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;h1.*?&gt;(.+?)&lt;/h1&gt;&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+<span class="n">H2_TAG_TEXT</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;h2.*?&gt;(.+?)&lt;/h2&gt;&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+<span class="n">TAG_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;(?P&lt;tag&gt;[\w-]+)(?P&lt;attrs&gt;.*?)(?P&lt;end&gt;/?&gt;)&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+<span class="c1"># noqa: E501</span>
+<span class="c1"># &lt;Image src=&quot;{{ job.in.inimg}}&quot;</span>
+<span class="c1">#   download={ {&quot;src&quot;: &quot;{{ job.in.inimg } }&quot;, &quot;tip&quot;: &quot;Download the high resolution format&quot;} } /&gt;  # noqa: E501</span>
+<span class="c1"># &lt;Image src=&quot;{{ job.in.inimg}}&quot;</span>
+<span class="c1">#   download={ {&quot;src&quot;: 1, &quot;tip&quot;: &quot;Download the high resolution format&quot;} } /&gt;</span>
+<span class="c1"># &lt;Image src=&quot;{{ job.in.inimg}}&quot;</span>
+<span class="c1">#   download={ {&quot;src&quot;: true, &quot;tip&quot;: &quot;Download the high resolution format&quot;} } /&gt;</span>
+<span class="n">TAG_ATTR_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    \s+(?P&lt;attrname&gt;[\w-]+)=</span>
+<span class="sd">    (?:</span>
+<span class="sd">        \&quot;(?P&lt;attrval&gt;[^\&quot;]*)\&quot;</span>
+<span class="sd">        |</span>
+<span class="sd">        \{(?P&lt;attrval2&gt;.*?)\}</span>
+<span class="sd">    )</span>
+<span class="sd">    (?=\s+[\w-]+=|\s*$)</span>
+<span class="sd">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_slash_h</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess headings (h1 or h2 tag) adding anchor links</span>
+
+<span class="sd">    Add an anchor link after the tag and produce the toc dict</span>
+
+<span class="sd">    For example, if the source is `&lt;h1&gt;Title 1&lt;/h1&gt;`, the output will be</span>
+<span class="sd">    `&lt;h1&gt;Title 1&lt;/h1&gt;&lt;a id=&quot;prt-h1-1-title-1&quot; class=&quot;pipen-report-toc-anchor&quot;&gt; &lt;/a&gt;`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text: The string repr of the tag (e.g `&lt;h1&gt;Title 1&lt;/h1&gt;`)</span>
+<span class="sd">        index: The index of this kind of heading in the document</span>
+<span class="sd">        page: Which page are we on?</span>
+<span class="sd">        kind: h1 or h2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">matching</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="n">H1_TAG_TEXT</span> <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;h1&quot;</span> <span class="k">else</span> <span class="n">H2_TAG_TEXT</span><span class="p">,</span>
+            <span class="n">source</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># prt: pipen-report-toc</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;prt-</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">slugify</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1">&lt;a id=&quot;</span><span class="si">{</span><span class="n">slug</span><span class="si">}</span><span class="s1">&quot; class=&quot;pipen-report-toc-anchor&quot;&gt; &lt;/a&gt;&#39;</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="n">slug</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;children&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">},</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_path_to_url</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">run_meta</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">logfn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">CloudPath</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a path to a url to be used in the html</span>
+
+<span class="sd">    If the path is a relative path to basedir.parent, it will be converted</span>
+<span class="sd">    to a relative path to basedir. Otherwise, it will be copied to a directory</span>
+<span class="sd">    where the html file can access.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: The path to be converted</span>
+<span class="sd">        run_meta: The run meta paths</span>
+<span class="sd">        tag: The tag name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The url and the content-accessible path</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># HTTP/HTTPS URLs should be returned as-is</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;mailto:&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ftp://&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">path</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">path</span><span class="p">,</span> <span class="n">path</span>
+
+    <span class="c1"># Where REPORTS sit locally</span>
+    <span class="n">basedir</span> <span class="o">=</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;outdir&quot;</span><span class="p">]</span>
+    <span class="c1"># How the basedir (outdir) was specified, could be cloud path</span>
+    <span class="n">basedir_spec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="n">basedir</span><span class="p">)</span>
+    <span class="c1"># content-accessible path, any path</span>
+    <span class="n">capath</span> <span class="o">=</span> <span class="n">apath</span> <span class="o">=</span> <span class="n">AnyPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="c1"># Save converted apath in case we try to check the relativity to workdir</span>
+    <span class="n">wcapath</span> <span class="o">=</span> <span class="n">wapath</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">apath</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+        <span class="c1"># Make it local, since outdir is local</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basedir_spec</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+            <span class="c1"># use the same client so that we have the same cache dir</span>
+            <span class="n">capath</span> <span class="o">=</span> <span class="n">apath</span> <span class="o">=</span> <span class="n">apath</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">basedir_spec</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span>
+            <span class="n">apath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">apath</span><span class="o">.</span><span class="n">fspath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">],</span> <span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">CloudPath</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="c1"># use the same client so that we have the same cache dir</span>
+            <span class="n">wcapath</span> <span class="o">=</span> <span class="n">wapath</span> <span class="o">=</span> <span class="n">AnyPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+                <span class="n">path</span><span class="p">,</span>
+                <span class="n">client</span><span class="o">=</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">_client</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">wapath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">wapath</span><span class="o">.</span><span class="n">fspath</span><span class="p">)</span>
+        <span class="c1"># otherwise, keep as it, since we can&#39;t determine the relationship</span>
+        <span class="c1"># of apath and basedir</span>
+    <span class="k">elif</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">apath</span><span class="o">.</span><span class="n">is_relative_to</span><span class="p">(</span>
+        <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="c1"># Use spec, which should be a cloud path</span>
+        <span class="n">capath</span> <span class="o">=</span> <span class="n">apath</span> <span class="o">=</span> <span class="n">basedir_spec</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+            <span class="n">apath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_outdir&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">apath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">apath</span><span class="p">,</span> <span class="s2">&quot;mounted&quot;</span><span class="p">,</span> <span class="n">apath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">apath</span><span class="o">.</span><span class="n">is_relative_to</span><span class="p">(</span>
+        <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="c1"># Use workdir, which should be a cloud path</span>
+        <span class="n">capath</span> <span class="o">=</span> <span class="n">apath</span> <span class="o">=</span> <span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+            <span class="n">apath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;mounted_workdir&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">apath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">apath</span><span class="p">,</span> <span class="s2">&quot;mounted&quot;</span><span class="p">,</span> <span class="n">apath</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># if it is relative to basedir.parent, meaning it is exported</span>
+        <span class="c1"># we can just use the relative path (uplevel)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">apath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">basedir</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># otherwise, let&#39;s check if it is relative to the workdir.parent</span>
+        <span class="c1"># if so, that means it is a result from non-export processes</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">wapath</span> <span class="ow">and</span> <span class="n">wapath</span><span class="o">.</span><span class="n">is_relative_to</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="n">apath</span><span class="o">.</span><span class="n">is_relative_to</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">wapath</span><span class="p">:</span>
+                <span class="n">apath</span> <span class="o">=</span> <span class="n">wapath</span>
+                <span class="n">capath</span> <span class="o">=</span> <span class="n">wcapath</span>
+
+            <span class="n">warning_msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Resource &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; from non-exported location detected for </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;copying it to REPORTS/data ...&quot;</span>
+            <span class="p">)</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">apath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">run_meta</span><span class="p">[</span><span class="s2">&quot;workdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># otherwise if</span>
+            <span class="c1"># - it is a cloud path, we just copy it to data/</span>
+            <span class="c1"># - it is an absolute local path, we also copy it to data/</span>
+            <span class="c1"># - it is a relative local path, keep as is</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">apath</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">apath</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">capath</span>  <span class="c1"># keep as is</span>
+
+            <span class="n">path_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="n">apath</span><span class="si">}</span><span class="s2">) &quot;</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="n">apath</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="n">warning_msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;External resource </span><span class="si">{</span><span class="n">path_msg</span><span class="si">}</span><span class="s2"> detected for </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;copying it to REPORTS/data ...&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">logfn</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="n">warning_msg</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">apath</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;data/</span><span class="si">{</span><span class="n">apath</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">suffix</span><span class="si">}{</span><span class="n">apath</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="p">(</span><span class="n">basedir_spec</span> <span class="o">/</span> <span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">apath</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># results are at uplevel dir</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">capath</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_relpath_tag</span><span class="p">(</span>
+    <span class="n">matching</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Match</span><span class="p">,</span>
+    <span class="n">run_meta</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">relpath_tags</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">logfn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess tags with paths to be redirected&quot;&quot;&quot;</span>
+    <span class="n">pathval</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;attrs&quot;</span><span class="p">)</span>
+    <span class="n">has_height</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">has_width</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Image&quot;</span><span class="p">:</span>
+        <span class="n">has_height</span> <span class="o">=</span> <span class="s2">&quot;height=&quot;</span> <span class="ow">in</span> <span class="n">attrs</span>
+        <span class="n">has_width</span> <span class="o">=</span> <span class="s2">&quot;width=&quot;</span> <span class="ow">in</span> <span class="n">attrs</span>
+    <span class="n">rp_tags</span> <span class="o">=</span> <span class="n">RELPATH_TAGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rp_tags</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">relpath_tags</span> <span class="ow">or</span> <span class="p">{})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">repl_attrs</span><span class="p">(</span><span class="n">mattrs</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">pathval</span>
+        <span class="n">attrname</span> <span class="o">=</span> <span class="n">mattrs</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;attrname&quot;</span><span class="p">)</span>
+        <span class="n">attrval</span> <span class="o">=</span> <span class="n">mattrs</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;attrval&quot;</span><span class="p">)</span>
+        <span class="n">attrval2</span> <span class="o">=</span> <span class="n">mattrs</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;attrval2&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">tag</span> <span class="ow">in</span> <span class="n">rp_tags</span>
+            <span class="ow">and</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">rp_tags</span><span class="p">[</span><span class="n">tag</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">attrname</span> <span class="o">==</span> <span class="n">rp_tags</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+                <span class="ow">or</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="n">rp_tags</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">mattrs</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Image&quot;</span> <span class="ow">and</span> <span class="n">attrname</span> <span class="o">==</span> <span class="s2">&quot;download&quot;</span> <span class="ow">and</span> <span class="n">attrval2</span><span class="p">:</span>
+            <span class="n">av2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">attrval2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">av2</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">av2</span> <span class="o">=</span> <span class="p">[</span><span class="n">av2</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">av</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">av2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">av</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">av2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;src&quot;</span><span class="p">:</span> <span class="n">_path_to_url</span><span class="p">(</span><span class="n">av</span><span class="p">,</span> <span class="n">run_meta</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">logfn</span><span class="p">)[</span><span class="mi">0</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">av</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">av</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_path_to_url</span><span class="p">(</span><span class="n">av</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">],</span> <span class="n">run_meta</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">logfn</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">attrname</span><span class="si">}</span><span class="s2">=</span><span class="se">{{</span><span class="s2"> </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">av2</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">}}</span><span class="s2">&quot;</span>
+
+        <span class="n">pathval</span> <span class="o">=</span> <span class="n">attrval</span>
+        <span class="n">urlval</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">_path_to_url</span><span class="p">(</span><span class="n">attrval</span><span class="p">,</span> <span class="n">run_meta</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">logfn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Image&quot;</span> <span class="ow">and</span> <span class="n">attrname</span> <span class="o">==</span> <span class="s2">&quot;src&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_height</span> <span class="ow">and</span> <span class="n">pathval</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">CloudPath</span><span class="p">):</span>
+                <span class="n">path</span><span class="o">.</span><span class="n">_refresh_cache</span><span class="p">()</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">fspath</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">attrname</span><span class="si">}</span><span class="s1">=&quot;</span><span class="si">{</span><span class="n">urlval</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">imagesize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">out</span><span class="si">}</span><span class="s2"> height=</span><span class="se">{{</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_width</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">out</span><span class="si">}</span><span class="s2"> width=</span><span class="se">{{</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span>
+
+                <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">attrname</span><span class="si">}</span><span class="s1">=&quot;</span><span class="si">{</span><span class="n">urlval</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">TAG_ATTR_RE</span><span class="p">,</span> <span class="n">repl_attrs</span><span class="p">,</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;attrs&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">attrs</span><span class="si">}{</span><span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_math</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess the Math tag</span>
+
+<span class="sd">    A Math tag with latex content within it, which will be then encoded as base64 string</span>
+<span class="sd">    with a data url.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">callback</span><span class="p">(</span><span class="n">matching</span><span class="p">):</span>
+        <span class="c1"># encode the latex content as base64 string</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="kn">import</span> <span class="n">b64encode</span>
+
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">latex</span> <span class="o">=</span> <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">data:text/plain;base64,</span><span class="si">{</span><span class="n">b64encode</span><span class="p">(</span><span class="n">latex</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&lt;/Math&gt;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;(&lt;Math[^&gt;]*?&gt;)(.+?)&lt;/Math&gt;&quot;</span><span class="p">,</span>
+        <span class="n">callback</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_markdown</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess Markdown tag</span>
+
+<span class="sd">    A Markdown tag with markdown content within it, which will be then rendered</span>
+<span class="sd">    as html.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">markdown</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">callback</span><span class="p">(</span><span class="n">matching</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">markdown</span><span class="p">(</span><span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;&lt;Markdown&gt;(.+?)&lt;/Markdown&gt;&quot;</span><span class="p">,</span>
+        <span class="n">callback</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_section</span><span class="p">(</span>
+    <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">h2_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">run_meta</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">relpath_tags</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">logfn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocesss a section of the document (between h1 tags)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        section: The source code of the section</span>
+<span class="sd">        h2_index: The start h2 index</span>
+<span class="sd">        page: which page are we on?</span>
+<span class="sd">        run_meta: The run meta paths</span>
+<span class="sd">        relpath_tags: Tags with properties that need to convert to relative paths</span>
+<span class="sd">            i.e. {&quot;Image&quot;: &quot;src&quot;}</span>
+<span class="sd">        logfn: The logging function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The preprocessed section and the toc items</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">_preprocess_math</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">_preprocess_markdown</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+    <span class="c1"># handle relpath tags</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="n">TAG_RE</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">_preprocess_relpath_tag</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">run_meta</span><span class="p">,</span> <span class="n">relpath_tags</span><span class="p">,</span> <span class="n">logfn</span><span class="p">),</span>
+        <span class="n">section</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">toc</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">repl_h2</span><span class="p">(</span><span class="n">matching</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">h2_index</span>
+        <span class="n">h2</span><span class="p">,</span> <span class="n">toc_item</span> <span class="o">=</span> <span class="n">_preprocess_slash_h</span><span class="p">(</span>
+            <span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">h2_index</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;h2&quot;</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">matching</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">toc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toc_item</span><span class="p">)</span>
+        <span class="n">h2_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">h2</span>
+
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">H2_TAG_TEXT</span><span class="p">,</span> <span class="n">repl_h2</span><span class="p">,</span> <span class="n">section</span><span class="p">),</span> <span class="n">toc</span>
+
+
+<span class="nd">@cache_fun</span><span id="pipen_report.preprocess.preprocess"></span><a class="mkapi-docs-link" title="pipen_report.preprocess.preprocess" href="../../pipen_report.preprocess/#pipen_report.preprocess.preprocess">DOCS</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">run_meta</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">toc_switch</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">paging</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">relpath_tags</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">logfn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess the rendered report and return the toc dict</span>
+
+<span class="sd">    This is not only faster than using a xml/html parsing library but also</span>
+<span class="sd">    more compatible with JSX, as most python xml/html parser cannot handle</span>
+<span class="sd">    JSX</span>
+
+<span class="sd">    We use h1 and h2 tags to form TOCs. h1 and h2 tags have to be at the</span>
+<span class="sd">    top level, which means you should not wrap them with any container in</span>
+<span class="sd">    your svelte report template.</span>
+
+<span class="sd">    h1 tag should be the first tag in the document after `&lt;/script&gt;`. Otherwise</span>
+<span class="sd">    those non-h1 tags will appear in all pages and the relative paths won&#39;t</span>
+<span class="sd">    be parsed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text: The rendered report</span>
+<span class="sd">        run_meta: The run meta paths</span>
+<span class="sd">        toc_switch: Whether render a TOC?</span>
+<span class="sd">        paging: Number of h1&#39;s in a page</span>
+<span class="sd">            False to disable</span>
+<span class="sd">        relpath_tags: Tags with properties that need to convert to relative paths</span>
+<span class="sd">            i.e. {&quot;Image&quot;: &quot;src&quot;}</span>
+<span class="sd">        logfn: The logging function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The preprocessed text and the toc dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># split the text h1 tags</span>
+    <span class="n">splits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">H1_TAG</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># splits[0] is header</span>
+    <span class="n">len_sections</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">len_sections</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># no h1&#39;s</span>
+        <span class="n">section</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_preprocess_section</span><span class="p">(</span>
+            <span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">h2_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">run_meta</span><span class="o">=</span><span class="n">run_meta</span><span class="p">,</span>
+            <span class="n">relpath_tags</span><span class="o">=</span><span class="n">relpath_tags</span><span class="p">,</span>
+            <span class="n">logfn</span><span class="o">=</span><span class="n">logfn</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">section</span><span class="p">],</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">paging</span><span class="p">:</span>
+        <span class="n">paging</span> <span class="o">=</span> <span class="n">len_sections</span>
+
+    <span class="n">n_pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">len_sections</span> <span class="o">/</span> <span class="n">paging</span><span class="p">)</span>
+    <span class="n">pages</span> <span class="o">=</span> <span class="p">[[</span><span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pages</span><span class="p">)]</span>
+    <span class="n">h2_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">splt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">splits</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">//</span> <span class="n">paging</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># h1</span>
+            <span class="n">h1</span><span class="p">,</span> <span class="n">toc_item</span> <span class="o">=</span> <span class="n">_preprocess_slash_h</span><span class="p">(</span><span class="n">splt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;h1&quot;</span><span class="p">)</span>
+            <span class="n">pages</span><span class="p">[</span><span class="n">page</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">toc_switch</span><span class="p">:</span>
+                <span class="n">toc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toc_item</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">,</span> <span class="n">toc_items</span> <span class="o">=</span> <span class="n">_preprocess_section</span><span class="p">(</span>
+                <span class="n">splt</span><span class="p">,</span>
+                <span class="n">h2_index</span><span class="o">=</span><span class="n">h2_index</span><span class="p">,</span>
+                <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
+                <span class="n">run_meta</span><span class="o">=</span><span class="n">run_meta</span><span class="p">,</span>
+                <span class="n">relpath_tags</span><span class="o">=</span><span class="n">relpath_tags</span><span class="p">,</span>
+                <span class="n">logfn</span><span class="o">=</span><span class="n">logfn</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">h2_index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">toc_items</span><span class="p">)</span>
+            <span class="n">pages</span><span class="p">[</span><span class="n">page</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">toc_switch</span><span class="p">:</span>
+                <span class="n">toc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;children&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">toc_items</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span><span class="p">],</span> <span class="n">toc</span>
+</code></pre></div>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  <div class="footer-notes">
+    <a href="https://github.com/pwwang/pipen-report" title="Open repository in GitHub">Github Repo</a>
+    <div class="footer-sep"></div>Built with <a href="https://www.mkdocs.org/">MkDocs</a> using theme <a href="https://github.com/pwwang/mkdocs-rtd">mkdocs-rtd</a>.
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/version-select.js"></script>
+      <script src="../../../js/mkapi.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
