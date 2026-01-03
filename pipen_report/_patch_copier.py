@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from copier._types import AnyByStrDict
 
 
-def _patched_render_file(
+def _patched_render_file(  # pragma: no cover
     self,
     src_relpath: Path,
     dst_relpath: Path,
