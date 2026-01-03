@@ -1,3 +1,4 @@
+from panpath import PanPath
 import pytest  # noqa
 
 from pathlib import Path
@@ -11,6 +12,7 @@ from pipen_report.preprocess import (
     _preprocess_section,
     preprocess,
 )
+from xqute.defaults import DEFAULT_CLOUD_FSPATH
 from . import run_pipeline
 
 
@@ -57,7 +59,12 @@ def test_extlibs(tmp_path):
             None,
             (
                 '<h1>Title 1</h1><a id="prt-h1-1-title-1" class="pipen-report-toc-anchor"> </a>',
-                {"slug": "prt-h1-1-title-1", "text": "Title 1", "children": [], "page": 1},
+                {
+                    "slug": "prt-h1-1-title-1",
+                    "text": "Title 1",
+                    "children": [],
+                    "page": 1,
+                },
             ),
         ),
         (
@@ -68,7 +75,12 @@ def test_extlibs(tmp_path):
             None,
             (
                 '<h2>Title 2</h2><a id="prt-h2-1-title-2" class="pipen-report-toc-anchor"> </a>',
-                {"slug": "prt-h2-1-title-2", "text": "Title 2", "children": [], "page": 1},
+                {
+                    "slug": "prt-h2-1-title-2",
+                    "text": "Title 2",
+                    "children": [],
+                    "page": 1,
+                },
             ),
         ),
     ],
@@ -92,7 +104,18 @@ def test_preprocess_slash_h(source, index, page, kind, text, expected):
         ("", False, False, ""),
     ],
 )
-def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
+async def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
+    """Test _path_to_url function
+
+    Args:
+        path: the input path
+        absolute: whether the input path is absolute
+        relative_to: whether to make the path relative to workdir
+        expected: the expected output path
+        tmp_path: pytest tmp_path fixture
+    """
+
+    tmp_path = PanPath(tmp_path)
     basedir = tmp_path / "the" / "basedir"
     datadir = basedir / "data"
     datadir.mkdir(parents=True, exist_ok=True)
@@ -113,7 +136,10 @@ def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    output, _ = _path_to_url(str(path), run_meta, "TAG", lambda *args: None)
+    print(path)
+    output, _ = await _path_to_url(
+        str(path), run_meta, "TAG", DEFAULT_CLOUD_FSPATH, lambda *args: None
+    )
 
     if absolute and not relative_to:
         expected = Path(list(basedir.glob(expected))[0]).relative_to(basedir).as_posix()
@@ -129,17 +155,29 @@ def test_path_to_url(path, absolute, relative_to, expected, tmp_path):
     [
         # no related attribute to handle
         ('<a title="abc" />', '<a title="abc" />'),
-        ('<Link title="abc" href="https://example.com/" />', '<Link title="abc" href="https://example.com/" />'),
-        ('<Download title="abc" href="{tmp_path}/the/file.txt">', '<Download title="abc" href="../file.txt">'),
-        ('<Image src="{tmp_path}/the/file.png" download="{tmp_path}/the/file.png" width="100" />',
-         '<Image src="../file.png" download="../file.png" width="100" />'),
-        ('<Image src="{tmp_path}/the/file.png" download={{["{tmp_path}/the/file.png"]}} />',
-         '<Image src="../file.png" download={ [{"src": "../file.png"}] } />'),
-        ('<Image src="{tmp_path}/the/file.png" download={{ {{"src": "{tmp_path}/the/file.png", "tip": "A tip"}} }} />',
-         '<Image src="../file.png" download={ [{"src": "../file.png", "tip": "A tip"}] } />'),
+        (
+            '<Link title="abc" href="https://example.com/" />',
+            '<Link title="abc" href="https://example.com/" />',
+        ),
+        (
+            '<Download title="abc" href="{tmp_path}/the/file.txt">',
+            '<Download title="abc" href="../file.txt">',
+        ),
+        (
+            '<Image src="{tmp_path}/the/file.png" download="{tmp_path}/the/file.png" width="100" />',
+            '<Image src="../file.png" download="../file.png" width="100" />',
+        ),
+        (
+            '<Image src="{tmp_path}/the/file.png" download={{["{tmp_path}/the/file.png"]}} />',
+            '<Image src="../file.png" download={ [{"src": "../file.png"}] } />',
+        ),
+        (
+            '<Image src="{tmp_path}/the/file.png" download={{ {{"src": "{tmp_path}/the/file.png", "tip": "A tip"}} }} />',
+            '<Image src="../file.png" download={ [{"src": "../file.png", "tip": "A tip"}] } />',
+        ),
     ],
 )
-def test_preprocess_relpath_tag(tagstr, expected, tmp_path):
+async def test_preprocess_relpath_tag(tagstr, expected, tmp_path):
     basedir = tmp_path / "the" / "basedir"
     basedir.mkdir(parents=True, exist_ok=True)
     tagstr = tagstr.format(basedir=basedir, tmp_path=tmp_path)
@@ -150,10 +188,15 @@ def test_preprocess_relpath_tag(tagstr, expected, tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    assert _preprocess_relpath_tag(matching, run_meta, None, lambda *args: None) == expected
+    assert (
+        await _preprocess_relpath_tag(
+            matching, run_meta, None, DEFAULT_CLOUD_FSPATH, lambda *args: None
+        )
+        == expected
+    )
 
 
-def test_preprocess_relpath_tag_imagesize(tmp_path):
+async def test_preprocess_relpath_tag_imagesize(tmp_path):
     basedir = tmp_path / "the" / "basedir"
     basedir.mkdir(parents=True, exist_ok=True)
     imgfile = tmp_path / "the" / "file.png"
@@ -168,24 +211,39 @@ def test_preprocess_relpath_tag_imagesize(tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    assert _preprocess_relpath_tag(matching, run_meta, None, lambda *args: None) == expected
+    assert (
+        await _preprocess_relpath_tag(
+            matching, run_meta, None, DEFAULT_CLOUD_FSPATH, lambda *args: None
+        )
+        == expected
+    )
 
 
 def test_prepocess_markdown():
-    expected = '<h4>Header 4</h4>'
+    expected = "<h4>Header 4</h4>"
     source = "<Markdown>#### Header 4</Markdown>"
     assert _preprocess_markdown(source) == expected
 
 
-def test_preprocess_section(tmp_path):
+async def test_preprocess_section(tmp_path):
     source = "<h2>Subsection 1</h2><div>Content1</div><h2>Subsection 2</h2><div>Content2</div>"
     expected = (
         '<h2>Subsection 1</h2><a id="prt-h2-1-subsection-1" class="pipen-report-toc-anchor"> </a>'
         '<div>Content1</div><h2>Subsection 2</h2><a id="prt-h2-2-subsection-2" class="pipen-report-toc-anchor"> </a>'
-        '<div>Content2</div>',
+        "<div>Content2</div>",
         [
-            {"slug": "prt-h2-1-subsection-1", "text": "Subsection 1", "children": [], "page": 1},
-            {"slug": "prt-h2-2-subsection-2", "text": "Subsection 2", "children": [], "page": 1},
+            {
+                "slug": "prt-h2-1-subsection-1",
+                "text": "Subsection 1",
+                "children": [],
+                "page": 1,
+            },
+            {
+                "slug": "prt-h2-2-subsection-2",
+                "text": "Subsection 2",
+                "children": [],
+                "page": 1,
+            },
         ],
     )
     run_meta = {
@@ -194,10 +252,15 @@ def test_preprocess_section(tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    assert _preprocess_section(source, 1, 1, run_meta, None, lambda *args: None) == expected
+    assert (
+        await _preprocess_section(
+            source, 1, 1, run_meta, None, DEFAULT_CLOUD_FSPATH, lambda *args: None
+        )
+        == expected
+    )
 
 
-def test_preprocess1(tmp_path):
+async def test_preprocess1(tmp_path):
     source = (
         "<h1>Section 1</h1>"
         "<h2>Subsection 1</h2><div>Content1</div><h2>Subsection 2</h2><div>Content2</div>"
@@ -209,19 +272,29 @@ def test_preprocess1(tmp_path):
             '<h1>Section 1</h1><a id="prt-h1-0-section-1" class="pipen-report-toc-anchor"> </a>'
             '<h2>Subsection 1</h2><a id="prt-h2-0-subsection-1" class="pipen-report-toc-anchor"> </a>'
             '<div>Content1</div><h2>Subsection 2</h2><a id="prt-h2-1-subsection-2" class="pipen-report-toc-anchor"> </a>'
-            '<div>Content2</div>',
+            "<div>Content2</div>",
             '<h1>Section 2</h1><a id="prt-h1-1-section-2" class="pipen-report-toc-anchor"> </a>'
             '<h2>Subsection 1</h2><a id="prt-h2-2-subsection-1" class="pipen-report-toc-anchor"> </a>'
             '<div>Content1</div><h2>Subsection 2</h2><a id="prt-h2-3-subsection-2" class="pipen-report-toc-anchor"> </a>'
-            '<div>Content2</div>',
+            "<div>Content2</div>",
         ],
         [
             {
                 "slug": "prt-h1-0-section-1",
                 "text": "Section 1",
                 "children": [
-                    {"slug": "prt-h2-0-subsection-1", "text": "Subsection 1", "children": [], "page": 0},
-                    {"slug": "prt-h2-1-subsection-2", "text": "Subsection 2", "children": [], "page": 0},
+                    {
+                        "slug": "prt-h2-0-subsection-1",
+                        "text": "Subsection 1",
+                        "children": [],
+                        "page": 0,
+                    },
+                    {
+                        "slug": "prt-h2-1-subsection-2",
+                        "text": "Subsection 2",
+                        "children": [],
+                        "page": 0,
+                    },
                 ],
                 "page": 0,
             },
@@ -229,8 +302,18 @@ def test_preprocess1(tmp_path):
                 "slug": "prt-h1-1-section-2",
                 "text": "Section 2",
                 "children": [
-                    {"slug": "prt-h2-2-subsection-1", "text": "Subsection 1", "children": [], "page": 1},
-                    {"slug": "prt-h2-3-subsection-2", "text": "Subsection 2", "children": [], "page": 1},
+                    {
+                        "slug": "prt-h2-2-subsection-1",
+                        "text": "Subsection 1",
+                        "children": [],
+                        "page": 1,
+                    },
+                    {
+                        "slug": "prt-h2-3-subsection-2",
+                        "text": "Subsection 2",
+                        "children": [],
+                        "page": 1,
+                    },
                 ],
                 "page": 1,
             },
@@ -242,10 +325,15 @@ def test_preprocess1(tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    assert preprocess(source, run_meta, True, 1, None, lambda *args: None) == expected
+    assert (
+        await preprocess(
+            source, run_meta, True, 1, None, DEFAULT_CLOUD_FSPATH, lambda *args: None
+        )
+        == expected
+    )
 
 
-def test_preprocess2(tmp_path):
+async def test_preprocess2(tmp_path):
     basedir = tmp_path / "the" / "basedir"
     basedir.mkdir(parents=True, exist_ok=True)
     imgfile = tmp_path / "the" / "PG1/placeholder.png"
@@ -254,13 +342,16 @@ def test_preprocess2(tmp_path):
     Image.new("RGB", (100, 50)).save(imgfile)
 
     source = (
-        """<script>
+        (
+            """<script>
             import { Image, Descr } from '$lib';
         </script>
         <h1>Image</h1>
         <Descr>This is a description about the section.</Descr>
         <Image src="%s" download={ {"src": "%s", "tip": "Download the high resolution format"} } />"""
-    ) % (imgfile, imgfile)
+        )
+        % (imgfile, imgfile)
+    )
     expected = (
         [
             """<script>
@@ -285,4 +376,9 @@ def test_preprocess2(tmp_path):
         "mounted_outdir": None,
         "mounted_workdir": None,
     }
-    assert preprocess(source, run_meta, True, 1, None, lambda *args: None) == expected
+    assert (
+        await preprocess(
+            source, run_meta, True, 1, None, DEFAULT_CLOUD_FSPATH, lambda *args: None
+        )
+        == expected
+    )

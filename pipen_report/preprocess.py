@@ -6,15 +6,14 @@ import math
 import json
 import hashlib
 import re
-import imagesize
-from contextlib import suppress
-from yunpath import AnyPath, CloudPath
 from pathlib import Path
+from contextlib import suppress
+from panpath import PanPath, CloudPath
 from typing import Any, List, Mapping, Sequence, Tuple, Union, Callable
 
 from slugify import slugify
 
-from .utils import cache_fun
+from .utils import get_fspath, get_imagesize, a_re_sub, a_copy_all, cache_fun
 
 RELPATH_TAGS = {
     "a": "href",
@@ -89,10 +88,11 @@ def _preprocess_slash_h(
     )
 
 
-def _path_to_url(
+async def _path_to_url(
     path: str,
     run_meta: Mapping[str, Any],
     tag: str,
+    cachedir_for_cloud: str,
     logfn: Callable,
 ) -> Tuple[str, str | Path | CloudPath]:
     """Convert a path to a url to be used in the html
@@ -102,12 +102,12 @@ def _path_to_url(
     where the html file can access.
 
     Args:
-        path: The path to be converted
+        path: The path to be converted, usually from the attribute value of a tag
         run_meta: The run meta paths
         tag: The tag name
 
     Returns:
-        The url and the content-accessible path
+        The url and the content-accessible path.
     """
     # HTTP/HTTPS URLs should be returned as-is
     if (
@@ -120,37 +120,21 @@ def _path_to_url(
         return path, path
 
     # Where REPORTS sit locally
+    # Can be a MountedLocalPath with spec being a cloud path
     basedir = run_meta["outdir"]
     # How the basedir (outdir) was specified, could be cloud path
     basedir_spec = getattr(basedir, "spec", basedir)
-    # content-accessible path, any path
-    capath = apath = AnyPath(path)
+    # apath may be changed so we need orig_path to keep the original one
+    orig_path = apath = PanPath(path)
 
-    # Save converted apath in case we try to check the relativity to workdir
-    wcapath = wapath = None
-    if isinstance(apath, CloudPath):
-        # Make it local, since outdir is local
-        if isinstance(basedir_spec, CloudPath):
-            # use the same client so that we have the same cache dir
-            capath = apath = apath.__class__(path, client=basedir_spec._client)
-            apath = Path(apath.fspath)
-        if hasattr(run_meta["workdir"], "spec") and isinstance(
-            run_meta["workdir"].spec,
-            CloudPath,
-        ):
-            # use the same client so that we have the same cache dir
-            wcapath = wapath = AnyPath(path).__class__(
-                path,
-                client=run_meta["workdir"].spec._client,
-            )
-            wapath = Path(wapath.fspath)
-        # otherwise, keep as it, since we can't determine the relationship
-        # of apath and basedir
+    if isinstance(orig_path, CloudPath):
+        # Make it local, the report is built locally
+        apath = PanPath(get_fspath(apath, cachedir_for_cloud))
     elif run_meta["mounted_outdir"] and apath.is_relative_to(
         run_meta["mounted_outdir"]
     ):
         # Use spec, which should be a cloud path
-        capath = apath = basedir_spec.parent.joinpath(
+        apath = basedir_spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_outdir"])
         )
         apath = getattr(apath, "mounted", apath)
@@ -158,62 +142,56 @@ def _path_to_url(
         run_meta["mounted_workdir"]
     ):
         # Use workdir, which should be a cloud path
-        capath = apath = run_meta["workdir"].spec.parent.joinpath(
+        apath = run_meta["workdir"].spec.parent.joinpath(
             apath.relative_to(run_meta["mounted_workdir"])
         )
         apath = getattr(apath, "mounted", apath)
 
-    try:
-        # if it is relative to basedir.parent, meaning it is exported
-        # we can just use the relative path (uplevel)
-        path = apath.relative_to(basedir.parent)
-    except ValueError:
-        # otherwise, let's check if it is relative to the workdir.parent
-        # if so, that means it is a result from non-export processes
-        if (
-            wapath and wapath.is_relative_to(run_meta["workdir"].parent)
-        ) or apath.is_relative_to(run_meta["workdir"].parent):
-            if wapath:
-                apath = wapath
-                capath = wcapath
+    if Path(apath).is_relative_to(basedir.parent):
+        url = f"../{Path(apath).relative_to(basedir.parent)}"
+        return url, apath
 
-            warning_msg = (
-                f"Resource '{path}' from non-exported location detected for {tag}, "
-                "copying it to REPORTS/data ..."
-            )
-            path = apath.relative_to(run_meta["workdir"].parent).resolve()
-        else:
-            # otherwise if
-            # - it is a cloud path, we just copy it to data/
-            # - it is an absolute local path, we also copy it to data/
-            # - it is a relative local path, keep as is
-            if not isinstance(apath, CloudPath) and not apath.is_absolute():
-                return str(path), capath  # keep as is
+    url = str(orig_path)
 
-            path_msg = f"'{path}' ({apath}) " if str(path) != str(apath) else f"{path} "
-            warning_msg = (
-                f"External resource {path_msg} detected for {tag}, "
-                "copying it to REPORTS/data ..."
-            )
-
-        logfn("warning", warning_msg)
-        suffix = hashlib.sha256(str(apath).encode()).hexdigest()[:8]
-        path = f"data/{apath.stem}.{suffix}{apath.suffix}"
-
-        (basedir_spec / path).write_bytes(apath.read_bytes())
+    # otherwise, let's check if it is relative to the workdir.parent
+    # if so, that means it is a result from non-export processes
+    if Path(apath).is_relative_to(run_meta["workdir"].parent):
+        warning_msg = (
+            f"Resource '{orig_path}' from non-exported location detected for {tag}, "
+            "copying it to REPORTS/data ..."
+        )
+        url = Path(apath).relative_to(run_meta["workdir"].parent).resolve()
     else:
-        # results are at uplevel dir
-        path = f"../{path}"
+        # otherwise if
+        # - it is a cloud path, we just copy it to data/
+        # - it is an absolute local path, we also copy it to data/
+        # - it is a relative local path, keep as is
+        if not isinstance(apath, CloudPath) and not apath.is_absolute():
+            return url, apath  # keep as is
 
-    return str(path), capath
+        path_msg = f"'{url}' ({apath}) " if url != str(apath) else f"{url} "
+        warning_msg = (
+            f"External resource {path_msg} detected for {tag}, "
+            "copying it to REPORTS/data ..."
+        )
+
+    logfn("warning", warning_msg)
+    suffix = hashlib.sha256(str(apath).encode()).hexdigest()[:8]
+    url = f"data/{apath.stem}.{suffix}{apath.suffix}"
+
+    dest_path = basedir_spec.joinpath(url)
+    await a_copy_all(apath, dest_path)
+
+    return url, apath
 
 
-def _preprocess_relpath_tag(
+async def _preprocess_relpath_tag(
     matching: re.Match,
     run_meta: Mapping[str, Any],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    cachedir_for_cloud: str,
     logfn: Callable,
-) -> str:
+) -> Tuple[str, List[Tuple[PanPath, PanPath]]]:
     """Preprocess tags with paths to be redirected"""
     pathval = None
     tag = matching.group("tag")
@@ -226,12 +204,11 @@ def _preprocess_relpath_tag(
     rp_tags = RELPATH_TAGS.copy()
     rp_tags.update(relpath_tags or {})
 
-    def repl_attrs(mattrs):
+    async def repl_attrs(mattrs):
         nonlocal pathval
         attrname = mattrs.group("attrname")
         attrval = mattrs.group("attrval")
         attrval2 = mattrs.group("attrval2")
-
         if not (
             tag in rp_tags
             and (
@@ -249,22 +226,27 @@ def _preprocess_relpath_tag(
 
             for i, av in enumerate(av2):
                 if isinstance(av, str):
-                    av2[i] = {"src": _path_to_url(av, run_meta, tag, logfn)[0]}
+                    u = await _path_to_url(
+                        av, run_meta, tag, cachedir_for_cloud, logfn
+                    )
+                    av2[i] = {"src": u[0]}
                 elif isinstance(av, dict):
-                    av["src"] = _path_to_url(av["src"], run_meta, tag, logfn)[0]
+                    u = await _path_to_url(
+                        av["src"], run_meta, tag, cachedir_for_cloud, logfn
+                    )
+                    av["src"] = u[0]
             return f" {attrname}={{ {json.dumps(av2)} }}"
 
         pathval = attrval
-        urlval, path = _path_to_url(attrval, run_meta, tag, logfn)
+        urlval, path = await _path_to_url(
+            attrval, run_meta, tag, cachedir_for_cloud, logfn
+        )
 
         if tag == "Image" and attrname == "src" and not has_height and pathval:
-            if isinstance(path, CloudPath):
-                path._refresh_cache()
-                path = path.fspath
-
             out = f' {attrname}="{urlval}"'
-            with suppress(FileNotFoundError):  # pragma: no cover
-                width, height = imagesize.get(path)
+
+            with suppress(Exception):
+                width, height = await get_imagesize(path, cachedir_for_cloud)
                 if height > 0:
                     out = f"{out} height={{{height}}}"
                 if width > 0 and not has_width:
@@ -274,7 +256,7 @@ def _preprocess_relpath_tag(
 
         return f' {attrname}="{urlval}"'
 
-    attrs = re.sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
+    attrs = await a_re_sub(TAG_ATTR_RE, repl_attrs, matching.group("attrs"))
     return f"<{tag}{attrs}{matching.group('end')}"
 
 
@@ -322,12 +304,13 @@ def _preprocess_markdown(source: str) -> str:
     )
 
 
-def _preprocess_section(
+async def _preprocess_section(
     section: str,
     h2_index: int,
     page: int,
     run_meta: Mapping[str, Any],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    cachedir_for_cloud: str,
     logfn: Callable,
 ) -> Tuple[str, List[Mapping[str, Any]]]:
     """Preprocesss a section of the document (between h1 tags)
@@ -346,12 +329,19 @@ def _preprocess_section(
     """
     section = _preprocess_math(section)
     section = _preprocess_markdown(section)
+
+    async def repl_relpath_tags(matching):
+        new_section = await _preprocess_relpath_tag(
+            matching,
+            run_meta,
+            relpath_tags,
+            cachedir_for_cloud,
+            logfn,
+        )
+        return new_section
+
     # handle relpath tags
-    section = re.sub(
-        TAG_RE,
-        lambda m: _preprocess_relpath_tag(m, run_meta, relpath_tags, logfn),
-        section,
-    )
+    section = await a_re_sub(TAG_RE, repl_relpath_tags, section)
 
     toc = []
 
@@ -372,12 +362,13 @@ def _preprocess_section(
 
 
 @cache_fun
-def preprocess(
+async def preprocess(
     text: str,
     run_meta: Mapping[str, Any],
     toc_switch: bool,
     paging: Union[bool, int],
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
+    cachedir_for_cloud: str,
     logfn: Callable,
 ) -> Tuple[List[str], List[Mapping[str, Any]]]:
     """Preprocess the rendered report and return the toc dict
@@ -402,6 +393,7 @@ def preprocess(
             False to disable
         relpath_tags: Tags with properties that need to convert to relative paths
             i.e. {"Image": "src"}
+        cachedir_for_cloud: The base temporary directory when workdir is on cloud
         logfn: The logging function
 
     Returns:
@@ -413,12 +405,13 @@ def preprocess(
     len_sections = (len(splits) - 1) // 2
     if len_sections == 0:
         # no h1's
-        section, _ = _preprocess_section(
+        section, _ = await _preprocess_section(
             splits[0],
             h2_index=0,
             page=0,
             run_meta=run_meta,
             relpath_tags=relpath_tags,
+            cachedir_for_cloud=cachedir_for_cloud,
             logfn=logfn,
         )
         return [section], []
@@ -439,12 +432,13 @@ def preprocess(
                 toc.append(toc_item)
 
         else:
-            section, toc_items = _preprocess_section(
+            section, toc_items = await _preprocess_section(
                 splt,
                 h2_index=h2_index,
                 page=page,
                 run_meta=run_meta,
                 relpath_tags=relpath_tags,
+                cachedir_for_cloud=cachedir_for_cloud,
                 logfn=logfn,
             )
             h2_index += len(toc_items)
