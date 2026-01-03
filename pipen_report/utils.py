@@ -62,8 +62,16 @@ async def a_re_sub(  # pragma: no cover
     return result
 
 
-async def a_copy_all(src: PanPath, dst: PanPath) -> None:
+async def a_copy_all(src: PanPath, dst: PanPath, cachedir: str | None = None) -> None:
     """Asynchronously copy all contents from src to dst PanPath."""
+    if not await src.a_exists():
+        # In case it is a local path that doesn't exist, try to get from cloud
+        # if it is cached path
+        cloudpath = get_cloudpath(src, cachedir) if cachedir else None
+        if not cloudpath:
+            raise FileNotFoundError(f"Source path not found: {src}")
+        src = cloudpath
+
     await dst.parent.a_mkdir(parents=True, exist_ok=True)
     if await src.a_is_dir():
         await src.a_copytree(dst)

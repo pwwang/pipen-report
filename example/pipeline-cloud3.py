@@ -5,10 +5,10 @@
 
 import os
 from pipen import Proc, Pipen
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
-BUCKET = os.getenv("GBATCH_EXAMPLE_BUCKET")
+# load_dotenv()
+BUCKET = os.getenv("BUCKET")
 
 
 class ImageProcess(Proc):
@@ -61,12 +61,12 @@ class PipelineCloud3(Pipen):
     """Pipeline to create an image and a table"""
 
     starts = ImageProcess
-    data = [["/mnt/disks/input/placeholder.png"]]
-    outdir = f"gs://{BUCKET}/pipen-test/report-example/cloud3-outdir"
-    workdir = f"gs://{BUCKET}/pipen-test/report-example/cloud3-workdir"
+    data = [["/mnt/disks/cwd/placeholder.png"]]
+    outdir = f"{BUCKET}/pipen-test/cloud3-outdir"
+    workdir = f"{BUCKET}/pipen-test/cloud3-workdir"
     loglevel = "DEBUG"
     scheduler_opts = {
-        "mount": f"gs://{BUCKET}/pipen-test:/mnt/disks/input",
+        "mount": f"{BUCKET}/pipen-test:/mnt/disks/cwd",
     }
     plugin_opts = {
         "report_loglevel": "debug",
@@ -74,4 +74,4 @@ class PipelineCloud3(Pipen):
 
 
 if __name__ == "__main__":
-    PipelineCloud3().run(profile="gbatch")
+    PipelineCloud3().run(profile="gbatch-immunopipe-basic")

@@ -180,7 +180,7 @@ async def _path_to_url(
     url = f"data/{apath.stem}.{suffix}{apath.suffix}"
 
     dest_path = basedir_spec.joinpath(url)
-    await a_copy_all(apath, dest_path)
+    await a_copy_all(apath, dest_path, cachedir_for_cloud)
 
     return url, apath
 

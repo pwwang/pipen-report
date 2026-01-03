@@ -510,7 +510,7 @@ class ReportManager:
                 if cloud_file is not None:
                     ppath = PanPath(cloud_file)
                     lpath = PanPath(missed_file)
-                    await a_copy_all(ppath, lpath)
+                    await a_copy_all(ppath, lpath, self.cachedir_for_cloud)
                 else:
                     raise e
 
