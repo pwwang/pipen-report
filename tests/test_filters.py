@@ -37,6 +37,9 @@ def test_datatable():
     out = datatable(datafile2)
     assert out == '[{"ROWNAMES":"R1","h1":"a","h2":1,"id":0}]'
 
+    out = datatable(datafile, header=None)
+    assert out.startswith('[{"Column1":"h.1","Column2":"h2","Column3":"h3","id":0}')
+
     out = datatable(datafile)
     assert out == (
         '[{"h_1":"a","h2":1,"h3":1.1235,"id":0},'
