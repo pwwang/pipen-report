@@ -16,7 +16,7 @@ from contextlib import suppress
 from typing import Any, Iterable, Union, List, Mapping
 from os import PathLike
 from pathlib import Path
-from yunpath import AnyPath
+from panpath import PanPath
 from markdown import markdown as markdown_parse
 
 TAB = "  "
@@ -290,7 +290,7 @@ def _render_table(
     # Let's check where the path is.
     # It could be on the cloud or local.
     outdir = job["outdir"]  # carries the information of the path system
-    path = AnyPath(path)
+    path = PanPath(path)
     if path.is_relative_to(outdir):
         spec_outdir = getattr(outdir, "spec", outdir)
         path = spec_outdir / path.relative_to(outdir)
