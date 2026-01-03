@@ -8,7 +8,7 @@ import subprocess as sp
 def test_update():
 
     out = sp.Popen(["pipen", "report", "update"], stdout=sp.PIPE)
-    assert out.wait() == 0
+    assert out.wait() == 0, out.stdout.read().decode()
     stdout = out.stdout.read().decode()
     assert "The frontend directory:" in stdout
     assert "Running: npm update ..." in stdout
@@ -32,8 +32,9 @@ def test_update_first_time(tmp_path):
         [sys.executable, "-m", "pipen", "report", "update"],
         cwd=str(tmp_path),
         stdout=sp.PIPE,
+        stderr=sp.PIPE,
     )
-    assert out.wait() == 0
+    assert out.wait() == 0, out.stderr.read().decode()
     stdout = out.stdout.read().decode()
     assert "The frontend directory:" in stdout
     assert "Running: npm install ... (first time setup)" in stdout

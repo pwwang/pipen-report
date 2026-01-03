@@ -1,4 +1,5 @@
 """Provide a command line interface for the pipen_report plugin"""
+
 from __future__ import annotations
 
 import stat
@@ -10,6 +11,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import rtoml
+from panpath import PanPath
 from pipen.cli import CLIPlugin
 
 from .defaults import NPM, NMDIR, LOCAL_CONFIG, GLOBAL_CONFIG, CONFIG_KEYS
@@ -22,6 +24,7 @@ if TYPE_CHECKING:
 
 class PipenCliReport(CLIPlugin):
     """CLI utility for pipen-report"""
+
     from .versions import __version__
 
     name = "report"
@@ -102,16 +105,12 @@ class PipenCliReport(CLIPlugin):
             type=int,
         )
         serve_command.add_argument(
-            "--host",
-            help="The host to serve the report",
-            default="127.0.0.1"
+            "--host", help="The host to serve the report", default="127.0.0.1"
         )
         serve_command.add_argument(
             "--reportdir",
             "-r",
-            help=(
-                "The directory of the reports, where the REPORTS/ directory is"
-            ),
+            help=("The directory of the reports, where the REPORTS/ directory is"),
             required=True,
             type=Path,
         )
@@ -140,7 +139,7 @@ class PipenCliReport(CLIPlugin):
             keylen = max(len(key) for key in CONFIG_KEYS)
             for key in CONFIG_KEYS:
                 print(
-                    f"\033[4m\033[1m{key}\033[0m\033[0m".ljust(keylen + 17, ' ')
+                    f"\033[4m\033[1m{key}\033[0m\033[0m".ljust(keylen + 17, " ")
                     + f"= {get_config(key)}"
                 )
             return
@@ -162,8 +161,10 @@ class PipenCliReport(CLIPlugin):
             # run_copy(NMDIR, nmdir, overwrite=True, quiet=True)
             # copy package.json
             nmdir.mkdir(parents=True, exist_ok=True)
-            Path(NMDIR).joinpath("package.json").copy(nmdir / "package.json")
-            Path(NMDIR).joinpath("package-lock.json").copy(nmdir / "package-lock.json")
+            PanPath(NMDIR).joinpath("package.json").copy(nmdir / "package.json")
+            PanPath(NMDIR).joinpath("package-lock.json").copy(
+                nmdir / "package-lock.json"
+            )
 
         if not (nmdir.stat().st_mode & stat.S_IWUSR):  # pragma: no cover
             print("The frontend directory is not writable:")
@@ -220,6 +221,7 @@ class PipenCliReport(CLIPlugin):
 
         class Handler(http.server.SimpleHTTPRequestHandler):
             """The request handler"""
+
             def __init__(self, *args, **kwargs) -> None:
                 kwargs["directory"] = reportdir
                 super().__init__(*args, **kwargs)
