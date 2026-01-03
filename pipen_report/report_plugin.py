@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING, Union
+
+from xqute.defaults import DEFAULT_CLOUD_FSPATH
 from pipen import plugin
 
 from .utils import get_config, logger
@@ -69,9 +72,6 @@ class PipenReport:
         # Tags with properties that need to convert to relative paths
         # i.e. {"Image": "src"}
         pipen.config.plugin_opts.setdefault("report_relpath_tags", None)
-        # pipeline-level
-        # The base temporary directory when workdir is on cloud
-        pipen.config.plugin_opts.setdefault("report_cachedir_for_cloud", None)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)
@@ -93,17 +93,9 @@ class PipenReport:
         logger.setLevel(loglevel if isinstance(loglevel, int) else loglevel.upper())
         plugin_opts = pipen.config.plugin_opts or {}
 
-        gcs_cachedir_set = "gcs_cache" in plugin_opts
         gcs_cachedir = plugin_opts.get("gcs_cache", None)
-        cachedir_for_cloud = pipen.config.plugin_opts.report_cachedir_for_cloud
-        if gcs_cachedir_set and cachedir_for_cloud is not None:
-            logger.warning(
-                "Plugin option 'gcs_cache' is set. "
-                "You are probably using pipen-gcs plugin. "
-                "The 'report_cachedir_for_cloud' option will be ignored.",
-            )
-        elif not gcs_cachedir_set:
-            gcs_cachedir = cachedir_for_cloud
+        if not gcs_cachedir:
+            gcs_cachedir = os.environ.get("XQUTE_CLOUD_FSPATH", DEFAULT_CLOUD_FSPATH)
 
         self.manager = ReportManager(
             plugin_opts,
@@ -111,8 +103,8 @@ class PipenReport:
             pipen.workdir,
             cachedir_for_cloud=gcs_cachedir,
         )
-        self.manager.check_npm_and_setup_dirs()
-        self.manager.init_pipeline_data(pipen)
+        await self.manager.check_npm_and_setup_dirs()
+        await self.manager.init_pipeline_data(pipen)
 
         if len(self.manager.pipeline_data["entries"]) > 0:
             await self.manager.build(
