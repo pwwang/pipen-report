@@ -5,17 +5,17 @@ import json
 import re
 import shutil
 import sys
-import subprocess as sp
+import asyncio
 import textwrap
 import traceback
+import functools
 from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
 
 from liquid import Liquid
 from copier import run_copy
-from yunpath import CloudPath, GSClient
-from cloudpathlib import AzureBlobClient, S3Client, GSPath, S3Path, AzureBlobPath
+from panpath import CloudPath, PanPath
 from xqute.path import SpecCloudPath, MountedPath
 from pipen import Proc, ProcGroup
 from pipen.defaults import ProcInputType, ProcOutputType
@@ -25,7 +25,14 @@ from pipen.utils import get_base, desc_from_docstring, get_marked
 
 from .filters import FILTERS
 from .preprocess import preprocess
-from .utils import UnifiedLogger, get_config, logger, rsync_to_cloud
+from .utils import (
+    UnifiedLogger,
+    get_config,
+    logger,
+    get_fspath,
+    get_cloudpath,
+    a_copy_all,
+)
 from .versions import version_str
 
 if TYPE_CHECKING:
@@ -34,20 +41,6 @@ if TYPE_CHECKING:
     from pipen.template import Template
 
 ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
-
-
-def _render_file(
-    engine: Type[Template],
-    engine_opts: MutableMapping[str, Any],
-    source: str,
-    render_data: Mapping[str, Any],
-) -> str:
-    """Render a template file"""
-    if engine in (TemplateLiquid, TemplateJinja2):
-        # Avoid {#if ... } being treated as jinja comments
-        engine_opts["comment_start_string"] = "{!"
-        engine_opts["comment_end_string"] = "!}"
-    return engine(source, **engine_opts).render(render_data)
 
 
 class NPMBuildingError(Exception):
@@ -66,53 +59,33 @@ class ReportManager:
         """Initialize the report manager"""
         outdir = outdir / "REPORTS"
 
-        if isinstance(outdir, GSPath):
-            outdir_client = GSClient(local_cache_dir=cachedir_for_cloud)
-        elif isinstance(outdir, S3Path):
-            outdir_client = S3Client(local_cache_dir=cachedir_for_cloud)
-        elif isinstance(outdir, AzureBlobPath):
-            outdir_client = AzureBlobClient(local_cache_dir=cachedir_for_cloud)
-        else:
-            outdir_client = None
-
-        if isinstance(workdir, GSPath):
-            workdir_client = GSClient(local_cache_dir=cachedir_for_cloud)
-        elif isinstance(workdir, S3Path):
-            workdir_client = S3Client(local_cache_dir=cachedir_for_cloud)
-        elif isinstance(workdir, AzureBlobPath):
-            workdir_client = AzureBlobClient(local_cache_dir=cachedir_for_cloud)
-        else:
-            workdir_client = None
-
         # Make sure outdir and workdir are local paths
         if isinstance(outdir, SpecCloudPath):
             # modified by plugins like pipen-gcs
-            self.outdir = MountedPath(outdir.fspath, spec=outdir)
+            self.outdir = MountedPath(
+                get_fspath(outdir, cachedir_for_cloud), spec=outdir
+            )
         elif isinstance(outdir, CloudPath):
-            # specified directly
-            if outdir.client._cache_tmp_dir:
-                # default client, no specific local_cache_dir of client specified
-                outdir = outdir_client.CloudPath(str(outdir))
-
-            self.outdir = MountedPath(outdir.fspath, spec=outdir)
+            self.outdir = MountedPath(
+                get_fspath(outdir, cachedir_for_cloud), spec=outdir
+            )
         else:
             self.outdir = MountedPath(outdir)
 
         workdir = workdir / ".report-workdir"
         if isinstance(workdir, CloudPath):
-            if workdir.client._cache_tmp_dir:
-                # default client, no specific local_cache_dir of client specified
-                workdir = workdir_client.CloudPath(str(workdir))
-
-            self.workdir = MountedPath(workdir.fspath, spec=workdir)
+            self.workdir = MountedPath(
+                get_fspath(workdir, cachedir_for_cloud), spec=workdir
+            )
         else:
             self.workdir = MountedPath(workdir)
 
         self.npm = get_config("npm", plugin_opts.get("report_npm"))
-        self.nmdir = Path(get_config("nmdir", plugin_opts.get("report_nmdir")))
+        self.nmdir = PanPath(get_config("nmdir", plugin_opts.get("report_nmdir")))
         self.extlibs = get_config("extlibs", plugin_opts.get("report_extlibs"))
         self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
         self.no_collapse_pgs = plugin_opts.get("report_no_collapse_pgs") or []
+        self.cachedir_for_cloud = cachedir_for_cloud
         self.has_reports = False
         # Used to pass to the UI for rendering
         self.pipeline_data = None
@@ -120,7 +93,7 @@ class ReportManager:
         if isinstance(self.no_collapse_pgs, str):  # pragma: no cover
             self.no_collapse_pgs = [self.no_collapse_pgs]
 
-    def check_npm_and_setup_dirs(self) -> None:
+    async def check_npm_and_setup_dirs(self) -> None:
         """Check if npm is available"""
 
         logger.info("Checking npm and frontend dependencies ...")
@@ -133,38 +106,38 @@ class ReportManager:
             logger.error("$ pipen report config [--local] --npm <path/to/npm>")
             sys.exit(1)
 
-        if not self.nmdir.is_dir():  # pragma: no cover
+        if not await self.nmdir.a_is_dir():  # pragma: no cover
             logger.error("Invalid nmdir: %s", self.nmdir)
             logger.error("Run `pipen report config [--local] --nmdir ...` to set it")
             sys.exit(1)
 
         # check if frontend dependencies are installed
-        if not (self.nmdir / "node_modules").is_dir():  # pragma: no cover
+        if not await (self.nmdir / "node_modules").a_is_dir():  # pragma: no cover
             logger.error("Frontend dependencies are not installed")
             logger.error("Run `pipen report update` to install them")
             sys.exit(1)
 
-        self.workdir.mkdir(parents=True, exist_ok=True)
+        await self.workdir.a_mkdir(parents=True, exist_ok=True)
 
         pubdir = self.workdir / "public"
-        if pubdir.is_symlink():
-            pubdir.unlink()
+        if await pubdir.a_is_symlink():
+            await pubdir.a_unlink()
 
         nmdir = self.workdir / "node_modules"
-        if nmdir.is_symlink():
-            nmdir.unlink()
+        if await nmdir.a_is_symlink():
+            await nmdir.a_unlink()
 
         exdir = self.workdir / "src" / "extlibs"
         with suppress(Exception):
-            exdir.rmtree()
+            await exdir.a_rmtree()
         with suppress(Exception):
-            exdir.mkdir(parents=True, exist_ok=True)
+            await exdir.a_mkdir(parents=True, exist_ok=True)
 
         # Check if self.workdir is writable
         try:
             testfile = self.workdir / ".writetest"
-            testfile.write_text("test")
-            testfile.unlink()
+            await testfile.a_write_text("test")
+            await testfile.a_unlink()
         except Exception:  # pragma: no cover
             logger.error("The report workdir is not writable:")
             logger.error("  %s", self.workdir)
@@ -174,33 +147,35 @@ class ReportManager:
             sys.exit(1)
 
         # Copy rollup config file to workdir
-        rollup_config = self.nmdir.joinpath("rollup.config.js.jinja").read_text()
+        rollup_config = await self.nmdir.joinpath(
+            "rollup.config.js.jinja"
+        ).a_read_text()
         rollup_config = Liquid(rollup_config, from_file=False).render(
             extlibs=self.extlibs
         )
-        self.workdir.joinpath("rollup.config.js").write_text(rollup_config)
+        await self.workdir.joinpath("rollup.config.js").a_write_text(rollup_config)
 
-        self.nmdir.joinpath("public").copytree(self.outdir)
-        self.nmdir.joinpath("src").copytree(self.workdir / "src")
-        self.nmdir.joinpath("package.json").copy(self.workdir / "package.json")
+        await self.nmdir.joinpath("public").a_copytree(self.outdir)
+        await self.nmdir.joinpath("src").a_copytree(self.workdir / "src")
+        await self.nmdir.joinpath("package.json").a_copy(self.workdir / "package.json")
 
         node_lockfile = self.nmdir.joinpath("package-lock.json")
         bun_lockfile = self.nmdir.joinpath("bun.lock")
-        if not bun_lockfile.exists() and not node_lockfile.exists():
+        if not await bun_lockfile.a_exists() and not await node_lockfile.a_exists():
             logger.error("Frontend package lock file not found.")
             logger.error("Run `pipen report install` to create it.")
             sys.exit(1)
 
-        if bun_lockfile.exists():
-            bun_lockfile.copy(self.workdir / "bun.lock")
+        if await bun_lockfile.a_exists():
+            await bun_lockfile.a_copy(self.workdir / "bun.lock")
         else:
-            node_lockfile.copy(self.workdir / "package-lock.json")
+            await node_lockfile.a_copy(self.workdir / "package-lock.json")
 
-        pubdir.symlink_to(self.outdir)
-        nmdir.symlink_to(self.nmdir / "node_modules")
+        await pubdir.a_symlink_to(self.outdir)
+        await nmdir.a_symlink_to(self.nmdir / "node_modules")
 
         if self.extlibs:
-            exdir.joinpath(Path(self.extlibs).name).symlink_to(self.extlibs)
+            await exdir.joinpath(Path(self.extlibs).name).a_symlink_to(self.extlibs)
 
     def _template_opts(self, template_opts) -> Mapping[str, Any]:
         """Template options for renderring
@@ -268,7 +243,7 @@ class ReportManager:
 
         return rendering_data
 
-    def _npm_run_build(
+    async def _npm_run_build(
         self,
         cwd: Path,
         proc: str,
@@ -284,13 +259,14 @@ class ReportManager:
         """
         logfile = self.workdir / "pipen-report.log"
         if proc == "_index":
-            logfile.write_text("")
+            await logfile.a_write_text("")
             destfile = self.outdir.joinpath("pages", "_index.js")
             ini_datafile = self.workdir / "src" / "init_data.json"
             src_changed = (
-                not ini_datafile.exists()
-                or not destfile.exists()
-                or ini_datafile.stat().st_mtime > destfile.stat().st_mtime
+                not await ini_datafile.a_exists()
+                or not await destfile.a_exists()
+                or (await ini_datafile.a_stat()).st_mtime
+                > (await destfile.a_stat()).st_mtime
             )
             proc_or_pg = proc
         else:
@@ -304,11 +280,12 @@ class ReportManager:
             srcfile = self.workdir.joinpath("src", "pages", proc, "proc.svelte")
             destfile = self.outdir.joinpath("pages", f"{proc}.js")
             src_changed = (
-                not destfile.exists()
-                or srcfile.stat().st_mtime > destfile.stat().st_mtime
+                not await destfile.a_exists()
+                or (await srcfile.a_stat()).st_mtime
+                > (await destfile.a_stat()).st_mtime
             )
 
-        if destfile.exists() and not force_build and cached and not src_changed:
+        if await destfile.a_exists() and not force_build and cached and not src_changed:
             if proc == "_index":
                 ulogger.info("Home page cached, skipping report building")
                 ulogger.info(f"- workdir: {self.workdir}")
@@ -318,7 +295,7 @@ class ReportManager:
             return
 
         ulogger.debug(
-            f"Destination exists: {destfile.exists()}; "
+            f"Destination exists: {await destfile.a_exists()}; "
             f"force_build: {force_build}; "
             f"cached: {cached}; "
             f"src_changed: {src_changed}"
@@ -338,23 +315,27 @@ class ReportManager:
         }
         errored = False
 
-        with open(logfile, "at") as flog:
-            flog.write("\n")
-            flog.write(f"# BUILDING {proc_or_pg} ...\n")
-            flog.write("----------------------------------------\n")
+        async with logfile.a_open("a") as flog:
+            await flog.write("\n")
+            await flog.write(f"# BUILDING {proc_or_pg} ...\n")
+            await flog.write("----------------------------------------\n")
 
             try:
-                p = sp.Popen(
-                    [self.npm, "run", "build", "--", f"--configProc={proc_or_pg}"],
-                    stdout=sp.PIPE,
-                    stderr=sp.STDOUT,
+                p = await asyncio.create_subprocess_exec(
+                    self.npm,
+                    "run",
+                    "build",
+                    "--",
+                    f"--configProc={proc_or_pg}",
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.STDOUT,
                     cwd=str(cwd),
                 )
-                for line in p.stdout:
+                async for line in p.stdout:
                     line = line.decode()
                     logline = ansi_escape.sub("", line).rstrip()
                     # src/pages/_index/index.js → public/index/index.js
-                    flog.write(ansi_escape.sub("", line))
+                    await flog.write(ansi_escape.sub("", line))
                     if " → " in logline and logline.startswith("src/pages/"):
                         ulogger.info(f"- {logline.split(' → ')[0]}")
 
@@ -369,26 +350,26 @@ class ReportManager:
 
                     if errored:  # pragma: no cover
                         # Early stop
-                        p.terminate()
-                        p.kill()
+                        await p.terminate()
+                        await p.kill()
                         raise NPMBuildingError
 
-                if p.wait() != 0:  # pragma: no cover
+                if await p.wait() != 0:  # pragma: no cover
                     raise NPMBuildingError
 
             except Exception as e:  # pragma: no cover
                 with suppress(FileNotFoundError):
-                    destfile.unlink()
+                    await destfile.a_unlink()
 
                 if not isinstance(e, NPMBuildingError):
-                    flog.write(str(e))
+                    await flog.write(str(e))
                     for line in str(e).splitlines():
                         ulogger.error(f"  {line.rstrip()}")
 
                 ulogger.error(f"(!) Failed. See: {logfile}")
                 sys.exit(1)
 
-    def init_pipeline_data(self, pipen: Pipen) -> None:
+    async def init_pipeline_data(self, pipen: Pipen) -> None:
         """Write data to workdir"""
         self.pipeline_data = {
             "pipeline": {
@@ -441,13 +422,12 @@ class ReportManager:
         # Write the initial data to check if home page is cached
         datafile = self.workdir / "src" / "init_data.json"
         if (
-            not datafile.exists()
-            or json.loads(datafile.read_text()) != self.pipeline_data
+            not await datafile.a_exists()
+            or json.loads(await datafile.a_read_text()) != self.pipeline_data
         ):
-            with datafile.open("w") as f:
-                json.dump(self.pipeline_data, f, indent=2)
+            await datafile.a_write_text(json.dumps(self.pipeline_data, indent=2))
 
-    def _update_proc_meta(self, proc: Proc, npages: int) -> None:
+    async def _update_proc_meta(self, proc: Proc, npages: int) -> None:
         """Update the number of pages for a process"""
 
         runinfo_sess_file = proc.workdir / "0" / "job.runinfo.session"
@@ -455,21 +435,21 @@ class ReportManager:
         runinfo_dev_file = proc.workdir / "0" / "job.runinfo.device"
 
         runinfo_sess = (
-            runinfo_sess_file.read_text()
-            if runinfo_sess_file.exists()
+            await runinfo_sess_file.a_read_text()
+            if await runinfo_sess_file.a_exists()
             else (
                 "pipen-runinfo plugin not enabled or language not supported "
                 "for saving session information."
             )
         )
         runinfo_time = (
-            textwrap.dedent(runinfo_time_file.read_text())
-            if runinfo_time_file.exists()
+            textwrap.dedent(await runinfo_time_file.a_read_text())
+            if await runinfo_time_file.a_exists()
             else "pipen-runinfo plugin not enabled."
         )
         runinfo_dev = (
-            runinfo_dev_file.read_text()
-            if runinfo_dev_file.exists()
+            await runinfo_dev_file.a_read_text()
+            if await runinfo_dev_file.a_exists()
             else "pipen-runinfo plugin not enabled."
         )
         to_update = {
@@ -500,7 +480,41 @@ class ReportManager:
                 entry.update(to_update)
                 break
 
-    def render_proc_report(self, proc: Proc):
+    async def _render_file(
+        self,
+        engine: Type[Template],
+        engine_opts: MutableMapping[str, Any],
+        source: str,
+        render_data: Mapping[str, Any],
+    ) -> str:
+        """Render a template file"""
+        if engine in (TemplateLiquid, TemplateJinja2):
+            # Avoid {#if ... } being treated as jinja comments
+            engine_opts["comment_start_string"] = "{!"
+            engine_opts["comment_end_string"] = "!}"
+
+        eng = engine(source, **engine_opts)
+        # A better way to handle missing includes/imports
+        # if the included file is in the cloud path, download it first
+        missed_files = set()
+        while True:
+            try:
+                return eng.render(render_data)
+            except FileNotFoundError as e:
+                missed_file = str(e).split(": '")[1][:-1]
+                if missed_file in missed_files:  # pragma: no cover
+                    raise e
+
+                missed_files.add(missed_file)
+                cloud_file = get_cloudpath(missed_file, self.cachedir_for_cloud)
+                if cloud_file is not None:
+                    ppath = PanPath(cloud_file)
+                    lpath = PanPath(missed_file)
+                    await a_copy_all(ppath, lpath)
+                else:
+                    raise e
+
+    async def render_proc_report(self, proc: Proc):
         """Render the report template for a process
 
         Args:
@@ -516,7 +530,7 @@ class ReportManager:
         report_paging = proc.plugin_opts.get("report_paging", False)
         report_relpath_tags = proc.plugin_opts.get("report_relpath_tags", None) or {}
         if report.startswith("file://"):
-            report_tpl = Path(report[7:])
+            report_tpl = PanPath(report[7:])
             if not report_tpl.is_absolute():
                 base = get_base(
                     proc.__class__,
@@ -528,13 +542,13 @@ class ReportManager:
                         else str(klass.plugin_opts.get("report", None))
                     ),
                 )
-                report_tpl = Path(inspect.getfile(base)).parent / report_tpl
-            report = report_tpl.read_text()
+                report_tpl = PanPath(inspect.getfile(base)).parent / report_tpl
+            report = await report_tpl.a_read_text()
 
         template_opts = self._template_opts(proc.template_opts)
 
         try:
-            rendered = _render_file(
+            rendered = await self._render_file(
                 proc.template,
                 template_opts,  # type: ignore[arg-type]
                 report,
@@ -567,12 +581,13 @@ class ReportManager:
             )
 
         # preprocess the rendered report and get the toc
-        rendered_parts, toc = preprocess(
+        rendered_parts, toc = await preprocess(
             rendered,
             run_meta,
             report_toc,
             report_paging,
             report_relpath_tags,
+            cachedir_for_cloud=self.cachedir_for_cloud,
             logfn=lambda *args, **kwargs: proc.log(*args, **kwargs, logger=logger),
         )
 
@@ -586,10 +601,10 @@ class ReportManager:
 
         npages = len(rendered_parts)
         # Update npages in data.json
-        self._update_proc_meta(proc, npages)
+        await self._update_proc_meta(proc, npages)
 
         for i, rendered_part in enumerate(rendered_parts):
-            self._render_page(
+            await self._render_page(
                 rendered=rendered_part,
                 name=proc.name,
                 page=i,
@@ -598,7 +613,7 @@ class ReportManager:
 
         return npages
 
-    def _render_page(
+    async def _render_page(
         self,
         rendered: str,
         name: str,
@@ -612,7 +627,8 @@ class ReportManager:
         else:
             dest_dir = self.workdir.joinpath("src", "pages", f"{name}-{page}")
 
-        run_copy(
+        run_copy_partial = functools.partial(
+            run_copy,
             str(tpl_dir),
             dest_dir,
             overwrite=True,
@@ -620,13 +636,17 @@ class ReportManager:
             data={"name": name, "page": page},
             skip_if_exists=["proc.svelte"],
         )
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, run_copy_partial)
         rendered_report = dest_dir / "proc.svelte"
 
-        with dest_dir.joinpath("toc.json").open("w") as f:
-            json.dump(toc, f, indent=2)
+        await dest_dir.joinpath("toc.json").a_write_text(json.dumps(toc, indent=2))
 
-        if not rendered_report.exists() or rendered_report.read_text() != rendered:
-            rendered_report.write_text(rendered)
+        if (
+            not await rendered_report.a_exists()
+            or await rendered_report.a_read_text() != rendered
+        ):
+            await rendered_report.a_write_text(rendered)
 
         return rendered_report
 
@@ -650,7 +670,7 @@ class ReportManager:
             if nobuild:  # pragma: no cover
                 ulogger.debug("`report_nobuild` is True, skipping building home page.")
             else:
-                self._npm_run_build(
+                await self._npm_run_build(
                     cwd=self.workdir,
                     proc="_index",
                     ulogger=ulogger,
@@ -660,18 +680,17 @@ class ReportManager:
 
             return
 
-        npages = self.render_proc_report(proc)
+        npages = await self.render_proc_report(proc)
 
         datafile = self.workdir / "src" / "data.json"
-        with datafile.open("w") as f:
-            json.dump(self.pipeline_data, f, indent=2)
+        await datafile.a_write_text(json.dumps(self.pipeline_data, indent=2))
 
         if nobuild or self.nobuild:  # pragma: no cover
             ulogger.debug("`report_nobuild` is True, skipping building report.")
             return
 
         procgroup = get_marked(proc, "procgroup")
-        self._npm_run_build(
+        await self._npm_run_build(
             cwd=self.workdir,
             proc=proc.name,
             ulogger=ulogger,
@@ -692,4 +711,4 @@ class ReportManager:
                 logger.info(f" {self.outdir}")
                 logger.info(f" → {self.outdir.spec}")
 
-            rsync_to_cloud(self.outdir)
+            await self.outdir.a_copytree(self.outdir.spec)
