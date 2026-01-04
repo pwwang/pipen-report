@@ -1,5 +1,23 @@
 # Change Log
 
+## 1.1.0
+
+- fix: update build system requirements to use poetry-core (1.0.2)
+- chore: update pipen dependencies to version 1.1 and adjust related packages
+- test: add pytest-asyncio dependency and update pytest options
+- fix: replace AnyPath with PanPath for improved path handling in filters
+- feat: add async regex replacement and image size retrieval functions
+- test: add additional assertion for datatable with no header
+- refactor: replace Path with PanPath for improved path handling and clean up code formatting
+- refactor: streamline report plugin initialization and improve cloud path handling
+- refactor: convert synchronous methods to asynchronous for improved performance and responsiveness
+- refactor: convert path handling to use PanPath and update functions for async processing
+- test: exclude coverage for copier patch
+- chore: update rollup and related packages to version 4.54.0
+- chore: update dependencies in pyproject.toml and poetry.lock
+- fix: enhance a_copy_all to support caching for cloud paths
+- docs: update example scripts to enhance descriptions and clarify usage of cloud paths
+
 ## 1.0.2
 
 - fix(frontend): ensure pageSize is included in pageSizes and sorted correctly for DataTable component
