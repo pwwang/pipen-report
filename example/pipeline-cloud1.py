@@ -1,4 +1,15 @@
-"""pipen-report example using pipen-gcs to localize the cloud files"""
+"""pipen-report example using pipen-gcs to localize the cloud files
+
+This example runs the jobs locally and use google cloud storage as the outdir.
+The workdir is still local, but pipen-gcs will help to localize the input files
+from cloud storage to local workdir before running the jobs.
+
+When the jobs are done, the output files will be automatically uploaded to the
+cloud outdir.
+
+Since the output files are generated locally, the report generation can also
+happen locally without needing to download the files from cloud storage again.
+"""
 
 import os
 from pipen import Proc, Pipen

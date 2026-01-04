@@ -1,4 +1,13 @@
-"""pipen-report example using using cloud workdir and outdir native support"""
+"""pipen-report example using using cloud workdir and outdir and gbatch scheduler
+supported by xqute.
+
+This example runs the jobs on Google Cloud Platform using gbatch scheduler.
+The outdir and workdir are both set to cloud storage paths, which will be mounted
+to the compute instances using xqute's gbatch scheduler support.
+
+Since the output files are generated on cloud storage, when generating the report,
+the files that are needed will be downloaded from cloud storage automatically.
+"""
 
 # # NOT RUN
 # # This example needs to run on Google Cloud Platform

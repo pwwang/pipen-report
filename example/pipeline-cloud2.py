@@ -1,4 +1,13 @@
-"""pipen-report example using using cloud workdir and outdir native support"""
+"""pipen-report example using using cloud workdir and outdir native support
+
+This example runs the jobs locally but operates the files directly on Google
+Cloud Storage using pipen's native cloud path support. The outdir and workdir are
+both set to cloud storage paths. In the job scripts, we use `cloudsh` commands to
+manipulate the files on cloud storage directly.
+
+Since the output files are generated on cloud storage, when generating the report,
+the files that are needed will be downloaded from cloud storage automatically.
+"""
 
 import os
 from pipen import Proc, Pipen
