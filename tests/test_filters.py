@@ -13,6 +13,7 @@ from pipen_report.filters import (
     _render_list,
     _render_table,
     _render_image,
+    _render_plotly,
     _render_table_image,
     _render_tab,
     render_ui,
@@ -569,6 +570,19 @@ def test_render_table(cont, job, level, expected):
 def test_render_image(cont, job, level, expected, request):
     result = _render_image(cont, job, level)
     assert result == expected
+
+
+def test_render_plotly():
+    cont = {
+        "src": str(imgpath),
+        "height": 400,
+    }
+    job = {}
+    level = 0
+    result = _render_plotly(cont, job, level)
+    assert result == (
+        f'<Plotly\n{TAB}src="%(imgpath)s"\n{TAB}height={{ 400 }} />'
+    ) % {"imgpath": imgpath}
 
 
 @pytest.mark.parametrize(

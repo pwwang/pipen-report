@@ -332,6 +332,25 @@ def _render_image(
     return _tag("Image", **attrs, _level=level)
 
 
+@register_component("plotly")
+def _render_plotly(
+    cont: Mapping[str, Any],
+    job: Mapping[str, Any],
+    level: int,
+) -> str:
+    """Render an image
+
+    Args:
+        cont (Mapping[str, Any]): The container containing the Plotly attributes.
+        job (Mapping[str, Any]): The job containing the Plotly data.
+        level (int): The level of the Plotly component in the hierarchy.
+
+    Returns:
+        str: The rendered Plotly component as a string.
+    """
+    return _tag("Plotly", **cont, _level=level)
+
+
 @register_component("table_img", "table_image")
 def _render_table_image(
     cont: Mapping[str, Any],
