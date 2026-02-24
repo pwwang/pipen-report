@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.1.1
+
+- chore: update frontend deps
+- feat: add Plotly component rendering function⏎
+
 ## 1.1.0
 
 - fix: update build system requirements to use poetry-core (1.0.2)
