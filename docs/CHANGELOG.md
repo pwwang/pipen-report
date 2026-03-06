@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.1.2
+
+- chore: update dependencies
+- fix(ui): update image table layout to stretch content
+
 ## 1.1.1
 
 - chore: update frontend deps
