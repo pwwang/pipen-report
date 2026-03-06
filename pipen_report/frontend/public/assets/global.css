@@ -274,7 +274,7 @@ li.bx--list__item::before {
 .pipen-report-table-of-images {
 	display: grid;
 	gap: 1rem;
-	justify-content: space-between;
+	justify-content: stretch;
 }
 
 .pipen-report-table-of-images > div {
