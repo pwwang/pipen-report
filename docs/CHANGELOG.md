@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.3
+
+- fix: sort jobs by index in rendering data
+- chore: bump up dependencies
+- chore: bump up frontend dependencie
+
 ## 1.1.2
 
 - chore: update dependencies
