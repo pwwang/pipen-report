@@ -235,7 +235,7 @@ class ReportManager:
         rendering_data = {
             "proc": proc,
             "envs": proc.envs,
-            "jobs": [jobdata(job) for job in proc.jobs],
+            "jobs": [jobdata(job) for job in sorted(proc.jobs, key=lambda j: j.index)],
         }
         # first job
         rendering_data["job"] = rendering_data["jobs"][0]
