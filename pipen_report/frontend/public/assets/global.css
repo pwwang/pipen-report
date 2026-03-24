@@ -48,7 +48,7 @@ div[themes].bx--form-item > .bx--select--inline label {
 	background-color: #161616 !important;
 }
 
-.bx--header__action {
+.bx--header__action, .bx--select-input--inline__wrapper {
 	margin-right: 1rem;
 }
 .bx--header__action.bx--header__menu-trigger {
