@@ -4,6 +4,7 @@
         "desc": "A pipeline"
     },
     "versions": "Versions of pipen and pipen-report",
+    "page_chat": true,
     "entries": [
         {
             "name": "Proc",

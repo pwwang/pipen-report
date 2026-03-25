@@ -47,6 +47,8 @@ const commonConfig = (cssfile = 'index.css') => ({
 	],
 	onwarn: (warning, handler) => {
 		if (warning.code === "EMPTY_BUNDLE") return;
+		// by page-chat.js
+		if (warning.code === "CIRCULAR_DEPENDENCY" && warning.message.includes('node_modules/zod')) return;
 		handler(warning);
 	},
 	watch: { clearScreen: false }

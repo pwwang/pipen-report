@@ -55,6 +55,7 @@ class ReportManager:
         outdir: Path | CloudPath,
         workdir: Path | CloudPath,
         cachedir_for_cloud: str,
+        page_chat: bool,
     ) -> None:
         """Initialize the report manager"""
         outdir = outdir / "REPORTS"
@@ -86,6 +87,7 @@ class ReportManager:
         self.nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
         self.no_collapse_pgs = plugin_opts.get("report_no_collapse_pgs") or []
         self.cachedir_for_cloud = cachedir_for_cloud
+        self.page_chat = page_chat
         self.has_reports = False
         # Used to pass to the UI for rendering
         self.pipeline_data = None
@@ -301,8 +303,7 @@ class ReportManager:
             f"src_changed: {src_changed}"
         )
         if proc_or_pg == "_index":
-            ulogger.info("Building home page ...")
-            ulogger.info(f"- workdir: {self.workdir}")
+            ulogger.info(f"Building home page (workdir={self.workdir}) ...")
         elif npages == 1:
             ulogger.info("Building report ...")
         else:
@@ -312,6 +313,10 @@ class ReportManager:
         errors_to_ignore = {
             # "(!) Unresolved dependencies":
             # "May be ignored if you are using external libraries",
+            # "(!) Circular dependency":
+            # "Brought by page-chat.js, will be ignored",
+            # "(!) Use of eval is strongly discouraged":
+            # "Brought by page-chat.js, will be ignored",
         }
         errored = False
 
@@ -350,8 +355,8 @@ class ReportManager:
 
                     if errored:  # pragma: no cover
                         # Early stop
-                        await p.terminate()
-                        await p.kill()
+                        p.terminate()
+                        p.kill()
                         raise NPMBuildingError
 
                 if await p.wait() != 0:  # pragma: no cover
@@ -376,6 +381,7 @@ class ReportManager:
                 "name": pipen.name,
                 "desc": pipen.desc,
             },
+            "page_chat": self.page_chat,
             "versions": version_str,
             "entries": [
                 # Either a proc or a procgroup

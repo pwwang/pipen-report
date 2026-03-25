@@ -1,4 +1,6 @@
 <script>
+    import "carbon-components-svelte/css/all.css";
+
     import { onMount } from "svelte";
 
     import ProcLayout from "$layouts/ProcLayout.svelte";
@@ -9,6 +11,7 @@
 
     export let name;
     export let page = 0;
+    export let page_chat;
 
     let isSideNavOpen = false;
 
@@ -50,6 +53,7 @@
     pipeline_name={data.pipeline.name}
     report_toc={proc.report_toc}
     runinfo={proc.runinfo}
+    {page_chat}
     {toc}
     {page}
     >

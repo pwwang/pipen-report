@@ -9,9 +9,10 @@
   export let logo;
   export let logotext = null;
   export let versions;
+  export let page_chat;
 </script>
 
-<Header {logo} {logotext} entries={[]} />
+<Header {logo} {logotext} entries={[]} {page_chat} />
 
 <Content>
     <slot />

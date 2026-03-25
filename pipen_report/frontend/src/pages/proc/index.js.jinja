@@ -1,10 +1,12 @@
 import App from "./index.svelte";
+import data from '../../init_data.json';
 
 const app = new App({
 	target: document.body,
 	props: {
 		name: '{{name}}',
-		page: {{page or 0}}
+		page: {{page or 0}},
+		page_chat: data.page_chat
 	}
 });
 

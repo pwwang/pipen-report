@@ -22,6 +22,7 @@
   export let page;
   export let isSideNavOpen;
   export let runinfo;
+  export let page_chat;
 
   let intersectionObserver;
 
@@ -65,7 +66,7 @@
   });
 </script>
 
-<Header {logo} {logotext} {entries} {pipeline_name} bind:isSideNavOpen />
+<Header {logo} {logotext} {entries} {pipeline_name} {page_chat} bind:isSideNavOpen />
 {#if report_toc && toc.length > 0}
   <SideNav bind:isOpen={isSideNavOpen}>
     <ProcToc {toc} {page} />

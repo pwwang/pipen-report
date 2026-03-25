@@ -460,6 +460,7 @@ class Pipeline(Pipen):
     plugin_opts = {
         # "report_no_collapse_pgs": True,
         "report_loglevel": "debug",
+        "report_force_build": True,
     }
 
 

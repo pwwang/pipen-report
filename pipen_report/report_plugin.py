@@ -72,6 +72,9 @@ class PipenReport:
         # Tags with properties that need to convert to relative paths
         # i.e. {"Image": "src"}
         pipen.config.plugin_opts.setdefault("report_relpath_tags", None)
+        # pipeline-level
+        # Allow frontend to have page-chat dialog?
+        pipen.config.plugin_opts.setdefault("report_page_chat", True)
 
         # process-level: The report template or file, None to disable
         pipen.config.plugin_opts.setdefault("report", None)
@@ -102,6 +105,7 @@ class PipenReport:
             pipen.outdir,
             pipen.workdir,
             cachedir_for_cloud=gcs_cachedir,
+            page_chat=plugin_opts.get("report_page_chat", True),
         )
         await self.manager.check_npm_and_setup_dirs()
         await self.manager.init_pipeline_data(pipen)

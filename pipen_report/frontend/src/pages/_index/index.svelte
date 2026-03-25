@@ -1,4 +1,5 @@
 <script>
+    import "carbon-components-svelte/css/all.css";
     import IndexLayout from "../../layouts/Index.svelte";
     import ProcCard from "../../layouts/ProcCard.svelte";
     import ProcGroupCard from "../../layouts/ProcGroupCard.svelte";
@@ -6,10 +7,11 @@
     export let entries;
     export let pipeline;
     export let versions;
+    export let page_chat;
 
 </script>
 
-<IndexLayout logo={pipeline.name} logotext={pipeline.desc} {versions}>
+<IndexLayout logo={pipeline.name} logotext={pipeline.desc} {versions} {page_chat}>
     <div class="bx--grid proc-list {entries.length < 10 ? "col-1" : "col-2"}">
         {#each entries as entry}
         <div>

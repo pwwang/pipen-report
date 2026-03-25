@@ -6,7 +6,8 @@ const app = new App({
 	props: {
         pipeline: data.pipeline,
         entries: data.entries,
-        versions: data.versions
+        versions: data.versions,
+        page_chat: data.page_chat
     }
 });
 
