@@ -218,6 +218,7 @@
         "flat": [
           {
             "kind": "table",
+            "pageSize": 3,
             "src": "/home/pwwang/github/pipen-report/example/output/ProcessWithPagingWithAVeryLongProcessName/table.txt"
           }
         ]
