@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.2.0
+
+- chore(ui): add gap to the right for theme selector on the home page
+- feat: integrate page-chat functionality into the frontend
+- chore(ui): remove unnecessary css file
+- fix: improve node_modules handling and symlink creation
+- chore: update page-chat dependency to version 0.1
+- feat: enhance page chat initialization with persistence and update on mount
+- chore: update carbon-icons-svelte to version 13.10.0
+- docs: update example output
+
 ## 1.1.3
 
 - fix: sort jobs by index in rendering data
