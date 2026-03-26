@@ -116,6 +116,9 @@
   // Load apiKey on mount (checks expiration)
   onMount(() => {
     pageChatSettings.apiKey = loadApiKey();
+    if (pageChatSettings.model || pageChatSettings.baseURL || pageChatSettings.apiKey) {
+      updatePageChat();
+    }
   });
 
   export let entries;
@@ -145,6 +148,7 @@
       apiKey: pageChatSettings.apiKey,
       language: pageChatSettings.language || 'en-US',
       title: 'Page Chat',
+      persist: true,
       systemPrompt: `
 You are a professional assistant on the report page of a data processing pipeline. Your task is to help users understand the information on this page and provide guidance on how to use the page effectively. You have access to all the information on this page, including details about the pipeline, processes, and any relevant documentation.
 
