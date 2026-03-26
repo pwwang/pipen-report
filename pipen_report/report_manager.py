@@ -126,8 +126,10 @@ class ReportManager:
             await pubdir.a_unlink()
 
         nmdir = self.workdir / "node_modules"
-        if await nmdir.a_is_symlink():
+        if await nmdir.a_is_symlink() or await nmdir.a_is_file():
             await nmdir.a_unlink()
+        if await nmdir.a_exists():
+            await nmdir.a_rmtree()
 
         exdir = self.workdir / "src" / "extlibs"
         with suppress(Exception):
@@ -173,8 +175,8 @@ class ReportManager:
         else:
             await node_lockfile.a_copy(self.workdir / "package-lock.json")
 
-        await pubdir.a_symlink_to(self.outdir)
-        await nmdir.a_symlink_to(self.nmdir / "node_modules")
+        await pubdir.a_symlink_to(self.outdir, True)
+        await nmdir.a_symlink_to(self.nmdir / "node_modules", True)
 
         if self.extlibs:
             await exdir.joinpath(Path(self.extlibs).name).a_symlink_to(self.extlibs)
