@@ -206,7 +206,7 @@ Guidelines:
         <p><code>page-chat.js</code> is a client library for integrating a page-specific chatbot into your web application. It provides an easy way to set up a chatbot that can assist users based on the content of the page. In this settings panel, you can configure the model, base URL, and API key for the page chat. After updating the settings, click "Update" to apply the changes and see the updated chatbot in action.</p>
         <p>You may check <Link href="https://alibaba.github.io/page-agent/docs/features/models" target="_blank">the page-agent documentation</Link> for more details, but note that <code>page-chat.js</code> doesn't require the model to be capable of function or tool calling.</p>
         <p style="font-weight: bold;">Limitations:</p>
-        <ul>
+        <ul class="bx--list--unordered">
           <li>The chatbot's knowledge is limited to the information available on the page. It may not be able to answer questions that require external knowledge or context.</li>
           <li>The chatbot's performance and accuracy depend on the quality and relevance of the information on the page. If the page lacks clear and comprehensive information, the chatbot may struggle to provide helpful responses.</li>
           <li>A visual model is required to answer questions about plots. If the model configured in the settings doesn't support visual understanding, the chatbot won't be able to assist with questions related to plots or visualizations on the page.</li>
