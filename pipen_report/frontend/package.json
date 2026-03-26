@@ -28,6 +28,6 @@
     "temml": "^0.12"
   },
   "dependencies": {
-    "page-chat": "^0.0.3"
+    "page-chat": "^0.1"
   }
 }
