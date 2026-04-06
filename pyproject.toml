@@ -15,7 +15,10 @@ generate-setup-file = true
 python = "^3.9"
 pipen = {version = "1.1.*", allow-prereleases = true}
 Markdown = "^3"
-copier = "^9.5"
+copier = [
+    {version = ">=9.5,<9.11", python = "<3.10"},
+    {version = ">=9.5", python = ">=3.10"},
+]
 python-slugify = "^8.0"
 pipen-runinfo = { optional = true, version = "^1.1" }
 imagesize = "^1.4"
