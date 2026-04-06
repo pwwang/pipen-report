@@ -2,3 +2,5 @@
 
 from . import _patch_copier  # noqa: F401
 from .versions import __version__
+
+__all__ = ["__version__"]
