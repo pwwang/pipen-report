@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.2.1
+
+- chore: update copier dependency specifications for compatibility
+- refactor: simplify patch for copier to suppress UserWarning on path permissions
+- chore: bump up frontend dependencies
+
 ## 1.2.0
 
 - chore(ui): add gap to the right for theme selector on the home page
