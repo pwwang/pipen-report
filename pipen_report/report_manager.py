@@ -294,7 +294,7 @@ class ReportManager:
                 ulogger.info("Home page cached, skipping report building")
                 ulogger.info(f"- workdir: {self.workdir}")
             else:
-                ulogger.info(f"{proc_or_pg} cached, skipping report building.")
+                ulogger.info("Report pages cached, skipping building.")
 
             return
 
