@@ -56,6 +56,9 @@ def datatable(
         import pandas
 
     kwargs.setdefault("sep", "\t")
+    # If header=True, set to header=0
+    if kwargs.get("header", None) is True:
+        kwargs["header"] = 0
     df = pandas.read_csv(path, *args, **kwargs)
     if not isinstance(df.index, pandas.RangeIndex):
         df = df.reset_index(names=["ROWNAMES"])
