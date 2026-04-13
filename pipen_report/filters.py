@@ -834,6 +834,7 @@ def render_job(
 
 FILTERS = {}
 FILTERS["datatable"] = datatable
+FILTERS["dt"] = datatable
 FILTERS["render_component"] = render_component
 FILTERS["render_ui"] = render_ui
 FILTERS["render_job"] = render_job
