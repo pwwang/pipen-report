@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.2.2
+
+- chore: improve log message for cached report pages in ReportManager
+- feat: add `dt` as alias of filter `datatable`
+- chore: set header to 0 when header=True in datatable function
+- feat: add default data to DataTable when only src is provided
+
 ## 1.2.1
 
 - chore: update copier dependency specifications for compatibility
