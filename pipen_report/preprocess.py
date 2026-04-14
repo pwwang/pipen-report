@@ -14,6 +14,7 @@ from typing import Any, List, Mapping, Sequence, Tuple, Union, Callable
 from slugify import slugify
 
 from .utils import get_fspath, get_imagesize, a_re_sub, a_copy_all, cache_fun
+from .filters import datatable
 
 RELPATH_TAGS = {
     "a": "href",
@@ -253,6 +254,20 @@ async def _preprocess_relpath_tag(
                     out = f"{out} width={{{width}}}"
 
                 return out
+
+        if tag == "DataTable" and attrname == "src" and "data=" not in attrs:
+            # add data attr for DataTable to show the content in the table
+            try:
+                data = datatable(path, nrows=100, header=True)
+            except Exception:
+                data = json.dumps([{
+                    "Note": (
+                        "No `data` provided, use the last button above to download "
+                        "the entire data file to explore.",
+                    )
+                }])
+
+            return f' {attrname}="{urlval}" data={{ {data} }}'
 
         return f' {attrname}="{urlval}"'
 

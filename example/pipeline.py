@@ -420,6 +420,9 @@ class ProcessWithPagingWithAVeryLongProcessName(Proc):
         </script>
 
         {{ job | render_job }}
+
+        <h1>Table src only</h1>
+        <DataTable src="{{ job.outdir }}/table.txt" />
         """,  # noqa: E501
         "report_paging": 4,
         "report_force_build": True,
