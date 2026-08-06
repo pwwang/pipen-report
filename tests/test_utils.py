@@ -37,6 +37,7 @@ def test__stringify(tmp_path):
     obj = AProc(
         pipeline=Diot(
             workdir=tmp_path,
+            outdir=tmp_path,
             config=CONFIG,
         )
     )

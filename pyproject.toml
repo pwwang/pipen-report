@@ -7,12 +7,12 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "pipen>=1.1,<1.2",
-    "Markdown>=3,<4",
+    "pipen>=1.1",
+    "Markdown>=3",
     "copier>=9.5,<9.11; python_version < '3.10'",
     "copier>=9.5; python_version >= '3.10'",
-    "python-slugify>=8,<9",
-    "imagesize>=1.4,<2",
+    "python-slugify>=8",
+    "imagesize>=1.4",
 ]
 
 [project.optional-dependencies]
@@ -30,18 +30,18 @@ cli-report = "pipen_report.cli:PipenCliReport"
 
 [dependency-groups]
 dev = [
-    "pytest>=8,<9",
-    "pytest-cov>=6,<7",
-    "pytest-xdist>=3,<4",
-    "pytest-forked>=1,<2",
-    "pytest-asyncio>=1,<2",
-    "pipen-filters>=1.1,<2",
-    "pipen-gcs>=1.1.2,<2",
-    "pipen-verbose>=1.1,<2",
-    "pillow>=11,<12",
-    "python-dotenv>=1,<2",
-    "cloudsh>=0.3,<0.4",
-    "backports-asyncio-runner>=1.1,<2; python_version < '3.11'",
+    "pytest>=8",
+    "pytest-cov>=6",
+    "pytest-xdist>=3",
+    "pytest-forked>=1",
+    "pytest-asyncio>=1",
+    "pipen-filters>=1.1",
+    "pipen-gcs>=1.1.2",
+    "pipen-verbose>=1.1",
+    "pillow>=11",
+    "python-dotenv>=1",
+    "cloudsh>=0.3",
+    "backports-asyncio-runner>=1.1; python_version < '3.11'",
     "ghp-import>=2.1.0",
 ]
 docs = [
@@ -52,8 +52,7 @@ docs = [
 ]
 
 [tool.uv]
-# pipen may have pre-releases; allow them (was allow-prereleases in poetry)
-prerelease-package = { pipen = "allow" }
+prerelease = "allow"
 
 [build-system]
 requires = ["hatchling"]
