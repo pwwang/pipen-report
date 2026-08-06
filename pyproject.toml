@@ -1,6 +1,6 @@
 [project]
 name = "pipen-report"
-version = "1.2.2"
+dynamic = ["version"]
 description = "Report generation system for pipen"
 authors = [{ name = "pwwang", email = "pwwang@pwwang.com" }]
 license = "MIT"
@@ -14,6 +14,9 @@ dependencies = [
     "python-slugify>=8",
     "imagesize>=1.4",
 ]
+
+[tool.hatch.version]
+path = "pipen_report/versions.py"
 
 [project.optional-dependencies]
 runinfo = ["pipen-runinfo>=1.1,<2"]
