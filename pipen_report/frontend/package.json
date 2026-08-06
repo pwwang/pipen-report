@@ -19,7 +19,7 @@
     "acorn": "^8.12.0",
     "carbon-components-svelte": "^0.96",
     "carbon-icons-svelte": "^13.3.0",
-    "carbon-preprocess-svelte": "^0.11.3",
+    "carbon-preprocess-svelte": ">=0.11.30 <0.11.37",
     "rollup": "^4.18.0",
     "rollup-plugin-css-only": "^4.3",
     "rollup-plugin-livereload": "^2.0",
