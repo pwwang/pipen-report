@@ -175,7 +175,7 @@ class ReportManager:
         else:
             await node_lockfile.a_copy(self.workdir / "package-lock.json")
 
-        await pubdir.a_symlink_to(self.outdir, True)
+        await pubdir.a_symlink_to(self.outdir.resolve(), True)
         await nmdir.a_symlink_to(self.nmdir / "node_modules", True)
 
         if self.extlibs:
