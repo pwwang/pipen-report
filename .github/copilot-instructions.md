@@ -109,7 +109,7 @@ Process reports can split by H1 headings (`report_paging` option):
 
 Entry point in `pyproject.toml`:
 ```toml
-[tool.poetry.plugins.pipen]
+[project.entry-points.pipen]
 report = "pipen_report.report_plugin:PipenReport"
 ```
 

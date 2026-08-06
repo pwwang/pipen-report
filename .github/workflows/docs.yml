@@ -8,34 +8,29 @@ jobs:
     # if: github.ref == 'refs/heads/master'
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Python # Set Python version
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.0.0
         with:
           python-version: ${{ matrix.python-version }}
+          enable-cache: true
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install poetry
-          python -m pip install ghp-import
-          poetry config virtualenvs.create false
-          poetry install -v
+          uv sync --group docs
       - name: Update docs
         run: |
-          # python -m pip install -r docs/requirements.txt
-          poetry install --with docs
           cd docs
           cp ../README.md index.md
           sed -i 's#docs/logo.png#logo.png#g' index.md
           cd ..
-          mkdocs build --clean
+          uv run mkdocs build --clean
           cp -r example/ site/
       - name: ghp-import
         run: |
           # mkdocs gh-deploy --force
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          ghp-import --no-jekyll -m "GitHub Action deploy (${GITHUB_SHA:0:7})" -f -p site/
+          uv run ghp-import --no-jekyll -m "GitHub Action deploy (${GITHUB_SHA:0:7})" -f -p site/
         if: success()

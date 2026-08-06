@@ -1,12 +1,10 @@
 WORKSPACE="/workspace"
 
-poetry config virtualenvs.create false
-
 # Install python dependencies
-poetry update && poetry install
+uv sync
 
 # Install frontend dependencies for pipen-report
-pipen report update
+uv run pipen report update
 
 cd $WORKSPACE
 
