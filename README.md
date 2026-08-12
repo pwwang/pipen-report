@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png">
+  <img src="docs/logo.png" width="200" />
 </p>
 <p align="center">
 Report generation system for <a href="https://github.com/pwwang/pipen">pipen</a>.
