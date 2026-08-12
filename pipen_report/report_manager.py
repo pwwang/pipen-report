@@ -571,22 +571,24 @@ class ReportManager:
         # If mounted_outdir is not None, it means the pipeline is run remotely
         # The spec paths are paths that mounted inside the remote environment
         # They may not be working on this local system
+        # `_export_dir`/`workdir` are SpecPaths for remote schedulers
+        # (with `mounted` set), plain paths otherwise (pipen >= 1.2)
+        mounted_outdir = getattr(proc._export_dir, "mounted", None)
+        mounted_workdir = getattr(proc.workdir, "mounted", None)
         run_meta = {
             "outdir": self.outdir,
             "workdir": self.workdir,
-            "mounted_outdir": getattr(proc.xqute.scheduler, "MOUNTED_OUTDIR", None),
-            "mounted_workdir": getattr(proc.xqute.scheduler, "MOUNTED_METADIR", None),
+            "mounted_outdir": (
+                mounted_outdir
+                if mounted_outdir is not None and mounted_outdir.is_mounted()
+                else None
+            ),
+            "mounted_workdir": (
+                mounted_workdir
+                if mounted_workdir is not None and mounted_workdir.is_mounted()
+                else None
+            ),
         }
-        if run_meta["mounted_outdir"]:
-            run_meta["mounted_outdir"] = MountedPath(
-                run_meta["mounted_outdir"],
-                spec=proc.pipeline.workdir,
-            )
-        if run_meta["mounted_workdir"]:
-            run_meta["mounted_workdir"] = MountedPath(
-                run_meta["mounted_workdir"],
-                spec=proc.pipeline.workdir,
-            )
 
         # preprocess the rendered report and get the toc
         rendered_parts, toc = await preprocess(
