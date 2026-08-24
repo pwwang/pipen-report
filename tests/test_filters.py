@@ -31,6 +31,7 @@ from pipen_report.filters import (
 
 datafile = Path(__file__).parent / "data" / "data.csv"
 datafile2 = Path(__file__).parent / "data" / "data2.csv"
+datafile3 = Path(__file__).parent / "data" / "data3.csv"
 imgpath = Path(__file__).parent.parent / "example" / "placeholder.png"
 
 
@@ -71,6 +72,11 @@ def test_datatable():
         '{"h_1":"i","h2":9,"id":8},'
         '{"h_1":"j","h2":10,"id":9}]'
     )
+
+
+def test_datatable_with_comments():
+    out = datatable(datafile3)
+    assert out == '[{"h1":"a","h2":1,"id":1}]'
 
 
 @pytest.mark.parametrize(
