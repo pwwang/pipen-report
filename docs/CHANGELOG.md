@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.2.5
+
+- chore: update dependencies
+- feat(filters.datatable): all comment in input files by default
+
+## 1.2.4
+
+- docs: update logo
+- fix: update mounted path handling in ReportManager for remote schedulers to adopt pipen v1.2
+
+## 1.2.3
+
+- chore: switch to uv
+- chore(font): update carbon-preprocess-svelte version range for compatibility for node v20
+- chore: bump up pipen to v1.2
+- fix: resolve symlink path for output directory in ReportManager
+
 ## 1.2.2
 
 - chore: improve log message for cached report pages in ReportManager
