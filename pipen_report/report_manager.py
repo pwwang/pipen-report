@@ -43,6 +43,51 @@ if TYPE_CHECKING:
 ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
+def _parse_imports(text: str) -> list[tuple[str, str]]:
+    """Parse (specifier, statement) for import/export statements in a file
+
+    For svelte files, only the <script> blocks are parsed. For plain js files,
+    the whole text is parsed.
+    """
+    blocks = re.findall(r"<script[^>]*>(.*?)</script>", text, re.S)
+    if not blocks:
+        blocks = [text]
+
+    out = []
+    for block in blocks:
+        block = re.sub(r"(?s)/\*.*?\*/", "", block)
+        block = re.sub(r"(?m)//.*$", "", block)
+        for m in re.finditer(
+            # skip `export let/const/function/class` (no `from`), avoid matching
+            # the whole block when an import appears after some `export let`
+            r"(?ms)^\s*(?:import|export)\b(?:\s+(?!let\b|const\b|var\b|"
+            r"function\b|class\b))[^'\"]*?from\s+['\"]([^'\"]+)['\"]\s*;?",
+            block,
+        ):
+            out.append((m.group(1), m.group(0)))
+        for spec in re.findall(r"(?m)^\s*import\s+['\"]([^'\"]+)['\"]\s*;?", block):
+            out.append((spec, f"import '{spec}'"))
+    return out
+
+
+def _import_names(statement: str) -> list[str] | None:
+    """Extract imported/exported names from an import/export statement
+
+    Returns None for side-effect imports and `export *` statements.
+    """
+    stmt = statement.strip()
+    if re.match(r"^(?:import\s+['\"]|export\s+\*)", stmt):
+        return None
+    names = []
+    m = re.search(r"{([^}]*)}", stmt)
+    if m:
+        names = [n.strip() for n in m.group(1).split(",") if n.strip()]
+    m = re.match(r"^(?:import|export)\s+(\w+)", stmt)
+    if m:
+        names.append(f"default as {m.group(1)}")
+    return names
+
+
 class NPMBuildingError(Exception):
     """Error when npm run build failed"""
 
@@ -306,6 +351,8 @@ class ReportManager:
         )
         if proc_or_pg == "_index":
             ulogger.info(f"Building home page (workdir={self.workdir}) ...")
+        elif proc_or_pg == "_vendor":
+            ulogger.info("Building shared chunks ...")
         elif npages == 1:
             ulogger.info("Building report ...")
         else:
@@ -434,6 +481,367 @@ class ReportManager:
             or json.loads(await datafile.a_read_text()) != self.pipeline_data
         ):
             await datafile.a_write_text(json.dumps(self.pipeline_data, indent=2))
+
+    async def collect_vendor_imports(self, pipen: Pipen) -> None:
+        """Collect node_modules imports used by all report pages
+
+        Walks the page chrome and the `<script>` blocks of all report templates,
+        following relative/aliased imports into local files, keeping the
+        import/export statements of node_modules modules. These are the inputs
+        for the shared chunks build (--configProc=_vendor).
+        """
+        statements: list[str] = []
+        visited: set[str] = set()
+        self._vendor_module_imports: list[tuple[str, str]] = []
+        # A single report page has nothing to share; skip the shared build and
+        # let the page compile its own node_modules (see rollup.config)
+        self._vendor_needed = (
+            sum(
+                1
+                for proc in pipen.procs
+                if (getattr(proc, "plugin_opts") or {}).get("report", False)
+            )
+            > 1
+        )
+        if not self._vendor_needed:
+            return
+        src = self.workdir / "src"
+
+        # Page chrome
+        start_files = list((src / "layouts").glob("*.svelte"))
+        start_files += [
+            src / "components" / "PageNavButton.svelte",
+            src / "pages" / "proc" / "index.svelte",
+            src / "pages" / "_index" / "index.svelte",
+        ]
+        for path in start_files:
+            if await path.a_exists():
+                await self._walk_imports(path, visited, statements)
+
+        # Report templates of all processes
+        for proc in pipen.procs:
+            report = (getattr(proc, "plugin_opts") or {}).get("report", False)
+            if not report:
+                continue
+
+            report = str(report)
+            if report.startswith("file://"):
+                report_tpl = PanPath(report[7:])
+                if not report_tpl.is_absolute():
+                    base = get_base(
+                        proc.__class__,
+                        Proc,
+                        report,
+                        lambda klass: (
+                            None
+                            if klass.plugin_opts is None
+                            else str(klass.plugin_opts.get("report", None))
+                        ),
+                    )
+                    report_tpl = PanPath(inspect.getfile(base)).parent / report_tpl
+                report = await report_tpl.a_read_text()
+
+            # Relative imports in a template resolve against the rendered page dir
+            await self._walk_text(
+                report, src / "pages" / proc.name, visited, statements
+            )
+
+        # Same module is imported with different quotes/whitespace in
+        # different files; merge names per specifier so the union input has
+        # one statement per specifier (no duplicate bindings).
+        merged: dict[str, list[str]] = {}
+        others: list[str] = []
+        seen_specs: set[str] = set()
+        for stmt in statements:
+            names = _import_names(stmt)
+            if names is None:
+                # side-effect imports / `export *` stay as-is, once per module
+                m = re.match(r"(?s)^.*?from\s+['\"]([^'\"]+)['\"]", stmt)
+                key = m.group(1) if m else stmt
+                if key not in seen_specs:
+                    seen_specs.add(key)
+                    others.append(stmt)
+                continue
+            # statements can span multiple lines (`import {\n a,\n b\n } from 'x'`)
+            spec = re.match(r"(?s)^.*?from\s+['\"]([^'\"]+)['\"]\s*;?\s*$", stmt)
+            if spec is None:  # pragma: no cover
+                continue
+            spec = spec.group(1)
+            for name in names:
+                if name not in merged.setdefault(spec, []):
+                    merged[spec].append(name)
+        # The pages import the carbon components by subpath (the
+        # optimizeImports preprocess rewrites barrel imports to subpaths), so
+        # the shared build must provide an entry per subpath module
+        merged = await self._expand_carbon_barrels(merged)
+
+        def emit_names(names: list[str]) -> str:
+            return ", ".join(
+                sorted(
+                    {"default" if n.startswith("default as ") else n for n in names}
+                )
+            )
+
+        # Modules imported by subpath (carbon components) and any module with
+        # a `default` import get their own entry file: the pages import them by
+        # the vendor path, and only an entry chunk exports exactly the names
+        # the page asks for (`default`) — shared chunks export the module's
+        # internal variable name instead. Everything else is chunked per
+        # package and re-exported from the main entry.
+        def has_default(names: list[str]) -> bool:
+            return any(n == "default" or n.startswith("default as ") for n in names)
+
+        def is_carbon(spec: str) -> bool:
+            return spec.split("/")[0] in ("carbon-components-svelte", "carbon-icons-svelte")
+
+        self.vendor_imports = [
+            f"export {{ {emit_names(names)} }} from '{spec}'"
+            for spec, names in merged.items()
+            if not is_carbon(spec) and not has_default(names)
+        ] + others
+        self._vendor_module_imports = [
+            (spec, emit_names(names))
+            for spec, names in merged.items()
+            if is_carbon(spec) or has_default(names)
+        ]
+        # The svelte compiler injects `svelte/internal` and
+        # `svelte/internal/disclose-version` imports into every compiled
+        # component; they never appear in the sources, so add them explicitly
+        if any(spec == "svelte" for spec in merged):
+            self.vendor_imports += [
+                "export * from 'svelte/internal'",
+                "export * from 'svelte/internal/disclose-version'",
+            ]
+        self._vendor_changed = await self._write_vendor_input()
+
+    async def _expand_carbon_barrels(
+        self, merged: dict[str, list[str]]
+    ) -> dict[str, list[str]]:
+        """Replace carbon barrel imports with per-module subpath imports
+
+        The pages import the carbon components by subpath (the
+        optimizeImports preprocess rewrites barrel imports to subpaths), so
+        the shared build must provide an entry per subpath module. Map each
+        name imported from the barrel to the subpath module that exports it.
+        The barrel entry itself stays: the pages' own `$ccs` alias imports are
+        not rewritten by optimizeImports and import the barrel directly.
+        """
+        out: dict[str, list[str]] = {}
+        nm = Path(self.workdir / "node_modules")
+        for spec, names in merged.items():
+            if spec not in ("carbon-components-svelte", "carbon-icons-svelte"):
+                out[spec] = names
+                continue
+            out[spec] = names
+            barrel = next(
+                (
+                    p
+                    for p in (
+                        nm / spec / "src" / "index.js",
+                        nm / spec / "lib" / "index.js",
+                    )
+                    if p.is_file()
+                ),
+                None,
+            )
+            if barrel is None:
+                out[spec] = names
+                continue
+            prefix = str(barrel.relative_to(nm)).rsplit("/", 1)[0]
+            byname: dict[str, tuple[str, str]] = {}
+            for line in barrel.read_text().splitlines():
+                m = re.match(
+                    r'export\s*\{([^}]+)\}\s*from\s*["\']([^"\']+)["\']', line
+                )
+                if not m or not m.group(2).startswith("./"):
+                    continue
+                sub = f"{prefix}/{m.group(2)[2:]}"
+                for part in m.group(1).split(","):
+                    part = part.strip()
+                    if not part:
+                        continue
+                    if part.startswith("default as "):
+                        byname[part[11:].strip()] = (sub, "default")
+                    else:
+                        byname[part] = (sub, part)
+            for name in names:
+                mapped = byname.get(name)
+                if mapped:
+                    sub, export_name = mapped
+                    if export_name not in out.setdefault(sub, []):
+                        out[sub].append(export_name)
+                else:
+                    logger.warning(
+                        "Cannot map %s.%s to a subpath module in the shared "
+                        "chunk build; pages importing it by subpath may 404",
+                        spec,
+                        name,
+                    )
+                    out.setdefault(spec, []).append(name)
+        return out
+
+    async def _walk_imports(
+        self,
+        path: Path,
+        visited: set[str],
+        statements: list[str],
+    ) -> None:
+        """Recursively collect node_modules import statements from a file"""
+        # Use plain pathlib.Path: xqute's MountedPath loses `_spec` on
+        # resolve()/glob()/parent, breaking hashing. The workdir is local.
+        path = Path(path)
+        key = str(path.resolve())
+        if key in visited:
+            return
+        visited.add(key)
+        await self._walk_text(path.read_text(), path.parent, visited, statements)
+
+    async def _walk_text(
+        self,
+        text: str,
+        basedir: Path,
+        visited: set[str],
+        statements: list[str],
+    ) -> None:
+        """Collect node_modules import statements from template/report text"""
+        src = Path(self.workdir / "src")
+        for spec, line in _parse_imports(text):
+            target: Path | None = None
+            if spec.startswith("."):
+                target = self._resolve_rel(basedir, spec)
+            elif spec.startswith("$"):
+                # alias targets are written for page dirs (src/pages/<proc>/),
+                # resolving to the same absolute dirs here
+                m = re.match(r"^\$(libs?|components?|layouts?|extlibs)(?:/(.+))?$", spec)
+                if m:
+                    alias, sub = m.group(1), m.group(2)
+                    if alias == "extlibs":
+                        if self.extlibs:
+                            target = self._resolve_rel(
+                                src / "extlibs" / Path(self.extlibs).name,
+                                sub or "",
+                            )
+                    else:
+                        base = src / {
+                            "lib": "components",
+                            "libs": "components",
+                            "component": "components",
+                            "components": "components",
+                            "layout": "layouts",
+                            "layouts": "layouts",
+                        }[alias]
+                        target = self._resolve_rel(base, sub or "")
+                elif spec == "$ccs":
+                    statements.append(
+                        line.replace(f"'{spec}'", "'carbon-components-svelte'")
+                    )
+                    continue
+                else:
+                    logger.warning(
+                        "Unknown import alias in report: %s (skipped for "
+                        "shared chunks)",
+                        spec,
+                    )
+                    continue
+            else:
+                statements.append(line)
+                continue
+
+            if target is None:
+                logger.warning(
+                    "Cannot resolve import in report: %s from %s (skipped for "
+                    "shared chunks)",
+                    spec,
+                    basedir,
+                )
+                continue
+
+            await self._walk_imports(target, visited, statements)
+
+    def _resolve_rel(self, dirpath: Path, spec: str) -> Path | None:
+        """Resolve a relative import specifier to a local file"""
+        p = dirpath.joinpath(spec)
+        for cand in (p, p.with_name(p.name + ".js"), p.with_name(p.name + ".svelte")):
+            if cand.is_file():
+                return cand
+        for cand in (p.joinpath("index.js"), p.joinpath("index.svelte")):
+            if cand.is_file():
+                return cand
+        return None
+
+    async def _write_vendor_input(self) -> bool:
+        """Write the collected node_modules imports to src/vendor/
+
+        The main entry re-exports the per-package imports; each module the
+        pages import by subpath or by `default` gets its own tiny entry file
+        in src/vendor/modules/, named by the vendor path the page maps it to
+        (a single entry module can re-export `default` only once, so multiple
+        default-exporting modules need separate entries).
+
+        Returns True if anything was changed.
+        """
+        files: dict[str, str] = {
+            "index.js": "\n".join(self.vendor_imports) + "\n",
+            **{
+                f"modules/{self._vendor_key(spec)}.js": (
+                    f"export {{ {names} }} from '{spec}'\n"
+                )
+                for spec, names in self._vendor_module_imports
+            },
+        }
+        changed = False
+        for name, text in files.items():
+            path = self.workdir / "src" / "vendor" / name
+            if await path.a_exists() and await path.a_read_text() == text:
+                continue
+            await path.parent.a_mkdir(parents=True, exist_ok=True)
+            await path.a_write_text(text)
+            changed = True
+        return changed
+
+    @staticmethod
+    def _vendor_key(spec: str) -> str:
+        """The vendor path key of a module entry, matching the rollup config"""
+        if spec.startswith(("carbon-components-svelte/", "carbon-icons-svelte/")):
+            return re.sub(r"\.(svelte|js|mjs)$", "", spec)
+        return spec.split("/")[0]
+
+    async def build_vendor_chunks(self, ulogger: UnifiedLogger) -> None:
+        """Build the shared vendor chunks for the whole report"""
+        if not self._vendor_needed:
+            # Single report page: it compiles its own node_modules, so drop
+            # any stale shared chunks and keep index.html's static
+            # `./pages/index.css` link resolving (to an empty file)
+            ulogger.info("Only one report page, skipping shared chunk build.")
+            for base in (self.workdir / "public" / "pages", self.outdir / "pages"):
+                for rel in ("vendor", "_carbon", "_pkg"):
+                    d = base / rel
+                    if await d.a_exists():
+                        await d.a_rmtree()
+                css = base / "index.css"
+                if not await css.a_exists():
+                    await css.parent.a_mkdir(parents=True, exist_ok=True)
+                    await css.a_write_text("")
+            return
+        if not self._vendor_changed and await (
+            self.outdir / "pages" / "vendor"
+        ).a_is_dir():
+            ulogger.info("Shared chunks cached, skipping building.")
+            return
+        # The build output keeps stale files between runs (renamed/removed
+        # module entries); drop the whole shared-chunk area first
+        for base in (self.workdir / "public" / "pages", self.outdir / "pages"):
+            for rel in ("vendor", "_carbon", "_pkg"):
+                d = base / rel
+                if await d.a_exists():
+                    await d.a_rmtree()
+        await self._npm_run_build(
+            cwd=self.workdir,
+            proc="_vendor",
+            ulogger=ulogger,
+            force_build=True,
+            cached=False,
+        )
 
     async def _update_proc_meta(self, proc: Proc, npages: int) -> None:
         """Update the number of pages for a process"""

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -49,6 +50,12 @@ const commonConfig = (cssfile = 'index.css') => ({
 		if (warning.code === "EMPTY_BUNDLE") return;
 		// by page-chat.js
 		if (warning.code === "CIRCULAR_DEPENDENCY" && warning.message.includes('node_modules/zod')) return;
+		// paged procs split template sections; each page's imports are a
+		// superset of what its section uses (tree-shaken when bundled)
+		if (warning.code === "UNUSED_EXTERNAL_IMPORT") return;
+		// e.g. zod v4 ships `@__PURE__` comments esbuild understands but
+		// rollup's parser doesn't; it removes the comment and moves on
+		if (warning.code === "INVALID_ANNOTATION") return;
 		handler(warning);
 	},
 	watch: { clearScreen: false }
@@ -66,23 +73,60 @@ const outputConfig = {
 	}
 }
 
+// css is compiled once, into index.css by the _vendor build; page builds
+// replace the import with a no-op module instead of re-compiling it
+const noopCss = {
+	name: 'noop-css',
+	resolveId: (id) => id.endsWith('.css') ? '\0noop-css' : null,
+	load: (id) => id === '\0noop-css' ? 'export default {};' : null
+};
+
+// Map an external raw source id to the shared chunk emitted by the _vendor
+// build: carbon components are chunked per module there (each subpath default
+// import has its own chunk), everything else is chunked per package
+const vendorPath = (id) => {
+	const isCarbon = id.includes('/') &&
+		(id.startsWith('carbon-components-svelte/') || id.startsWith('carbon-icons-svelte/'));
+	if (isCarbon) {
+		return `./vendor/${id.replace(/\.(svelte|js|mjs)$/, '')}.js`;
+	}
+	return `./vendor/${id.split('/')[0]}.js`;
+};
+
 // Generate config for a single proc
 const procConfig = (proc) => {
 	let out = [];
 	const npages = proc.npages || 1;
+	// The shared chunks exist only when the vendor build ran (the _vendor
+	// build runs before the page builds in the same workdir, and is skipped
+	// entirely when a single proc has a report); without them the page
+	// compiles its own node_modules as before. Its `_carbon/` module chunks
+	// are the marker: page builds never create that dir (their own
+	// manualChunks only write hashed `vendor/<lib>-<hash>.js` chunks)
+	const vendor = fs.existsSync('public/pages/_carbon');
 	for (let i = 0; i < npages; i++) {
 		// const prefix = group ? `${group}-` : '';
 		const suffix = i > 0 ? `-${i}` : '';
+		const common = commonConfig(`${proc.name}${suffix}.css`);
 		out.push({
+			...common,
 			input: `src/pages/${proc.name}${suffix}/index.js`,
+			// node_modules are compiled once, into the shared vendor chunks.
+			// Match the raw source specifiers (bare, not relative/absolute,
+			// not aliases, not css) before any resolution, so they stay
+			// external with their raw id, mapped by output.paths above.
+			external: (id, importer) => !!importer && vendor &&
+				!id.startsWith('.') && !id.startsWith('/') && !id.startsWith('$') &&
+				!id.startsWith('\0') && !id.endsWith('.css'),
+			plugins: [...(vendor ? [noopCss] : []), ...common.plugins],
 			output: {
 				dir: `public/pages/`,
 				// avoid named-registration modules for systemjs, which is erroring
 				name: null,
 				entryFileNames: `${proc.name}${suffix}.js`,
+				paths: vendor ? vendorPath : undefined,
 				...outputConfig
-			},
-			...commonConfig(`${proc.name}${suffix}.css`)
+			}
 		});
 	}
 	return out;
@@ -93,6 +137,52 @@ export default cliArgs => {
 
 	if (proc === "_index") {
 		return procConfig({name: "_index"});
+	}
+
+	// Build the shared vendor chunks from the collected node_modules imports
+	if (proc === "_vendor") {
+		// Each module the pages import by subpath or by `default` is its own
+		// entry, named by the vendor path the page maps it to (an entry chunk
+		// exports exactly the names the pages ask for — `default` — while a
+		// shared chunk would export the module's internal variable name). The
+		// main entry carries the per-package re-exports.
+		const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
+			d.isDirectory() ? walk(`${dir}/${d.name}`) : [`${dir}/${d.name}`]);
+		const entries = { 'index': 'src/vendor/index.js' };
+		for (const f of fs.existsSync('src/vendor/modules') ? walk('src/vendor/modules') : []) {
+			entries[f.slice('src/vendor/modules/'.length).replace(/\.js$/, '')] = f;
+		}
+		return [{
+			input: entries,
+			output: {
+				dir: 'public/pages/',
+				format: 'system',
+				// stable names, so the per-page builds can import these chunks
+				entryFileNames: 'vendor/[name].js',
+				chunkFileNames: '[name].js',
+				// the page builds import these chunks from outside this build,
+				// so their exports must keep the original names (rollup mangles
+				// them by default, consistently only within one build)
+				minifyInternalExports: false,
+				...outputConfig,
+				// The module chunks live in _carbon/ and _pkg/, keeping the
+				// vendor/ paths free for the entry shims that re-export them
+				manualChunks: (id) => {
+					if (id.includes('node_modules/')) {
+						const rel = id.match(/node_modules\/(.+)/)[1];
+						const withoutExt = rel.replace(/\.(svelte|js|mjs)$/, '');
+						if (rel.startsWith('carbon-components-svelte/') || rel.startsWith('carbon-icons-svelte/')) {
+							return `_carbon/${withoutExt}`;
+						}
+						if (rel.split('/')[0] === 'temml') {
+							return '_pkg/temml';
+						}
+						return `vendor/${rel.split('/')[0]}`;
+					}
+				}
+			},
+			...commonConfig('index.css')
+		}];
 	}
 
 	const [entryName, procName] = proc.split("/");

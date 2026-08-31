@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Union
 from xqute.defaults import DEFAULT_CLOUD_FSPATH
 from pipen import plugin
 
-from .utils import get_config, logger
+from .utils import UnifiedLogger, get_config, logger
 from .versions import __version__  # noqa: F401
 from .report_manager import ReportManager
 
@@ -111,9 +111,13 @@ class PipenReport:
         await self.manager.init_pipeline_data(pipen)
 
         if len(self.manager.pipeline_data["entries"]) > 0:
+            nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
+            if not nobuild:
+                await self.manager.collect_vendor_imports(pipen)
+                await self.manager.build_vendor_chunks(UnifiedLogger(logger, "_vendor"))
             await self.manager.build(
                 "_index",
-                get_config("nobuild", plugin_opts.get("report_nobuild")),
+                nobuild,
                 get_config("force_build", plugin_opts.get("report_force_build")),
                 True,
             )
