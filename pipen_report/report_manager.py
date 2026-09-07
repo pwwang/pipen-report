@@ -319,6 +319,7 @@ class ReportManager:
             # "Brought by page-chat.js, will be ignored",
             # "(!) Use of eval is strongly discouraged":
             # "Brought by page-chat.js, will be ignored",
+            "(!) node_modules/zod/": "Brought by zod, will be ignored",
         }
         errored = False
 
@@ -347,10 +348,12 @@ class ReportManager:
                         ulogger.info(f"- {logline.split(' → ')[0]}")
 
                     if logline.startswith(chars_to_error):  # pragma: no cover
-                        if logline in errors_to_ignore:
-                            ulogger.warning(
-                                f"  {logline} ({errors_to_ignore[logline]})"
-                            )
+                        for e2i in errors_to_ignore:
+                            if logline.startswith(e2i):
+                                ulogger.warning(
+                                    f"  {logline} ({errors_to_ignore[e2i]})"
+                                )
+                                break
                         else:
                             ulogger.error(f"  {logline}")
                             errored = True
