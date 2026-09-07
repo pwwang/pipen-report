@@ -449,6 +449,30 @@ class ProcessWithoutHeadings(Proc):
     }
 
 
+class ProcessMultipleJobs(Proc):
+    """A process with multiple jobs"""
+
+    requires = ProcessWithoutHeadings
+    input = "inimg:file"
+    input_data = lambda ch: [ch.outimg[0], ch.outimg[0]]
+    output = "outimg:file:{{in.inimg | basename}}"
+    script = """
+        cp {{in.inimg}} {{out.outimg}}
+    """  # noqa: E501
+    plugin_opts = {
+        "report": """
+            <script>
+                import { Image } from '$lib';
+            </script>
+            <h1>Job #0</h1>
+            <Image src="{{ jobs[0].out.outimg }}" />
+            <h1>Job #1</h1>
+            <Image src="{{ jobs[1].out.outimg }}" />
+        """,  # noqa: E501
+        "report_multiple_jobs": True,
+    }
+
+
 class Pipeline(Pipen):
     outdir = "./output"
     starts = pg.starts

@@ -16,12 +16,14 @@
     hasScrollingContent
     class="runinfo"
 >
+    {#if !runinfo.single}
     <InlineNotification
         kind="warning"
         lowContrast
         hideCloseButton
         title="Showing the first job only. Check the workdir for information of other jobs if any."
         />
+    {/if}
     <Tabs>
         <Tab label="Session Information" />
         <Tab label="Time Spent" />

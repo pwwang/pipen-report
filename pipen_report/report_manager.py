@@ -471,6 +471,7 @@ class ReportManager:
                 "session": runinfo_sess,
                 "time": runinfo_time,
                 "device": runinfo_dev,
+                "single": proc.size <= 1,
             },
         }
 
