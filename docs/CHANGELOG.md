@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.2.6
+
+- fix(report_manager): enhance error logging for ignored zod module
+- feat(footer): conditionally display notification for multiple jobs for runinfo
+
 ## 1.2.5
 
 - chore: update dependencies
