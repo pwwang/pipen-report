@@ -135,8 +135,12 @@ async def _path_to_url(
         run_meta["mounted_outdir"]
     ):
         # Use spec, which should be a cloud path
+        # `mounted_outdir` is the mounted form of the process's export dir,
+        # i.e. `<mounted outdir root>/<proc.name>`, keep the `<proc.name>`
+        # level when converting back
         apath = basedir_spec.parent.joinpath(
-            apath.relative_to(run_meta["mounted_outdir"])
+            run_meta["mounted_outdir"].name,
+            apath.relative_to(run_meta["mounted_outdir"]),
         )
         apath = getattr(apath, "mounted", apath)
     elif run_meta["mounted_workdir"] and apath.is_relative_to(

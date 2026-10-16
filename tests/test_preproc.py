@@ -382,3 +382,34 @@ async def test_preprocess2(tmp_path):
         )
         == expected
     )
+
+
+async def test_path_to_url_mounted_outdir(tmp_path):
+    """Test _path_to_url with a remote scheduler's mounted paths
+
+    In this case, `mounted_outdir` is the mounted form of the process's export
+    dir, i.e. `<mounted outdir root>/<proc.name>`, so the `<proc.name>` level
+    must be kept when the path is converted back to the spec side.
+    """
+    from xqute.path import MountedPath, SpecPath
+
+    tmp_path = PanPath(tmp_path)
+    mounted_root = tmp_path / "mnt" / ".pipen-SomePipeline-output"
+    spec_root = SpecPath(
+        "s3://bucket/proj/SomePipeline-output", mounted=str(mounted_root)
+    )
+    proc_export = spec_root / "SomeProc"
+    basedir = MountedPath(
+        str(mounted_root / "REPORTS"), spec=spec_root / "REPORTS"
+    )
+    path = mounted_root / "SomeProc" / "someid.some_proc" / "afig.png"
+    run_meta = {
+        "outdir": basedir,
+        "workdir": tmp_path,
+        "mounted_outdir": proc_export.mounted,
+        "mounted_workdir": None,
+    }
+    output, _ = await _path_to_url(
+        str(path), run_meta, "TAG", DEFAULT_CLOUD_FSPATH, lambda *args: None
+    )
+    assert output == "../SomeProc/someid.some_proc/afig.png"
