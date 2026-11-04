@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import {
-        // SideNavItems,
+        SideNavItems,
         SideNavLink,
         SideNavMenu,
         SideNavMenuItem,
@@ -43,7 +43,7 @@
 
 </script>
 
-<ul class="bx--side-nav__items pipen-report-sidenav">
+<SideNavItems>
 
     {#each toc as h1_toc}
         {#if h1_toc.children.length == 0}
@@ -57,10 +57,11 @@
         {/if}
     {/each}
 
-</ul>
+</SideNavItems>
 
 <style>
-    .pipen-report-sidenav {
+    /* `SideNavItems` does not forward `class`; style the class it renders. */
+    :global(.bx--side-nav .bx--side-nav__items) {
         font-family: 'Helvetica Neue', Arial, sans-serif;
         padding: 2rem 1rem;
     }

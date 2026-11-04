@@ -1,5 +1,5 @@
 <script>
-    import { Modal, CodeSnippet, Tabs, Tab, TabContent, InlineNotification } from "carbon-components-svelte";
+    import { Modal, CodeSnippet, Tabs, Tab, TabContent, InlineNotification, Grid } from "carbon-components-svelte";
 
     export let versions;
     export let runinfo = undefined;
@@ -43,7 +43,7 @@
 </Modal>
 {/if}
 
-<div class="pipen-report-footer bx--grid">
+<Grid class="pipen-report-footer">
     <div class="runinfo">
         {#if runinfo}
         <!-- svelte-ignore a11y-invalid-attribute -->
@@ -53,4 +53,4 @@
     <div class="versions">
         Powered by <span class="pipen-report-footer-versions">{@html versions}</span>
     </div>
-</div>
+</Grid>

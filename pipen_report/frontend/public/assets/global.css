@@ -52,7 +52,10 @@ div[themes].bx--form-item > .bx--select--inline label {
 	margin-right: 1rem;
 }
 
-.page-chat-icon > svg {
+.page-chat-icon > svg,
+/* the anchor now also carries ccs' .bx--header__action, whose `> svg {fill:#fff}`
+   rule has the same specificity: this selector keeps the yellow AI accent */
+a.page-chat-icon > svg {
 	fill: yellow;
 }
 
@@ -84,7 +87,8 @@ div[themes].bx--form-item > .bx--select--inline label {
 	padding-left: 1.6em !important;
 }
 
-.pipen-report-sidenav li.toc-active {
+.pipen-report-sidenav li.toc-active,
+.bx--side-nav__items li.toc-active {
 	box-shadow: inset 4px 0 0 0 #161616;
 }
 

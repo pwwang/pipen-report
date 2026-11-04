@@ -2,6 +2,8 @@
   import {
     Header,
     HeaderAction,
+    HeaderUtilities,
+    HeaderActionLink,
     HeaderPanelLinks,
     HeaderPanelDivider,
     HeaderPanelLink,
@@ -17,7 +19,9 @@
     Stack,
     Theme,
     Link,
-    LocalStorage
+    LocalStorage,
+    UnorderedList,
+    ListItem
   } from "carbon-components-svelte";
   import AiObservability from "carbon-icons-svelte/lib/AiObservability.svelte";
   import Information from "carbon-icons-svelte/lib/Information.svelte";
@@ -206,11 +210,11 @@ Guidelines:
         <p><code>page-chat.js</code> is a client library for integrating a page-specific chatbot into your web application. It provides an easy way to set up a chatbot that can assist users based on the content of the page. In this settings panel, you can configure the model, base URL, and API key for the page chat. After updating the settings, click "Update" to apply the changes and see the updated chatbot in action.</p>
         <p>You may check <Link href="https://alibaba.github.io/page-agent/docs/features/models" target="_blank">the page-agent documentation</Link> for more details, but note that <code>page-chat.js</code> doesn't require the model to be capable of function or tool calling.</p>
         <p style="font-weight: bold;">Limitations:</p>
-        <ul class="bx--list--unordered">
-          <li>The chatbot's knowledge is limited to the information available on the page. It may not be able to answer questions that require external knowledge or context.</li>
-          <li>The chatbot's performance and accuracy depend on the quality and relevance of the information on the page. If the page lacks clear and comprehensive information, the chatbot may struggle to provide helpful responses.</li>
-          <li>A visual model is required to answer questions about plots. If the model configured in the settings doesn't support visual understanding, the chatbot won't be able to assist with questions related to plots or visualizations on the page.</li>
-        </ul>
+        <UnorderedList>
+          <ListItem>The chatbot's knowledge is limited to the information available on the page. It may not be able to answer questions that require external knowledge or context.</ListItem>
+          <ListItem>The chatbot's performance and accuracy depend on the quality and relevance of the information on the page. If the page lacks clear and comprehensive information, the chatbot may struggle to provide helpful responses.</ListItem>
+          <ListItem>A visual model is required to answer questions about plots. If the model configured in the settings doesn't support visual understanding, the chatbot won't be able to assist with questions related to plots or visualizations on the page.</ListItem>
+        </UnorderedList>
         </AccordionItem>
       </Accordion>
       <TextInput disabled={is_file_protocol} bind:value={pageChatSettings.model} labelText="Model" placeholder="Enter model" />
@@ -239,7 +243,7 @@ Guidelines:
     {logotext}
     {/if}
   </Tile>
-  <div class:bx--header__global={true} class="header-util">
+  <HeaderUtilities>
     <Theme
       render="select"
       theme="g10"
@@ -253,12 +257,13 @@ Guidelines:
     />
     {#if page_chat}
     <!-- svelte-ignore a11y-invalid-attribute -->
-    <a class="page-chat-icon"
+    <HeaderActionLink
+      class="page-chat-icon"
       on:click={() => (pageChatSettingsOpen = true)}
       title="Page Chat Settings"
       href="javascript:void(0);">
-      <AiObservability size={24} />
-    </a>
+      <svelte:fragment slot="icon"><AiObservability size={24} /></svelte:fragment>
+    </HeaderActionLink>
     {/if}
     {#if entries.length > 0}
     <HeaderAction isOpen={isOpen} transition={transition}>
@@ -286,18 +291,18 @@ Guidelines:
       </HeaderPanelLinks>
     </HeaderAction>
     {/if}
-  </div>
+  </HeaderUtilities>
 </Header>
 
 <style>
-  :global(.header-util .bx--select--inline) {
+  :global(.bx--header__global .bx--select--inline) {
     /* to keep it while resizing */
     justify-content: flex-end;
   }
-  :global(.header-util .bx--label) {
+  :global(.bx--header__global .bx--label) {
     color: #cfcfcf;
   }
-  :global(.header-util .bx--select-input) {
+  :global(.bx--header__global .bx--select-input) {
     background-color: var(--cds-ui-background, #ffffff);
     outline-color: var(--cds-border-inverse, #f4f4f4);
     font-size: var(--cds-caption-01-font-size, 0.75rem);
