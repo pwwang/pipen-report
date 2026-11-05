@@ -17,7 +17,6 @@
     Select,
     SelectItem,
     Stack,
-    Theme,
     Link,
     LocalStorage,
     UnorderedList,
@@ -33,6 +32,23 @@
   let pageChatSettingsOpen = false;
 
   // Storage keys for page chat settings
+  // Themes are CSS token sets selected by the `theme` attribute on <html>: carbon's
+  // own white/g10/g80/g90/g100 plus the two generated ones in assets/global.css.
+  // (ccs `Theme` is not used: it only accepts carbon's names.)
+  const THEMES = [
+    ["g10", "Gray 10"],
+    ["white", "White"],
+    ["g90", "Gray 90"],
+    ["g100", "Gray 100"],
+    ["g80", "Gray 80"],
+    ["paper", "Paper"],
+    ["nocturne", "Nocturne"],
+  ];
+  let theme = "g10";
+  $: if (typeof document !== "undefined" && theme) {
+    document.documentElement.setAttribute("theme", theme);
+  }
+
   const LS_MODEL = "__pipen-report-pagechat-model";
   const LS_BASEURL = "__pipen-report-pagechat-baseURL";
   const LS_LANGUAGE = "__pipen-report-pagechat-language";
@@ -244,17 +260,12 @@ Guidelines:
     {/if}
   </Tile>
   <HeaderUtilities>
-    <Theme
-      render="select"
-      theme="g10"
-      persist
-      persistKey="__pipen-report-theme"
-      select={{
-          themes: ['g10', 'white', 'g80', 'g90', 'g100'],
-          labelText: 'Theme',
-          inline: true
-      }}
-    />
+    <LocalStorage key="__pipen-report-theme" bind:value={theme} />
+    <Select labelText="Theme" inline bind:selected={theme}>
+      {#each THEMES as [value, label] (value)}
+        <SelectItem {value} text={label} />
+      {/each}
+    </Select>
     {#if page_chat}
     <!-- svelte-ignore a11y-invalid-attribute -->
     <HeaderActionLink
