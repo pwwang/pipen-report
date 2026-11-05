@@ -128,6 +128,7 @@
         {/each}
       </OverflowMenu>
       <Button
+        kind="ghost"
         iconDescription={`Download current ${exportRows.length} records (may be partial of the entire data)`}
         tooltipPosition="top"
         icon={DocumentDownload}
@@ -135,6 +136,7 @@
       />
       {#if !!src}
         <Button
+          kind="ghost"
           iconDescription="Right click and save as to download the entire data"
           tooltipPosition="top"
           icon={CloudDownload}
@@ -166,17 +168,39 @@
     height: 2rem;
     width: 3rem;
   }
-  :global(.pipen-report-overflowmenu.bx--overflow-menu:not(.bx--overflow-menu--open)) {
-    background-color: var(--cds-interactive-01);
+  /* the toolbar sits inside the block shell, so the controls are quiet until hovered
+     instead of three saturated blocks competing with the table */
+  :global(.pipen-report-overflowmenu.bx--overflow-menu:hover) {
+    background-color: var(--cds-hover-ui);
   }
-  :global(.pipen-report-overflowmenu.bx--overflow-menu:not(.bx--overflow-menu--open):hover) {
-    background-color: var(--cds-hover-primary);
+  :global(.pipen-report-overflowmenu.bx--overflow-menu > svg) {
+    fill: currentColor;
   }
-  :global(.pipen-report-overflowmenu.bx--overflow-menu:not(.bx--overflow-menu--open):focus) {
-    outline: none;
+
+  /* one size for every control in the toolbar row: carbon's icon-only button is 3rem
+     square, which overflows the 2rem toolbar and drops the two download buttons below
+     the column selector */
+  :global(.bx--toolbar-content .bx--btn) {
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cds-text-01);
   }
-  :global(.pipen-report-overflowmenu.bx--overflow-menu:not(.bx--overflow-menu--open) > svg) {
-    fill: white;
+  :global(.bx--toolbar-content .bx--btn:hover) {
+    background-color: var(--cds-hover-ui);
+  }
+  /* the overflow menu's own colour is a fixed #000 in carbon v10, so the icon stayed
+     black in every theme */
+  :global(.pipen-report-overflowmenu.bx--overflow-menu) {
+    width: 2rem;
+    min-width: 2rem;
+    padding: 0;
+    color: var(--cds-text-01);
   }
   .pipen-report-column-selector-item {
     display: flex;

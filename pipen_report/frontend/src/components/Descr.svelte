@@ -30,9 +30,9 @@
         font-weight: var(--cds-body-short-01-font-weight, 400);
         line-height: var(--cds-body-short-01-line-height, 1);
         letter-spacing: var(--cds-body-short-01-letter-spacing, 0);
-        border-left: 6px solid var(--cds-background-hover);
+        border-left: 3px solid var(--cds-border-strong);
         background-color: var(--cds-ui-01);
-        padding: 8px 12px;
+        padding: 0.75rem 1rem;
         color: var(--cds-text-secondary);
     }
     :global(.pipen-report-descr p) {

@@ -75,8 +75,11 @@ a.page-chat-icon > svg {
 }
 
 .bx--tab-content {
-	/** add frame to tab content **/
-	border: 1px solid var(--cds-ui-03);
+	/* a tab group is a block like any other: no box, just the block rule */
+	border: 0;
+	border-top: 1px solid var(--cds-border-subtle);
+	padding: 1rem 0 0;
+	background-color: transparent;
 }
 
 .bx--tile--clickable {
@@ -148,17 +151,17 @@ a.page-chat-icon > svg {
     margin: .3rem 0 .1rem 0;
 }
 #main-content h2 {
-    margin: .5rem 0 .2rem 0;
+    margin: 1.25rem 0 .5rem 0;
 }
 #main-content h1 {
-    margin: 1rem 0 .3rem 0;
+    margin: 1.5rem 0 .5rem 0;
 }
 
 img.pipen-report-image {
 	cursor: pointer;
-	max-width: 55%;
+	max-width: 100%;          /* fill the block instead of leaving a dead grey field */
 	height: auto !important;  /* keep aspect ratio */
-	border: 2px solid #eee;
+	border: 1px solid var(--cds-border-subtle);
 }
 
 img.pipen-report-image-lg {
@@ -166,18 +169,24 @@ img.pipen-report-image-lg {
 	height: auto;  /* keep aspect ratio */
 }
 
+/* output blocks share one shell: the same surface, the same inset and a hairline
+   rule on top, so figures, plots and tables line up on a single measure */
 .pipen-report-image-frame, .pipen-report-plotly-frame {
 	width: 100%;
 	overflow-x: auto;
-	padding: 1.5rem;
-	background-color: var(--cds-background-hover);
+	margin: 0 0 1.5rem;
+	padding: 1rem;
+	background-color: var(--cds-ui-01);
+	border-top: 1px solid var(--cds-border-subtle);
 	position: relative;
 }
 
 .pipen-report-datatable-frame {
 	width: 100%;
-	padding: 1.5rem;
-	background-color: var(--cds-background-hover);
+	margin: 0 0 1.5rem;
+	padding: 1rem;
+	background-color: var(--cds-ui-01);
+	border-top: 1px solid var(--cds-border-subtle);
 }
 
 .pipen-report-image-noborder {
