@@ -52,7 +52,10 @@ div[themes].bx--form-item > .bx--select--inline label {
 	margin-right: 1rem;
 }
 
-.page-chat-icon > svg {
+.page-chat-icon > svg,
+/* the anchor now also carries ccs' .bx--header__action, whose `> svg {fill:#fff}`
+   rule has the same specificity: this selector keeps the yellow AI accent */
+a.page-chat-icon > svg {
 	fill: yellow;
 }
 
@@ -71,26 +74,12 @@ div[themes].bx--form-item > .bx--select--inline label {
 	min-height: var(--cds-spacing-07) !important;
 }
 
-.bx--side-nav__submenu {
-	padding: 0 0.75rem !important;
-}
-
-.bx--side-nav__link-text, .bx--side-nav__submenu-title {
-	/** make first toc layer larger **/
-	font-size: 111% !important;
-}
-
-.bx--side-nav__menu a.bx--side-nav__link {
-	padding-left: 1.6em !important;
-}
-
-.pipen-report-sidenav li.toc-active {
-	box-shadow: inset 4px 0 0 0 #161616;
-}
-
 .bx--tab-content {
-	/** add frame to tab content **/
-	border: 1px solid var(--cds-ui-03);
+	/* a tab group is a block like any other: no box, just the block rule */
+	border: 0;
+	border-top: 1px solid var(--cds-border-subtle);
+	padding: 1rem 0 0;
+	background-color: transparent;
 }
 
 .bx--tile--clickable {
@@ -117,10 +106,25 @@ div[themes].bx--form-item > .bx--select--inline label {
     height: auto;
 }
 .bx--switcher__item-link.procgroup-proc {
-	padding-left: var(--cds-fluid-quotation-01-font-size, 1.25rem);
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
+	/* a drawn ring instead of a typed "-": a native list marker's gap is fixed by the
+	   browser (~0.5em), so the ring is painted where the hyphen used to be and the text
+	   sits about 4px from it */
+	position: relative;
+	padding-left: 1.7rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
 	height: auto;
+}
+.bx--switcher__item-link.procgroup-proc::before {
+	content: "";
+	position: absolute;
+	left: 1.05rem; /* ring centred on the hyphen's x */
+	top: 50%;
+	width: 0.28rem;
+	height: 0.28rem;
+	margin-top: -0.14rem;
+	border: 1px solid #8d8d8d;
+	border-radius: 50%;
 }
 
 .bx--accordion__heading {
@@ -147,17 +151,17 @@ div[themes].bx--form-item > .bx--select--inline label {
     margin: .3rem 0 .1rem 0;
 }
 #main-content h2 {
-    margin: .5rem 0 .2rem 0;
+    margin: 1.25rem 0 .5rem 0;
 }
 #main-content h1 {
-    margin: 1rem 0 .3rem 0;
+    margin: 1.5rem 0 .5rem 0;
 }
 
 img.pipen-report-image {
 	cursor: pointer;
-	max-width: 55%;
+	max-width: 100%;          /* fill the block instead of leaving a dead grey field */
 	height: auto !important;  /* keep aspect ratio */
-	border: 2px solid #eee;
+	border: 1px solid var(--cds-border-subtle);
 }
 
 img.pipen-report-image-lg {
@@ -165,18 +169,24 @@ img.pipen-report-image-lg {
 	height: auto;  /* keep aspect ratio */
 }
 
+/* output blocks share one shell: the same surface, the same inset and a hairline
+   rule on top, so figures, plots and tables line up on a single measure */
 .pipen-report-image-frame, .pipen-report-plotly-frame {
 	width: 100%;
 	overflow-x: auto;
-	padding: 1.5rem;
-	background-color: var(--cds-background-hover);
+	margin: 0 0 1.5rem;
+	padding: 1rem;
+	background-color: var(--cds-ui-01);
+	border-top: 1px solid var(--cds-border-subtle);
 	position: relative;
 }
 
 .pipen-report-datatable-frame {
 	width: 100%;
-	padding: 1.5rem;
-	background-color: var(--cds-background-hover);
+	margin: 0 0 1.5rem;
+	padding: 1rem;
+	background-color: var(--cds-ui-01);
+	border-top: 1px solid var(--cds-border-subtle);
 }
 
 .pipen-report-image-noborder {
@@ -211,12 +221,6 @@ img.pipen-report-image-lg {
 	font-style: italic;
     font-weight: normal;
 }
-
-.bx--side-nav__item > button.bx--side-nav__submenu,
-.bx--side-nav__item > a.bx--side-nav__link {
-	padding: 0 0.75rem !important;
-}
-
 
 ul.bx--side-nav__items {
 	/* make sure all items in toc */
@@ -331,3 +335,51 @@ code {
 .page-chat-settings-modal .bx--modal-content--with-form {
 	overflow-x: hidden;
 }
+
+/* >>> generated themes >>> */
+/* ==========================================================================
+   Generated themes — do not edit by hand; run frontend/gen_themes.py.
+   Full carbon token set of a carbon base theme with its colours remapped
+   (neutrals and the accent family by rank inside their ramp), so components
+   reading --cds-* follow the palette whatever ccs version produced the base.
+   ========================================================================== */
+
+html[theme=paper]{--cds-interactive-01:#1f5c4d;--cds-interactive-02:#2e2a23;--cds-interactive-03:#1f5c4d;--cds-interactive-04:#1f5c4d;--cds-ui-background:#f6f1e6;--cds-ui-01:#fdfbf6;--cds-ui-02:#f6f1e6;--cds-ui-03:#e7decc;--cds-ui-04:#8b8272;--cds-ui-05:#241f19;--cds-text-01:#241f19;--cds-text-02:#5a5244;--cds-text-03:#a29784;--cds-text-04:#fdfbf6;--cds-text-05:#6b6252;--cds-text-error:#da1e28;--cds-icon-01:#241f19;--cds-icon-02:#5a5244;--cds-icon-03:#fdfbf6;--cds-link-01:#1f5c4d;--cds-link-02:#17483d;--cds-inverse-link:#4e9c86;--cds-field-01:#fdfbf6;--cds-field-02:#f6f1e6;--cds-inverse-01:#fdfbf6;--cds-inverse-02:#2e2a23;--cds-support-01:#da1e28;--cds-support-02:#198038;--cds-support-03:#f1c21b;--cds-support-04:#17483d;--cds-inverse-support-01:#fa4d56;--cds-inverse-support-02:#42be65;--cds-inverse-support-03:#f1c21b;--cds-inverse-support-04:#2e7a66;--cds-overlay-01:rgba(22, 22, 22, 0.5);--cds-danger-01:#da1e28;--cds-danger-02:#da1e28;--cds-focus:#1f5c4d;--cds-inverse-focus-ui:#fdfbf6;--cds-hover-primary:#1f5c4d;--cds-active-primary:#123a31;--cds-hover-primary-text:#17483d;--cds-hover-secondary:#5a5244;--cds-active-secondary:#6b6252;--cds-hover-tertiary:#1f5c4d;--cds-active-tertiary:#123a31;--cds-hover-ui:#f0eada;--cds-hover-light-ui:#f0eada;--cds-hover-selected-ui:#d6cbb5;--cds-active-ui:#cfc4ae;--cds-active-light-ui:#cfc4ae;--cds-selected-ui:#e7decc;--cds-selected-light-ui:#e7decc;--cds-inverse-hover-ui:#5a5244;--cds-hover-danger:#b81921;--cds-active-danger:#750e13;--cds-hover-row:#f0eada;--cds-visited-link:#2e7a66;--cds-disabled-01:#fdfbf6;--cds-disabled-02:#cfc4ae;--cds-disabled-03:#8b8272;--cds-highlight:#dce8e2;--cds-decorative-01:#e7decc;--cds-button-separator:#e7decc;--cds-skeleton-01:#f0eada;--cds-skeleton-02:#cfc4ae;--cds-background:#f6f1e6;--cds-layer:#fdfbf6;--cds-layer-accent:#e7decc;--cds-layer-accent-hover:#ded4c0;--cds-layer-accent-active:#a29784;--cds-field:#fdfbf6;--cds-background-inverse:#2e2a23;--cds-background-brand:#1f5c4d;--cds-interactive:#1f5c4d;--cds-border-subtle:#e7decc;--cds-border-strong:#8b8272;--cds-border-inverse:#241f19;--cds-border-interactive:#1f5c4d;--cds-text-primary:#241f19;--cds-text-secondary:#5a5244;--cds-text-placeholder:#a29784;--cds-text-helper:#6b6252;--cds-text-on-color:#fdfbf6;--cds-text-inverse:#fdfbf6;--cds-link-primary:#1f5c4d;--cds-link-secondary:#17483d;--cds-link-visited:#2e7a66;--cds-link-inverse:#4e9c86;--cds-icon-primary:#241f19;--cds-icon-secondary:#5a5244;--cds-icon-on-color:#fdfbf6;--cds-icon-inverse:#fdfbf6;--cds-support-error:#da1e28;--cds-support-success:#198038;--cds-support-warning:#f1c21b;--cds-support-info:#17483d;--cds-support-error-inverse:#fa4d56;--cds-support-success-inverse:#42be65;--cds-support-warning-inverse:#f1c21b;--cds-support-info-inverse:#2e7a66;--cds-overlay:rgba(22, 22, 22, 0.5);--cds-toggle-off:#8b8272;--cds-shadow:rgba(0, 0, 0, 0.3);--cds-button-primary:#1f5c4d;--cds-button-secondary:#2e2a23;--cds-button-tertiary:#1f5c4d;--cds-button-danger-primary:#da1e28;--cds-button-danger-secondary:#da1e28;--cds-background-active:#cfc4ae;--cds-layer-active:#cfc4ae;--cds-button-danger-active:#750e13;--cds-button-primary-active:#123a31;--cds-button-secondary-active:#6b6252;--cds-button-tertiary-active:#123a31;--cds-focus-inset:#fdfbf6;--cds-focus-inverse:#fdfbf6;--cds-background-hover:#f0eada;--cds-layer-hover:#f0eada;--cds-field-hover:#f0eada;--cds-background-inverse-hover:#5a5244;--cds-link-primary-hover:#17483d;--cds-button-danger-hover:#b81921;--cds-button-primary-hover:#1f5c4d;--cds-button-secondary-hover:#5a5244;--cds-button-tertiary-hover:#1f5c4d;--cds-background-selected:#e7decc;--cds-background-selected-hover:#d6cbb5;--cds-layer-selected:#e7decc;--cds-layer-selected-hover:#d6cbb5;--cds-layer-selected-inverse:#241f19;--cds-border-subtle-selected:#cfc4ae;--cds-border-disabled:#fdfbf6;--cds-text-disabled:#cfc4ae;--cds-button-disabled:#cfc4ae;--cds-icon-disabled:#cfc4ae;--cds-text-on-color-disabled:#8b8272;--cds-icon-on-color-disabled:#8b8272;--cds-layer-selected-disabled:#8b8272;--cds-skeleton-background:#f0eada;--cds-skeleton-element:#cfc4ae;--cds-brand-01:#1f5c4d;--cds-brand-02:#2e2a23;--cds-brand-03:#1f5c4d;--cds-active-01:#cfc4ae;--cds-hover-field:#f0eada;--cds-danger:#da1e28;--cds-caption-01-font-size:0.75rem;--cds-caption-01-font-weight:400;--cds-caption-01-line-height:1.33333;--cds-caption-01-letter-spacing:0.32px;--cds-caption-02-font-size:0.875rem;--cds-caption-02-font-weight:400;--cds-caption-02-line-height:1.28572;--cds-caption-02-letter-spacing:0.32px;--cds-label-01-font-size:0.75rem;--cds-label-01-font-weight:400;--cds-label-01-line-height:1.33333;--cds-label-01-letter-spacing:0.32px;--cds-label-02-font-size:0.875rem;--cds-label-02-font-weight:400;--cds-label-02-line-height:1.28572;--cds-label-02-letter-spacing:0.16px;--cds-helper-text-01-font-size:0.75rem;--cds-helper-text-01-line-height:1.33333;--cds-helper-text-01-letter-spacing:0.32px;--cds-helper-text-02-font-size:0.875rem;--cds-helper-text-02-line-height:1.28572;--cds-helper-text-02-letter-spacing:0.16px;--cds-body-short-01-font-size:0.875rem;--cds-body-short-01-font-weight:400;--cds-body-short-01-line-height:1.28572;--cds-body-short-01-letter-spacing:0.16px;--cds-body-long-01-font-size:0.875rem;--cds-body-long-01-font-weight:400;--cds-body-long-01-line-height:1.42857;--cds-body-long-01-letter-spacing:0.16px;--cds-body-short-02-font-size:1rem;--cds-body-short-02-font-weight:400;--cds-body-short-02-line-height:1.375;--cds-body-short-02-letter-spacing:0;--cds-body-long-02-font-size:1rem;--cds-body-long-02-font-weight:400;--cds-body-long-02-line-height:1.5;--cds-body-long-02-letter-spacing:0;--cds-code-01-font-family:'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;--cds-code-01-font-size:0.75rem;--cds-code-01-font-weight:400;--cds-code-01-line-height:1.33333;--cds-code-01-letter-spacing:0.32px;--cds-code-02-font-family:'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;--cds-code-02-font-size:0.875rem;--cds-code-02-font-weight:400;--cds-code-02-line-height:1.42857;--cds-code-02-letter-spacing:0.32px;--cds-heading-01-font-size:0.875rem;--cds-heading-01-font-weight:600;--cds-heading-01-line-height:1.42857;--cds-heading-01-letter-spacing:0.16px;--cds-productive-heading-01-font-size:0.875rem;--cds-productive-heading-01-font-weight:600;--cds-productive-heading-01-line-height:1.28572;--cds-productive-heading-01-letter-spacing:0.16px;--cds-heading-02-font-size:1rem;--cds-heading-02-font-weight:600;--cds-heading-02-line-height:1.5;--cds-heading-02-letter-spacing:0;--cds-productive-heading-02-font-size:1rem;--cds-productive-heading-02-font-weight:600;--cds-productive-heading-02-line-height:1.375;--cds-productive-heading-02-letter-spacing:0;--cds-productive-heading-03-font-size:1.25rem;--cds-productive-heading-03-font-weight:400;--cds-productive-heading-03-line-height:1.4;--cds-productive-heading-03-letter-spacing:0;--cds-productive-heading-04-font-size:1.75rem;--cds-productive-heading-04-font-weight:400;--cds-productive-heading-04-line-height:1.28572;--cds-productive-heading-04-letter-spacing:0;--cds-productive-heading-05-font-size:2rem;--cds-productive-heading-05-font-weight:400;--cds-productive-heading-05-line-height:1.25;--cds-productive-heading-05-letter-spacing:0;--cds-productive-heading-06-font-size:2.625rem;--cds-productive-heading-06-font-weight:300;--cds-productive-heading-06-line-height:1.199;--cds-productive-heading-06-letter-spacing:0;--cds-productive-heading-07-font-size:3.375rem;--cds-productive-heading-07-font-weight:300;--cds-productive-heading-07-line-height:1.199;--cds-productive-heading-07-letter-spacing:0;--cds-expressive-heading-01-font-size:0.875rem;--cds-expressive-heading-01-font-weight:600;--cds-expressive-heading-01-line-height:1.25;--cds-expressive-heading-01-letter-spacing:0.16px;--cds-expressive-heading-02-font-size:1rem;--cds-expressive-heading-02-font-weight:600;--cds-expressive-heading-02-line-height:1.5;--cds-expressive-heading-02-letter-spacing:0;--cds-expressive-heading-03-font-size:1.25rem;--cds-expressive-heading-03-font-weight:400;--cds-expressive-heading-03-line-height:1.4;--cds-expressive-heading-03-letter-spacing:0;--cds-expressive-heading-04-font-size:1.75rem;--cds-expressive-heading-04-font-weight:400;--cds-expressive-heading-04-line-height:1.28572;--cds-expressive-heading-04-letter-spacing:0;--cds-expressive-heading-05-font-size:2rem;--cds-expressive-heading-05-font-weight:400;--cds-expressive-heading-05-line-height:1.25;--cds-expressive-heading-05-letter-spacing:0;--cds-expressive-heading-06-font-size:2rem;--cds-expressive-heading-06-font-weight:600;--cds-expressive-heading-06-line-height:1.25;--cds-expressive-heading-06-letter-spacing:0;--cds-expressive-paragraph-01-font-size:1.5rem;--cds-expressive-paragraph-01-font-weight:300;--cds-expressive-paragraph-01-line-height:1.334;--cds-expressive-paragraph-01-letter-spacing:0;--cds-quotation-01-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-quotation-01-font-size:1.25rem;--cds-quotation-01-font-weight:400;--cds-quotation-01-line-height:1.3;--cds-quotation-01-letter-spacing:0;--cds-quotation-02-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-quotation-02-font-size:2rem;--cds-quotation-02-font-weight:300;--cds-quotation-02-line-height:1.25;--cds-quotation-02-letter-spacing:0;--cds-display-01-font-size:2.625rem;--cds-display-01-font-weight:300;--cds-display-01-line-height:1.19;--cds-display-01-letter-spacing:0;--cds-display-02-font-size:2.625rem;--cds-display-02-font-weight:600;--cds-display-02-line-height:1.19;--cds-display-02-letter-spacing:0;--cds-display-03-font-size:2.625rem;--cds-display-03-font-weight:300;--cds-display-03-line-height:1.19;--cds-display-03-letter-spacing:0;--cds-display-04-font-size:2.625rem;--cds-display-04-font-weight:300;--cds-display-04-line-height:1.19;--cds-display-04-letter-spacing:0;--cds-legal-01-font-size:0.75rem;--cds-legal-01-font-weight:400;--cds-legal-01-line-height:1.33333;--cds-legal-01-letter-spacing:0.32px;--cds-legal-02-font-size:0.875rem;--cds-legal-02-font-weight:400;--cds-legal-02-line-height:1.28572;--cds-legal-02-letter-spacing:0.16px;--cds-body-compact-01-font-size:0.875rem;--cds-body-compact-01-font-weight:400;--cds-body-compact-01-line-height:1.28572;--cds-body-compact-01-letter-spacing:0.16px;--cds-body-compact-02-font-size:1rem;--cds-body-compact-02-font-weight:400;--cds-body-compact-02-line-height:1.375;--cds-body-compact-02-letter-spacing:0;--cds-body-01-font-size:0.875rem;--cds-body-01-font-weight:400;--cds-body-01-line-height:1.42857;--cds-body-01-letter-spacing:0.16px;--cds-body-02-font-size:1rem;--cds-body-02-font-weight:400;--cds-body-02-line-height:1.5;--cds-body-02-letter-spacing:0;--cds-heading-compact-01-font-size:0.875rem;--cds-heading-compact-01-font-weight:600;--cds-heading-compact-01-line-height:1.28572;--cds-heading-compact-01-letter-spacing:0.16px;--cds-heading-compact-02-font-size:1rem;--cds-heading-compact-02-font-weight:600;--cds-heading-compact-02-line-height:1.375;--cds-heading-compact-02-letter-spacing:0;--cds-heading-03-font-size:1.25rem;--cds-heading-03-font-weight:400;--cds-heading-03-line-height:1.4;--cds-heading-03-letter-spacing:0;--cds-heading-04-font-size:1.75rem;--cds-heading-04-font-weight:400;--cds-heading-04-line-height:1.28572;--cds-heading-04-letter-spacing:0;--cds-heading-05-font-size:2rem;--cds-heading-05-font-weight:400;--cds-heading-05-line-height:1.25;--cds-heading-05-letter-spacing:0;--cds-heading-06-font-size:2.625rem;--cds-heading-06-font-weight:300;--cds-heading-06-line-height:1.199;--cds-heading-06-letter-spacing:0;--cds-heading-07-font-size:3.375rem;--cds-heading-07-font-weight:300;--cds-heading-07-line-height:1.199;--cds-heading-07-letter-spacing:0;--cds-fluid-heading-03-font-size:1.25rem;--cds-fluid-heading-03-font-weight:400;--cds-fluid-heading-03-line-height:1.4;--cds-fluid-heading-03-letter-spacing:0;--cds-fluid-heading-04-font-size:1.75rem;--cds-fluid-heading-04-font-weight:400;--cds-fluid-heading-04-line-height:1.28572;--cds-fluid-heading-04-letter-spacing:0;--cds-fluid-heading-05-font-size:2rem;--cds-fluid-heading-05-font-weight:400;--cds-fluid-heading-05-line-height:1.25;--cds-fluid-heading-05-letter-spacing:0;--cds-fluid-heading-06-font-size:2rem;--cds-fluid-heading-06-font-weight:600;--cds-fluid-heading-06-line-height:1.25;--cds-fluid-heading-06-letter-spacing:0;--cds-fluid-paragraph-01-font-size:1.5rem;--cds-fluid-paragraph-01-font-weight:300;--cds-fluid-paragraph-01-line-height:1.334;--cds-fluid-paragraph-01-letter-spacing:0;--cds-fluid-quotation-01-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-fluid-quotation-01-font-size:1.25rem;--cds-fluid-quotation-01-font-weight:400;--cds-fluid-quotation-01-line-height:1.3;--cds-fluid-quotation-01-letter-spacing:0;--cds-fluid-quotation-02-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-fluid-quotation-02-font-size:2rem;--cds-fluid-quotation-02-font-weight:300;--cds-fluid-quotation-02-line-height:1.25;--cds-fluid-quotation-02-letter-spacing:0;--cds-fluid-display-01-font-size:2.625rem;--cds-fluid-display-01-font-weight:300;--cds-fluid-display-01-line-height:1.19;--cds-fluid-display-01-letter-spacing:0;--cds-fluid-display-02-font-size:2.625rem;--cds-fluid-display-02-font-weight:600;--cds-fluid-display-02-line-height:1.19;--cds-fluid-display-02-letter-spacing:0;--cds-fluid-display-03-font-size:2.625rem;--cds-fluid-display-03-font-weight:300;--cds-fluid-display-03-line-height:1.19;--cds-fluid-display-03-letter-spacing:0;--cds-fluid-display-04-font-size:2.625rem;--cds-fluid-display-04-font-weight:300;--cds-fluid-display-04-line-height:1.19;--cds-fluid-display-04-letter-spacing:0;--cds-spacing-01:0.125rem;--cds-spacing-02:0.25rem;--cds-spacing-03:0.5rem;--cds-spacing-04:0.75rem;--cds-spacing-05:1rem;--cds-spacing-06:1.5rem;--cds-spacing-07:2rem;--cds-spacing-08:2.5rem;--cds-spacing-09:3rem;--cds-spacing-10:4rem;--cds-spacing-11:5rem;--cds-spacing-12:6rem;--cds-spacing-13:10rem;--cds-fluid-spacing-01:0;--cds-fluid-spacing-02:2vw;--cds-fluid-spacing-03:5vw;--cds-fluid-spacing-04:10vw;--cds-layout-01:1rem;--cds-layout-02:1.5rem;--cds-layout-03:2rem;--cds-layout-04:3rem;--cds-layout-05:4rem;--cds-layout-06:6rem;--cds-layout-07:10rem;--cds-container-01:1.5rem;--cds-container-02:2rem;--cds-container-03:2.5rem;--cds-container-04:3rem;--cds-container-05:4rem;--cds-size-xsmall:1.5rem;--cds-size-small:2rem;--cds-size-medium:2.5rem;--cds-size-large:3rem;--cds-size-xlarge:4rem;--cds-icon-size-01:1rem;--cds-icon-size-02:1.25rem;--cds-tag-background-red:#ffd7d9;--cds-tag-color-red:#750e13;--cds-tag-hover-red:#ffb3b8;--cds-tag-background-magenta:#ffd6e8;--cds-tag-color-magenta:#740937;--cds-tag-hover-magenta:#ffafd2;--cds-tag-background-purple:#dce8e2;--cds-tag-color-purple:#123a31;--cds-tag-hover-purple:#9ec7b8;--cds-tag-background-blue:#dce8e2;--cds-tag-color-blue:#123a31;--cds-tag-hover-blue:#bcd8cd;--cds-tag-background-cyan:#dce8e2;--cds-tag-color-cyan:#123a31;--cds-tag-hover-cyan:#9ec7b8;--cds-tag-background-teal:#9ef0f0;--cds-tag-color-teal:#004144;--cds-tag-hover-teal:#3ddbd9;--cds-tag-background-green:#a7f0ba;--cds-tag-color-green:#044317;--cds-tag-hover-green:#6fdc8c;--cds-tag-background-gray:#e7decc;--cds-tag-color-gray:#2e2a23;--cds-tag-hover-gray:#cfc4ae;--cds-tag-background-cool-gray:#e7decc;--cds-tag-color-cool-gray:#3d382f;--cds-tag-hover-cool-gray:#cfc4ae;--cds-tag-background-warm-gray:#e7decc;--cds-tag-color-warm-gray:#3d382f;--cds-tag-hover-warm-gray:#cfc4ae;--cds-notification-background-error:#fff1f1;--cds-notification-background-success:#defbe6;--cds-notification-background-info:#eaf1ed;--cds-notification-background-warning:rgb(252.9, 245.85, 220.8);--cds-notification-action-hover:#fdfbf6;}
+html[theme=nocturne]{--cds-interactive-01:#f0b429;--cds-interactive-02:#4a5a78;--cds-interactive-03:#fafcff;--cds-interactive-04:#7fb2ff;--cds-ui-background:#0b1220;--cds-ui-01:#131c2e;--cds-ui-02:#1b2740;--cds-ui-03:#1b2740;--cds-ui-04:#4a5a78;--cds-ui-05:#e8edf6;--cds-text-01:#e8edf6;--cds-text-02:#b6c2d6;--cds-text-03:#4a5a78;--cds-text-04:#fafcff;--cds-text-05:#7e8ca6;--cds-text-error:#ff8389;--cds-icon-01:#e8edf6;--cds-icon-02:#b6c2d6;--cds-icon-03:#fafcff;--cds-link-01:#8fb8ff;--cds-link-02:#b7d2ff;--cds-inverse-link:#f0b429;--cds-field-01:#131c2e;--cds-field-02:#1b2740;--cds-inverse-01:#0b1220;--cds-inverse-02:#e8edf6;--cds-support-01:#fa4d56;--cds-support-02:#42be65;--cds-support-03:#f1c21b;--cds-support-04:#7fb2ff;--cds-inverse-support-01:#da1e28;--cds-inverse-support-02:#24a148;--cds-inverse-support-03:#f1c21b;--cds-inverse-support-04:#f0b429;--cds-overlay-01:rgba(0, 0, 0, 0.65);--cds-danger-01:#da1e28;--cds-danger-02:#fa4d56;--cds-focus:#fafcff;--cds-inverse-focus-ui:#f0b429;--cds-hover-primary:#8f6712;--cds-active-primary:#8f6712;--cds-hover-primary-text:#b7d2ff;--cds-hover-secondary:#4a5a78;--cds-active-secondary:#1b2740;--cds-hover-tertiary:#e8edf6;--cds-active-tertiary:#b6c2d6;--cds-hover-ui:#1f2c46;--cds-hover-light-ui:#2a3a57;--cds-hover-selected-ui:#2a3a57;--cds-active-ui:#2a3a57;--cds-active-light-ui:#4a5a78;--cds-selected-ui:#1b2740;--cds-selected-light-ui:#2a3a57;--cds-inverse-hover-ui:#dae1ec;--cds-hover-danger:#b81921;--cds-active-danger:#750e13;--cds-hover-row:#1f2c46;--cds-visited-link:#d8a63a;--cds-disabled-01:#131c2e;--cds-disabled-02:#2a3a57;--cds-disabled-03:#7e8ca6;--cds-highlight:#8f6712;--cds-decorative-01:#2a3a57;--cds-button-separator:#0b1220;--cds-skeleton-01:#1f2c46;--cds-skeleton-02:#2a3a57;--cds-background:#0b1220;--cds-layer:#131c2e;--cds-layer-accent:#1b2740;--cds-layer-accent-hover:#354563;--cds-layer-accent-active:#4a5a78;--cds-field:#131c2e;--cds-background-inverse:#e8edf6;--cds-background-brand:#f0b429;--cds-interactive:#7fb2ff;--cds-border-subtle:#1b2740;--cds-border-strong:#4a5a78;--cds-border-inverse:#e8edf6;--cds-border-interactive:#7fb2ff;--cds-text-primary:#e8edf6;--cds-text-secondary:#b6c2d6;--cds-text-placeholder:#4a5a78;--cds-text-helper:#7e8ca6;--cds-text-on-color:#fafcff;--cds-text-inverse:#0b1220;--cds-link-primary:#8fb8ff;--cds-link-secondary:#b7d2ff;--cds-link-visited:#d8a63a;--cds-link-inverse:#f0b429;--cds-icon-primary:#e8edf6;--cds-icon-secondary:#b6c2d6;--cds-icon-on-color:#fafcff;--cds-icon-inverse:#0b1220;--cds-support-error:#fa4d56;--cds-support-success:#42be65;--cds-support-warning:#f1c21b;--cds-support-info:#7fb2ff;--cds-support-error-inverse:#da1e28;--cds-support-success-inverse:#24a148;--cds-support-warning-inverse:#f1c21b;--cds-support-info-inverse:#f0b429;--cds-overlay:rgba(0, 0, 0, 0.65);--cds-toggle-off:#4a5a78;--cds-shadow:rgba(0, 0, 0, 0.8);--cds-button-primary:#f0b429;--cds-button-secondary:#4a5a78;--cds-button-tertiary:#fafcff;--cds-button-danger-primary:#da1e28;--cds-button-danger-secondary:#fa4d56;--cds-background-active:#2a3a57;--cds-layer-active:#2a3a57;--cds-button-danger-active:#750e13;--cds-button-primary-active:#8f6712;--cds-button-secondary-active:#1b2740;--cds-button-tertiary-active:#b6c2d6;--cds-focus-inset:#0b1220;--cds-focus-inverse:#f0b429;--cds-background-hover:#1f2c46;--cds-layer-hover:#1f2c46;--cds-field-hover:#1f2c46;--cds-background-inverse-hover:#dae1ec;--cds-link-primary-hover:#b7d2ff;--cds-button-danger-hover:#b81921;--cds-button-primary-hover:#8f6712;--cds-button-secondary-hover:#4a5a78;--cds-button-tertiary-hover:#e8edf6;--cds-background-selected:#1b2740;--cds-background-selected-hover:#2a3a57;--cds-layer-selected:#1b2740;--cds-layer-selected-hover:#2a3a57;--cds-layer-selected-inverse:#e8edf6;--cds-border-subtle-selected:#2a3a57;--cds-border-disabled:#131c2e;--cds-text-disabled:#2a3a57;--cds-button-disabled:#2a3a57;--cds-icon-disabled:#2a3a57;--cds-text-on-color-disabled:#7e8ca6;--cds-icon-on-color-disabled:#7e8ca6;--cds-layer-selected-disabled:#7e8ca6;--cds-skeleton-background:#1f2c46;--cds-skeleton-element:#2a3a57;--cds-brand-01:#f0b429;--cds-brand-02:#4a5a78;--cds-brand-03:#fafcff;--cds-active-01:#2a3a57;--cds-hover-field:#1f2c46;--cds-danger:#da1e28;--cds-caption-01-font-size:0.75rem;--cds-caption-01-font-weight:400;--cds-caption-01-line-height:1.33333;--cds-caption-01-letter-spacing:0.32px;--cds-caption-02-font-size:0.875rem;--cds-caption-02-font-weight:400;--cds-caption-02-line-height:1.28572;--cds-caption-02-letter-spacing:0.32px;--cds-label-01-font-size:0.75rem;--cds-label-01-font-weight:400;--cds-label-01-line-height:1.33333;--cds-label-01-letter-spacing:0.32px;--cds-label-02-font-size:0.875rem;--cds-label-02-font-weight:400;--cds-label-02-line-height:1.28572;--cds-label-02-letter-spacing:0.16px;--cds-helper-text-01-font-size:0.75rem;--cds-helper-text-01-line-height:1.33333;--cds-helper-text-01-letter-spacing:0.32px;--cds-helper-text-02-font-size:0.875rem;--cds-helper-text-02-line-height:1.28572;--cds-helper-text-02-letter-spacing:0.16px;--cds-body-short-01-font-size:0.875rem;--cds-body-short-01-font-weight:400;--cds-body-short-01-line-height:1.28572;--cds-body-short-01-letter-spacing:0.16px;--cds-body-long-01-font-size:0.875rem;--cds-body-long-01-font-weight:400;--cds-body-long-01-line-height:1.42857;--cds-body-long-01-letter-spacing:0.16px;--cds-body-short-02-font-size:1rem;--cds-body-short-02-font-weight:400;--cds-body-short-02-line-height:1.375;--cds-body-short-02-letter-spacing:0;--cds-body-long-02-font-size:1rem;--cds-body-long-02-font-weight:400;--cds-body-long-02-line-height:1.5;--cds-body-long-02-letter-spacing:0;--cds-code-01-font-family:'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;--cds-code-01-font-size:0.75rem;--cds-code-01-font-weight:400;--cds-code-01-line-height:1.33333;--cds-code-01-letter-spacing:0.32px;--cds-code-02-font-family:'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;--cds-code-02-font-size:0.875rem;--cds-code-02-font-weight:400;--cds-code-02-line-height:1.42857;--cds-code-02-letter-spacing:0.32px;--cds-heading-01-font-size:0.875rem;--cds-heading-01-font-weight:600;--cds-heading-01-line-height:1.42857;--cds-heading-01-letter-spacing:0.16px;--cds-productive-heading-01-font-size:0.875rem;--cds-productive-heading-01-font-weight:600;--cds-productive-heading-01-line-height:1.28572;--cds-productive-heading-01-letter-spacing:0.16px;--cds-heading-02-font-size:1rem;--cds-heading-02-font-weight:600;--cds-heading-02-line-height:1.5;--cds-heading-02-letter-spacing:0;--cds-productive-heading-02-font-size:1rem;--cds-productive-heading-02-font-weight:600;--cds-productive-heading-02-line-height:1.375;--cds-productive-heading-02-letter-spacing:0;--cds-productive-heading-03-font-size:1.25rem;--cds-productive-heading-03-font-weight:400;--cds-productive-heading-03-line-height:1.4;--cds-productive-heading-03-letter-spacing:0;--cds-productive-heading-04-font-size:1.75rem;--cds-productive-heading-04-font-weight:400;--cds-productive-heading-04-line-height:1.28572;--cds-productive-heading-04-letter-spacing:0;--cds-productive-heading-05-font-size:2rem;--cds-productive-heading-05-font-weight:400;--cds-productive-heading-05-line-height:1.25;--cds-productive-heading-05-letter-spacing:0;--cds-productive-heading-06-font-size:2.625rem;--cds-productive-heading-06-font-weight:300;--cds-productive-heading-06-line-height:1.199;--cds-productive-heading-06-letter-spacing:0;--cds-productive-heading-07-font-size:3.375rem;--cds-productive-heading-07-font-weight:300;--cds-productive-heading-07-line-height:1.199;--cds-productive-heading-07-letter-spacing:0;--cds-expressive-heading-01-font-size:0.875rem;--cds-expressive-heading-01-font-weight:600;--cds-expressive-heading-01-line-height:1.25;--cds-expressive-heading-01-letter-spacing:0.16px;--cds-expressive-heading-02-font-size:1rem;--cds-expressive-heading-02-font-weight:600;--cds-expressive-heading-02-line-height:1.5;--cds-expressive-heading-02-letter-spacing:0;--cds-expressive-heading-03-font-size:1.25rem;--cds-expressive-heading-03-font-weight:400;--cds-expressive-heading-03-line-height:1.4;--cds-expressive-heading-03-letter-spacing:0;--cds-expressive-heading-04-font-size:1.75rem;--cds-expressive-heading-04-font-weight:400;--cds-expressive-heading-04-line-height:1.28572;--cds-expressive-heading-04-letter-spacing:0;--cds-expressive-heading-05-font-size:2rem;--cds-expressive-heading-05-font-weight:400;--cds-expressive-heading-05-line-height:1.25;--cds-expressive-heading-05-letter-spacing:0;--cds-expressive-heading-06-font-size:2rem;--cds-expressive-heading-06-font-weight:600;--cds-expressive-heading-06-line-height:1.25;--cds-expressive-heading-06-letter-spacing:0;--cds-expressive-paragraph-01-font-size:1.5rem;--cds-expressive-paragraph-01-font-weight:300;--cds-expressive-paragraph-01-line-height:1.334;--cds-expressive-paragraph-01-letter-spacing:0;--cds-quotation-01-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-quotation-01-font-size:1.25rem;--cds-quotation-01-font-weight:400;--cds-quotation-01-line-height:1.3;--cds-quotation-01-letter-spacing:0;--cds-quotation-02-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-quotation-02-font-size:2rem;--cds-quotation-02-font-weight:300;--cds-quotation-02-line-height:1.25;--cds-quotation-02-letter-spacing:0;--cds-display-01-font-size:2.625rem;--cds-display-01-font-weight:300;--cds-display-01-line-height:1.19;--cds-display-01-letter-spacing:0;--cds-display-02-font-size:2.625rem;--cds-display-02-font-weight:600;--cds-display-02-line-height:1.19;--cds-display-02-letter-spacing:0;--cds-display-03-font-size:2.625rem;--cds-display-03-font-weight:300;--cds-display-03-line-height:1.19;--cds-display-03-letter-spacing:0;--cds-display-04-font-size:2.625rem;--cds-display-04-font-weight:300;--cds-display-04-line-height:1.19;--cds-display-04-letter-spacing:0;--cds-legal-01-font-size:0.75rem;--cds-legal-01-font-weight:400;--cds-legal-01-line-height:1.33333;--cds-legal-01-letter-spacing:0.32px;--cds-legal-02-font-size:0.875rem;--cds-legal-02-font-weight:400;--cds-legal-02-line-height:1.28572;--cds-legal-02-letter-spacing:0.16px;--cds-body-compact-01-font-size:0.875rem;--cds-body-compact-01-font-weight:400;--cds-body-compact-01-line-height:1.28572;--cds-body-compact-01-letter-spacing:0.16px;--cds-body-compact-02-font-size:1rem;--cds-body-compact-02-font-weight:400;--cds-body-compact-02-line-height:1.375;--cds-body-compact-02-letter-spacing:0;--cds-body-01-font-size:0.875rem;--cds-body-01-font-weight:400;--cds-body-01-line-height:1.42857;--cds-body-01-letter-spacing:0.16px;--cds-body-02-font-size:1rem;--cds-body-02-font-weight:400;--cds-body-02-line-height:1.5;--cds-body-02-letter-spacing:0;--cds-heading-compact-01-font-size:0.875rem;--cds-heading-compact-01-font-weight:600;--cds-heading-compact-01-line-height:1.28572;--cds-heading-compact-01-letter-spacing:0.16px;--cds-heading-compact-02-font-size:1rem;--cds-heading-compact-02-font-weight:600;--cds-heading-compact-02-line-height:1.375;--cds-heading-compact-02-letter-spacing:0;--cds-heading-03-font-size:1.25rem;--cds-heading-03-font-weight:400;--cds-heading-03-line-height:1.4;--cds-heading-03-letter-spacing:0;--cds-heading-04-font-size:1.75rem;--cds-heading-04-font-weight:400;--cds-heading-04-line-height:1.28572;--cds-heading-04-letter-spacing:0;--cds-heading-05-font-size:2rem;--cds-heading-05-font-weight:400;--cds-heading-05-line-height:1.25;--cds-heading-05-letter-spacing:0;--cds-heading-06-font-size:2.625rem;--cds-heading-06-font-weight:300;--cds-heading-06-line-height:1.199;--cds-heading-06-letter-spacing:0;--cds-heading-07-font-size:3.375rem;--cds-heading-07-font-weight:300;--cds-heading-07-line-height:1.199;--cds-heading-07-letter-spacing:0;--cds-fluid-heading-03-font-size:1.25rem;--cds-fluid-heading-03-font-weight:400;--cds-fluid-heading-03-line-height:1.4;--cds-fluid-heading-03-letter-spacing:0;--cds-fluid-heading-04-font-size:1.75rem;--cds-fluid-heading-04-font-weight:400;--cds-fluid-heading-04-line-height:1.28572;--cds-fluid-heading-04-letter-spacing:0;--cds-fluid-heading-05-font-size:2rem;--cds-fluid-heading-05-font-weight:400;--cds-fluid-heading-05-line-height:1.25;--cds-fluid-heading-05-letter-spacing:0;--cds-fluid-heading-06-font-size:2rem;--cds-fluid-heading-06-font-weight:600;--cds-fluid-heading-06-line-height:1.25;--cds-fluid-heading-06-letter-spacing:0;--cds-fluid-paragraph-01-font-size:1.5rem;--cds-fluid-paragraph-01-font-weight:300;--cds-fluid-paragraph-01-line-height:1.334;--cds-fluid-paragraph-01-letter-spacing:0;--cds-fluid-quotation-01-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-fluid-quotation-01-font-size:1.25rem;--cds-fluid-quotation-01-font-weight:400;--cds-fluid-quotation-01-line-height:1.3;--cds-fluid-quotation-01-letter-spacing:0;--cds-fluid-quotation-02-font-family:'IBM Plex Serif', 'Georgia', Times, serif;--cds-fluid-quotation-02-font-size:2rem;--cds-fluid-quotation-02-font-weight:300;--cds-fluid-quotation-02-line-height:1.25;--cds-fluid-quotation-02-letter-spacing:0;--cds-fluid-display-01-font-size:2.625rem;--cds-fluid-display-01-font-weight:300;--cds-fluid-display-01-line-height:1.19;--cds-fluid-display-01-letter-spacing:0;--cds-fluid-display-02-font-size:2.625rem;--cds-fluid-display-02-font-weight:600;--cds-fluid-display-02-line-height:1.19;--cds-fluid-display-02-letter-spacing:0;--cds-fluid-display-03-font-size:2.625rem;--cds-fluid-display-03-font-weight:300;--cds-fluid-display-03-line-height:1.19;--cds-fluid-display-03-letter-spacing:0;--cds-fluid-display-04-font-size:2.625rem;--cds-fluid-display-04-font-weight:300;--cds-fluid-display-04-line-height:1.19;--cds-fluid-display-04-letter-spacing:0;--cds-spacing-01:0.125rem;--cds-spacing-02:0.25rem;--cds-spacing-03:0.5rem;--cds-spacing-04:0.75rem;--cds-spacing-05:1rem;--cds-spacing-06:1.5rem;--cds-spacing-07:2rem;--cds-spacing-08:2.5rem;--cds-spacing-09:3rem;--cds-spacing-10:4rem;--cds-spacing-11:5rem;--cds-spacing-12:6rem;--cds-spacing-13:10rem;--cds-fluid-spacing-01:0;--cds-fluid-spacing-02:2vw;--cds-fluid-spacing-03:5vw;--cds-fluid-spacing-04:10vw;--cds-layout-01:1rem;--cds-layout-02:1.5rem;--cds-layout-03:2rem;--cds-layout-04:3rem;--cds-layout-05:4rem;--cds-layout-06:6rem;--cds-layout-07:10rem;--cds-container-01:1.5rem;--cds-container-02:2rem;--cds-container-03:2.5rem;--cds-container-04:3rem;--cds-container-05:4rem;--cds-size-xsmall:1.5rem;--cds-size-small:2rem;--cds-size-medium:2.5rem;--cds-size-large:3rem;--cds-size-xlarge:4rem;--cds-icon-size-01:1rem;--cds-icon-size-02:1.25rem;--cds-tag-background-red:#a2191f;--cds-tag-color-red:#ffd7d9;--cds-tag-hover-red:#c21e25;--cds-tag-background-magenta:#9f1853;--cds-tag-color-magenta:#ffd6e8;--cds-tag-hover-magenta:#bf1d63;--cds-tag-background-purple:#8f6712;--cds-tag-color-purple:#f8d68d;--cds-tag-hover-purple:#8f6712;--cds-tag-background-blue:#c9912a;--cds-tag-color-blue:#203050;--cds-tag-hover-blue:#8f6712;--cds-tag-background-cyan:#8f6712;--cds-tag-color-cyan:#f8d68d;--cds-tag-hover-cyan:#8f6712;--cds-tag-background-teal:#005d5d;--cds-tag-color-teal:#9ef0f0;--cds-tag-hover-teal:#007070;--cds-tag-background-green:#0e6027;--cds-tag-color-green:#a7f0ba;--cds-tag-hover-green:#11742f;--cds-tag-background-gray:#2a3a57;--cds-tag-color-gray:#d5ddea;--cds-tag-hover-gray:#4a5a78;--cds-tag-background-cool-gray:#4a5a78;--cds-tag-color-cool-gray:#dde4ee;--cds-tag-hover-cool-gray:#5d646a;--cds-tag-background-warm-gray:#4a5a78;--cds-tag-color-warm-gray:#dde4ee;--cds-tag-hover-warm-gray:#5f6f8e;--cds-notification-background-error:var(--cds-ui-01, #e8edf6);--cds-notification-background-success:var(--cds-ui-01, #e8edf6);--cds-notification-background-info:var(--cds-ui-01, #e8edf6);--cds-notification-background-warning:var(--cds-ui-01, #e8edf6);--cds-notification-action-hover:var(--cds-hover-ui, #dae1ec);}
+/* <<< generated themes <<< */
+/* <<< themed chrome >>> */
+/* Carbon hard-codes the side nav, the header and the header select, so the two added
+   themes paint them from their own token set (carbon's themes keep their current look).
+   The header stays a dark band in every theme, as carbon intends. */
+html[theme="paper"] .bx--side-nav,
+html[theme="nocturne"] .bx--side-nav {
+	background-color: var(--cds-background, #ffffff);
+	color: var(--cds-text-02, #525252);
+}
+html[theme="paper"] .bx--header,
+html[theme="paper"] .header-tile {
+	background-color: #241f19 !important;
+}
+html[theme="nocturne"] .bx--header,
+html[theme="nocturne"] .header-tile {
+	background-color: #070d17 !important;
+}
+html[theme="paper"] body,
+html[theme="nocturne"] body {
+	background-color: var(--cds-background, #ffffff);
+	color: var(--cds-text-01, #161616);
+}
+html[theme="paper"] .header-util .bx--select-input,
+html[theme="nocturne"] .header-util .bx--select-input {
+	background-color: var(--cds-ui-02, #393939);
+	color: var(--cds-text-01, #f4f4f4);
+	outline-color: var(--cds-border-strong, #6f6f6f);
+}
+html[theme="paper"] .header-util .bx--select-input option,
+html[theme="nocturne"] .header-util .bx--select-input option {
+	background-color: var(--cds-ui-02, #393939);
+	color: var(--cds-text-01, #f4f4f4);
+}
+/* <<< themed chrome <<< */
+
+

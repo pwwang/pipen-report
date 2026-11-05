@@ -190,9 +190,9 @@
     :global(.bx--side-nav .bx--side-nav__items .bx--side-nav__menu .toc-row--h2) {
         min-height: 1.75rem;
         height: auto; /* beat Carbon's `height: 2rem` on menu links */
-        padding-left: 48px;
+        padding-left: 42px;
         font-size: 0.8125rem;
-        color: var(--cds-text-05, #6f6f6f);
+        /* color: var(--cds-text-05, #6f6f6f); */
     }
 
     /* SideNavMenu renders a <button>; reset it to look like the links */
@@ -244,7 +244,7 @@
 
     /* row states */
     :global(.bx--side-nav .bx--side-nav__items .toc-row.off-page) {
-        color: var(--cds-text-05, #8d8d8d);
+        color: var(--cds-text-03, #8d8d8d);
     }
     :global(.bx--side-nav .bx--side-nav__items .toc-row.is-active) {
         color: var(--cds-text-01, #161616);
