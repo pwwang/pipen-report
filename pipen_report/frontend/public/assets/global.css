@@ -74,24 +74,6 @@ a.page-chat-icon > svg {
 	min-height: var(--cds-spacing-07) !important;
 }
 
-.bx--side-nav__submenu {
-	padding: 0 0.75rem !important;
-}
-
-.bx--side-nav__link-text, .bx--side-nav__submenu-title {
-	/** make first toc layer larger **/
-	font-size: 111% !important;
-}
-
-.bx--side-nav__menu a.bx--side-nav__link {
-	padding-left: 1.6em !important;
-}
-
-.pipen-report-sidenav li.toc-active,
-.bx--side-nav__items li.toc-active {
-	box-shadow: inset 4px 0 0 0 #161616;
-}
-
 .bx--tab-content {
 	/** add frame to tab content **/
 	border: 1px solid var(--cds-ui-03);
@@ -215,12 +197,6 @@ img.pipen-report-image-lg {
 	font-style: italic;
     font-weight: normal;
 }
-
-.bx--side-nav__item > button.bx--side-nav__submenu,
-.bx--side-nav__item > a.bx--side-nav__link {
-	padding: 0 0.75rem !important;
-}
-
 
 ul.bx--side-nav__items {
 	/* make sure all items in toc */
