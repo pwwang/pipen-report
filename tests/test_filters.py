@@ -879,6 +879,37 @@ def test_ui_tabs():
         _ui_tabs(contents, {}, 0)
 
 
+def test_ui_tabs_with_max():
+    contents = [
+        {
+            "title": "Title1",
+            "contents": [{"kind": "descr", "content": "Content1"}],
+        },
+        {
+            "title": "Title2",
+            "contents": [{"kind": "descr", "content": "Content2"}],
+        },
+    ]
+
+    # Not too many tabs, still rendered as tabs
+    result = _ui_tabs(deepcopy(contents), {}, 0, "2")
+    assert result.startswith("<Tabs>")
+
+    # Too many tabs, rendered as a dropdown switcher
+    result = _ui_tabs(deepcopy(contents), {}, 0, "1")
+    assert result.startswith("<Dropdown")
+    assert (
+        'items={ [{"id": "0", "text": "Title1"}, {"id": "1", "text": "Title2"}] }'
+        in result
+    )
+    assert "<Descr>Content1</Descr>" in result
+    assert "<Descr>Content2</Descr>" in result
+
+    # ui_arg is forwarded by render_ui
+    result = render_ui(deepcopy(contents), "tabs:1", {})
+    assert result.startswith("<Dropdown")
+
+
 def test_ui_accordion():
     contents = [
         {

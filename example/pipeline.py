@@ -259,6 +259,16 @@ report = {
             "kind": "list", "items": ["alignment_summary.tsv", "placeholder.png"]}]},
         {"name": "Coverage figure", "contents": [{"kind": "image", "src": img}]},
     ]}}},
+    "Auto tabs": {
+        "3 tabs with tabs:2 collapse to a dropdown": {"#": {"tabs:2": [
+            {"name": "Alignment summary", "contents": [
+                {"kind": "table", "src": tsv}]},
+            {"name": "File manifest", "contents": [{
+                "kind": "list",
+                "items": ["alignment_summary.tsv", "placeholder.png"]}]},
+            {"name": "Coverage figure", "contents": [
+                {"kind": "image", "src": img}]},
+        ]}}},
     "Table of images": {"#": {"#": {"table_of_images:3": [
         {"title": "Fragment size, WT-1", "descr": "Insert size: 187 bp", "src": img},
         {"title": "Fragment size, KO-1", "descr": "Insert size: 179 bp", "src": img},
@@ -283,7 +293,7 @@ PY
 <script>
     import { Image, DataTable, Descr } from '$lib';
     import {
-        Accordion, AccordionItem, Tabs, Tab, TabContent,
+        Accordion, AccordionItem, Tabs, Tab, TabContent, Dropdown,
         InlineNotification, OrderedList, UnorderedList, ListItem,
     } from '$ccs';
 </script>

@@ -665,6 +665,7 @@ def _ui_tabs(
     contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
+    ui_arg: str | None = None,
 ) -> str:
     """
     Render a tabs UI.
@@ -673,15 +674,42 @@ def _ui_tabs(
         contents (List[Dict[str, Any]]): List of tab contents.
         job (Mapping[str, Any]): Job information.
         level (int): Level of the UI.
+        ui_arg (str | None): The maximum number of tabs. When there are more
+            tabs than this, a dropdown switcher is rendered instead. For
+            example, `tabs:5` allows up to 5 tabs. If not given, tabs are
+            always rendered as tabs.
 
     Returns:
         str: Rendered tabs UI.
     """
-    tabs = []
     for cont in contents:
         if cont.get("kind", "tab") != "tab":
             raise ValueError("Only kind = tab allowed in UI tabs")
 
+    if ui_arg and len(contents) > int(ui_arg):
+        return _ui_dropdown_switcher(
+            [
+                {
+                    "kind": "tag",
+                    "tag": "div",
+                    "ds_name": cont.get(
+                        "name", cont.get("title", cont.get("label"))
+                    ),
+                    "slot": render_ui(
+                        cont["contents"],
+                        cont.get("ui", "flat"),
+                        job=job,
+                        level=1,
+                    ),
+                }
+                for cont in contents
+            ],
+            job,
+            level,
+        )
+
+    tabs = []
+    for cont in contents:
         cont["kind"] = "tab"
         tabs.append(render_component(cont, job=job, level=1))
 

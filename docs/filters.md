@@ -81,7 +81,7 @@ Render a set of components with a certain `ui` layout.
 In the `report.json` file, under `h3`, you should specify a dict with `ui` keys, which defined a large set of components. Supported `ui`s are:
 
 - `flat`: The components will be rendered sequentially.
-- `tabs`: The components will be rendered as tabs. Each component should be with `kind` `"tab"`. If not specified, `kind = "tab"` will be added automatically.
+- `tabs`: The components will be rendered as tabs. Each component should be with `kind` `"tab"`. If not specified, `kind = "tab"` will be added automatically. You can specify the maximum number of tabs like `tabs:5`. When there are more tabs than that, they will be rendered as a dropdown switcher instead. Without the argument, tabs are always rendered as tabs.
 - `table_of_images`: The components will be rendered as a table of images. Each component should be with `kind` `"table_image"`. If not specified, `kind = "image"` will be added automatically. You can specify the number of columns like `table_of_images:3`. The default number of columns is 2.
 - `accordion`: The components will be rendered as an accordion. Each component should be with `kind` `"accordion"`. If not specified, `kind = "accordion"` will be added automatically.
 
@@ -108,6 +108,8 @@ A `flat` ui will render the components sequentially.
 ### UI: `tabs`
 
 A `tabs` ui will render the components as tabs. See also the [`Tabs`](https://carbon-components-svelte.onrender.com/components/Tabs) component of `carbon-components-svelte`.
+
+You can specify the maximum number of tabs, for example `tabs:5`. When there are more than 5 tabs, a dropdown switcher is rendered instead, using the tab labels as the dropdown items. Without the argument, tabs are always rendered as tabs.
 
 ```html
 <Tabs>
