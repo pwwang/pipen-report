@@ -13,7 +13,7 @@ import textwrap
 import warnings
 import imagesize
 from contextlib import suppress
-from typing import Any, Iterable, Union, List, Mapping
+from typing import Any, Dict, Iterable, Sequence, Union, List, Mapping, cast
 from os import PathLike
 from pathlib import Path
 from panpath import PanPath
@@ -25,10 +25,10 @@ TAB = "  "
 def datatable(
     path: PathLike,
     *args: Any,
-    ncols: Union[int, Iterable] = None,
-    nrows: Union[int, Iterable] = None,
+    ncols: Union[int, Iterable] | None = None,
+    nrows: Union[int, Iterable] | None = None,
     double_precision: int = 4,
-    excluded: set = None,
+    excluded: set | None = None,
     **kwargs: Any,
 ) -> str:
     """Read data from a file, using pandas.read_csv() and make it to json so
@@ -60,7 +60,7 @@ def datatable(
     if kwargs.get("header", None) is True:
         kwargs["header"] = 0
     kwargs.setdefault("comment", "#")
-    df = pandas.read_csv(path, *args, **kwargs)
+    df: pandas.DataFrame = pandas.read_csv(path, *args, **kwargs)  # type: ignore
     if not isinstance(df.index, pandas.RangeIndex):
         df = df.reset_index(names=["ROWNAMES"])
 
@@ -82,11 +82,11 @@ def datatable(
         ncols = range(ncols)  # type: ignore
 
     if all(isinstance(row, int) for row in nrows):
-        nrows = df.index[nrows]
+        nrows = df.index[list(nrows)]
     if all(isinstance(col, int) for col in ncols):
-        ncols = df.columns[ncols]
+        ncols = df.columns[list(ncols)]
 
-    df = df.loc[nrows, ncols]
+    df = df.loc[nrows, ncols]  # type: ignore
     # "." in column names causing problem at frontend
     # If the column names as integrs, convert them to str first
     if pandas.api.types.is_integer_dtype(df.columns):
@@ -96,12 +96,14 @@ def datatable(
     if "id" not in df:
         df["id"] = range(df.shape[0])
 
-    return df.to_json(orient="records", double_precision=double_precision)
+    return cast(
+        str, df.to_json(orient="records", double_precision=double_precision)
+    )
 
 
 def render_component(
     component: str | Mapping[str, Any],
-    job: Mapping[str, Any] = None,
+    job: Mapping[str, Any] | None = None,
     level: int = 0,
 ) -> str:
     """
@@ -124,16 +126,16 @@ def render_component(
 
     cont = component.copy()
     kind = cont.pop("kind")
-    if kind not in render_component.renderers:
+    if kind not in render_component.renderers:  # type: ignore
         raise ValueError(
             f"Unknown kind of component: {kind}. "
-            f"Allowed components: {list(render_component.renderers)}"
+            f"Allowed components: {list(render_component.renderers)}"  # type: ignore
         )
 
-    return render_component.renderers[kind](cont, job=job, level=level)
+    return render_component.renderers[kind](cont, job=job, level=level)  # type: ignore
 
 
-render_component.renderers = {}
+render_component.renderers = {}  # type: ignore
 
 
 def register_component(kind: str, *aliases: str):
@@ -150,7 +152,7 @@ def register_component(kind: str, *aliases: str):
 
     def decorator(func):
         for knd in kinds:
-            render_component.renderers[knd] = func
+            render_component.renderers[knd] = func  # type: ignore
         return func
 
     return decorator
@@ -158,7 +160,7 @@ def register_component(kind: str, *aliases: str):
 
 @register_component("accordion")
 def _render_accordion(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -186,7 +188,7 @@ def _render_accordion(
 
 @register_component("descr")
 def _render_descr(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -194,7 +196,7 @@ def _render_descr(
     Render the description based on the given content, job, and level.
 
     Args:
-        cont (Mapping[str, Any]): The content mapping.
+        cont (Dict[str, Any]): The content mapping.
         job (Mapping[str, Any]): The job mapping.
         level (int): The level of the description.
 
@@ -215,7 +217,7 @@ def _render_descr(
 
 @register_component("error")
 def _render_error(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -223,7 +225,7 @@ def _render_error(
     Render an error message as an inline notification.
 
     Args:
-        cont (Mapping[str, Any]): The content of the error message.
+        cont (Dict[str, Any]): The content of the error message.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the error message.
 
@@ -239,7 +241,7 @@ def _render_error(
 
 @register_component("list")
 def _render_list(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -247,7 +249,7 @@ def _render_list(
     Render a list.
 
     Args:
-        cont (Mapping[str, Any]): The container containing the list properties.
+        cont (Dict[str, Any]): The container containing the list properties.
         job (Mapping[str, Any]): The job containing the list items.
         level (int): The level of the list.
 
@@ -263,7 +265,7 @@ def _render_list(
 
 @register_component("table", "datatable")
 def _render_table(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -271,7 +273,7 @@ def _render_table(
     Render a table.
 
     Args:
-        cont (Mapping[str, Any]): The container for the table attributes.
+        cont (Dict[str, Any]): The container for the table attributes.
             Keys will be passed to `<DataTable ... />` component.
             `data` is special key to hold arguments passed to `datatable` filter.
             `data.file` or `data.path` is used to hold the path to the data file.
@@ -308,14 +310,14 @@ def _render_table(
 
 @register_component("img", "image")
 def _render_image(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
     """Render an image
 
     Args:
-        cont (Mapping[str, Any]): The container containing the image attributes.
+        cont (Dict[str, Any]): The container containing the image attributes.
         job (Mapping[str, Any]): The job containing the image data.
         level (int): The level of the image in the hierarchy.
 
@@ -338,14 +340,14 @@ def _render_image(
 
 @register_component("plotly")
 def _render_plotly(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
     """Render an image
 
     Args:
-        cont (Mapping[str, Any]): The container containing the Plotly attributes.
+        cont (Dict[str, Any]): The container containing the Plotly attributes.
         job (Mapping[str, Any]): The job containing the Plotly data.
         level (int): The level of the Plotly component in the hierarchy.
 
@@ -357,7 +359,7 @@ def _render_plotly(
 
 @register_component("table_img", "table_image")
 def _render_table_image(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -365,7 +367,7 @@ def _render_table_image(
     Render a table image with optional name and description.
 
     Args:
-        cont (Mapping[str, Any]): The container containing the image details.
+        cont (Dict[str, Any]): The container containing the image details.
         job (Mapping[str, Any]): The job details.
         level (int): The level of the table image.
 
@@ -406,20 +408,20 @@ def _render_table_image(
 
 @register_component("tab")
 def _render_tab(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
-) -> str:
+) -> str | Sequence[str]:
     """
     Render a tab.
 
     Args:
-        cont (Mapping[str, Any]): The container containing the tab information.
+        cont (Dict[str, Any]): The container containing the tab information.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the tab.
 
     Returns:
-        str: The rendered tab.
+        str | Sequence[str]: The rendered tab.
 
     """
     ui = cont.get("ui", "flat")
@@ -439,7 +441,7 @@ def _render_tab(
 
 @register_component("tag")
 def _render_tag(
-    cont: Mapping[str, Any],
+    cont: Dict[str, Any],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -447,7 +449,7 @@ def _render_tag(
     Render a tag.
 
     Args:
-        cont (Mapping[str, Any]): The container containing the tag information.
+        cont (Dict[str, Any]): The container containing the tag information.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the tag.
 
@@ -460,15 +462,15 @@ def _render_tag(
 
 
 def render_ui(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     ui: str,
-    job: Mapping[str, Any] = None,
+    job: Mapping[str, Any] | None = None,
     level: int = 0,
 ) -> str:
     """Render a ui
 
     Args:
-        contents (List[Mapping[str, Any]]): The contents to render in the UI.
+        contents (List[Dict[str, Any]]): The contents to render in the UI.
         ui (str): The type of UI to render.
             Allowed values are "flat", "table_of_images", "accordion", and "tabs".
         job (Mapping[str, Any], optional): The job information. Defaults to None.
@@ -483,16 +485,17 @@ def render_ui(
     job = job or {}
     ui_parts = ui.split(":")
 
-    if ui_parts[0] not in render_ui.renderers:
+    if ui_parts[0] not in render_ui.renderers:  # type: ignore
         raise ValueError(
-            f"Unknown ui: {ui_parts[0]}. Allowed: {list(render_ui.renderers)}"
+            f"Unknown ui: {ui_parts[0]}. "
+            f"Allowed: {list(render_ui.renderers)}"  # type: ignore
         )
 
-    renderer = render_ui.renderers[ui_parts[0]]
+    renderer = render_ui.renderers[ui_parts[0]]  # type: ignore
     return renderer(contents, job, level, *ui_parts[1:])
 
 
-render_ui.renderers = {}
+render_ui.renderers = {}  # type: ignore
 
 
 def register_ui(kind: str, *aliases: str):
@@ -509,7 +512,7 @@ def register_ui(kind: str, *aliases: str):
 
     def decorator(func):
         for knd in kinds:
-            render_ui.renderers[knd] = func
+            render_ui.renderers[knd] = func  # type: ignore
         return func
 
     return decorator
@@ -517,7 +520,7 @@ def register_ui(kind: str, *aliases: str):
 
 @register_ui("flat")
 def _ui_flat(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -536,16 +539,16 @@ def _ui_flat(
 
 @register_ui("dropdown_switcher")
 def _ui_dropdown_switcher(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
-    ui_arg: str = None,
+    ui_arg: str | None = None,
 ) -> str:
     """
     Render a dropdown switcher UI.
 
     Args:
-        contents (List[Mapping[str, Any]]): The contents to be rendered.
+        contents (List[Dict[str, Any]]): The contents to be rendered.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the dropdown switcher.
 
@@ -555,8 +558,8 @@ def _ui_dropdown_switcher(
     Raises:
         ValueError: If the 'kind' attribute of any content is not 'tab'.
     """
-    ds_id = _ui_dropdown_switcher.counter
-    _ui_dropdown_switcher.counter += 1
+    ds_id = _ui_dropdown_switcher.counter  # type: ignore
+    _ui_dropdown_switcher.counter += 1  # type: ignore
     selected_id = ui_arg or "0"
     components = []
     items = []
@@ -611,22 +614,22 @@ def _ui_dropdown_switcher(
     return "\n".join([dropdown, *components])
 
 
-_ui_dropdown_switcher.counter = 0
+_ui_dropdown_switcher.counter = 0  # type: ignore
 
 
 @register_ui("table_of_images")
 def _ui_table_of_images(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
-    ui_arg: str = None,
+    ui_arg: str | None = None,
 ) -> str:
     """
     Render a table of images UI.
 
     Args:
         ui (str): The UI configuration for the table of images.
-        contents (List[Mapping[str, Any]]): The list of image contents to be rendered.
+        contents (List[Dict[str, Any]]): The list of image contents to be rendered.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the table of images.
 
@@ -659,7 +662,7 @@ def _ui_table_of_images(
 
 @register_ui("tabs")
 def _ui_tabs(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
 ) -> str:
@@ -667,7 +670,7 @@ def _ui_tabs(
     Render a tabs UI.
 
     Args:
-        contents (List[Mapping[str, Any]]): List of tab contents.
+        contents (List[Dict[str, Any]]): List of tab contents.
         job (Mapping[str, Any]): Job information.
         level (int): Level of the UI.
 
@@ -696,16 +699,16 @@ def _ui_tabs(
 
 @register_ui("accordion")
 def _ui_accordion(
-    contents: List[Mapping[str, Any]],
+    contents: List[Dict[str, Any]],
     job: Mapping[str, Any],
     level: int,
-    ui_arg: str = None,
+    ui_arg: str | None = None,
 ) -> str:
     """
-    Render an accordion ui.
+    Render an accordion UI.
 
     Args:
-        contents (List[Mapping[str, Any]]): The contents of the accordion.
+        contents (List[Dict[str, Any]]): The contents of the accordion.
         job (Mapping[str, Any]): The job information.
         level (int): The level of the accordion.
 
@@ -786,7 +789,7 @@ def _tag(tag: str, _level: int = 0, **attrs: Any) -> str:
 
 def render_job(
     job: Mapping[str, Any],
-    report_file: str = "report.json",
+    report_file: str | PathLike = "report.json",
     h: int = 1,
 ) -> str:
     """Generate a report template from a report json file
@@ -808,10 +811,11 @@ def render_job(
     outdir = job["outdir"]
     path = getattr(outdir, "spec", outdir)
 
-    if not Path(report_file).is_absolute():
-        report_file = path / report_file
+    report_file_p = Path(report_file)
+    if not report_file_p.is_absolute():
+        report_file_p = path / report_file_p
 
-    toc_obj = json.loads(report_file.read_text())
+    toc_obj = json.loads(report_file_p.read_text())
     out = ["<!-- Generated by pipen_report.filters.report -->"]
     out_append = out.append
     for h1, section in toc_obj.items():

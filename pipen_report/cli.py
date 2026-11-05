@@ -27,7 +27,7 @@ class PipenCliReport(CLIPlugin):
 
     from .versions import __version__
 
-    name = "report"
+    name: str = "report"  # type: ignore
 
     def __init__(
         self,
@@ -161,8 +161,10 @@ class PipenCliReport(CLIPlugin):
             # run_copy(NMDIR, nmdir, overwrite=True, quiet=True)
             # copy package.json
             nmdir.mkdir(parents=True, exist_ok=True)
-            PanPath(NMDIR).joinpath("package.json").copy(nmdir / "package.json")
-            PanPath(NMDIR).joinpath("package-lock.json").copy(
+            PanPath(NMDIR).joinpath("package.json").copy(  # type: ignore
+                nmdir / "package.json"
+            )
+            PanPath(NMDIR).joinpath("package-lock.json").copy(  # type: ignore
                 nmdir / "package-lock.json"
             )
 
@@ -193,12 +195,12 @@ class PipenCliReport(CLIPlugin):
                 npm_command = "update"
 
             p = sp.Popen(
-                [get_config("npm"), npm_command],
+                [get_config("npm"), npm_command, "--no-audit"],
                 cwd=str(nmdir),
                 stdout=sp.PIPE,
                 stderr=sp.STDOUT,
             )
-            for line in p.stdout:
+            for line in p.stdout:  # type: ignore
                 print(line.decode(), end="")
             p.wait()
 

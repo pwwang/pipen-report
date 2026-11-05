@@ -80,9 +80,9 @@ def _preprocess_slash_h(
             H1_TAG_TEXT if kind == "h1" else H2_TAG_TEXT,
             source,
         )
-        text = matching.group(1)
+        text = matching.group(1)  # type: ignore
     # prt: pipen-report-toc
-    slug = f"prt-{kind}-{index}-{slugify(text)}"
+    slug = f"prt-{kind}-{index}-{slugify(text)}"  # type: ignore
     return (
         f'{source}<a id="{slug}" class="pipen-report-toc-anchor"> </a>',
         {"slug": slug, "text": text, "children": [], "page": page},
@@ -196,7 +196,7 @@ async def _preprocess_relpath_tag(
     relpath_tags: Mapping[str, str | Sequence[str]] | None,
     cachedir_for_cloud: str,
     logfn: Callable,
-) -> Tuple[str, List[Tuple[PanPath, PanPath]]]:
+) -> str:
     """Preprocess tags with paths to be redirected"""
     pathval = None
     tag = matching.group("tag")
@@ -251,7 +251,10 @@ async def _preprocess_relpath_tag(
             out = f' {attrname}="{urlval}"'
 
             with suppress(Exception):
-                width, height = await get_imagesize(path, cachedir_for_cloud)
+                width, height = await get_imagesize(
+                    path,  # type: ignore
+                    cachedir_for_cloud,
+                )
                 if height > 0:
                     out = f"{out} height={{{height}}}"
                 if width > 0 and not has_width:
@@ -262,7 +265,11 @@ async def _preprocess_relpath_tag(
         if tag == "DataTable" and attrname == "src" and "data=" not in attrs:
             # add data attr for DataTable to show the content in the table
             try:
-                data = datatable(path, nrows=100, header=True)
+                data = datatable(
+                    path,  # type: ignore
+                    nrows=100,
+                    header=True,
+                )
             except Exception:
                 data = json.dumps([{
                     "Note": (

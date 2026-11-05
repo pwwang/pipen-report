@@ -8,7 +8,7 @@ from hashlib import md5
 from functools import wraps
 from pathlib import Path
 from tempfile import gettempdir
-from typing import TYPE_CHECKING, Any, Callable, Pattern
+from typing import TYPE_CHECKING, Any, Callable, Pattern, cast
 
 from panpath import PanPath
 from pipen.utils import get_logger
@@ -16,7 +16,7 @@ from pipen import Proc  # type: ignore[import]
 from . import defaults
 
 if TYPE_CHECKING:
-    from logging import Logger
+    from logging import LoggerAdapter
 
 
 logger = get_logger("report")
@@ -162,7 +162,7 @@ def cache_fun(func: Callable) -> Callable:
 
 class UnifiedLogger:  # pragma: no cover
 
-    def __init__(self, logger: Logger, proc: Proc | str):
+    def __init__(self, logger: LoggerAdapter, proc: Proc | str):
         self.logger = logger
         self.proc = None if not isinstance(proc, Proc) else proc
 
@@ -247,7 +247,7 @@ async def get_imagesize(  # pragma: no cover
         filepath = cloudpath
 
     async with filepath.a_open("rb") as fhandle:
-        head = await fhandle.read(31)
+        head = cast(bytes, await fhandle.read(31))
         size = len(head)
         # handle GIFs
         if size >= 10 and head[:6] in (b"GIF87a", b"GIF89a"):
@@ -286,27 +286,30 @@ async def get_imagesize(  # pragma: no cover
                     while ord(byte) == 0xFF:
                         byte = await fhandle.read(1)
                     ftype = ord(byte)
-                    size = struct.unpack(">H", await fhandle.read(2))[0] - 2
+                    size = struct.unpack(
+                        ">H",
+                        cast(bytes, await fhandle.read(2))
+                    )[0] - 2
                 # We are at a SOFn block
                 await fhandle.seek(1, 1)  # Skip `precision' byte.
-                height, width = struct.unpack(">HH", await fhandle.read(4))
+                height, width = struct.unpack(">HH", cast(bytes, await fhandle.read(4)))
             except (struct.error, TypeError):
                 raise ValueError("Invalid JPEG file")
         # handle JPEG2000s
         elif size >= 12 and head.startswith(b"\x00\x00\x00\x0cjP  \r\n\x87\n"):
             await fhandle.seek(48)
             try:
-                height, width = struct.unpack(">LL", await fhandle.read(8))
+                height, width = struct.unpack(">LL", cast(bytes, await fhandle.read(8)))
             except struct.error:
                 raise ValueError("Invalid JPEG2000 file")
         # handle big endian TIFF
         elif size >= 8 and head.startswith(b"\x4d\x4d\x00\x2a"):
             offset = struct.unpack(">L", head[4:8])[0]
             await fhandle.seek(offset)
-            ifdsize = struct.unpack(">H", await fhandle.read(2))[0]
+            ifdsize = struct.unpack(">H", cast(bytes, await fhandle.read(2)))[0]
             for i in range(ifdsize):
                 tag, datatype, count, data = struct.unpack(
-                    ">HHLL", await fhandle.read(12)
+                    ">HHLL", cast(bytes, await fhandle.read(12))
                 )
                 if tag == 256:
                     if datatype == 3:
@@ -337,10 +340,10 @@ async def get_imagesize(  # pragma: no cover
         elif size >= 8 and head.startswith(b"\x49\x49\x2a\x00"):
             offset = struct.unpack("<L", head[4:8])[0]
             await fhandle.seek(offset)
-            ifdsize = struct.unpack("<H", await fhandle.read(2))[0]
+            ifdsize = struct.unpack("<H", cast(bytes, await fhandle.read(2)))[0]
             for i in range(ifdsize):
                 tag, datatype, count, data = struct.unpack(
-                    "<HHLL", await fhandle.read(12)
+                    "<HHLL", cast(bytes, await fhandle.read(12))
                 )
                 if tag == 256:
                     width = data
@@ -358,14 +361,14 @@ async def get_imagesize(  # pragma: no cover
             if bytesize_offset != 8:
                 raise ValueError(
                     "Invalid BigTIFF file: Expected offset to be 8, "
-                    f"found {offset} instead."
+                    f"found {bytesize_offset} instead."
                 )
             offset = struct.unpack("<Q", head[8:16])[0]
             await fhandle.seek(offset)
-            ifdsize = struct.unpack("<Q", await fhandle.read(8))[0]
+            ifdsize = struct.unpack("<Q", cast(bytes, await fhandle.read(8)))[0]
             for i in range(ifdsize):
                 tag, datatype, count, data = struct.unpack(
-                    "<HHQQ", await fhandle.read(20)
+                    "<HHQQ", cast(bytes, await fhandle.read(20))
                 )
                 if tag == 256:
                     width = data
@@ -381,15 +384,19 @@ async def get_imagesize(  # pragma: no cover
         # handle SVGs
         elif size >= 5 and (head.startswith(b"<?xml") or head.startswith(b"<svg")):
             await fhandle.seek(0)
-            data = await fhandle.read(1024)
+            data = cast(bytes, await fhandle.read(1024))
             try:
-                data = data.decode("utf-8")
-                width = re.search(r'[^-]width="(.*?)"', data).group(1)
-                height = re.search(r'[^-]height="(.*?)"', data).group(1)
+                text = data.decode("utf-8")
+                width_match = re.search(r'[^-]width="(.*?)"', text)
+                height_match = re.search(r'[^-]height="(.*?)"', text)
+                if width_match is None or height_match is None:
+                    raise ValueError("Invalid SVG file")
+                width = width_match.group(1)
+                height = height_match.group(1)
             except Exception:
                 raise ValueError("Invalid SVG file")
-            width = _convertToPx(width)
-            height = _convertToPx(height)
+            width = int(_convertToPx(width))
+            height = int(_convertToPx(height))
 
         # handle Netpbm
         elif head[:1] == b"P" and head[1:2] in b"123456":
@@ -397,7 +404,7 @@ async def get_imagesize(  # pragma: no cover
             sizes = []
 
             while True:
-                next_chr = await fhandle.read(1)
+                next_chr = cast(bytes, await fhandle.read(1))
 
                 if next_chr.isspace():
                     continue
@@ -413,11 +420,11 @@ async def get_imagesize(  # pragma: no cover
                     raise ValueError("Invalid character found on Netpbm file")
 
                 size = next_chr
-                next_chr = await fhandle.read(1)
+                next_chr = cast(bytes, await fhandle.read(1))
 
                 while next_chr.isdigit():
                     size += next_chr
-                    next_chr = await fhandle.read(1)
+                    next_chr = cast(bytes, await fhandle.read(1))
 
                 sizes.append(int(size))
 

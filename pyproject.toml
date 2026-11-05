@@ -75,12 +75,8 @@ filterwarnings = [
 asyncio_default_fixture_loop_scope = "function"
 asyncio_mode = "auto"
 
-[tool.mypy]
-ignore_missing_imports = true
-allow_redefinition = true
-disable_error_code = ["attr-defined", "no-redef", "import"]
-show_error_codes = true
-strict_optional = false
+[tool.pyright]
+include = ["pipen_report"]
 
 [tool.black]
 line-length = 88

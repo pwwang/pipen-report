@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union, cast
 
 from xqute.defaults import DEFAULT_CLOUD_FSPATH
 from pipen import plugin
@@ -13,6 +13,8 @@ from .versions import __version__  # noqa: F401
 from .report_manager import ReportManager
 
 if TYPE_CHECKING:
+    from pathlib import Path
+    from panpath import CloudPath
     from pipen import Pipen, Proc
 
 
@@ -102,8 +104,8 @@ class PipenReport:
 
         self.manager = ReportManager(
             plugin_opts,
-            pipen.outdir,
-            pipen.workdir,
+            cast("Path | CloudPath", pipen.outdir),
+            cast("Path | CloudPath", pipen.workdir),
             cachedir_for_cloud=gcs_cachedir,
             page_chat=plugin_opts.get("report_page_chat", True),
         )
@@ -153,6 +155,7 @@ class PipenReport:
         if not plugin_opts.get("report", False):
             return
 
+        assert self.manager is not None
         await self.manager.build(
             proc,
             get_config("nobuild", plugin_opts.get("report_nobuild")),
@@ -162,11 +165,12 @@ class PipenReport:
         await self.manager.sync_reports(logfn=proc.log)
 
     @plugin.impl
-    async def on_complete(self, pipen: Proc, succeeded: bool) -> None:
+    async def on_complete(self, pipen: Pipen, succeeded: bool) -> None:
         """Render and compile the entire report"""
         if not succeeded:
             return
 
+        assert self.manager is not None
         plugin_opts = pipen.config.plugin_opts or {}
         nobuild = get_config("nobuild", plugin_opts.get("report_nobuild"))
 

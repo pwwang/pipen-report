@@ -11,7 +11,16 @@ import traceback
 import functools
 from contextlib import suppress
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, List, Mapping, MutableMapping, Type
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    List,
+    Mapping,
+    MutableMapping,
+    Type,
+    cast,
+)
 
 from liquid import Liquid
 from copier import run_copy
@@ -64,11 +73,11 @@ class ReportManager:
         if isinstance(outdir, SpecCloudPath):
             # modified by plugins like pipen-gcs
             self.outdir = MountedPath(
-                get_fspath(outdir, cachedir_for_cloud), spec=outdir
+                get_fspath(outdir, cachedir_for_cloud), spec=outdir  # type: ignore
             )
         elif isinstance(outdir, CloudPath):
             self.outdir = MountedPath(
-                get_fspath(outdir, cachedir_for_cloud), spec=outdir
+                get_fspath(outdir, cachedir_for_cloud), spec=outdir  # type: ignore
             )
         else:
             self.outdir = MountedPath(outdir)
@@ -76,7 +85,7 @@ class ReportManager:
         workdir = workdir / ".report-workdir"
         if isinstance(workdir, CloudPath):
             self.workdir = MountedPath(
-                get_fspath(workdir, cachedir_for_cloud), spec=workdir
+                get_fspath(workdir, cachedir_for_cloud), spec=workdir  # type: ignore
             )
         else:
             self.workdir = MountedPath(workdir)
@@ -90,7 +99,7 @@ class ReportManager:
         self.page_chat = page_chat
         self.has_reports = False
         # Used to pass to the UI for rendering
-        self.pipeline_data = None
+        self.pipeline_data: dict[str, Any] = {}
 
         if isinstance(self.no_collapse_pgs, str):  # pragma: no cover
             self.no_collapse_pgs = [self.no_collapse_pgs]
@@ -205,7 +214,8 @@ class ReportManager:
             # Do not use the mounted paths, since we are not building
             # in the job execution environment
             indata = {}
-            for inkey, intype in proc.input.type.items():
+            job_output = job.output or {}
+            for inkey, intype in cast(Any, proc.input).type.items():
 
                 if intype == ProcInputType.VAR or job.input[inkey] is None:
                     indata[inkey] = job.input[inkey]
@@ -221,10 +231,10 @@ class ReportManager:
             for outkey, outtype in job._output_types.items():
 
                 if outtype == ProcOutputType.VAR:
-                    outdata[outkey] = job.output[outkey]
+                    outdata[outkey] = job_output[outkey]
                     continue
 
-                outdata[outkey] = job.output[outkey].spec
+                outdata[outkey] = job_output[outkey].spec
 
             data = job.template_data["job"].copy()
             data.update(
@@ -339,6 +349,7 @@ class ReportManager:
                     stderr=asyncio.subprocess.STDOUT,
                     cwd=str(cwd),
                 )
+                assert p.stdout is not None
                 async for line in p.stdout:
                     line = line.decode()
                     logline = ansi_escape.sub("", line).rstrip()
@@ -394,7 +405,7 @@ class ReportManager:
         }
 
         procgroups = {}
-        for i, proc in enumerate(pipen.procs):
+        for i, proc in enumerate(pipen.procs or []):
             if not (getattr(proc, "plugin_opts") or {}).get("report", False):
                 continue
 
@@ -406,7 +417,7 @@ class ReportManager:
                 "order": ((proc.plugin_opts or {}).get("report_order", 0) * 1000 + i),
             }
 
-            pg = proc.__meta__["procgroup"]
+            pg = (proc.__meta__ or {}).get("procgroup")
             if self.no_collapse_pgs is True or (
                 pg and pg.name in self.no_collapse_pgs
             ):  # pragma: no cover
@@ -415,7 +426,9 @@ class ReportManager:
             if pg and pg.name not in procgroups:
                 procgroups[pg.name] = {
                     "name": pg.name,
-                    "desc": desc_from_docstring(pg.__class__, ProcGroup),
+                    "desc": desc_from_docstring(
+                        pg.__class__, ProcGroup  # type: ignore
+                    ),
                     "order": entry["order"],
                     "procs": [entry],
                 }
@@ -441,9 +454,11 @@ class ReportManager:
     async def _update_proc_meta(self, proc: Proc, npages: int) -> None:
         """Update the number of pages for a process"""
 
-        runinfo_sess_file = proc.workdir / "0" / "job.runinfo.session"
-        runinfo_time_file = proc.workdir / "0" / "job.runinfo.time"
-        runinfo_dev_file = proc.workdir / "0" / "job.runinfo.device"
+        assert proc.workdir is not None
+        workdir = cast(PanPath, proc.workdir)
+        runinfo_sess_file = workdir / "0" / "job.runinfo.session"
+        runinfo_time_file = workdir / "0" / "job.runinfo.time"
+        runinfo_dev_file = workdir / "0" / "job.runinfo.device"
 
         runinfo_sess = (
             await runinfo_sess_file.a_read_text()
@@ -466,7 +481,7 @@ class ReportManager:
         to_update = {
             "npages": npages,
             "desc": proc.desc,
-            "report_toc": proc.plugin_opts.get("report_toc", True),
+            "report_toc": (proc.plugin_opts or {}).get("report_toc", True),
             "runinfo": {
                 "session": runinfo_sess,
                 "time": runinfo_time,
@@ -475,7 +490,7 @@ class ReportManager:
             },
         }
 
-        pg = proc.__meta__["procgroup"]
+        pg = (proc.__meta__ or {}).get("procgroup")
         if self.no_collapse_pgs is True or (
             pg and pg.name in self.no_collapse_pgs
         ):  # pragma: no cover
@@ -537,10 +552,11 @@ class ReportManager:
 
         # Render the report
         # in case it's a Path object
-        report = str(proc.plugin_opts["report"])
-        report_toc = proc.plugin_opts.get("report_toc", True)
-        report_paging = proc.plugin_opts.get("report_paging", False)
-        report_relpath_tags = proc.plugin_opts.get("report_relpath_tags", None) or {}
+        plugin_opts = proc.plugin_opts or {}
+        report = str(plugin_opts["report"])
+        report_toc = plugin_opts.get("report_toc", True)
+        report_paging = plugin_opts.get("report_paging", False)
+        report_relpath_tags = plugin_opts.get("report_relpath_tags", None) or {}
         if report.startswith("file://"):
             report_tpl = PanPath(report[7:])
             if not report_tpl.is_absolute():
@@ -561,7 +577,7 @@ class ReportManager:
 
         try:
             rendered = await self._render_file(
-                proc.template,
+                cast("Type[Template]", proc.template),
                 template_opts,  # type: ignore[arg-type]
                 report,
                 rendering_data,
@@ -620,7 +636,7 @@ class ReportManager:
         for i, rendered_part in enumerate(rendered_parts):
             await self._render_page(
                 rendered=rendered_part,
-                name=proc.name,
+                name=cast(str, proc.name),
                 page=i,
                 toc=toc,
             )
@@ -694,6 +710,7 @@ class ReportManager:
 
             return
 
+        proc = cast(Proc, proc)
         npages = await self.render_proc_report(proc)
 
         datafile = self.workdir / "src" / "data.json"
@@ -703,10 +720,10 @@ class ReportManager:
             ulogger.debug("`report_nobuild` is True, skipping building report.")
             return
 
-        procgroup = get_marked(proc, "procgroup")
+        procgroup = get_marked(proc.__class__, "procgroup")
         await self._npm_run_build(
             cwd=self.workdir,
-            proc=proc.name,
+            proc=cast(str, proc.name),
             ulogger=ulogger,
             force_build=force_build,
             cached=cached,
