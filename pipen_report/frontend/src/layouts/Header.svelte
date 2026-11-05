@@ -290,7 +290,7 @@ Guidelines:
             <HeaderPanelLink class="procgroup">{entry.name}</HeaderPanelLink>
             {#each entry.procs as proc}
             <HeaderPanelLink title={proc.name} class="procgroup-proc" href={`?proc=${proc.name}`}>
-                - {proc.name}
+                {proc.name}
             </HeaderPanelLink>
             {/each}
           {:else}

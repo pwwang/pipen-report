@@ -103,10 +103,25 @@ a.page-chat-icon > svg {
     height: auto;
 }
 .bx--switcher__item-link.procgroup-proc {
-	padding-left: var(--cds-fluid-quotation-01-font-size, 1.25rem);
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
+	/* a drawn ring instead of a typed "-": a native list marker's gap is fixed by the
+	   browser (~0.5em), so the ring is painted where the hyphen used to be and the text
+	   sits about 4px from it */
+	position: relative;
+	padding-left: 1.7rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
 	height: auto;
+}
+.bx--switcher__item-link.procgroup-proc::before {
+	content: "";
+	position: absolute;
+	left: 1.05rem; /* ring centred on the hyphen's x */
+	top: 50%;
+	width: 0.28rem;
+	height: 0.28rem;
+	margin-top: -0.14rem;
+	border: 1px solid #8d8d8d;
+	border-radius: 50%;
 }
 
 .bx--accordion__heading {
