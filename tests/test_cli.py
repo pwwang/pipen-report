@@ -4,10 +4,23 @@ import sys
 import subprocess as sp
 
 
-@pytest.mark.forked
-def test_update():
+def _stub_npm(tmp_path):
+    npm = tmp_path / "npm"
+    npm.write_text("#!/bin/sh\nexit 0\n")
+    npm.chmod(0o755)
+    return npm
 
-    out = sp.Popen(["pipen", "report", "update"], stdout=sp.PIPE)
+
+@pytest.mark.forked
+def test_update(tmp_path):
+    # Avoid the real `npm update`, which is network-dependent and can hang
+    # for a long time.
+    npm = _stub_npm(tmp_path)
+    (tmp_path / ".pipen-report.toml").write_text(f'npm = "{npm}"\n')
+
+    out = sp.Popen(
+        ["pipen", "report", "update"], cwd=str(tmp_path), stdout=sp.PIPE
+    )
     assert out.wait() == 0, out.stdout.read().decode()
     stdout = out.stdout.read().decode()
     assert "The frontend directory:" in stdout
@@ -18,10 +31,12 @@ def test_update():
 def test_update_first_time(tmp_path):
     nmdir = tmp_path / "nmdir"
     nmdir.mkdir()
+    npm = _stub_npm(tmp_path)
     out = sp.Popen(
         [
             sys.executable, "-m",
-            "pipen", "report", "config", "--local", "--nmdir", str(nmdir)
+            "pipen", "report", "config", "--local",
+            "--nmdir", str(nmdir), "--npm", str(npm),
         ],
         cwd=str(tmp_path),
         stdout=sp.PIPE,

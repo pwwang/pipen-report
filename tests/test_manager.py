@@ -48,6 +48,7 @@ def test_force_export(tmp_path):
     assert not report.exists()
 
 
+@pytest.mark.forked
 def test_large(tmp_path):
     """Test process forced export"""
     run_pipeline("large", _dir=tmp_path)
