@@ -1,5 +1,15 @@
 # Change Log
 
+## 1.3.0
+
+- fix(preprocess): improve path handling for mounted output directory in _path_to_url
+- refactor(frontend): use ccs components instead of local copies
+- feat(frontend): redesign the process table of contents
+- feat(frontend): add paper and nocturne themes
+- fix(frontend): use list markers for grouped processes in the header panel
+- feat(frontend): unify the main-area block shells and quiet the table toolbar
+- docs: make a better example pipeline
+
 ## 1.2.6
 
 - fix(report_manager): enhance error logging for ignored zod module
