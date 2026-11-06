@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.3.1
+
+- style: fix typing issues
+- test: optimize tests
+- feat(filters): add max tab count to tabs ui with dropdown fallback
+
 ## 1.3.0
 
 - fix(preprocess): improve path handling for mounted output directory in _path_to_url
