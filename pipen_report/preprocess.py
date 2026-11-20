@@ -147,8 +147,12 @@ async def _path_to_url(
         run_meta["mounted_workdir"]
     ):
         # Use workdir, which should be a cloud path
+        # `mounted_workdir` is the mounted form of the process's workdir,
+        # i.e. `<mounted workdir root>/<proc.name>`, keep the `<proc.name>`
+        # level when converting back
         apath = run_meta["workdir"].spec.parent.joinpath(
-            apath.relative_to(run_meta["mounted_workdir"])
+            run_meta["mounted_workdir"].name,
+            apath.relative_to(run_meta["mounted_workdir"]),
         )
         apath = getattr(apath, "mounted", apath)
 
