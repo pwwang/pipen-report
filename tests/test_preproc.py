@@ -2,6 +2,8 @@ from panpath import PanPath
 import pytest  # noqa
 
 from pathlib import Path
+
+import pipen_report.utils as report_utils
 from PIL import Image
 from pipen_report.preprocess import (
     TAG_RE,
@@ -331,6 +333,42 @@ async def test_preprocess1(tmp_path):
         )
         == expected
     )
+
+
+async def test_preprocess_recreates_missing_cached_asset(tmp_path, monkeypatch):
+    monkeypatch.setattr(report_utils, "gettempdir", lambda: str(tmp_path))
+    tmp = tmp_path / "build"
+    tmp.mkdir()
+    outdir = PanPath(tmp / "REPORTS")
+    workdir = PanPath(tmp / ".pipen" / "Pipe")
+    run_meta = {
+        "outdir": outdir,
+        "workdir": workdir,
+        "mounted_outdir": None,
+        "mounted_workdir": None,
+    }
+    # Keep the source beyond both basedir.parent and workdir.parent so it is copied.
+    image_path = tmp_path / "pics" / "pic.png"
+    image_path.parent.mkdir(parents=True, exist_ok=True)
+    Image.new("RGB", (10, 10)).save(image_path)
+    text = f'<Image src="{image_path}" />'
+    kwargs = {
+        "cachedir_for_cloud": str(tmp_path / "cd"),
+        "logfn": lambda *a, **k: None,
+    }
+
+    pages, _ = await preprocess(text, run_meta, True, False, None, **kwargs)
+    data_files = list((tmp_path / "build" / "REPORTS" / "data").iterdir())
+    assert len(data_files) == 1
+    asset_name = data_files[0].name
+    asset_ref = f"data/{asset_name}"
+    assert asset_ref in "".join(pages)
+
+    data_files[0].unlink()
+    pages_after_rebuild, _ = await preprocess(text, run_meta, True, False, None, **kwargs)
+
+    assert (tmp_path / "build" / "REPORTS" / "data" / asset_name).is_file()
+    assert asset_ref in "".join(pages_after_rebuild)
 
 
 async def test_preprocess2(tmp_path):

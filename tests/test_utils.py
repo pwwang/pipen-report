@@ -2,7 +2,8 @@ from diot import Diot
 from panpath import PanPath
 from pipen import Proc
 from pipen.defaults import CONFIG
-from pipen_report.utils import _stringify, get_cloudpath, get_fspath, a_copy_all
+import pipen_report.utils as report_utils
+from pipen_report.utils import _stringify, get_cloudpath, get_fspath, a_copy_all, cache_fun
 
 
 def test__stringify(tmp_path):
@@ -87,3 +88,35 @@ async def test_a_copy_all(tmp_path):
     await a_copy_all(src_dir, dst_dir)
     assert await (dst_dir / "file1.txt").a_read_text() == "File 1"
     assert await (dst_dir / "file2.txt").a_read_text() == "File 2"
+
+
+async def test_cache_fun_validator_and_bare_decorator(tmp_path, monkeypatch):
+    monkeypatch.setattr(report_utils, "gettempdir", lambda: str(tmp_path))
+    validator_results = iter([False, True])
+    calls = 0
+
+    def validator(result, value):
+        return next(validator_results)
+
+    @cache_fun(validator=validator)
+    async def validated(value):
+        nonlocal calls
+        calls += 1
+        return value + calls
+
+    assert await validated(10) == 11
+    assert await validated(10) == 12
+    assert await validated(10) == 12
+    assert calls == 2
+
+    bare_calls = 0
+
+    @cache_fun
+    async def bare(value):
+        nonlocal bare_calls
+        bare_calls += 1
+        return value + bare_calls
+
+    assert await bare(20) == 21
+    assert await bare(20) == 21
+    assert bare_calls == 1

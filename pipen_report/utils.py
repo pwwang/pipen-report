@@ -6,6 +6,7 @@ import re
 import struct
 from hashlib import md5
 from functools import wraps
+from inspect import isawaitable
 from pathlib import Path
 from tempfile import gettempdir
 from typing import TYPE_CHECKING, Any, Callable, Pattern, cast
@@ -128,36 +129,53 @@ def get_cloudpath(path: str | PanPath, cachedir: str | PanPath) -> PanPath | Non
     return PanPath(cloudpath)
 
 
-def cache_fun(func: Callable) -> Callable:
+def cache_fun(
+    func: Callable | None = None, *, validator: Callable | None = None
+) -> Callable:
     """Decorator to cache the result of an async function to disk"""
 
-    @wraps(func)
-    async def wrapper(*args: Any, **kwargs: Any) -> Any:
-        str_args = _stringify(args)
-        str_kwargs = _stringify(kwargs)
-        str_preprocess = _stringify(
-            Path(__file__).parent.joinpath("preprocess.py").read_text()
-        )
-        str_utils = _stringify(Path(__file__).read_text())
-        sig = md5(
-            f"{str_args}\n{str_kwargs}\n{str_preprocess}\n{str_utils}".encode("utf-8")
-        ).hexdigest()
-        sigfile = os.path.join(
-            gettempdir(),
-            f"pipen-report.{func.__name__}.{sig}.json",
-        )
+    def decorate(func: Callable) -> Callable:
+        @wraps(func)
+        async def wrapper(*args: Any, **kwargs: Any) -> Any:
+            str_args = _stringify(args)
+            str_kwargs = _stringify(kwargs)
+            str_preprocess = _stringify(
+                Path(__file__).parent.joinpath("preprocess.py").read_text()
+            )
+            str_utils = _stringify(Path(__file__).read_text())
+            sig = md5(
+                f"{str_args}\n{str_kwargs}\n{str_preprocess}\n{str_utils}".encode("utf-8")
+            ).hexdigest()
+            sigfile = os.path.join(
+                gettempdir(),
+                f"pipen-report.{func.__name__}.{sig}.json",
+            )
 
-        if not os.path.exists(sigfile):
-            result = await func(*args, **kwargs)
-            with open(sigfile, "w") as fout:
-                json.dump(result, fout)
-        else:
-            with open(sigfile, "r") as fin:
-                result = json.load(fin)
+            if os.path.exists(sigfile):
+                with open(sigfile, "r") as fin:
+                    result = json.load(fin)
+                if validator is not None:
+                    try:
+                        valid = validator(result, *args, **kwargs)
+                        if isawaitable(valid):
+                            valid = await valid
+                    except Exception:
+                        valid = False
+                    if not valid:
+                        os.remove(sigfile)
+                        result = await func(*args, **kwargs)
+                        with open(sigfile, "w") as fout:
+                            json.dump(result, fout)
+            else:
+                result = await func(*args, **kwargs)
+                with open(sigfile, "w") as fout:
+                    json.dump(result, fout)
 
-        return result
+            return result
 
-    return wrapper
+        return wrapper
+
+    return decorate(func) if func is not None else decorate
 
 
 class UnifiedLogger:  # pragma: no cover
