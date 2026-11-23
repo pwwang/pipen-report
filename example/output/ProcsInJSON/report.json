@@ -1,0 +1,198 @@
+{
+  "Flat layout": {
+    "Description": {
+      "What this report is": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "Authored as JSON",
+            "markdown": true,
+            "content": "This report is a `report.json` file rendered by `render_job` and the `render_ui`/`render_component` filters. Each section below shows one kind of component."
+          }
+        ]
+      }
+    },
+    "Error": {
+      "A warning for the reader": {
+        "flat": [
+          {
+            "kind": "error",
+            "title": "Sample HET-3",
+            "content": "Coverage below 10x, excluded from the summary."
+          }
+        ]
+      }
+    },
+    "Lists": {
+      "Ordered list": {
+        "flat": [
+          {
+            "kind": "list",
+            "ordered": true,
+            "items": [
+              "Trim adapters",
+              "Align reads",
+              "Call variants"
+            ]
+          }
+        ]
+      },
+      "Unordered list": {
+        "flat": [
+          {
+            "kind": "list",
+            "items": [
+              "All samples passed QC",
+              "Mapping rate above 94%"
+            ]
+          }
+        ]
+      }
+    },
+    "Tables": {
+      "From a src path": {
+        "flat": [
+          {
+            "kind": "table",
+            "src": "output/ProcsInJSON/alignment_summary.tsv"
+          }
+        ]
+      },
+      "From a data file": {
+        "flat": [
+          {
+            "kind": "table",
+            "src": false,
+            "pageSize": 3,
+            "data": {
+              "file": "output/ProcsInJSON/alignment_summary.tsv"
+            }
+          }
+        ]
+      }
+    },
+    "Image": {
+      "A figure with download options": {
+        "flat": [
+          {
+            "kind": "image",
+            "src": "output/ProcsInJSON/placeholder.png",
+            "download": [
+              {
+                "src": "output/ProcsInJSON/placeholder.png",
+                "tip": "PNG placeholder figure"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "Tag": {
+      "Any tag, e.g. Markdown": {
+        "flat": [
+          {
+            "kind": "tag",
+            "tag": "Markdown",
+            "slot": "- **WT-1**: mapping rate 96.2%\n- **KO-1**: mapping rate 94.9%"
+          }
+        ]
+      }
+    }
+  },
+  "Tabs": {
+    "#": {
+      "#": {
+        "tabs": [
+          {
+            "name": "Alignment summary",
+            "contents": [
+              {
+                "kind": "table",
+                "src": "output/ProcsInJSON/alignment_summary.tsv"
+              }
+            ]
+          },
+          {
+            "name": "File manifest",
+            "contents": [
+              {
+                "kind": "list",
+                "items": [
+                  "alignment_summary.tsv",
+                  "placeholder.png"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Coverage figure",
+            "contents": [
+              {
+                "kind": "image",
+                "src": "output/ProcsInJSON/placeholder.png"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "Table of images": {
+    "#": {
+      "#": {
+        "table_of_images:3": [
+          {
+            "title": "Fragment size, WT-1",
+            "descr": "Insert size: 187 bp",
+            "src": "output/ProcsInJSON/placeholder.png"
+          },
+          {
+            "title": "Fragment size, KO-1",
+            "descr": "Insert size: 179 bp",
+            "src": "output/ProcsInJSON/placeholder.png"
+          },
+          {
+            "title": "Fragment size, HET-1",
+            "descr": "Insert size: 190 bp",
+            "src": "output/ProcsInJSON/placeholder.png"
+          }
+        ]
+      }
+    }
+  },
+  "Accordion": {
+    "#": {
+      "#": {
+        "accordion": [
+          {
+            "title": "Alignment",
+            "contents": [
+              {
+                "kind": "descr",
+                "content": "Paired-end alignment with BWA-MEM."
+              },
+              {
+                "kind": "list",
+                "items": [
+                  "Reference: GRCh38",
+                  "Mapper: BWA-MEM"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Variant calling",
+            "contents": [
+              {
+                "kind": "table",
+                "data": {
+                  "file": "output/ProcsInJSON/alignment_summary.tsv"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

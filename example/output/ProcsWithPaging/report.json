@@ -1,0 +1,182 @@
+{
+  "Sample WT-1": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for WT-1",
+            "content": "9627.4% of the 30900000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-WT-1.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample WT-2": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for WT-2",
+            "content": "9570.8% of the 27700000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-WT-2.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample WT-3": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for WT-3",
+            "content": "9427.5% of the 26700000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-WT-3.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample KO-1": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for KO-1",
+            "content": "9577.8% of the 29000000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-KO-1.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample KO-2": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for KO-2",
+            "content": "9491.0% of the 29000000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-KO-2.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample KO-3": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for KO-3",
+            "content": "9622.5% of the 29200000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-KO-3.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample HET-1": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for HET-1",
+            "content": "9545.5% of the 27000000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-HET-1.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample HET-2": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for HET-2",
+            "content": "9684.4% of the 30100000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-HET-2.tsv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Sample HET-3": {
+    "#": {
+      "#": {
+        "flat": [
+          {
+            "kind": "descr",
+            "title": "QC summary for HET-3",
+            "content": "9511.1% of the 28900000 reads mapped."
+          },
+          {
+            "kind": "table",
+            "pageSize": 4,
+            "data": {
+              "file": "output/ProcsWithPaging/sample-HET-3.tsv"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
