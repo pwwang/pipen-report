@@ -147,8 +147,12 @@ async def _path_to_url(
         run_meta["mounted_workdir"]
     ):
         # Use workdir, which should be a cloud path
+        # `mounted_workdir` is the mounted form of the process's workdir,
+        # i.e. `<mounted workdir root>/<proc.name>`, keep the `<proc.name>`
+        # level when converting back
         apath = run_meta["workdir"].spec.parent.joinpath(
-            apath.relative_to(run_meta["mounted_workdir"])
+            run_meta["mounted_workdir"].name,
+            apath.relative_to(run_meta["mounted_workdir"]),
         )
         apath = getattr(apath, "mounted", apath)
 
@@ -387,7 +391,50 @@ async def _preprocess_section(
     return re.sub(H2_TAG_TEXT, repl_h2, section), toc
 
 
-@cache_fun
+async def _cached_assets_present(
+    result: Tuple[List[str], List[Mapping[str, Any]]],
+    text: str,
+    run_meta: Mapping[str, Any],
+    *args: Any,
+    **kwargs: Any,
+) -> bool:
+    """Validate copied assets because cached preprocessing skips their copy side effect."""
+    try:
+        refs = set(
+            re.findall(
+                r"(?<![\w.-])data/([\w.-]+\.[0-9a-fA-F]{8}\.[\w.-]+)(?![\w.-])",
+                "".join(result[0]),
+            )
+        )
+        outdir = run_meta["outdir"]
+        outdir_spec = getattr(outdir, "spec", outdir)
+        try:
+            has_distinct_spec = str(outdir_spec) != str(outdir)
+        except Exception:
+            has_distinct_spec = True
+    except Exception:
+        return False
+
+    for ref in refs:
+        try:
+            if await PanPath(outdir).joinpath("data", ref).a_exists():
+                continue
+        except Exception:
+            pass
+
+        if has_distinct_spec:
+            try:
+                if await PanPath(outdir_spec).joinpath("data", ref).a_exists():
+                    continue
+            except Exception:
+                pass
+
+        return False
+
+    return True
+
+
+@cache_fun(validator=_cached_assets_present)
 async def preprocess(
     text: str,
     run_meta: Mapping[str, Any],
